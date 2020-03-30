@@ -7,27 +7,27 @@ import javax.jdo.annotations.PersistenceCapable;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
-public class NormalUser extends User {
-	// TODO change the name of this class
+public class Event{
 
-	private String city;
-	
+	private String name;
+	 String description;
+	private Channel channel;
 	// public User(String code, String name) {
 	// 	this.code = code;
 	// 	this.name = name;
 	// }
 
-	public String getCity() {
-		return city;
+	public String getName() {
+		return name;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
 	public String toString() {
-		return "NormalUser [city=" + city + "]";
+		return "Event [ name=" + name + " ]";
 	}
 	
 }

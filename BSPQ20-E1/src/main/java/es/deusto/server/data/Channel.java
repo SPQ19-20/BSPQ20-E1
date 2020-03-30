@@ -7,25 +7,26 @@ import javax.jdo.annotations.PersistenceCapable;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
-public class Organizer extends GenericUser {
-	
-	private String organization;
+public class Channel {
+
+	//a ID is created automatically
+	private String name;	
 	// public User(String code, String name) {
 	// 	this.code = code;
 	// 	this.name = name;
 	// }
 
-	public String getOrganization() {
-		return organization;
+	public String getName() {
+		return name;
 	}
 
-	public void setOrganization(String organization) {
-		this.organization = organization;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
 	public String toString() {
-		return "Organizer [organization=" + organization + "]";
+		return "Channel [name=" + name + "]";
 	}
 	
 }
