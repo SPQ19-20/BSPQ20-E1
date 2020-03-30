@@ -19,7 +19,7 @@ public class AppService {
      * Application Service class
      * 
      * This class will include methods representing
-     * the functionality of the server. 
+     * the different functionalities of the server. 
      * 
      * This class should be called by the Server class,
      * so that the Server is abstracted from the
@@ -57,7 +57,7 @@ public class AppService {
 
     public void recoverPassword(LoginAttempt login) {
         String email = login.getEmail();
-        
+
         System.out.println("Sending new password to " + email);
     }
 
