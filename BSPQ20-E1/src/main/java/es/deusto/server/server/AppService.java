@@ -29,13 +29,37 @@ public class AppService {
     }
 
     public User attemptNormalLogin(LoginAttempt login) {
-        // fetch the database and return the user (if found)
-        return null;
+        UserDAO dao = DAOFactory.getInstance().createUserDAO();
+
+        // 1. Get user by email
+        User user = dao.getUser(login.getEmail());
+        if (user == null) {
+            return null;
+        }
+
+        // 2. Check the password
+        if (!user.getPassword().equals(login.getPassword())) {
+            return null;
+        }
+
+        return user;
     }
 
     public Organizer attemptOrganizerLogin(LoginAttempt login) {
-        // fetch the database and return the organizer (if found)
-        return null;
+        OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
+
+        // 1. Get organizer by email
+        Organizer organizer = dao.getOrganizer(login.getEmail());
+        if (organizer == null) {
+            return null;
+        }
+
+        // 2. Check the password
+        if (!organizer.getPassword().equals(login.getPassword())) {
+            return null;
+        }
+
+        return organizer;
     }
 
     public User attemptNormalSignup(SignupAttempt signup) {
@@ -72,6 +96,8 @@ public class AppService {
 
     public void recoverPassword(LoginAttempt login) {
         String email = login.getEmail();
+
+        // TODO code related to new password generation and email shipping goes here
 
         System.out.println("Sending new password to " + email);
     }
