@@ -1,11 +1,5 @@
 package es.deusto.server.server;
 
-import javax.jdo.PersistenceManager;
-import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Query;
-import javax.jdo.JDOHelper;
-import javax.jdo.Transaction;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -21,106 +15,94 @@ import es.deusto.server.data.*;
 @Produces(MediaType.APPLICATION_JSON)
 public class Server {
 
-	private int cont = 0;
-	private PersistenceManager pm=null;
-	private Transaction tx=null;
+	private AppService appService;
 
 	public Server() {
-		PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
-		this.pm = pmf.getPersistenceManager();
-		this.tx = pm.currentTransaction();
+		this.appService = new AppService();
 	}
 
 	@POST
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response attemptLogin(LoginAttempt login) {
+	public Response attemptNormalLogin(LoginAttempt login) {
 		System.out.println("Login attempt received: "+login);
 
-		// TODO check if the credentials are valid
+		User user = appService.attemptNormalLogin(login);
 
-		return Response.ok(login).build();
+		Object resp = null;
+		if (user != null) {
+			resp = new UserInfo(user);
+		}
+
+		return Response.ok(resp).build();
+	}
+
+	@POST
+	@Path("/loginOrganizer")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptOrganizerLogin(LoginAttempt login) {
+		System.out.println("Organizer login attempt received: "+login);
+		
+		Organizer organizer = appService.attemptOrganizerLogin(login);
+
+		Object resp = null;
+		if (organizer != null) {
+			resp = new OrganizerInfo(organizer);
+		}
+
+		return Response.ok(resp).build();
 	}
 
 	@POST
 	@Path("/signup")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response attemptSignup(SignupAttempt signup) {
+	public Response attemptNormalSignup(SignupAttempt signup) {
 		System.out.println("Signup attempt received: "+signup);
 
-		// TODO check if email is already in use
+		User user = appService.attemptNormalSignup(signup);
 
-		// TODO store new user in DB
+		Object resp = null;
+		if (user != null) {
+			resp = new UserInfo(user);
+		}
 
+		return Response.ok(resp).build();
+	}
 
-		return Response.ok(signup).build();
+	@POST
+	@Path("/signupOrganizer")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptOrganizerSignup(SignupAttempt signup) {
+		System.out.println("Signup attempt received: "+signup);
+
+		Organizer organizer = appService.attemptOrganizerSignup(signup);
+
+		Object resp = null;
+		if (organizer != null) {
+			resp = new OrganizerInfo(organizer);
+		}
+
+		return Response.ok(resp).build();
 	}
 
 	@POST
 	@Path("/passwordRecovery")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response recoverPassword(LoginAttempt userInfo){
-		String email = userInfo.getEmail();
-
-		// TODO send email here
-
-		// TODO change user's password in DB
-
-		System.out.println("Sending new password to " + email);
-
-		return null;
+		appService.recoverPassword(userInfo);
+		return Response.ok("OK").build();
 	}
 
-	@POST
+
+	// --------------------------------------------------------------
+
+	// method used for manual testing 
+	@GET
 	@Path("/hello")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response sayHello() {
         // Persistence of a set of Accounts and a User
-        try
-        {	
-            tx.begin();
-            System.out.println("Persisting users");
-
-            Organizer orga = new Organizer();
-            orga.setName("Norman");
-            orga.setEmail("norman@EPCsol.es");
-            orga.setPassword("1234easy");
-            orga.setOrganization("EPC solutions");
-
-            es.deusto.server.data.Channel cinema = new es.deusto.server.data.Channel();
-            cinema.setName("cinema");
-            
-            es.deusto.server.data.Event popcorn = new es.deusto.server.data.Event();
-        	popcorn.setName("Popcorn Party (PP)");
-        	popcorn.setDescription("a popcorn party");
-        	popcorn.setChannel(cinema);
-        	popcorn.setOrganizer(orga);
-        	
-            	
-            User kiraYoshikage = new User();
-            kiraYoshikage.setName("Kira");
-            kiraYoshikage.setEmail("Kira@killerqueen.es");
-            kiraYoshikage.setPassword("4567Hard");
-            kiraYoshikage.setCity("Morioh");
-        	kiraYoshikage.addEvent(popcorn);
-            	
-			pm.makePersistent(orga);
-			pm.makePersistent(cinema);	
-			pm.makePersistent(popcorn);	
-			pm.makePersistent(kiraYoshikage);
-			
-            tx.commit();
-            System.out.println("User and his messages have been persisted");
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
-        System.out.println("");
+		appService.hello();
 		return Response.ok("Hello world!").build();
 	}
 }

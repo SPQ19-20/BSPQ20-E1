@@ -42,6 +42,7 @@ public class User extends GenericUser {
 	public void addEvent(Event event) {
 		this.savedEvents.add(event);
 	}
+	
 	@Override
 	public String toString() {
 		return "User [name= " + getName() +" city=" + city +", Saved Events= " +savedEvents.toString() + "]";
