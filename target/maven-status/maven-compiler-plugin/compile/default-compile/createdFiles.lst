@@ -1,0 +1,5 @@
+es\deusto\server\jdo\User.class
+es\deusto\serialization\MessageData.class
+es\deusto\server\jdo\Message.class
+es\deusto\serialization\DirectedMessage.class
+es\deusto\server\jdo\Main.class
