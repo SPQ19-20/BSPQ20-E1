@@ -12,11 +12,11 @@ public class OrganizerDAO {
 
     private PersistenceManagerFactory pmf;
 	
-	private OrganizerDAO() {
+	protected OrganizerDAO() {
 		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
     }
     
-    public Organizer getUser(String email) {
+    public Organizer getOrganizer(String email) {
         PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
@@ -50,7 +50,7 @@ public class OrganizerDAO {
 		return organizer;
     }
 
-	public void storeUser(Organizer organizer) {
+	public void storeOrganizer(Organizer organizer) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
@@ -72,8 +72,8 @@ public class OrganizerDAO {
 		}
     }
     
-    public void updateUser(Organizer organizer) {
-		storeUser(organizer);
+    public void updateOrganizer(Organizer organizer) {
+		storeOrganizer(organizer);
 	}
 
 }

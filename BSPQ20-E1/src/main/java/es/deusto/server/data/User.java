@@ -19,8 +19,7 @@ public class User extends GenericUser {
 	@Join
     @Element(dependent = "false")
     @Persistent(defaultFetchGroup="true")
-	private ArrayList<Event> savedEvents= new ArrayList<Event>();
-	
+	private ArrayList<Event> savedEvents= new ArrayList<Event>();	
 
 	public String getCity() {
 		return city;

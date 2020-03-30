@@ -12,7 +12,7 @@ public class UserDAO {
 
     private PersistenceManagerFactory pmf;
 	
-	private UserDAO() {
+	protected UserDAO() {
 		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
     }
     
