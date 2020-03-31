@@ -1,4 +1,4 @@
-package windows;
+package es.deusto.client.windows;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionEvent;

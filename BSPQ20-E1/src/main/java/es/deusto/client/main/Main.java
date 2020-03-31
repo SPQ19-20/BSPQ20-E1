@@ -1,7 +1,7 @@
-package main;
+package es.deusto.client.main;
 import javax.swing.JFrame;
 
-import windows.LogInWindow;
+import es.deusto.client.windows.LogInWindow;
 
 public class Main {
 
