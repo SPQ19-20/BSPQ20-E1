@@ -90,6 +90,9 @@ public class Server {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response recoverPassword(LoginAttempt userInfo){
 		appService.recoverPassword(userInfo);
+
+
+
 		return Response.ok("OK").build();
 	}
 
