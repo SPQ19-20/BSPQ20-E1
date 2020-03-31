@@ -1,4 +1,5 @@
 package es.deusto.client.windows;
+
 import javax.swing.JFrame;
 
 import java.awt.event.ActionEvent;
@@ -7,6 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import es.deusto.client.controller.Controller;
 
 
 public class CreateUserWindow extends JFrame implements ActionListener{
@@ -17,8 +20,12 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JButton bCreate;
+
+	private Controller controller;
 	
-	public CreateUserWindow() {
+	public CreateUserWindow(Controller controller) {
+		this.controller = controller;
+
 		getContentPane().setLayout(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
@@ -73,7 +80,7 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 			int posX = this.getX();
 			int altura = this.getHeight();
 			int anchura = this.getWidth();
-			LogInWindow p = new LogInWindow();
+			LogInWindow p = new LogInWindow(this.controller);
 			p.setVisible(true);
 			p.setSize(anchura, altura);
 			p.setLocation(posX, posY);

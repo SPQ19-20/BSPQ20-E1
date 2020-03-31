@@ -7,6 +7,18 @@ public class UserInfo {
     private String name, email;
     private String city;
 
+    public UserInfo(String name, String email, String city) {
+        this.name = name;
+        this.email = email;
+        this.city = city;
+    }
+
+    public UserInfo() {
+        this.name = "";
+        this.email = "";
+        this.city = "";
+    }
+
     public UserInfo(User user) {
         this.name = user.getName();
         this.email = user.getEmail();

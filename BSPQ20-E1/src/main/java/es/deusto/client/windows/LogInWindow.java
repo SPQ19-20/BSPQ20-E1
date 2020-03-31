@@ -1,4 +1,5 @@
 package es.deusto.client.windows;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -6,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+
+import es.deusto.client.controller.Controller;
+
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 
@@ -21,7 +25,11 @@ public class LogInWindow extends JFrame implements ActionListener {
 	private JTextField textField;
 	private JPasswordField passwordField;
 
-	public LogInWindow() {
+	private Controller controller;
+
+	public LogInWindow(Controller controller) {
+		this.controller = controller;
+
 		getContentPane().setLayout(null);
 		setTitle("LogIn");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,7 +70,7 @@ public class LogInWindow extends JFrame implements ActionListener {
 			int posX = this.getX();
 			int altura = this.getHeight();
 			int anchura = this.getWidth();
-			CreateUserWindow p = new CreateUserWindow();
+			CreateUserWindow p = new CreateUserWindow(this.controller);
 			p.setVisible(true);
 			p.setSize(anchura, altura);
 			p.setLocation(posX, posY);
@@ -70,8 +78,12 @@ public class LogInWindow extends JFrame implements ActionListener {
 			this.setVisible(false);
 			this.dispose();
 		} else if (boton == blogin) {
-			this.setVisible(false);
-			this.dispose();
+			String email, password;
+			email = this.textField.getText();
+			password = String.valueOf(this.passwordField.getPassword());
+			if (this.controller.attemptNormalLogin(email, password)) {
+				this.setTitle(this.controller.getUser().getName());
+			}
 		}
 
 	}

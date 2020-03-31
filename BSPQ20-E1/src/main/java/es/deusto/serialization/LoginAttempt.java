@@ -12,6 +12,12 @@ public class LoginAttempt {
         this.organizer = false;
     }
 
+    public LoginAttempt(String email, String password, boolean organizer) {
+        this.email = email;
+        this.password = password;
+        this.organizer = organizer;
+    }
+
     public String getEmail() {
         return this.email;
     }
