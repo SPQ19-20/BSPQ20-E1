@@ -203,4 +203,8 @@ public class EventDAO {
     public void updateEvent(Event event) {
 		storeEvent(event);
 	}
+
+	public void deleteEvent(Event event){
+		
+	}
 }

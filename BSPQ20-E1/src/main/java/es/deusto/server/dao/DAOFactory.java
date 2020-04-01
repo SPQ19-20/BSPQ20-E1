@@ -18,4 +18,7 @@ public class DAOFactory {
         return new OrganizerDAO();
     }
 
+    public EventDAO createEventDAO(){
+        return new EventDAO();
+    }
 }
