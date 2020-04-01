@@ -13,7 +13,7 @@ There are several tools that need to be installed in the host so that the projec
 These are the steps that need to be followed in order to succesfully build and run the project on Windows:
 #### 1. Set up the MongoDB server
 1. Open a new CMD window and start the MongoDB server with the *mongod* command
-2. Create an empty database called **bsqp20e1** (you can do it directly from the command line or you can use a visual MongoDB client such as Robo 3T)
+2. Create an empty database called **bsqp20e1** (you can do it directly from the command line or you can use a visual MongoDB client such as Robo 3T or Compass)
 
 ##### Create the schema
 1.  Open a new CMD window, go to the directory where the *pom.xml* file is inside the project and run the following command:
