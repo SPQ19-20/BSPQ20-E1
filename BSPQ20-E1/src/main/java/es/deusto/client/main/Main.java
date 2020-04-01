@@ -11,10 +11,9 @@ public class Main {
 		Controller c = new Controller("localhost", "8080");
 		LogInWindow login = new LogInWindow(c);
 		login.setVisible(true);
-		login.setSize(375, 422);
+		login.setSize(400, 600);
 		login.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		login.setResizable(false);
-
+		login.setResizable(true);
 	}
 
 }
