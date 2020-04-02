@@ -13,18 +13,22 @@ import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import es.deusto.client.controller.Controller;
+
 public class CodeVerification extends JFrame {
 
 	private JPanel contentPane;
 	private String code;
 	private String mail;
 	private JTextField txtcode;
+	private Controller controller;
 
 	/**
 	 * Create the frame.
 	 */
-	public CodeVerification(String code, String mail) {
+	public CodeVerification(String code, Controller controller) {
 		this.setVisible(true);
+		this.controller = controller;
 		this.code = code;
 		this.mail = mail;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import es.deusto.client.controller.Controller;
+
 public class ForgottenPassword extends JFrame {
 
 	/**
@@ -23,29 +25,16 @@ public class ForgottenPassword extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtxmail;
 	private String code;
-	
+	private Controller controller;
 	
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ForgottenPassword frame = new ForgottenPassword();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public ForgottenPassword() {
+	public ForgottenPassword(Controller controller) {
+		this.setVisible(true);
+		this.controller = controller;
 		code = "";
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -90,7 +79,7 @@ public class ForgottenPassword extends JFrame {
 				 * }
 				 * send code to mail
 				 * String mail = txtmail.getText();
-				 * new CodeVerification(code, mail);
+				 * new CodeVerification(code, controller);
 				 * }else{
 				 * JOptionPane.showMessageDialog(null, "Email Does Not Exist")
 				 * }

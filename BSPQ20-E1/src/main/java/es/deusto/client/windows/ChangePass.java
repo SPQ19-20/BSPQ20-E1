@@ -15,6 +15,8 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import es.deusto.client.controller.Controller;
+
 public class ChangePass extends JFrame {
 
 	/**
@@ -25,13 +27,15 @@ public class ChangePass extends JFrame {
 	private String mail;
 	private JTextField txtpass;
 	private JTextField txtagain;
+	private Controller controller
 
 	
 
 	/**
 	 * Create the frame.
 	 */
-	public ChangePass(String mail) {
+	public ChangePass(Controller controller) {
+		this.controller= controller;
 		this.setVisible(true);
 		this.mail = mail;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
