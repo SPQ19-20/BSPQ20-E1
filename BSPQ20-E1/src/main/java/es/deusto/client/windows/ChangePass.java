@@ -27,7 +27,7 @@ public class ChangePass extends JFrame {
 	private String mail;
 	private JTextField txtpass;
 	private JTextField txtagain;
-	private Controller controller
+	private Controller controller;
 
 	
 

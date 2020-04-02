@@ -47,7 +47,7 @@ public class CodeVerification extends JFrame {
 		btnBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new ForgottenPassword();
+				new ForgottenPassword(controller);
 				dispose();
 			}
 		});
@@ -60,7 +60,7 @@ public class CodeVerification extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(txtcode.getText().equals(code)) {
-					new ChangePass(mail);
+					new ChangePass(controller);
 				}
 			}
 		});

@@ -1,6 +1,8 @@
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 
+import es.deusto.client.controller.Controller;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.UnknownHostException;
@@ -13,12 +15,12 @@ public class Profile extends JFrame implements ActionListener {
     public JButton saveButton;;
     private JTextField city, email;
     private JCheckBox musicBox, theaterBox, cinemaBox, sportsBox, artBox, cultureBox, foodBox, festivalsBox, moreBox;
-    private Controler controller;
+    private Controller controller;
     private static MongoClient mongoClient = null;
     static {
         try {
             mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-        } catch (UnknownHostException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -1,5 +1,8 @@
 package es.deusto.serialization;
 
+import java.util.ArrayList;
+
+import es.deusto.server.data.Event;
 import es.deusto.server.data.User;
 
 public class UserInfo {
@@ -7,22 +10,30 @@ public class UserInfo {
     private String name, email;
     private String city;
 
+    private ArrayList<EventInfo> savedEvents;
+
     public UserInfo(String name, String email, String city) {
         this.name = name;
         this.email = email;
         this.city = city;
+        this.savedEvents = new ArrayList<>();
     }
 
     public UserInfo() {
         this.name = "";
         this.email = "";
         this.city = "";
+        this.savedEvents = new ArrayList<>();
     }
 
     public UserInfo(User user) {
         this.name = user.getName();
         this.email = user.getEmail();
         this.city = user.getCity();
+        this.savedEvents = new ArrayList<>();
+        for (Event e: user.getSavedEvents()) {
+            this.savedEvents.add(new EventInfo(e));
+        }
     }
 
     public String getName() {
@@ -47,6 +58,14 @@ public class UserInfo {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public ArrayList<EventInfo> getSavedEvents() {
+        return this.savedEvents;
+    }
+
+    public void setSavedEvents(ArrayList<EventInfo> savedEvents) {
+        this.savedEvents = savedEvents;
     }
 
 }
