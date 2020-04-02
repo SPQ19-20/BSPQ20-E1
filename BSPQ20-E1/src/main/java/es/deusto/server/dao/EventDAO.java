@@ -28,7 +28,7 @@ public class EventDAO {
 		Transaction tx = pm.currentTransaction();
 		
 	
-		ArrayList<Event> event = ArrayList<Event>();
+		ArrayList<Event> event = new  ArrayList<Event>();
 		try {
 			tx.begin();
 			
@@ -68,7 +68,7 @@ public class EventDAO {
 		Transaction tx = pm.currentTransaction();
 		
 	
-		ArrayList<Event> event = ArrayList<Event>();
+		ArrayList<Event> event = new ArrayList<Event>();
 		try {
 			tx.begin();
 			
@@ -108,13 +108,13 @@ public class EventDAO {
 		Transaction tx = pm.currentTransaction();
 		
 	
-		ArrayList<Event> event = ArrayList<Event>();
+		ArrayList<Event> event = new ArrayList<Event>();
 		try {
 			tx.begin();
 			
 			Extent<Event> extent = pm.getExtent(Event.class, true);
 			for (Event u : extent) {
-				if (u.getOrganizer().getOrganization().contains(name)){
+				if (u.getOrganizer().getOrganization().contains(organization)){
 					event.add(u); //adds the event to the list.
 				}else{
 					System.out.println("no events found with given name");
@@ -146,7 +146,7 @@ public class EventDAO {
 		Transaction tx = pm.currentTransaction();
 		
 	
-		ArrayList<Event> event = ArrayList<Event>();
+		ArrayList<Event> event = new ArrayList<Event>();
 		try {
 			tx.begin();
 			
@@ -192,7 +192,6 @@ public class EventDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			System.out.println("Event added to the database");
 			pm.close();
 		}
     }
@@ -204,7 +203,30 @@ public class EventDAO {
 		storeEvent(event);
 	}
 
+	/**
+	 * deletes an event from the database.
+	 * @param event event to be deleted
+	 */
 	public void deleteEvent(Event event){
+		PersistenceManager pm = pmf.getPersistenceManager();
+		pm.setDetachAllOnCommit(true);
+		Transaction tx = pm.currentTransaction();
+		
+	
+		try {
+			tx.begin();
+
+			pm.deletePersistent(event);
+
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (tx != null && tx.isActive()) {
+	    		tx.rollback();
+	    	}
+			pm.close();
+		}	
 		
 	}
 }
