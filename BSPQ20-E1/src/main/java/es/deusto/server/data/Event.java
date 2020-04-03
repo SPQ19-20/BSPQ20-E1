@@ -1,9 +1,9 @@
 package es.deusto.server.data;
 
-
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
@@ -11,7 +11,11 @@ public class Event{
 
 	private String name;
 	private String description;
+	
+	@Persistent(defaultFetchGroup="true")
 	private Channel channel;
+	
+	@Persistent(defaultFetchGroup="true")
 	private Organizer organizer; 
 	// public User(String code, String name) {
 	// 	this.code = code;

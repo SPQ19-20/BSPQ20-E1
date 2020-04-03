@@ -1,10 +1,15 @@
 package es.deusto.server.server;
 
+import es.deusto.serialization.EventInfo;
 import es.deusto.serialization.LoginAttempt;
 import es.deusto.serialization.SignupAttempt;
+import es.deusto.server.dao.ChannelDAO;
 import es.deusto.server.dao.DAOFactory;
+import es.deusto.server.dao.EventDAO;
 import es.deusto.server.dao.OrganizerDAO;
 import es.deusto.server.dao.UserDAO;
+import es.deusto.server.data.Channel;
+import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
 import es.deusto.server.data.User;
 
@@ -109,6 +114,10 @@ public class AppService {
         return organizer;
     }
 
+    public void createEvent(EventInfo eventInfo) {
+        
+    }
+
     public void recoverPassword(LoginAttempt login) {
         String email = login.getEmail();
         String newPassword = generatePassword();
@@ -175,51 +184,34 @@ public class AppService {
 
     // method used for manual testing 
     public void hello() {
-        // try
-        // {	
-        //     tx.begin();
-        //     System.out.println("Persisting users");
+        ChannelDAO channelDAO = DAOFactory.getInstance().createChannelDAO();
+        OrganizerDAO organizerDAO = DAOFactory.getInstance().createOrganizerDAO();
+        EventDAO eventDAO = DAOFactory.getInstance().createEventDAO();
+        UserDAO userDAO = DAOFactory.getInstance().createUserDAO();
 
-        //     Organizer orga = new Organizer();
-        //     orga.setName("Norman");
-        //     orga.setEmail("norman@EPCsol.es");
-        //     orga.setPassword("1234easy");
-        //     orga.setOrganization("EPC solutions");
+        Organizer orga = new Organizer();
+        orga.setName("Norman");
+        orga.setEmail("norman@EPCsol.es");
+        orga.setPassword("1234easy");
+        orga.setOrganization("EPC solutions");
 
-        //     es.deusto.server.data.Channel cinema = new es.deusto.server.data.Channel();
-        //     cinema.setName("cinema");
+        Channel cinema = new Channel();
+        cinema.setName("cinema");
+        
+        Event popcorn = new Event();
+        popcorn.setName("Popcorn Party - second edition (PP2)");
+        popcorn.setDescription("another popcorn party");
+        popcorn.setChannel(cinema);
+        popcorn.setOrganizer(orga);
+        
             
-        //     es.deusto.server.data.Event popcorn = new es.deusto.server.data.Event();
-        // 	popcorn.setName("Popcorn Party (PP)");
-        // 	popcorn.setDescription("a popcorn party");
-        // 	popcorn.setChannel(cinema);
-        // 	popcorn.setOrganizer(orga);
-        	
-            	
-        //     User kiraYoshikage = new User();
-        //     kiraYoshikage.setName("Kira");
-        //     kiraYoshikage.setEmail("Kira@killerqueen.es");
-        //     kiraYoshikage.setPassword("4567Hard");
-        //     kiraYoshikage.setCity("Morioh");
-        // 	kiraYoshikage.addEvent(popcorn);
-            	
-		// 	pm.makePersistent(orga);
-		// 	pm.makePersistent(cinema);	
-		// 	pm.makePersistent(popcorn);	
-		// 	pm.makePersistent(kiraYoshikage);
-			
-        //     tx.commit();
-        //     System.out.println("User and his messages have been persisted");
-        // }
-        // finally
-        // {
-        //     if (tx.isActive())
-        //     {
-        //         tx.rollback();
-        //     }
-        //     pm.close();
-        // }
-        // System.out.println("");
+        User kiraYoshikage = userDAO.getUser("Kira@killerqueen.es");
+        kiraYoshikage.addEvent(popcorn);
+        
+        channelDAO.storeChannel(cinema);
+        organizerDAO.storeOrganizer(orga);
+        eventDAO.storeEvent(popcorn);
+        userDAO.storeUser(kiraYoshikage);
     }
 
 }

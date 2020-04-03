@@ -7,7 +7,7 @@ public class EventInfo {
     private String name;
 	private String description;
 	private ChannelInfo channel;
-    private OrganizerInfo organizer; 
+    private String organizer; 
     
     public EventInfo() {
         this.name = "";
@@ -20,7 +20,7 @@ public class EventInfo {
         this.name = e.getName();
         this.description = e.getDescription();
         this.channel = new ChannelInfo(e.getChannel());
-        this.organizer = new OrganizerInfo(e.getOrganizer());
+        this.organizer = e.getOrganizer().getName();
     }
 
     public String getName() {
@@ -47,11 +47,11 @@ public class EventInfo {
         this.channel = channel;
     }
 
-    public OrganizerInfo getOrganizer() {
+    public String getOrganizer() {
         return this.organizer;
     }
 
-    public void setOrganizer(OrganizerInfo organizer) {
+    public void setOrganizer(String organizer) {
         this.organizer = organizer;
     }
 }

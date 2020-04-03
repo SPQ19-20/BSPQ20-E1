@@ -10,12 +10,12 @@ public class Main {
 
 	public static void main(String[] args) throws ClassNotFoundException {
 		Controller c = new Controller("localhost", "8080");
-		UserEventsWindow w = new UserEventsWindow(c);
-		// LogInWindow login = new LogInWindow(c);
-		// login.setVisible(true);
-		// login.setSize(400, 600);
-		// login.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		// login.setResizable(true);
+		// UserEventsWindow w = new UserEventsWindow(c);
+		LogInWindow login = new LogInWindow(c);
+		login.setVisible(true);
+		login.setSize(400, 600);
+		login.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		login.setResizable(true);
 	}
 
 }

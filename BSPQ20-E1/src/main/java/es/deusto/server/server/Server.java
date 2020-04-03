@@ -1,5 +1,6 @@
 package es.deusto.server.server;
 
+import javax.print.attribute.standard.Media;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -94,6 +95,14 @@ public class Server {
 
 
 		return Response.ok("OK").build();
+	}
+
+	@POST
+	@Path("/createEvent")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createEvent(EventInfo eventInfo) {
+		appService.createEvent(eventInfo);
+		return Response.ok("").build();
 	}
 
 

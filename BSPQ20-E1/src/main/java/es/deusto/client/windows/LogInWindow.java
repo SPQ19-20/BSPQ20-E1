@@ -49,18 +49,22 @@ public class LogInWindow extends JFrame implements ActionListener {
 		lblUsuario.setBounds(44, 95, 79, 16);
 		getContentPane().add(lblUsuario);
 
-		textField = new JTextField();
+		textField = new JTextField("Kira@killerqueen.es");
 		textField.setBounds(97, 92, 160, 22);
 		getContentPane().add(textField);
 		textField.setColumns(10);
 
-		passwordField = new JPasswordField();
+		passwordField = new JPasswordField("4567Hard");
 		passwordField.setBounds(97, 133, 160, 22);
 		getContentPane().add(passwordField);
 
 		JLabel lblContrasea = new JLabel("Password:");
 		lblContrasea.setBounds(22, 136, 101, 16);
 		getContentPane().add(lblContrasea);
+
+		// TODO delete, this is just for testing
+		blogin.doClick();
+		dispose();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -82,7 +86,9 @@ public class LogInWindow extends JFrame implements ActionListener {
 			email = this.textField.getText();
 			password = String.valueOf(this.passwordField.getPassword());
 			if (this.controller.attemptNormalLogin(email, password)) {
-				this.setTitle(this.controller.getUser().getName());
+				// login success
+				new UserEventsWindow(this.controller);
+				this.dispose();
 			}
 		}
 

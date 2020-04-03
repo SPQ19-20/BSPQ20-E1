@@ -21,4 +21,8 @@ public class DAOFactory {
     public EventDAO createEventDAO(){
         return new EventDAO();
     }
+
+    public ChannelDAO createChannelDAO() {
+        return new ChannelDAO();
+    }
 }
