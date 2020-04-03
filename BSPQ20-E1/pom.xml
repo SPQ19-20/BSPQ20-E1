@@ -23,12 +23,12 @@
 		<dependency>
 			<groupId>org.datanucleus</groupId>
 			<artifactId>datanucleus-core</artifactId>
-			<version>[5.1.6, 5.9)</version>
+			<version>5.2.2</version> <!--5.1.6-->
 		</dependency>
 		<dependency>
 			<groupId>org.datanucleus</groupId>
 			<artifactId>datanucleus-api-jdo</artifactId>
-			<version>[5.1.4, 5.9)</version>
+			<version>5.2.2</version>
 		</dependency>
 
 		<!-- MYSQL -->
@@ -54,12 +54,12 @@
 		<dependency>
 			<groupId>org.datanucleus</groupId>
 			<artifactId>datanucleus-mongodb</artifactId>
-			<version>5.1.0-release</version>
+			<version>5.2.0-release</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>
-			<version>[3.4.2, )</version>
+			<version>3.12.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
@@ -123,8 +123,9 @@
 			<plugin>
 				<groupId>org.datanucleus</groupId>
 				<artifactId>datanucleus-maven-plugin</artifactId>
-				<version>5.0.2</version>
+				<version>5.2.1</version>
 				<configuration>
+					<fork>false</fork>
 					<log4jConfiguration>${config.files.dir}/log4j.properties</log4jConfiguration>
 					<verbose>true</verbose>
 					<props>${config.files.dir}/datanucleus.properties</props>
