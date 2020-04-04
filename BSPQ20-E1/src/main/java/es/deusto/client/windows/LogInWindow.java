@@ -49,12 +49,12 @@ public class LogInWindow extends JFrame implements ActionListener {
 		lblUsuario.setBounds(44, 95, 79, 16);
 		getContentPane().add(lblUsuario);
 
-		textField = new JTextField("Kira@killerqueen.es");
+		textField = new JTextField("");
 		textField.setBounds(97, 92, 160, 22);
 		getContentPane().add(textField);
 		textField.setColumns(10);
 
-		passwordField = new JPasswordField("4567Hard");
+		passwordField = new JPasswordField("");
 		passwordField.setBounds(97, 133, 160, 22);
 		getContentPane().add(passwordField);
 

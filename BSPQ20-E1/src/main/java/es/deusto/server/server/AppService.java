@@ -13,7 +13,6 @@ import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
 import es.deusto.server.data.User;
 
-import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.Random;
 
@@ -24,9 +23,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import com.mongodb.*;
-import com.mongodb.util.JSON;
 
 public class AppService {
 
@@ -115,7 +111,7 @@ public class AppService {
     }
 
     public void createEvent(EventInfo eventInfo) {
-        
+        // TODO 
     }
 
     public void recoverPassword(LoginAttempt login) {
@@ -124,6 +120,11 @@ public class AppService {
         sendEmail(email, newPassword);
         System.out.println("Changing and sending new password for " + email);
     }
+
+    
+
+    // -----------------------------------------------------------------------
+    // UTILITY METHODS
 
     private static String generatePassword() {
         String SALTCHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -167,16 +168,14 @@ public class AppService {
     }
 
     private static void changePassword(String email, String password) {
-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-
-        DB database = mongoClient.getDB("bspq20e1");
-        DBCollection users = database.getCollection("users");
-        users.update((DBObject) JSON.parse("{'email':'"+ email + "'}"), (DBObject) JSON.parse("{'$set':{'password':'" + password + "'}}"));
-        //Another way if we use password encryption with encrypted password and salt fields
-        //String salt = "";
-        //users.update((DBObject) JSON.parse("{'email':'"+ email + "'}"), (DBObject) JSON.parse("{'$set':{'password':'" + password + ",'salt':" + salt + "}}"));
-
-        System.out.println("Completed successfully.");
+        UserDAO dao = DAOFactory.getInstance().createUserDAO();
+        User user = dao.getUser(email);
+        user.setPassword(password);
+        dao.updateUser(user);
+        
+        // //Another way if we use password encryption with encrypted password and salt fields
+        // //String salt = "";
+        // //users.update((DBObject) JSON.parse("{'email':'"+ email + "'}"), (DBObject) JSON.parse("{'$set':{'password':'" + password + ",'salt':" + salt + "}}"));
     }
 
 

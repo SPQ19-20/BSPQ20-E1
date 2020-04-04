@@ -49,9 +49,6 @@ public class UserEventsWindow extends JFrame {
             this.mainPanel.add(new EventListElement(e));
         }
 
-        this.mainPanel.setBackground(Color.RED);
-
-
         this.cp.add(this.titlePanel, BorderLayout.NORTH);
         this.cp.add(this.mainPanel, BorderLayout.CENTER);
     }

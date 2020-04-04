@@ -49,11 +49,32 @@ public class Controller {
         return user != null;
     }
 
-    public UserInfo attemptNormalSignup(String email, String password,
+    public boolean attemptNormalSignup(String email, String password,
                     String name, String city) {
         
-        
-        return null;
+        SignupAttempt signup = new SignupAttempt();
+        signup.setEmail(email);
+        signup.setName(name);
+        signup.setPassword(password);
+        signup.setCity(city);
+
+        WebTarget donationsWebTarget = webTarget.path("server/signup");
+		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+		
+		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
+		if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
+            System.out.println("Not OK status code");
+            return false;
+        }
+
+        this.user = response.readEntity(UserInfo.class);
+
+        if (user != null) {
+            return true;
+        }
+
+        return false;
     }
 
 }
