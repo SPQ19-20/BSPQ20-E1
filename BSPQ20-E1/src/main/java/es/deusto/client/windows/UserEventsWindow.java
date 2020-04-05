@@ -88,7 +88,8 @@ public class UserEventsWindow extends JFrame {
             detailsButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    new Profile(window.controller);
+                    //new Profile(window.controller);
+                    new EventWindow(window.controller, event);
                     window.dispose();
                 }
             });

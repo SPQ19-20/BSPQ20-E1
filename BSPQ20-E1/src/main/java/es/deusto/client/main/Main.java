@@ -14,10 +14,6 @@ public class Main {
 		// UserEventsWindow w = new UserEventsWindow(c);
 		// new ForgottenPassword(c);
 		LogInWindow login = new LogInWindow(c);
-		login.setVisible(true);
-		login.setSize(400, 600);
-		login.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		login.setResizable(true);
 	}
 
 }

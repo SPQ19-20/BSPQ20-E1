@@ -13,13 +13,14 @@ import es.deusto.client.controller.Controller;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 
-public class LogInWindow extends JFrame implements ActionListener {
+public class LogInWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	public JTextField id;
 	public JTextField pass;
 	public JButton bCreate;
 	public JButton blogin;
+	private JButton bForgottenPass;
 	public JCheckBox cBoxAdmin;
 	public JCheckBox cBox;
 	private JTextField textField;
@@ -38,12 +39,10 @@ public class LogInWindow extends JFrame implements ActionListener {
 		bCreate = new JButton("New User");
 		bCreate.setBounds(12, 336, 111, 25);
 		getContentPane().add(bCreate);
-		bCreate.addActionListener(this);
 
 		blogin = new JButton("LogIn");
 		blogin.setBounds(235, 336, 111, 25);
 		getContentPane().add(blogin);
-		blogin.addActionListener(this);
 
 		JLabel lblUsuario = new JLabel("User:");
 		lblUsuario.setBounds(44, 95, 79, 16);
@@ -62,36 +61,58 @@ public class LogInWindow extends JFrame implements ActionListener {
 		lblContrasea.setBounds(22, 136, 101, 16);
 		getContentPane().add(lblContrasea);
 
-		// TODO delete, this is just for testing
-		blogin.doClick();
-		dispose();
-	}
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object boton = e.getSource();
-		if (boton == bCreate) {
-			int posY = this.getY();
-			int posX = this.getX();
-			int altura = this.getHeight();
-			int anchura = this.getWidth();
-			CreateUserWindow p = new CreateUserWindow(this.controller);
-			p.setVisible(true);
-			p.setSize(anchura, altura);
-			p.setLocation(posX, posY);
-			p.setResizable(false);
-			this.setVisible(false);
-			this.dispose();
-		} else if (boton == blogin) {
-			String email, password;
-			email = this.textField.getText();
-			password = String.valueOf(this.passwordField.getPassword());
-			if (this.controller.attemptNormalLogin(email, password)) {
-				// login success
-				new UserEventsWindow(this.controller);
-				this.dispose();
-			}
-		}
+		bForgottenPass = new JButton("Password recovery");
+		bForgottenPass.setBounds(100, 386, 157, 25);
+		getContentPane().add(bForgottenPass);
 
+		setListeners();
+
+		// TODO delete, this is just for testing
+		this.setVisible(true);
+		this.setSize(400, 600);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setResizable(false);
+	}
+
+	private void setListeners() {
+		bCreate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int posY = getY();
+				int posX = getX();
+				int altura = getHeight();
+				int anchura = getWidth();
+				CreateUserWindow p = new CreateUserWindow(controller);
+				p.setVisible(true);
+				p.setSize(anchura, altura);
+				p.setLocation(posX, posY);
+				p.setResizable(false);
+				setVisible(false);
+				dispose();
+			}
+		});
+
+		blogin.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String email, password;
+				email = textField.getText();
+				password = String.valueOf(passwordField.getPassword());
+				if (controller.attemptNormalLogin(email, password)) {
+					// login success
+					new UserEventsWindow(controller);
+					dispose();
+				}
+			}
+		});
+
+		bForgottenPass.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new ForgottenPassword(controller);
+				dispose();
+			}
+		});
 	}
 
 }

@@ -47,6 +47,7 @@ public class ForgottenPassword extends JFrame {
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Go back to login window
+				new LogInWindow(controller);
 				dispose();
 			}
 		});
