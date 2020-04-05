@@ -70,9 +70,9 @@ public class ForgottenPassword extends JFrame {
 		txtxmail.setColumns(10);
 		
 		JButton btnConfirm = new JButton("Confirm");
-		btnConfirm.addMouseListener(new MouseAdapter() {
+		btnConfirm.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				/*if(email exists in db){
 				 * for(int i =0;i<4;i++){
 				 * 	code = ""+ ((int)(Math.random()*9))
@@ -90,5 +90,8 @@ public class ForgottenPassword extends JFrame {
 			
 		btnConfirm.setBounds(299, 232, 85, 21);
 		contentPane.add(btnConfirm);
+
+		this.setSize(450, 400);
+		this.setResizable(false);
 	}
 }

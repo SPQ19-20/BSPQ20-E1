@@ -1,4 +1,4 @@
-package windows;
+package es.deusto.client.windows;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import es.deusto.client.controller.Controller;
+import es.deusto.client.windows.*;
+import es.deusto.serialization.EventInfo;
+
+
 public class EventWindow extends JFrame implements ActionListener{
 	
 	private static final long serialVersionUID = 1L;
@@ -19,9 +24,12 @@ public class EventWindow extends JFrame implements ActionListener{
 	public JLabel title;
 	public JLabel description;
 	
+	private Controller controller;
 
-	public EventWindow(EventInfo e) {
+	public EventWindow(Controller controller, EventInfo e) {
 		
+		this.controller = controller;
+
 		getContentPane().setLayout(null);
 		setTitle(e.getName());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,7 +67,7 @@ public class EventWindow extends JFrame implements ActionListener{
 			int posX = this.getX();
 			int height = this.getHeight();
 			int width = this.getWidth();
-			LogInWindow l = new LogInWindow();
+			LogInWindow l = new LogInWindow(this.controller);
 			l.setVisible(true);
 			l.setSize(width, height);
 			l.setLocation(posX, posY);
@@ -71,7 +79,7 @@ public class EventWindow extends JFrame implements ActionListener{
 			int posX = this.getX();
 			int height = this.getHeight();
 			int width = this.getWidth();
-			Profile p = new Profile();
+			Profile p = new Profile(this.controller);
 			p.setVisible(true);
 			p.setSize(width, height);
 			p.setLocation(posX, posY);

@@ -1,41 +1,32 @@
-import com.mongodb.*;
-import com.mongodb.util.JSON;
+package es.deusto.client.windows;
 
 import es.deusto.client.controller.Controller;
+import es.deusto.serialization.UserInfo;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.UnknownHostException;
 
 import javax.swing.*;
 
-public class Profile extends JFrame implements ActionListener {
+public class Profile extends JFrame {
 
     private static final long serialVersionUID = 1L;
     public JButton saveButton, homeButton;
     private JTextField city, email;
     private JCheckBox musicBox, theaterBox, cinemaBox, sportsBox, artBox, cultureBox, foodBox, festivalsBox, moreBox;
     private Controller controller;
-    private static MongoClient mongoClient = null;
-    static {
-        try {
-            mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    private static DB database = mongoClient.getDB("bspq20e1");
-    private static DBCollection users = database.getCollection("User");
 
     public Profile(Controller controller) {
         this.controller = controller;
 
         // TODO get the logged in user email
-        DBObject userData = getUserData("email");
-        String userInterests = (String) userData.get("interests");
+        String userInterests = "Music Theater";//(String) userData.get("interests");
 
         getContentPane().setLayout(null);
         setTitle("Profile");
+        this.setSize(new Dimension(400, 600));
+        this.setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -43,11 +34,13 @@ public class Profile extends JFrame implements ActionListener {
         homeButton.setBounds(320, 25, 25, 25);
         getContentPane().add(homeButton);
 
-        JLabel username = new JLabel("Username:");
+        UserInfo userInfo = this.controller.getUser();
+
+        JLabel username = new JLabel("Name:");
         username.setBounds(40, 50, 80, 16);
         getContentPane().add(username);
 
-        JTextField user = new JTextField((String) userData.get("username"));
+        JTextField user = new JTextField(userInfo.getName());
         user.setBounds(40, 70, 80, 20);
         user.setEditable(false);
         getContentPane().add(user);
@@ -56,7 +49,7 @@ public class Profile extends JFrame implements ActionListener {
         emailAdd.setBounds(40, 100, 80, 20);
         getContentPane().add(emailAdd);
 
-        email = new JTextField((String) userData.get("email"));
+        email = new JTextField(userInfo.getEmail());
         email.setBounds(40, 120, 150, 20);
         email.setEditable(false);
         getContentPane().add(email);
@@ -65,7 +58,7 @@ public class Profile extends JFrame implements ActionListener {
         cityLabel.setBounds(40, 150, 80, 20);
         getContentPane().add(cityLabel);
 
-        city = new JTextField((String) userData.get("city"));
+        city = new JTextField(userInfo.getCity());
         city.setBounds(40, 170, 150, 20);
         city.setEditable(true);
         getContentPane().add(city);
@@ -113,45 +106,45 @@ public class Profile extends JFrame implements ActionListener {
         saveButton = new JButton("Save changes");
         saveButton.setBounds(120, 430, 140, 25);
         getContentPane().add(saveButton);
+
+        this.setListeners();
+
+        this.setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        Object button = e.getSource();
-        if (button == saveButton) {
-            String interests = "";
-            if (musicBox.isSelected()) interests += "Music ";
-            if (theaterBox.isSelected()) interests += "Theater ";
-            if (cinemaBox.isSelected()) interests += "Cinema ";
-            if (sportsBox.isSelected()) interests += "Sports ";
-            if (artBox.isSelected()) interests += "Arts ";
-            if (cultureBox.isSelected()) interests += "Culture ";
-            if (foodBox.isSelected()) interests += "Food ";
-            if (festivalsBox.isSelected()) interests += "Festival ";
-            if (moreBox.isSelected()) interests += "More ";
-            users.update((DBObject) JSON.parse("{'email':'"+ email.getText() + "'}"), (DBObject) JSON.parse("{'$set':{'city':'" + city.getText() + "'}}"));
-            users.update((DBObject) JSON.parse("{'email':'"+ email.getText() + "'}"), (DBObject) JSON.parse("{'$set':{'interests':'" + interests + "'}}"));
-        } else if (button == homeButton) {
-            // TODO set the correct size of the new window
-            int posY = this.getY();
-            int posX = this.getX();
-            int altura = this.getHeight();
-            int anchura = this.getWidth();
-            UserEventsWindow home = new UserEventsWindow(this.controller);
-            home.setVisible(true);
-            home.setSize(anchura, altura);
-            home.setLocation(posX, posY);
-            home.setResizable(false);
-            this.setVisible(false);
-            this.dispose();
-        }
-    }
+    private void setListeners() {
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String interests = "";
+                if (musicBox.isSelected()) interests += "Music ";
+                if (theaterBox.isSelected()) interests += "Theater ";
+                if (cinemaBox.isSelected()) interests += "Cinema ";
+                if (sportsBox.isSelected()) interests += "Sports ";
+                if (artBox.isSelected()) interests += "Arts ";
+                if (cultureBox.isSelected()) interests += "Culture ";
+                if (foodBox.isSelected()) interests += "Food ";
+                if (festivalsBox.isSelected()) interests += "Festival ";
+                if (moreBox.isSelected()) interests += "More ";
+                
+                // TODO update user
 
-    private static DBObject getUserData(String email) {
-        DBObject query = new BasicDBObject("email", email);
-        DBCursor cursor = users.find(query);
-        DBObject userData = cursor.one();
-        return userData;
+            }
+        });
+
+        homeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("home button pressed");
+                int posY = getY();
+                int posX = getX();
+                int altura = getHeight();
+                int anchura = getWidth();
+                UserEventsWindow home = new UserEventsWindow(controller);
+                setVisible(false);
+                dispose();
+            }
+        });
     }
 
 }

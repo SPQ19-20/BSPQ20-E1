@@ -1,6 +1,8 @@
 package es.deusto.client.windows;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -12,7 +14,6 @@ public class UserEventsWindow extends JFrame {
     private static final long serialVersionUID = 1L;
 
     private Controller controller;
-    
     
     private Container cp;
     private JPanel titlePanel;
@@ -29,7 +30,7 @@ public class UserEventsWindow extends JFrame {
         this.setSize(new Dimension(1600, 900));
         this.setVisible(true);
 
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        // this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     private void initComponents() {
@@ -46,7 +47,7 @@ public class UserEventsWindow extends JFrame {
         // MAIN PANEL
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
         for (EventInfo e : this.controller.getUser().getSavedEvents()) {
-            this.mainPanel.add(new EventListElement(e));
+            this.mainPanel.add(new EventListElement(this, e));
         }
 
         this.cp.add(this.titlePanel, BorderLayout.NORTH);
@@ -57,11 +58,15 @@ public class UserEventsWindow extends JFrame {
 
         private static final long serialVersionUID = 1L;
 
+        private JButton detailsButton;
+        UserEventsWindow window;
+
         private EventInfo event;
 
-        public EventListElement(EventInfo event) {
+        public EventListElement(UserEventsWindow window, EventInfo event) {
             super();
 
+            this.window = window;
             this.event = event;
 
             this.initComponents();
@@ -74,11 +79,19 @@ public class UserEventsWindow extends JFrame {
             
             JPanel detailsButtonPanel = new JPanel();
             detailsButtonPanel.setLayout(new BoxLayout(detailsButtonPanel, BoxLayout.Y_AXIS));
-            JButton detailsButton = new JButton("See details");
+            detailsButton = new JButton("See details");
             detailsButtonPanel.add(Box.createVerticalGlue());
             detailsButtonPanel.add(detailsButton);
             detailsButtonPanel.add(Box.createVerticalGlue());
             this.add(detailsButtonPanel);
+
+            detailsButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    new Profile(window.controller);
+                    window.dispose();
+                }
+            });
 
             this.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         }
