@@ -12,7 +12,7 @@ import javax.swing.*;
 public class Profile extends JFrame implements ActionListener {
 
     private static final long serialVersionUID = 1L;
-    public JButton saveButton;;
+    public JButton saveButton, homeButton;
     private JTextField city, email;
     private JCheckBox musicBox, theaterBox, cinemaBox, sportsBox, artBox, cultureBox, foodBox, festivalsBox, moreBox;
     private Controller controller;
@@ -25,7 +25,7 @@ public class Profile extends JFrame implements ActionListener {
         }
     }
     private static DB database = mongoClient.getDB("bspq20e1");
-    private static DBCollection users = database.getCollection("users");
+    private static DBCollection users = database.getCollection("User");
 
     public Profile(Controller controller) {
         this.controller = controller;
@@ -38,6 +38,10 @@ public class Profile extends JFrame implements ActionListener {
         setTitle("Profile");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        homeButton = new JButton(UIManager.getIcon("FileChooser.homeFolderIcon"));
+        homeButton.setBounds(320, 25, 25, 25);
+        getContentPane().add(homeButton);
 
         JLabel username = new JLabel("Username:");
         username.setBounds(40, 50, 80, 16);
@@ -127,6 +131,19 @@ public class Profile extends JFrame implements ActionListener {
             if (moreBox.isSelected()) interests += "More ";
             users.update((DBObject) JSON.parse("{'email':'"+ email.getText() + "'}"), (DBObject) JSON.parse("{'$set':{'city':'" + city.getText() + "'}}"));
             users.update((DBObject) JSON.parse("{'email':'"+ email.getText() + "'}"), (DBObject) JSON.parse("{'$set':{'interests':'" + interests + "'}}"));
+        } else if (button == homeButton) {
+            // TODO set the correct size of the new window
+            int posY = this.getY();
+            int posX = this.getX();
+            int altura = this.getHeight();
+            int anchura = this.getWidth();
+            UserEventsWindow home = new UserEventsWindow(this.controller);
+            home.setVisible(true);
+            home.setSize(anchura, altura);
+            home.setLocation(posX, posY);
+            home.setResizable(false);
+            this.setVisible(false);
+            this.dispose();
         }
     }
 
