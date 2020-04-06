@@ -1,7 +1,9 @@
 package es.deusto.serialization;
 
 public class LoginAttempt {
-
+    /**
+     * This class encapsulates all the information required when a user (Either normal User or Organizer) Logs in.
+     */
     private String email;
     private String password;
     private boolean organizer;
@@ -12,6 +14,12 @@ public class LoginAttempt {
         this.organizer = false;
     }
 
+    /**
+     * Constructor of a Log in attempt. Encapsulates the information returned by the server when a user (Either normal User or Organizer) Logs in.
+     * @param email email of the user that will log.
+     * @param password password of the account.
+     * @param organizer boolean parameter that states if this user is an organizer or not.
+     */
     public LoginAttempt(String email, String password, boolean organizer) {
         this.email = email;
         this.password = password;

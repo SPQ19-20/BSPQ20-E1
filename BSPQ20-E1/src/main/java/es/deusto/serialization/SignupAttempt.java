@@ -5,6 +5,7 @@ import es.deusto.server.data.User;
 
 public class SignupAttempt {
 
+    // Common atributes (Both normal Users and Organizers have them)
     private String email;
     private String password;
     private String name;
@@ -14,7 +15,7 @@ public class SignupAttempt {
     
     // Organizer
     private String organization;
-
+    
     public SignupAttempt() {
         this.email = "";
         this.password = "";
@@ -23,6 +24,7 @@ public class SignupAttempt {
         this.organization = "";
     }
 
+    // getters and setters
     public String getEmail() {
         return this.email;
     }
@@ -63,6 +65,12 @@ public class SignupAttempt {
         this.organization = organization;
     }
 
+
+    /**
+     * Builds an instance of the business object {@link User}.
+     * The main purpose of this function is prevent object repetition. It's only used in the server.
+     * @return instance of es.deusto.server.data.User.java
+     */
     public User buildUser() {
         User user = new User();
         
@@ -73,7 +81,11 @@ public class SignupAttempt {
 
         return user;
     }
-
+    /**
+     * Builds an instance of the business object {@link Organizer}. 
+     * The main purpose of this function is prevent object repetition. It's only used in the server.
+     * @return instance of {@link Organizer}.
+     */
     public Organizer buildOrganizer() {
         Organizer organizer = new Organizer();
         

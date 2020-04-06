@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
 public class User extends GenericUser {
-	// TODO change the name of this class
+	// atributes
 	private String city;
 	
 	@Join

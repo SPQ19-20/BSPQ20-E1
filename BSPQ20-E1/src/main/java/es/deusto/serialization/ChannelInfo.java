@@ -5,7 +5,7 @@ import es.deusto.server.data.Channel;
 public class ChannelInfo {
 
     private String name;
-
+    
     public ChannelInfo() {
         this.name = "";
     }
