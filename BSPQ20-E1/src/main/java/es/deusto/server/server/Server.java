@@ -16,12 +16,27 @@ import es.deusto.server.data.*;
 @Produces(MediaType.APPLICATION_JSON)
 public class Server {
 
+	/**
+	 * This class is the one that receives the requests from the client.
+	 * There is no functionality implemented in this class, all the possible
+	 * requests have a corresponding method inside the AppService class
+	 * in which all the functionality is implemented. That way, the Server
+	 * class is abstracted from the business objects.
+	 */
+
 	private AppService appService;
 
 	public Server() {
 		this.appService = new AppService();
 	}
 
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /login . It is used for the login process of regular users.
+	 * @param login Login information of the user (email and password)
+	 * @return Response object with the information of the user, in case of valid credentials. 
+	 * If not, an empty response is returned
+	 */
 	@POST
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -38,6 +53,13 @@ public class Server {
 		return Response.ok(resp).build();
 	}
 
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /loginOrganizer . It is used for the login process of organizers.
+	 * @param login Login information of the organizer (email and password)
+	 * @return Response object with the information of the organizer, in case of valid credentials. 
+	 * If not, an empty response is returned
+	 */
 	@POST
 	@Path("/loginOrganizer")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -54,6 +76,13 @@ public class Server {
 		return Response.ok(resp).build();
 	}
 
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /signup . It is used of the signup method of regular users.
+	 * @param signup Signup information of the user (name, email, password and city)
+	 * @return Response object with the information of the user, in case of correct user registration. 
+	 * If not, an empty response is returned
+	 */
 	@POST
 	@Path("/signup")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -70,6 +99,13 @@ public class Server {
 		return Response.ok(resp).build();
 	}
 
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /signupOrganizer . It is used of the signup method of organizers.
+	 * @param signup Signup information of the organizer (name, email, password and organization)
+	 * @return Response object with the information of the organizer, in case of correct registration. 
+	 * If not, an empty response is returned
+	 */
 	@POST
 	@Path("/signupOrganizer")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -86,6 +122,12 @@ public class Server {
 		return Response.ok(resp).build();
 	}
 
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /passwordRecovery . It is used for password recovery for users who can't remember their passwords.
+	 * @param userInfo LoginAttempt with the email of the user who needs a new password
+	 * @return Response object with the following message: "OK"
+	 */
 	@POST
 	@Path("/passwordRecovery")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -98,7 +140,7 @@ public class Server {
 	@Path("/createEvent")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createEvent(EventInfo eventInfo) {
-		appService.createEvent(eventInfo);
+		appService.createEvent(eventInfo); // TODO not implemented in AppService yet
 		return Response.ok("").build();
 	}
 

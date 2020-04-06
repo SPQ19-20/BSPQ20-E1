@@ -27,8 +27,6 @@ import javax.mail.internet.MimeMessage;
 public class AppService {
 
     /**
-     * Application Service class
-     * 
      * This class will include methods representing
      * the different functionalities of the server. 
      * 
@@ -40,10 +38,16 @@ public class AppService {
      * DAO objects (create them using DAOFactory class).
     */
 
-    public AppService() {
-        
-    }
+    public AppService() {}
 
+    /**
+     * Receives a LoginAttempt (email and password string) and tries to log in.
+     * This method is used for the login process of regular users (not organizers).
+     * 
+     * @param login LoginAttempt with the requester's email and password
+     * @return User The user to which the login email corresponds. If the credentials are
+     * invalid, null is returned
+     */
     public User attemptNormalLogin(LoginAttempt login) {
         UserDAO dao = DAOFactory.getInstance().createUserDAO();
 
@@ -61,6 +65,14 @@ public class AppService {
         return user;
     }
 
+    /**
+     * Receives a LoginAttempt (email and password string) and tries to log in.
+     * This method is used for the login process of organizers (not regular users).
+     * 
+     * @param login LoginAttempt with the requester's email and password
+     * @return Organizer The organizer to which the login email corresponds. If the credentials are
+     * invalid, null is returned
+     */
     public Organizer attemptOrganizerLogin(LoginAttempt login) {
         OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
 
@@ -78,6 +90,14 @@ public class AppService {
         return organizer;
     }
 
+    /**
+     * Receives a SignupAttempt (name, email, password, etc.) and tries to create a new user.
+     * This method is used for the signup process of regular users (not organizers).
+     * 
+     * @param signup SignupAttempt with the requester's signup data - name, email, password and city
+     * @return User The user that has been created as a result of the request. If the email is already in
+     * use, null is returned
+     */
     public User attemptNormalSignup(SignupAttempt signup) {
         UserDAO dao = DAOFactory.getInstance().createUserDAO();
         
@@ -94,6 +114,14 @@ public class AppService {
         return user;
     }
 
+    /**
+     * Receives a SignupAttempt (name, email, password, etc.) and tries to create a new organizer.
+     * This method is used for the signup process of organizers (not regular users).
+     * 
+     * @param signup SignupAttempt with the requester's signup data - name, email, password and organization
+     * @return Organizer the organizer that has been created as a result of the request. If the email is already in
+     * use, null is returned
+     */
     public Organizer attemptOrganizerSignup(SignupAttempt signup) {
         OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
         
@@ -114,6 +142,15 @@ public class AppService {
         // TODO 
     }
 
+    /**
+     * This method is used for new password generation. It receives a LoginAttempt
+     * with the email of the user that wants to recover his/her password, generates a new password 
+     * for that user and updates the data in the database. It also sends an email to the received
+     * email with the new password so that the user can log in. If there is no account in the database
+     * with that same email linked to it, the method does nothing.
+     * 
+     * @param login LoginAttempt with the user's email
+     */
     public void recoverPassword(LoginAttempt login) {
         String email = login.getEmail();
         String newPassword = generatePassword();
