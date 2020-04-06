@@ -19,39 +19,66 @@ public class UserEventsWindow extends JFrame {
     private JPanel titlePanel;
     private JPanel mainPanel;
 
+    private JButton profileCustomBtn;
+
     public UserEventsWindow(Controller controller) {
         super();
         this.controller = controller;
 
         initComponents();
         
-
         this.setResizable(true);
         this.setSize(new Dimension(1600, 900));
         this.setVisible(true);
 
-        // this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     private void initComponents() {
         this.cp = this.getContentPane();
         this.cp.setLayout(new BorderLayout());
 
-        this.titlePanel = new JPanel();
+        this.titlePanel = new JPanel(new BorderLayout());
         this.mainPanel = new JPanel();
 
         // TOP PANEL
         JLabel pageTitle = new JLabel("Your events:");
-        this.titlePanel.add(pageTitle);
+        JPanel title_panel = new JPanel();
+        title_panel.add(pageTitle);
+
+        this.titlePanel.add(title_panel, BorderLayout.CENTER);
+
+        this.profileCustomBtn = new JButton("Customize profile")        ;
+        JPanel profileCustom_panel = new JPanel();
+        profileCustom_panel.add(profileCustomBtn);
+
+        this.titlePanel.add(profileCustom_panel, BorderLayout.EAST);
 
         // MAIN PANEL
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
         for (EventInfo e : this.controller.getUser().getSavedEvents()) {
             this.mainPanel.add(new EventListElement(this, e));
         }
+        this.mainPanel.add(Box.createVerticalGlue());
+
+        JScrollPane scrollPane = new JScrollPane(this.mainPanel, 
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         this.cp.add(this.titlePanel, BorderLayout.NORTH);
-        this.cp.add(this.mainPanel, BorderLayout.CENTER);
+        this.cp.add(scrollPane, BorderLayout.CENTER);
+
+        this.setListeners();
+    }
+
+    private void setListeners() {
+        profileCustomBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new Profile(controller);
+            }
+        });
     }
 
     private class EventListElement extends JPanel {
@@ -88,13 +115,14 @@ public class UserEventsWindow extends JFrame {
             detailsButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //new Profile(window.controller);
                     new EventWindow(window.controller, event);
                     window.dispose();
                 }
             });
 
             this.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
+            this.setPreferredSize(new Dimension(2000, 200));
         }
         
     }

@@ -46,8 +46,17 @@ public class EventWindow extends JFrame {
 
 		JLabel titleLabel = new JLabel("Event: "+this.event.getName());
 		titleLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+
+		JPanel title_panel = new JPanel();
+		title_panel.add(titleLabel);
 		
-		titlePanel.add(titleLabel, BorderLayout.CENTER);
+		titlePanel.add(title_panel, BorderLayout.CENTER);
+
+		backButton = new JButton("Back");
+		JPanel backBtn_panel = new JPanel(new BorderLayout());
+		backBtn_panel.add(backButton, BorderLayout.EAST);
+
+		titlePanel.add(backBtn_panel, BorderLayout.EAST);
 
 		JPanel mainLeftPanel, mainRightPanel;
 		mainLeftPanel = new JPanel(new BorderLayout());
@@ -117,6 +126,18 @@ public class EventWindow extends JFrame {
 
 		cp.add(titlePanel, BorderLayout.NORTH);
 		cp.add(mainPanel, BorderLayout.CENTER);
+	
+		setListeners();
+	}
+
+	private void setListeners() {
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new UserEventsWindow(controller);
+			}
+		});
 	}
 
 }

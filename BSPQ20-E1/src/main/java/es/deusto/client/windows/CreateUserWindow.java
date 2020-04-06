@@ -21,6 +21,7 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 	private JTextField textField_email;
 	private JTextField textField_city;
 	private JButton bCreate;
+	private JButton backButton;
 
 	private Controller controller;
 	
@@ -70,6 +71,11 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 		textField_city.setBounds(133, 205, 175, 22);
 		getContentPane().add(textField_city);
 		textField_city.setColumns(10);
+
+		backButton = new JButton("Back to login");
+		backButton.setBounds(54, 337, 111, 25);
+		getContentPane().add(backButton);
+		backButton.addActionListener(this);
 	}
 	
 	@Override
@@ -88,18 +94,9 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 				String message = "We could not create this account, maybe this email is already in use";
 				JOptionPane.showMessageDialog(this, message, "Could not create account", JOptionPane.ERROR_MESSAGE);
 			}
-		} else {
-			int posY = this.getY();
-			int posX = this.getX();
-			int altura = this.getHeight();
-			int anchura = this.getWidth();
-			LogInWindow p = new LogInWindow(this.controller);
-			p.setVisible(true);
-			p.setSize(anchura, altura);
-			p.setLocation(posX, posY);
-			p.setResizable(false);
-			this.setVisible(false);
+		} else if (boton == backButton) {
 			this.dispose();
+			new LogInWindow(this.controller);
 		}
 	}
 		

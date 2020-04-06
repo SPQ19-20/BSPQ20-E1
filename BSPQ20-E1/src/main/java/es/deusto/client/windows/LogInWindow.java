@@ -67,7 +67,6 @@ public class LogInWindow extends JFrame {
 
 		setListeners();
 
-		// TODO delete, this is just for testing
 		this.setVisible(true);
 		this.setSize(400, 600);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
