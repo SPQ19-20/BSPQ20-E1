@@ -2,29 +2,36 @@ package es.deusto.client.windows;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Cursor;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
 
 import es.deusto.client.controller.Controller;
 
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
+import javax.imageio.ImageIO;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 public class LogInWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	public JTextField id;
-	public JTextField pass;
-	public JButton bCreate;
-	public JButton blogin;
+	public JTextField id, pass;
+	public JButton bCreate, blogin;
 	private JButton bForgottenPass;
-	public JCheckBox cBoxAdmin;
-	public JCheckBox cBox;
+	public JCheckBox cBoxAdmin, cBox;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	private JLabel labelES, labelGB;
 
 	private Controller controller;
 
@@ -36,6 +43,27 @@ public class LogInWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+		ImageIcon icon = null;
+		try {
+			icon = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		labelES = new JLabel(icon);
+		labelES.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		labelES.setBounds(335, 10, icon.getIconWidth(), icon.getIconHeight());
+		getContentPane().add(labelES);
+		ImageIcon icon1 = null;
+		try {
+			icon1 = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		labelGB = new JLabel(icon1);
+		labelGB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		labelGB.setBounds(340+icon.getIconWidth(), 10, icon1.getIconWidth(), icon1.getIconHeight());
+		getContentPane().add(labelGB);
+
 		bCreate = new JButton("New User");
 		bCreate.setBounds(12, 336, 111, 25);
 		getContentPane().add(bCreate);
@@ -44,8 +72,8 @@ public class LogInWindow extends JFrame {
 		blogin.setBounds(235, 336, 111, 25);
 		getContentPane().add(blogin);
 
-		JLabel lblUsuario = new JLabel("User:");
-		lblUsuario.setBounds(44, 95, 79, 16);
+		JLabel lblUsuario = new JLabel("Username:");
+		lblUsuario.setBounds(22, 95, 79, 16);
 		getContentPane().add(lblUsuario);
 
 		textField = new JTextField("");
@@ -112,6 +140,21 @@ public class LogInWindow extends JFrame {
 				dispose();
 			}
 		});
+
+		labelES.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO change language to spanish
+			}
+		});
+
+		labelGB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO change language to english
+			}
+		});
+
 	}
 
 }

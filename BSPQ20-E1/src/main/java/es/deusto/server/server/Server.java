@@ -79,7 +79,7 @@ public class Server {
 	/**
 	 * This method is invoked whenever a POST request is made to the following path:
 	 * /signup . It is used of the signup method of regular users.
-	 * @param signup Signup information of the user (name, email, password and city)
+	 * @param signup Signup information of the user (name, email, password, city and interests)
 	 * @return Response object with the information of the user, in case of correct user registration. 
 	 * If not, an empty response is returned
 	 */

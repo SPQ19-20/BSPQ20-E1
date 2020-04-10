@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
 public class User extends GenericUser {
 	// atributes
-	private String city;
+	private String city, interests;
 	
 	@Join
     @Element(dependent = "false")
@@ -29,7 +29,6 @@ public class User extends GenericUser {
 		this.city = city;
 	}
 
-	
 	public ArrayList<Event> getSavedEvents() {
 		return savedEvents;
 	}
@@ -41,10 +40,16 @@ public class User extends GenericUser {
 	public void addEvent(Event event) {
 		this.savedEvents.add(event);
 	}
+
+	public String getInterests() {
+		return interests;
+	}
+
+	public void setInterests(String interests) { this.interests = interests; }
 	
 	@Override
 	public String toString() {
-		return "User [name= " + getName() +" city=" + city +", Saved Events= " +savedEvents.toString() + "]";
+		return "User [name= " + getName() +" city=" + city +", Saved Events= " +savedEvents.toString() + " interests=[" + getInterests() + "]";
 	}
 	
 }

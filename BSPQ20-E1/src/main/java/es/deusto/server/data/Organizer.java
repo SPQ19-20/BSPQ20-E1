@@ -9,7 +9,7 @@ import javax.jdo.annotations.PersistenceCapable;
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
 public class Organizer extends GenericUser {
 	
-	private String organization;
+	private String organization, interests;
 	// public User(String code, String name) {
 	// 	this.code = code;
 	// 	this.name = name;
@@ -22,6 +22,10 @@ public class Organizer extends GenericUser {
 	public void setOrganization(String organization) {
 		this.organization = organization;
 	}
+
+	public String getInterests() { return interests; }
+
+	public void setInterests(String interests) { this.interests = interests; }
 
 	@Override
 	public String toString() {

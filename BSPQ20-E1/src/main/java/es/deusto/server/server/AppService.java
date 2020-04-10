@@ -210,9 +210,9 @@ public class AppService {
         user.setPassword(password);
         dao.updateUser(user);
         
-        // //Another way if we use password encryption with encrypted password and salt fields
-        // //String salt = "";
-        // //users.update((DBObject) JSON.parse("{'email':'"+ email + "'}"), (DBObject) JSON.parse("{'$set':{'password':'" + password + ",'salt':" + salt + "}}"));
+        // Another way if we use password encryption with encrypted password and salt fields
+        // String salt = "";
+        // users.update((DBObject) JSON.parse("{'email':'"+ email + "'}"), (DBObject) JSON.parse("{'$set':{'password':'" + password + ",'salt':" + salt + "}}"));
     }
 
 

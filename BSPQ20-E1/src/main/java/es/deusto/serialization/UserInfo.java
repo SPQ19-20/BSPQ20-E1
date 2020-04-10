@@ -13,16 +13,16 @@ import es.deusto.server.data.User;
      */
 public class UserInfo {
 
-    private String name, email;
-    private String city;
+    private String name, email, city, interests;
 
     private ArrayList<EventInfo> savedEvents;
 
-    public UserInfo(String name, String email, String city) {
+    public UserInfo(String name, String email, String city, String interests) {
         this.name = name;
         this.email = email;
         this.city = city;
         this.savedEvents = new ArrayList<>();
+        this.interests = interests;
     }
 
     public UserInfo() {
@@ -30,6 +30,7 @@ public class UserInfo {
         this.email = "";
         this.city = "";
         this.savedEvents = new ArrayList<>();
+        this.interests = "";
     }
 
     public UserInfo(User user) {
@@ -40,6 +41,7 @@ public class UserInfo {
         for (Event e: user.getSavedEvents()) {
             this.savedEvents.add(new EventInfo(e));
         }
+        this.interests = user.getInterests();
     }
 
     public String getName() {
@@ -73,5 +75,9 @@ public class UserInfo {
     public void setSavedEvents(ArrayList<EventInfo> savedEvents) {
         this.savedEvents = savedEvents;
     }
+
+    public String getInterests() { return this.interests; }
+
+    public void setInterests(String interests) { this.interests = interests; }
 
 }

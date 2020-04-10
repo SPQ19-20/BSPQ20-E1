@@ -6,9 +6,8 @@ import es.deusto.server.data.User;
 public class SignupAttempt {
 
     // Common atributes (Both normal Users and Organizers have them)
-    private String email;
-    private String password;
-    private String name;
+    private String email, password, name, interests;
+
     
     // Normal user
     private String city;
@@ -22,6 +21,7 @@ public class SignupAttempt {
         this.name = "";
         this.city = "";
         this.organization = "";
+        this.interests = "";
     }
 
     // getters and setters
@@ -65,6 +65,10 @@ public class SignupAttempt {
         this.organization = organization;
     }
 
+    public String getInterests() { return this.interests; }
+
+    public void setInterests(String interests) { this.interests = interests; }
+
 
     /**
      * Builds an instance of the business object {@link User}.
@@ -78,6 +82,7 @@ public class SignupAttempt {
         user.setName(this.name);
         user.setPassword(this.password);
         user.setCity(this.city);
+        user.setInterests(this.interests);
 
         return user;
     }
@@ -93,6 +98,7 @@ public class SignupAttempt {
         organizer.setName(this.name);
         organizer.setPassword(this.password);
         organizer.setOrganization(this.organization);
+        organizer.setInterests(this.interests);
 
         return organizer;
     }

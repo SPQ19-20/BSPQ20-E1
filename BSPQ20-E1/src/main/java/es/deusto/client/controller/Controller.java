@@ -82,14 +82,14 @@ public class Controller {
      * @param city City String taken from the GUI
      * @return true if the signup process was successful, otherwise it returns false
     */
-    public boolean attemptNormalSignup(String email, String password,
-                    String name, String city) {
+    public boolean attemptNormalSignup(String email, String password, String name, String city, String interests) {
         
         SignupAttempt signup = new SignupAttempt();
         signup.setEmail(email);
         signup.setName(name);
         signup.setPassword(password);
         signup.setCity(city);
+        signup.setInterests(interests);
 
         WebTarget donationsWebTarget = webTarget.path("server/signup");
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
