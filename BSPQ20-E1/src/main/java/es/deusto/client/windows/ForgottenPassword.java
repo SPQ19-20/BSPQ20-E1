@@ -26,8 +26,6 @@ public class ForgottenPassword extends JFrame {
 	private JTextField txtxmail;
 	private String code;
 	private Controller controller;
-	
-
 
 	/**
 	 * Create the frame.
@@ -43,34 +41,34 @@ public class ForgottenPassword extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnClose = new JButton("Close");
+		JButton btnClose = new JButton(LogInWindow.localization.getStringById("closeButton"));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Go back to login window
-				new LogInWindow(controller);
+				new LogInWindow(controller, LogInWindow.localization.getLanguage());
 				dispose();
 			}
 		});
-		btnClose.setBounds(27, 232, 85, 21);
+		btnClose.setBounds(27, 232, 100, 21);
 		contentPane.add(btnClose);
 		
-		JLabel lblHaveYouForgotten = new JLabel("Have You Forgotten your Password?");
+		JLabel lblHaveYouForgotten = new JLabel(LogInWindow.localization.getStringById("forgottenPassText"));
 		lblHaveYouForgotten.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblHaveYouForgotten.setBounds(87, 29, 275, 21);
 		contentPane.add(lblHaveYouForgotten);
 		
-		JLabel lblEnterYourMail = new JLabel("Enter your mail here:");
+		JLabel lblEnterYourMail = new JLabel(LogInWindow.localization.getStringById("enterEmailText"));
 		lblEnterYourMail.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblEnterYourMail.setBounds(27, 80, 156, 15);
 		contentPane.add(lblEnterYourMail);
 		
 		txtxmail = new JTextField();
 		txtxmail.setFont(new Font("Tahoma", Font.BOLD, 10));
-		txtxmail.setBounds(265, 79, 96, 19);
+		txtxmail.setBounds(240, 79, 140, 19);
 		contentPane.add(txtxmail);
 		txtxmail.setColumns(10);
 		
-		JButton btnConfirm = new JButton("Confirm");
+		JButton btnConfirm = new JButton(LogInWindow.localization.getStringById("confirmButton"));
 		btnConfirm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -89,7 +87,7 @@ public class ForgottenPassword extends JFrame {
 		});
 		
 			
-		btnConfirm.setBounds(299, 232, 85, 21);
+		btnConfirm.setBounds(279, 232, 100, 21);
 		contentPane.add(btnConfirm);
 
 		this.setSize(450, 400);

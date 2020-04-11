@@ -52,7 +52,7 @@ public class EventWindow extends JFrame {
 		
 		titlePanel.add(title_panel, BorderLayout.CENTER);
 
-		backButton = new JButton("Back");
+		backButton = new JButton(LogInWindow.localization.getStringById("closeButton"));
 		JPanel backBtn_panel = new JPanel(new BorderLayout());
 		backBtn_panel.add(backButton, BorderLayout.EAST);
 
@@ -62,7 +62,7 @@ public class EventWindow extends JFrame {
 		mainLeftPanel = new JPanel(new BorderLayout());
 		mainRightPanel = new JPanel(new GridLayout(2, 1));
 
-		JLabel descriptionLabel_title = new JLabel("Event description:");
+		JLabel descriptionLabel_title = new JLabel(LogInWindow.localization.getStringById("descriptionText"));
 		JLabel descriptionLabel = new JLabel(this.event.getDescription());
 
 		descriptionLabel_title.setFont(fontBold);
@@ -83,7 +83,7 @@ public class EventWindow extends JFrame {
 		mainRightTopPanel = new JPanel(new BorderLayout());
 		mainRightBottomPanel = new JPanel(new BorderLayout());
 
-		JLabel channelLabel_title = new JLabel("Channel: ");
+		JLabel channelLabel_title = new JLabel(LogInWindow.localization.getStringById("categoryLabel"));
 		JLabel channelLabel = new JLabel(this.event.getChannel().getName());
 
 		channelLabel_title.setFont(fontBold);
@@ -101,7 +101,7 @@ public class EventWindow extends JFrame {
 		mainRightTopPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
 
 		JLabel organizerLabel_title, organizerLabel;
-		organizerLabel_title = new JLabel("Event organizer: ");
+		organizerLabel_title = new JLabel(LogInWindow.localization.getStringById("organizerLabel"));
 		organizerLabel = new JLabel(this.event.getOrganizer());
 
 		organizerLabel_title.setFont(fontBold);

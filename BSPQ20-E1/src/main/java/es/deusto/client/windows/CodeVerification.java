@@ -38,12 +38,12 @@ public class CodeVerification extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblPleaseEnterThe = new JLabel("Please Enter The Code Received In Your Email:");
+		JLabel lblPleaseEnterThe = new JLabel(LogInWindow.localization.getStringById("codeText"));
 		lblPleaseEnterThe.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPleaseEnterThe.setBounds(61, 44, 351, 17);
 		contentPane.add(lblPleaseEnterThe);
 		
-		JButton btnBack = new JButton("Back");
+		JButton btnBack = new JButton(LogInWindow.localization.getStringById("closeButton"));
 		btnBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -55,7 +55,7 @@ public class CodeVerification extends JFrame {
 		btnBack.setBounds(43, 218, 85, 21);
 		contentPane.add(btnBack);
 		
-		JButton btnVerify = new JButton("Verify");
+		JButton btnVerify = new JButton(LogInWindow.localization.getStringById("verifyText"));
 		btnVerify.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

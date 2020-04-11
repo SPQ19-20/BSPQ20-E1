@@ -13,7 +13,7 @@ public class Main {
 		Controller c = new Controller("localhost", "8080");
 		// UserEventsWindow w = new UserEventsWindow(c);
 		// new ForgottenPassword(c);
-		LogInWindow login = new LogInWindow(c);
+		LogInWindow login = new LogInWindow(c, "en");
 	}
 
 }

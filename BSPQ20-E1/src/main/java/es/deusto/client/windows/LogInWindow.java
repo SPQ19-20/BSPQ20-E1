@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -32,16 +33,18 @@ public class LogInWindow extends JFrame {
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private JLabel labelES, labelGB;
-
 	private Controller controller;
+	static LanguageLoader localization = null;
 
-	public LogInWindow(Controller controller) {
+	public LogInWindow(Controller controller, String language) {
 		this.controller = controller;
+		localization = new LanguageLoader(language);
 
 		getContentPane().setLayout(null);
 		setTitle("LogIn");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
 
 		ImageIcon icon = null;
 		try {
@@ -64,15 +67,15 @@ public class LogInWindow extends JFrame {
 		labelGB.setBounds(340+icon.getIconWidth(), 10, icon1.getIconWidth(), icon1.getIconHeight());
 		getContentPane().add(labelGB);
 
-		bCreate = new JButton("New User");
-		bCreate.setBounds(12, 336, 111, 25);
+		bCreate = new JButton(localization.getStringById("newUserButton"));
+		bCreate.setBounds(120, 320, 125, 25);
 		getContentPane().add(bCreate);
 
-		blogin = new JButton("LogIn");
-		blogin.setBounds(235, 336, 111, 25);
+		blogin = new JButton(localization.getStringById("loginButton"));
+		blogin.setBounds(120, 220, 125, 25);
 		getContentPane().add(blogin);
 
-		JLabel lblUsuario = new JLabel("Username:");
+		JLabel lblUsuario = new JLabel(localization.getStringById("userLabel"));
 		lblUsuario.setBounds(22, 95, 79, 16);
 		getContentPane().add(lblUsuario);
 
@@ -85,18 +88,18 @@ public class LogInWindow extends JFrame {
 		passwordField.setBounds(97, 133, 160, 22);
 		getContentPane().add(passwordField);
 
-		JLabel lblContrasea = new JLabel("Password:");
+		JLabel lblContrasea = new JLabel(localization.getStringById("passwordLabel"));
 		lblContrasea.setBounds(22, 136, 101, 16);
 		getContentPane().add(lblContrasea);
 
-		bForgottenPass = new JButton("Password recovery");
-		bForgottenPass.setBounds(100, 386, 157, 25);
+		bForgottenPass = new JButton(localization.getStringById("passRecButton"));
+		bForgottenPass.setBounds(80, 365, 200, 25);
 		getContentPane().add(bForgottenPass);
 
 		setListeners();
 
 		this.setVisible(true);
-		this.setSize(400, 600);
+		this.setSize(400, 500);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setResizable(false);
 	}
@@ -107,11 +110,9 @@ public class LogInWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int posY = getY();
 				int posX = getX();
-				int altura = getHeight();
-				int anchura = getWidth();
 				CreateUserWindow p = new CreateUserWindow(controller);
 				p.setVisible(true);
-				p.setSize(anchura, altura);
+				p.setSize(400, 600);
 				p.setLocation(posX, posY);
 				p.setResizable(false);
 				setVisible(false);
@@ -144,14 +145,26 @@ public class LogInWindow extends JFrame {
 		labelES.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO change language to spanish
+				if (localization.getLanguage().equals("en")) {
+					dispose();
+					LogInWindow login = new LogInWindow(controller, "es");
+					login.setVisible(true);
+					login.setSize(400, 500);
+					login.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				}
 			}
 		});
 
 		labelGB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO change language to english
+				if (localization.getLanguage().equals("es")) {
+					dispose();
+					LogInWindow login = new LogInWindow(controller, "en");
+					login.setVisible(true);
+					login.setSize(400, 500);
+					login.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				}
 			}
 		});
 

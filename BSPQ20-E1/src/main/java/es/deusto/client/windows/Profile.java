@@ -36,7 +36,7 @@ public class Profile extends JFrame {
 
         UserInfo userInfo = this.controller.getUser();
 
-        JLabel username = new JLabel("Name:");
+        JLabel username = new JLabel(LogInWindow.localization.getStringById("nameLabel"));
         username.setBounds(40, 50, 80, 16);
         getContentPane().add(username);
 
@@ -45,7 +45,7 @@ public class Profile extends JFrame {
         user.setEditable(false);
         getContentPane().add(user);
 
-        JLabel emailAdd = new JLabel("Email:");
+        JLabel emailAdd = new JLabel(LogInWindow.localization.getStringById("emailLabel"));
         emailAdd.setBounds(40, 100, 80, 20);
         getContentPane().add(emailAdd);
 
@@ -54,7 +54,7 @@ public class Profile extends JFrame {
         email.setEditable(false);
         getContentPane().add(email);
 
-        JLabel cityLabel = new JLabel("City:");
+        JLabel cityLabel = new JLabel(LogInWindow.localization.getStringById("cityLabel"));
         cityLabel.setBounds(40, 150, 80, 20);
         getContentPane().add(cityLabel);
 
@@ -63,52 +63,51 @@ public class Profile extends JFrame {
         city.setEditable(true);
         getContentPane().add(city);
 
-        JLabel interests = new JLabel("Interests:");
+        JLabel interests = new JLabel(LogInWindow.localization.getStringById("interestsLabel"));
         interests.setBounds(40, 200, 80, 20);
         getContentPane().add(interests);
 
-        musicBox = new JCheckBox("Music", userInterests.contains("Music"));
+        musicBox = new JCheckBox(LogInWindow.localization.getStringById("musicCheck"), userInterests.contains("Music"));
         musicBox.setBounds(40, 220, 150, 20);
         getContentPane().add(musicBox);
 
-        cinemaBox = new JCheckBox("Cinema", userInterests.contains("Cinema"));
+        cinemaBox = new JCheckBox(LogInWindow.localization.getStringById("cinemaCheck"), userInterests.contains("Cinema"));
         cinemaBox.setBounds(40, 240, 150, 20);
         getContentPane().add(cinemaBox);
 
-        theaterBox = new JCheckBox("Theater", userInterests.contains("Theater"));
+        theaterBox = new JCheckBox(LogInWindow.localization.getStringById("theaterCheck"), userInterests.contains("Theater"));
         theaterBox.setBounds(40, 260, 150, 20);
         getContentPane().add(theaterBox);
 
-        sportsBox = new JCheckBox("Sports", userInterests.contains("Sports"));
+        sportsBox = new JCheckBox(LogInWindow.localization.getStringById("sportsCheck"), userInterests.contains("Sports"));
         sportsBox.setBounds(40, 280, 150, 20);
         getContentPane().add(sportsBox);
 
-        cultureBox = new JCheckBox("Culture", userInterests.contains("Culture"));
+        cultureBox = new JCheckBox(LogInWindow.localization.getStringById("cultureCheck"), userInterests.contains("Culture"));
         cultureBox.setBounds(40, 300, 150, 20);
         getContentPane().add(cultureBox);
 
-        artBox = new JCheckBox("Arts", userInterests.contains("Arts"));
+        artBox = new JCheckBox(LogInWindow.localization.getStringById("artsCheck"), userInterests.contains("Arts"));
         artBox.setBounds(40, 320, 150, 20);
         getContentPane().add(artBox);
 
-        foodBox = new JCheckBox("Food", userInterests.contains("Food"));
+        foodBox = new JCheckBox(LogInWindow.localization.getStringById("foodCheck"), userInterests.contains("Food"));
         foodBox.setBounds(40, 340, 150, 20);
         getContentPane().add(foodBox);
 
-        festivalsBox = new JCheckBox("Festivals", userInterests.contains("Festivals"));
+        festivalsBox = new JCheckBox(LogInWindow.localization.getStringById("festivalsCheck"), userInterests.contains("Festivals"));
         festivalsBox.setBounds(40, 360, 150, 20);
         getContentPane().add(festivalsBox);
 
-        moreBox = new JCheckBox("More..", userInterests.contains("More.."));
+        moreBox = new JCheckBox(LogInWindow.localization.getStringById("moreCheck"), userInterests.contains("More.."));
         moreBox.setBounds(40, 380, 150, 20);
         getContentPane().add(moreBox);
 
-        saveButton = new JButton("Save changes");
+        saveButton = new JButton(LogInWindow.localization.getStringById("saveButton"));
         saveButton.setBounds(120, 430, 140, 25);
         getContentPane().add(saveButton);
 
         this.setListeners();
-
         this.setVisible(true);
     }
 

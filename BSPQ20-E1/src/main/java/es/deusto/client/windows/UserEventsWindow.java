@@ -14,10 +14,8 @@ public class UserEventsWindow extends JFrame {
     private static final long serialVersionUID = 1L;
 
     private Controller controller;
-    
     private Container cp;
-    private JPanel titlePanel;
-    private JPanel mainPanel;
+    private JPanel titlePanel, mainPanel;
 
     private JButton profileCustomBtn;
 
@@ -42,13 +40,13 @@ public class UserEventsWindow extends JFrame {
         this.mainPanel = new JPanel();
 
         // TOP PANEL
-        JLabel pageTitle = new JLabel("Your events:");
+        JLabel pageTitle = new JLabel(LogInWindow.localization.getStringById("eventsText"));
         JPanel title_panel = new JPanel();
         title_panel.add(pageTitle);
 
         this.titlePanel.add(title_panel, BorderLayout.CENTER);
 
-        this.profileCustomBtn = new JButton("Customize profile")        ;
+        this.profileCustomBtn = new JButton(LogInWindow.localization.getStringById("customizeText"));
         JPanel profileCustom_panel = new JPanel();
         profileCustom_panel.add(profileCustomBtn);
 
@@ -106,7 +104,7 @@ public class UserEventsWindow extends JFrame {
             
             JPanel detailsButtonPanel = new JPanel();
             detailsButtonPanel.setLayout(new BoxLayout(detailsButtonPanel, BoxLayout.Y_AXIS));
-            detailsButton = new JButton("See details");
+            detailsButton = new JButton(LogInWindow.localization.getStringById("detailsText"));
             detailsButtonPanel.add(Box.createVerticalGlue());
             detailsButtonPanel.add(detailsButton);
             detailsButtonPanel.add(Box.createVerticalGlue());
@@ -121,7 +119,6 @@ public class UserEventsWindow extends JFrame {
             });
 
             this.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-
             this.setPreferredSize(new Dimension(2000, 200));
         }
         
