@@ -3,12 +3,12 @@ package es.deusto.server.server;
 import es.deusto.serialization.EventInfo;
 import es.deusto.serialization.LoginAttempt;
 import es.deusto.serialization.SignupAttempt;
-import es.deusto.server.dao.ChannelDAO;
+import es.deusto.server.dao.TopicDAO;
 import es.deusto.server.dao.DAOFactory;
 import es.deusto.server.dao.EventDAO;
 import es.deusto.server.dao.OrganizerDAO;
 import es.deusto.server.dao.UserDAO;
-import es.deusto.server.data.Channel;
+import es.deusto.server.data.Topic;
 import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
 import es.deusto.server.data.User;
@@ -220,7 +220,7 @@ public class AppService {
 
     // method used for manual testing 
     public void hello() {
-        ChannelDAO channelDAO = DAOFactory.getInstance().createChannelDAO();
+        TopicDAO topicDAO = DAOFactory.getInstance().createTopicDAO();
         OrganizerDAO organizerDAO = DAOFactory.getInstance().createOrganizerDAO();
         EventDAO eventDAO = DAOFactory.getInstance().createEventDAO();
         UserDAO userDAO = DAOFactory.getInstance().createUserDAO();
@@ -231,20 +231,20 @@ public class AppService {
         orga.setPassword("1234easy");
         orga.setOrganization("EPC solutions");
 
-        Channel cinema = new Channel();
+        Topic cinema = new Topic();
         cinema.setName("cinema");
         
         Event popcorn = new Event();
         popcorn.setName("Popcorn Party - second edition (PP2)");
         popcorn.setDescription("another popcorn party");
-        popcorn.setChannel(cinema);
+        popcorn.setTopic(cinema);
         popcorn.setOrganizer(orga);
         
             
         User kiraYoshikage = userDAO.getUser("Kira@killerqueen.es");
         kiraYoshikage.addEvent(popcorn);
         
-        channelDAO.storeChannel(cinema);
+        topicDAO.storeTopic(cinema);
         organizerDAO.storeOrganizer(orga);
         eventDAO.storeEvent(popcorn);
         userDAO.storeUser(kiraYoshikage);

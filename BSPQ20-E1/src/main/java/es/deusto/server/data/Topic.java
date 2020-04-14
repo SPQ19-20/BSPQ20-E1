@@ -7,7 +7,7 @@ import javax.jdo.annotations.PersistenceCapable;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
-public class Channel {
+public class Topic {
 
 	//a ID is created automatically
 	private String name;	
@@ -26,7 +26,7 @@ public class Channel {
 
 	@Override
 	public String toString() {
-		return "Channel [name=" + name + "]";
+		return name;
 	}
 	
 }

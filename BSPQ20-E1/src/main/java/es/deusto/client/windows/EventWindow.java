@@ -83,20 +83,20 @@ public class EventWindow extends JFrame {
 		mainRightTopPanel = new JPanel(new BorderLayout());
 		mainRightBottomPanel = new JPanel(new BorderLayout());
 
-		JLabel channelLabel_title = new JLabel(LogInWindow.localization.getStringById("categoryLabel"));
-		JLabel channelLabel = new JLabel(this.event.getChannel().getName());
+		JLabel topicLabel_title = new JLabel(LogInWindow.localization.getStringById("categoryLabel"));
+		JLabel topicLabel = new JLabel(this.event.getTopic().getName());
 
-		channelLabel_title.setFont(fontBold);
-		channelLabel.setFont(font);
+		topicLabel_title.setFont(fontBold);
+		topicLabel.setFont(font);
 
-		JPanel channelTitle_panel = new JPanel();
-		channelTitle_panel.add(channelLabel_title);
+		JPanel topicTitle_panel = new JPanel();
+		topicTitle_panel.add(topicLabel_title);
 
-		JPanel channel_panel = new JPanel();
-		channel_panel.add(channelLabel);
+		JPanel topic_panel = new JPanel();
+		topic_panel.add(topicLabel);
 
-		mainRightTopPanel.add(channelTitle_panel, BorderLayout.NORTH);
-		mainRightTopPanel.add(channel_panel, BorderLayout.CENTER);
+		mainRightTopPanel.add(topicTitle_panel, BorderLayout.NORTH);
+		mainRightTopPanel.add(topic_panel, BorderLayout.CENTER);
 
 		mainRightTopPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
 

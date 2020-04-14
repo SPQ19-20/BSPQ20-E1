@@ -2,6 +2,8 @@ package es.deusto.client.controller;
 
 import es.deusto.serialization.*;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -82,7 +84,7 @@ public class Controller {
      * @param city City String taken from the GUI
      * @return true if the signup process was successful, otherwise it returns false
     */
-    public boolean attemptNormalSignup(String email, String password, String name, String city, String interests) {
+    public boolean attemptNormalSignup(String email, String password, String name, String city, ArrayList<TopicInfo>interests) {
         
         SignupAttempt signup = new SignupAttempt();
         signup.setEmail(email);

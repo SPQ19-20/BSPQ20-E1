@@ -3,6 +3,7 @@ package es.deusto.serialization;
 import java.util.ArrayList;
 
 import es.deusto.server.data.Event;
+import es.deusto.server.data.Topic;
 import es.deusto.server.data.User;
     /**
      * All the ...Info classes work as a middleman for the client and server bussines objects.
@@ -13,16 +14,16 @@ import es.deusto.server.data.User;
      */
 public class UserInfo {
 
-    private String name, email, city, interests;
-
+    private String name, email, city;
+    private ArrayList<TopicInfo> interests;
     private ArrayList<EventInfo> savedEvents;
 
-    public UserInfo(String name, String email, String city, String interests) {
+    public UserInfo(String name, String email, String city) {
         this.name = name;
         this.email = email;
         this.city = city;
         this.savedEvents = new ArrayList<>();
-        this.interests = interests;
+        this.interests = new ArrayList<TopicInfo>();
     }
 
     public UserInfo() {
@@ -30,7 +31,7 @@ public class UserInfo {
         this.email = "";
         this.city = "";
         this.savedEvents = new ArrayList<>();
-        this.interests = "";
+        this.interests = new ArrayList<TopicInfo>();
     }
 
     public UserInfo(User user) {
@@ -41,7 +42,12 @@ public class UserInfo {
         for (Event e: user.getSavedEvents()) {
             this.savedEvents.add(new EventInfo(e));
         }
-        this.interests = user.getInterests();
+
+        //change the list of Topic.java of User.java for a list of TopicInfo.java
+        this.interests = new ArrayList<>();
+        for (Topic interest : user.getInterests()) {
+            this.interests.add(new TopicInfo(interest));
+        }
     }
 
     public String getName() {
@@ -76,8 +82,15 @@ public class UserInfo {
         this.savedEvents = savedEvents;
     }
 
-    public String getInterests() { return this.interests; }
+    public ArrayList<TopicInfo> getInterests() { 
+        return this.interests;
+     }
 
-    public void setInterests(String interests) { this.interests = interests; }
+    public void setInterests(ArrayList<TopicInfo> interests) { 
+        this.interests = interests;
+     }
+     public void addInterest(TopicInfo interest) { 
+        this.interests.add(interest);
+     }
 
 }

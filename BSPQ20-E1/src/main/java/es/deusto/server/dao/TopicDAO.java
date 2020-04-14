@@ -6,32 +6,32 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 
-import es.deusto.server.data.Channel;
+import es.deusto.server.data.Topic;
 
-public class ChannelDAO {
+public class TopicDAO {
 
     private PersistenceManagerFactory pmf;
 	
-	protected ChannelDAO() {
+	protected TopicDAO() {
 		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
     }
     
-    public Channel getChannel(String name) {
+    public Topic getTopic(String name) {
         PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
 		
 		Transaction tx = pm.currentTransaction();
 		
-		Channel channel = null;
+		Topic topic = null;
 		
 		try {
 			tx.begin();
 			
-			Extent<Channel> extent = pm.getExtent(Channel.class, true);
-			for (Channel u : extent) {
+			Extent<Topic> extent = pm.getExtent(Topic.class, true);
+			for (Topic u : extent) {
 				if (u.getName().equals(name)) {
-					channel = u;
+					topic = u;
 					break;
 				}
 			}
@@ -47,10 +47,10 @@ public class ChannelDAO {
 			pm.close();
 		}
 		
-		return channel;
+		return topic;
     }
 
-	public void storeChannel(Channel channel) {
+	public void storeTopic(Topic topic) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
@@ -58,7 +58,7 @@ public class ChannelDAO {
 		try {
 			tx.begin();
 			
-			pm.makePersistent(channel);
+			pm.makePersistent(topic);
 			
 			tx.commit();
 		} catch (Exception e) {
@@ -72,8 +72,8 @@ public class ChannelDAO {
 		}
     }
     
-    public void updateChannel(Channel channel) {
-		storeChannel(channel);
+    public void updateTopic(Topic topic) {
+		storeTopic(topic);
 	}
 
 }

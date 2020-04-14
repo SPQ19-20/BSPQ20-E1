@@ -56,11 +56,11 @@ public class EventDAO {
 	}
 	
 	/**
-	 * Retrieves List of events from the database given the Channel name.
-	 * @param channel name of the channel
+	 * Retrieves List of events from the database given the Topic name.
+	 * @param topic name of the topic
 	 * @return list of events from the database
 	 */
-    public ArrayList<Event> getEventsbyChannel(String channel) {
+    public ArrayList<Event> getEventsbyTopic(String topic) {
         PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
@@ -74,7 +74,7 @@ public class EventDAO {
 			
 			Extent<Event> extent = pm.getExtent(Event.class, true);
 			for (Event u : extent) {
-				if (u.getChannel().getName().contains(channel)){
+				if (u.getTopic().getName().contains(topic)){
 					event.add(u); //adds the event to the list.
 				}else{
 					System.out.println("no events found with given name");

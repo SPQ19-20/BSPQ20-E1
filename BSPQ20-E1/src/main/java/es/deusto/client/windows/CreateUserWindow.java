@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,6 +13,8 @@ import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 
 import es.deusto.client.controller.Controller;
+import es.deusto.serialization.TopicInfo;
+import es.deusto.server.data.Topic;
 
 public class CreateUserWindow extends JFrame implements ActionListener{
 
@@ -124,16 +127,16 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 			String password = this.textField_password.getText();
 			String name = this.textField_username.getText();
 			String city = this.textField_city.getText();
-			String interests = "";
-			if (musicBox.isSelected()) interests += "Music ";
-			if (theaterBox.isSelected()) interests += "Theater ";
-			if (cinemaBox.isSelected()) interests += "Cinema ";
-			if (sportsBox.isSelected()) interests += "Sports ";
-			if (artBox.isSelected()) interests += "Arts ";
-			if (cultureBox.isSelected()) interests += "Culture ";
-			if (foodBox.isSelected()) interests += "Food ";
-			if (festivalsBox.isSelected()) interests += "Festival ";
-			if (moreBox.isSelected()) interests += "More ";
+			ArrayList<TopicInfo> interests = new ArrayList<>();
+			if (musicBox.isSelected()) interests.add(new TopicInfo("Music"));
+			if (theaterBox.isSelected()) interests.add(new TopicInfo("Theater"));
+			if (cinemaBox.isSelected()) interests.add(new TopicInfo("Cinema"));
+			if (sportsBox.isSelected()) interests.add(new TopicInfo("Sports"));
+			if (artBox.isSelected()) interests.add(new TopicInfo("Art"));
+			if (cultureBox.isSelected()) interests.add(new TopicInfo("Culture"));
+			if (foodBox.isSelected()) interests.add(new TopicInfo("Food"));
+			if (festivalsBox.isSelected()) interests.add(new TopicInfo("Festival"));
+			if (moreBox.isSelected()) interests.add(new TopicInfo("More"));
 			if (this.controller.attemptNormalSignup(email, password, name, city, interests)) {
 				new UserEventsWindow(this.controller);
 				this.dispose();

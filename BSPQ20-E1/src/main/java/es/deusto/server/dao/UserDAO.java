@@ -71,9 +71,8 @@ public class UserDAO {
 			pm.close();
 		}
     }
-    
+	
     public void updateUser(User user) {
 		storeUser(user);
 	}
-
 }

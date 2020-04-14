@@ -42,6 +42,8 @@ public abstract class GenericUser {
 		this.password = password;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "GenericUser [id=" + id + ", name=" + name + "]";

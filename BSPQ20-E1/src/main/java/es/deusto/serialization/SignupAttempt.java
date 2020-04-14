@@ -1,12 +1,15 @@
 package es.deusto.serialization;
 
+import java.util.ArrayList;
+
 import es.deusto.server.data.Organizer;
 import es.deusto.server.data.User;
 
 public class SignupAttempt {
 
     // Common atributes (Both normal Users and Organizers have them)
-    private String email, password, name, interests;
+    private String email, password, name;
+    private ArrayList<TopicInfo> interests;
 
     
     // Normal user
@@ -21,7 +24,7 @@ public class SignupAttempt {
         this.name = "";
         this.city = "";
         this.organization = "";
-        this.interests = "";
+        this.interests = new ArrayList<TopicInfo>(); //the signup works with the objects of its own package
     }
 
     // getters and setters
@@ -65,9 +68,13 @@ public class SignupAttempt {
         this.organization = organization;
     }
 
-    public String getInterests() { return this.interests; }
+    public ArrayList<TopicInfo> getInterests() { 
+        return this.interests; 
+    }
 
-    public void setInterests(String interests) { this.interests = interests; }
+    public void setInterests(ArrayList<TopicInfo> interests) {
+         this.interests = interests; 
+    }
 
 
     /**
@@ -82,8 +89,12 @@ public class SignupAttempt {
         user.setName(this.name);
         user.setPassword(this.password);
         user.setCity(this.city);
-        user.setInterests(this.interests);
-
+        // DOUBT!! maybe we need to create the Arraylist<Topic> first
+        //if the following line of code is uncommented please add the import for TOPIC !
+        //user.setInterests(new ArrayList<>());
+        for (TopicInfo interest : interests) {
+            user.addInterest(TopicInfo.parseTopic(interest));
+        }
         return user;
     }
     /**
@@ -98,7 +109,7 @@ public class SignupAttempt {
         organizer.setName(this.name);
         organizer.setPassword(this.password);
         organizer.setOrganization(this.organization);
-        organizer.setInterests(this.interests);
+       // organizer.setInterests(this.interests);
 
         return organizer;
     }

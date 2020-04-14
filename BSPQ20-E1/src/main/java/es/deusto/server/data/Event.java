@@ -13,7 +13,7 @@ public class Event{
 	private String description;
 	
 	@Persistent(defaultFetchGroup="true")
-	private Channel channel;
+	private Topic topic;
 	
 	@Persistent(defaultFetchGroup="true")
 	private Organizer organizer; 
@@ -38,12 +38,12 @@ public class Event{
 		this.description = desc;
 	}
 
-	public Channel getChannel() {
-		return channel;
+	public Topic getTopic() {
+		return topic;
 	}
 
-	public void setChannel(Channel channel) {
-		this.channel = channel;
+	public void setTopic(Topic topic) {
+		this.topic = topic;
 	}
 	
 	public Organizer getOrganizer() {
@@ -55,7 +55,7 @@ public class Event{
 	}
 	@Override
 	public String toString() {
-		return "Event [ name=" + name + ", description= "+ description +", channel= "+ channel.toString() +", organizer= "+ organizer + "]";
+		return "Event [ name=" + name + ", description= "+ description +", Topic= "+ topic.getName() +", organizer= "+ organizer + "]";
 	}
 	
 }

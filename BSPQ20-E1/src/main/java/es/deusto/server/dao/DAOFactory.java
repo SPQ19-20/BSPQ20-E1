@@ -22,7 +22,7 @@ public class DAOFactory {
         return new EventDAO();
     }
 
-    public ChannelDAO createChannelDAO() {
-        return new ChannelDAO();
+    public TopicDAO createTopicDAO() {
+        return new TopicDAO();
     }
 }

@@ -14,13 +14,18 @@ import java.util.ArrayList;
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
 public class User extends GenericUser {
 	// atributes
-	private String city, interests;
+	private String city;
 	
 	@Join
     @Element(dependent = "false")
     @Persistent(defaultFetchGroup="true")
-	private ArrayList<Event> savedEvents= new ArrayList<Event>();	
-
+	private ArrayList<Event> savedEvents= new ArrayList<Event>();
+		
+	@Join
+    @Element(dependent = "false")
+    @Persistent(defaultFetchGroup="true")
+	private ArrayList<Topic> interests = new ArrayList<>();
+	
 	public String getCity() {
 		return city;
 	}
@@ -40,16 +45,21 @@ public class User extends GenericUser {
 	public void addEvent(Event event) {
 		this.savedEvents.add(event);
 	}
-
-	public String getInterests() {
-		return interests;
+	public ArrayList<Topic> getInterests() { 
+		return interests; 
 	}
 
-	public void setInterests(String interests) { this.interests = interests; }
-	
+	public void setInterests(ArrayList<Topic> topics) {
+		 this.interests = topics; 
+	}
+
+	public void addInterest(Topic topic) {
+		this.interests.add(topic); 
+   }  
+
 	@Override
 	public String toString() {
-		return "User [name= " + getName() +" city=" + city +", Saved Events= " +savedEvents.toString() + " interests=[" + getInterests() + "]";
+		return "User [name= " + getName() +" city=" + city +", Saved Events= " +savedEvents.toString() + " interests= " + interests.toString()+ "]";
 	}
 	
 }

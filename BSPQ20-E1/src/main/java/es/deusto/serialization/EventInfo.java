@@ -6,20 +6,20 @@ public class EventInfo {
 
     private String name;
 	private String description;
-	private ChannelInfo channel;
+	private TopicInfo topic;
     private String organizer; 
     
     public EventInfo() {
         this.name = "";
         this.description = "";
-        this.channel = null;
+        this.topic = null;
         this.organizer = null;
     }
 
     public EventInfo(Event e) {
         this.name = e.getName();
         this.description = e.getDescription();
-        this.channel = new ChannelInfo(e.getChannel());
+        this.topic = new TopicInfo(e.getTopic());
         this.organizer = e.getOrganizer().getName();
     }
 
@@ -39,12 +39,12 @@ public class EventInfo {
         this.description = description;
     } 
 
-    public ChannelInfo getChannel() {
-        return this.channel;
+    public TopicInfo getTopic() {
+        return this.topic;
     }
 
-    public void setChannel(ChannelInfo channel) {
-        this.channel = channel;
+    public void setTopic(TopicInfo topic) {
+        this.topic = topic;
     }
 
     public String getOrganizer() {
