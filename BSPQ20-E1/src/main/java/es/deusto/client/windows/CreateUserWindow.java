@@ -24,14 +24,16 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 	private JCheckBox musicBox, theaterBox, cinemaBox, sportsBox, artBox, cultureBox, foodBox, festivalsBox, moreBox;
 
 	private Controller controller;
+	private LanguageManager langManager;
 	
 	public CreateUserWindow(Controller controller) {
 		this.controller = controller;
+		this.langManager = controller.getLanguageManager();
 
 		getContentPane().setLayout(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		JLabel lblUsername = new JLabel(LogInWindow.localization.getStringById("userLabel"));
+		JLabel lblUsername = new JLabel(langManager.getString("userLabel"));
 		lblUsername.setBounds(54, 61, 119, 16);
 		getContentPane().add(lblUsername);
 
@@ -40,7 +42,7 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 		getContentPane().add(textField_username);
 		textField_username.setColumns(10);
 
-		JLabel lblPassword = new JLabel(LogInWindow.localization.getStringById("passwordLabel"));
+		JLabel lblPassword = new JLabel(langManager.getString("passwordLabel"));
 		lblPassword.setBounds(54, 110, 119, 16);
 		getContentPane().add(lblPassword);
 
@@ -49,7 +51,7 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 		getContentPane().add(textField_password);
 		textField_password.setColumns(10);
 
-		JLabel lblMail = new JLabel(LogInWindow.localization.getStringById("emailLabel"));
+		JLabel lblMail = new JLabel(langManager.getString("emailLabel"));
 		lblMail.setBounds(54, 159, 119, 16);
 		getContentPane().add(lblMail);
 
@@ -58,7 +60,7 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 		getContentPane().add(textField_email);
 		textField_email.setColumns(10);
 
-		JLabel lblCity = new JLabel(LogInWindow.localization.getStringById("cityLabel"));
+		JLabel lblCity = new JLabel(langManager.getString("cityLabel"));
 		lblCity.setBounds(54, 208, 119, 16);
 		getContentPane().add(lblCity);
 
@@ -67,52 +69,52 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 		getContentPane().add(textField_city);
 		textField_city.setColumns(10);
 
-		JLabel interests = new JLabel(LogInWindow.localization.getStringById("interestsLabel"));
+		JLabel interests = new JLabel(langManager.getString("interestsLabel"));
 		interests.setBounds(54, 254, 80, 20);
 		getContentPane().add(interests);
 
-		musicBox = new JCheckBox(LogInWindow.localization.getStringById("musicCheck"));
+		musicBox = new JCheckBox(langManager.getString("musicCheck"));
 		musicBox.setBounds(54, 274, 150, 20);
 		getContentPane().add(musicBox);
 
-		cinemaBox = new JCheckBox(LogInWindow.localization.getStringById("cinemaCheck"));
+		cinemaBox = new JCheckBox(langManager.getString("cinemaCheck"));
 		cinemaBox.setBounds(54, 294, 150, 20);
 		getContentPane().add(cinemaBox);
 
-		theaterBox = new JCheckBox(LogInWindow.localization.getStringById("theaterCheck"));
+		theaterBox = new JCheckBox(langManager.getString("theaterCheck"));
 		theaterBox.setBounds(54, 314, 150, 20);
 		getContentPane().add(theaterBox);
 
-		sportsBox = new JCheckBox(LogInWindow.localization.getStringById("sportsCheck"));
+		sportsBox = new JCheckBox(langManager.getString("sportsCheck"));
 		sportsBox.setBounds(54, 334, 150, 20);
 		getContentPane().add(sportsBox);
 
-		cultureBox = new JCheckBox(LogInWindow.localization.getStringById("cultureCheck"));
+		cultureBox = new JCheckBox(langManager.getString("cultureCheck"));
 		cultureBox.setBounds(54, 354, 150, 20);
 		getContentPane().add(cultureBox);
 
-		artBox = new JCheckBox(LogInWindow.localization.getStringById("artsCheck"));
+		artBox = new JCheckBox(langManager.getString("artsCheck"));
 		artBox.setBounds(54, 374, 150, 20);
 		getContentPane().add(artBox);
 
-		foodBox = new JCheckBox(LogInWindow.localization.getStringById("foodCheck"));
+		foodBox = new JCheckBox(langManager.getString("foodCheck"));
 		foodBox.setBounds(54, 394, 150, 20);
 		getContentPane().add(foodBox);
 
-		festivalsBox = new JCheckBox(LogInWindow.localization.getStringById("festivalsCheck"));
+		festivalsBox = new JCheckBox(langManager.getString("festivalsCheck"));
 		festivalsBox.setBounds(54, 414, 150, 20);
 		getContentPane().add(festivalsBox);
 
-		moreBox = new JCheckBox(LogInWindow.localization.getStringById("moreCheck"));
+		moreBox = new JCheckBox(langManager.getString("moreCheck"));
 		moreBox.setBounds(54, 434, 150, 20);
 		getContentPane().add(moreBox);
 
-		bCreate = new JButton(LogInWindow.localization.getStringById("createUserButton"));
+		bCreate = new JButton(langManager.getString("createUserButton"));
 		bCreate.setBounds(214, 494, 150, 25);
 		getContentPane().add(bCreate);
 		bCreate.addActionListener(this);
 
-		backButton = new JButton(LogInWindow.localization.getStringById("backToLogButton"));
+		backButton = new JButton(langManager.getString("backToLogButton"));
 		backButton.setBounds(30, 494, 150, 25);
 		getContentPane().add(backButton);
 		backButton.addActionListener(this);
@@ -141,12 +143,12 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 				new UserEventsWindow(this.controller);
 				this.dispose();
 			} else {
-				String message = LogInWindow.localization.getStringById("error1Text");
-				JOptionPane.showMessageDialog(this, message, LogInWindow.localization.getStringById("error2Text"), JOptionPane.ERROR_MESSAGE);
+				String message = langManager.getString("error1Text");
+				JOptionPane.showMessageDialog(this, message, langManager.getString("error2Text"), JOptionPane.ERROR_MESSAGE);
 			}
 		} else if (boton == backButton) {
 			this.dispose();
-			new LogInWindow(this.controller, LogInWindow.localization.getLanguage());
+			new LogInWindow(this.controller);
 		}
 	}
 

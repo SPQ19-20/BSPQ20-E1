@@ -1,5 +1,6 @@
 package es.deusto.client.controller;
 
+import es.deusto.client.windows.LanguageManager;
 import es.deusto.serialization.*;
 
 import java.util.ArrayList;
@@ -28,7 +29,9 @@ public class Controller {
     private UserInfo user;
 
     private Client client;
-	private WebTarget webTarget;
+    private WebTarget webTarget;
+    
+    private LanguageManager langManager;
 
     /**
      * Constructor
@@ -37,7 +40,8 @@ public class Controller {
      */
     public Controller(String hostname, String port) {
         client = ClientBuilder.newClient();
-		webTarget = client.target(String.format("http://%s:%s/rest", hostname, port));
+        webTarget = client.target(String.format("http://%s:%s/rest", hostname, port));
+        langManager = new LanguageManager();
     }
 
     public UserInfo getUser() {
@@ -110,6 +114,10 @@ public class Controller {
         }
 
         return false;
+    }
+
+    public LanguageManager getLanguageManager() {
+        return this.langManager;
     }
 
 }

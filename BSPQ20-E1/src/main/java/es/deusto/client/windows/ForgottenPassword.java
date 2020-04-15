@@ -1,6 +1,4 @@
 package es.deusto.client.windows;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,8 +9,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import es.deusto.client.controller.Controller;
 
@@ -25,7 +21,9 @@ public class ForgottenPassword extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtxmail;
 	private String code;
+	
 	private Controller controller;
+	private LanguageManager langManager;
 
 	/**
 	 * Create the frame.
@@ -33,6 +31,8 @@ public class ForgottenPassword extends JFrame {
 	public ForgottenPassword(Controller controller) {
 		this.setVisible(true);
 		this.controller = controller;
+		this.langManager = controller.getLanguageManager();
+
 		code = "";
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -41,23 +41,23 @@ public class ForgottenPassword extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnClose = new JButton(LogInWindow.localization.getStringById("closeButton"));
+		JButton btnClose = new JButton(langManager.getString("closeButton"));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Go back to login window
-				new LogInWindow(controller, LogInWindow.localization.getLanguage());
+				new LogInWindow(controller);
 				dispose();
 			}
 		});
 		btnClose.setBounds(27, 232, 100, 21);
 		contentPane.add(btnClose);
 		
-		JLabel lblHaveYouForgotten = new JLabel(LogInWindow.localization.getStringById("forgottenPassText"));
+		JLabel lblHaveYouForgotten = new JLabel(langManager.getString("forgottenPassText"));
 		lblHaveYouForgotten.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblHaveYouForgotten.setBounds(87, 29, 275, 21);
 		contentPane.add(lblHaveYouForgotten);
 		
-		JLabel lblEnterYourMail = new JLabel(LogInWindow.localization.getStringById("enterEmailText"));
+		JLabel lblEnterYourMail = new JLabel(langManager.getString("enterEmailText"));
 		lblEnterYourMail.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblEnterYourMail.setBounds(27, 80, 156, 15);
 		contentPane.add(lblEnterYourMail);
@@ -68,7 +68,7 @@ public class ForgottenPassword extends JFrame {
 		contentPane.add(txtxmail);
 		txtxmail.setColumns(10);
 		
-		JButton btnConfirm = new JButton(LogInWindow.localization.getStringById("confirmButton"));
+		JButton btnConfirm = new JButton(langManager.getString("confirmButton"));
 		btnConfirm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

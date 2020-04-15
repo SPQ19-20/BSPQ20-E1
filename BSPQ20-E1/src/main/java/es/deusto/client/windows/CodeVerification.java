@@ -1,8 +1,5 @@
 package es.deusto.client.windows;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -21,7 +18,9 @@ public class CodeVerification extends JFrame {
 	private String code;
 	private String mail;
 	private JTextField txtcode;
+	
 	private Controller controller;
+	private LanguageManager langManager;
 
 	/**
 	 * Create the frame.
@@ -29,6 +28,8 @@ public class CodeVerification extends JFrame {
 	public CodeVerification(String code, Controller controller) {
 		this.setVisible(true);
 		this.controller = controller;
+		this.langManager = controller.getLanguageManager();
+
 		this.code = code;
 		this.mail = mail;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,12 +39,12 @@ public class CodeVerification extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblPleaseEnterThe = new JLabel(LogInWindow.localization.getStringById("codeText"));
+		JLabel lblPleaseEnterThe = new JLabel(langManager.getString("codeText"));
 		lblPleaseEnterThe.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPleaseEnterThe.setBounds(61, 44, 351, 17);
 		contentPane.add(lblPleaseEnterThe);
 		
-		JButton btnBack = new JButton(LogInWindow.localization.getStringById("closeButton"));
+		JButton btnBack = new JButton(langManager.getString("closeButton"));
 		btnBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -55,7 +56,7 @@ public class CodeVerification extends JFrame {
 		btnBack.setBounds(43, 218, 85, 21);
 		contentPane.add(btnBack);
 		
-		JButton btnVerify = new JButton(LogInWindow.localization.getStringById("verifyText"));
+		JButton btnVerify = new JButton(langManager.getString("verifyText"));
 		btnVerify.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

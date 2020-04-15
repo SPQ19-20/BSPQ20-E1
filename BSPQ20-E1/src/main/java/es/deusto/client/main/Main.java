@@ -11,9 +11,7 @@ public class Main {
 
 	public static void main(String[] args) throws ClassNotFoundException {
 		Controller c = new Controller("localhost", "8080");
-		// UserEventsWindow w = new UserEventsWindow(c);
-		// new ForgottenPassword(c);
-		LogInWindow login = new LogInWindow(c, "en");
+		new LogInWindow(c);
 	}
 
 }

@@ -17,11 +17,13 @@ public class EventWindow extends JFrame {
 
 	private EventInfo event;
 	private Controller controller;
+	private LanguageManager langManager;
 
 	public EventWindow(Controller controller, EventInfo e) {
 		super();
 
 		this.controller = controller;
+		this.langManager = controller.getLanguageManager();
 		this.event = e;
 
 		initComponents();
@@ -52,7 +54,7 @@ public class EventWindow extends JFrame {
 		
 		titlePanel.add(title_panel, BorderLayout.CENTER);
 
-		backButton = new JButton(LogInWindow.localization.getStringById("closeButton"));
+		backButton = new JButton(langManager.getString("closeButton"));
 		JPanel backBtn_panel = new JPanel(new BorderLayout());
 		backBtn_panel.add(backButton, BorderLayout.EAST);
 
@@ -62,7 +64,7 @@ public class EventWindow extends JFrame {
 		mainLeftPanel = new JPanel(new BorderLayout());
 		mainRightPanel = new JPanel(new GridLayout(2, 1));
 
-		JLabel descriptionLabel_title = new JLabel(LogInWindow.localization.getStringById("descriptionText"));
+		JLabel descriptionLabel_title = new JLabel(langManager.getString("descriptionText"));
 		JLabel descriptionLabel = new JLabel(this.event.getDescription());
 
 		descriptionLabel_title.setFont(fontBold);
@@ -83,7 +85,7 @@ public class EventWindow extends JFrame {
 		mainRightTopPanel = new JPanel(new BorderLayout());
 		mainRightBottomPanel = new JPanel(new BorderLayout());
 
-		JLabel topicLabel_title = new JLabel(LogInWindow.localization.getStringById("categoryLabel"));
+		JLabel topicLabel_title = new JLabel(langManager.getString("categoryLabel"));
 		JLabel topicLabel = new JLabel(this.event.getTopic().getName());
 
 		topicLabel_title.setFont(fontBold);
@@ -101,7 +103,7 @@ public class EventWindow extends JFrame {
 		mainRightTopPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
 
 		JLabel organizerLabel_title, organizerLabel;
-		organizerLabel_title = new JLabel(LogInWindow.localization.getStringById("organizerLabel"));
+		organizerLabel_title = new JLabel(langManager.getString("organizerLabel"));
 		organizerLabel = new JLabel(this.event.getOrganizer());
 
 		organizerLabel_title.setFont(fontBold);
