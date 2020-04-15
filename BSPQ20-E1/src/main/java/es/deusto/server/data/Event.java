@@ -5,6 +5,9 @@ import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import es.deusto.serialization.EventInfo;
+import es.deusto.server.dao.DAOFactory;
+
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
 public class Event{
@@ -21,6 +24,13 @@ public class Event{
 	// 	this.code = code;
 	// 	this.name = name;
 	// }
+
+	public Event(EventInfo info) {
+		this.name = info.getName();
+		this.description = info.getDescription();
+		this.topic = new Topic(info.getTopic());
+		this.organizer = DAOFactory.getInstance().createOrganizerDAO().getOrganizer(info.getOrganizer());
+	}
 
 	public String getName() {
 		return name;

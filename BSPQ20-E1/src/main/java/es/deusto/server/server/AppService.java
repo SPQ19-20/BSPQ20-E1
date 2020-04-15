@@ -139,7 +139,12 @@ public class AppService {
     }
 
     public void createEvent(EventInfo eventInfo) {
-        // TODO 
+        Event e = new Event(eventInfo);
+        DAOFactory.getInstance().createEventDAO().storeEvent(e);
+        // TODO add the new event to the organizer's event list
+        
+        // Organizer o = e.getOrganizer();
+        // DAOFactory.getInstance().createOrganizerDAO().updateOrganizer(o);
     }
 
     /**
