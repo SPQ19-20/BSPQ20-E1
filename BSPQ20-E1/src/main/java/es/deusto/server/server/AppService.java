@@ -3,6 +3,7 @@ package es.deusto.server.server;
 import es.deusto.serialization.EventInfo;
 import es.deusto.serialization.LoginAttempt;
 import es.deusto.serialization.SignupAttempt;
+import es.deusto.serialization.UserInfo;
 import es.deusto.server.dao.TopicDAO;
 import es.deusto.server.dao.DAOFactory;
 import es.deusto.server.dao.EventDAO;
@@ -141,12 +142,7 @@ public class AppService {
 
     public void createEvent(EventInfo eventInfo) {
         Event e = new Event(eventInfo);
-        // DAOFactory.getInstance().createEventDAO().storeEvent(e);
-        // TODO add the new event to the organizer's event list
-        
-        Organizer o = e.getOrganizer();//DAOFactory.getInstance().createOrganizerDAO().getOrganizer(eventInfo.getOrganizer());//e.getOrganizer();
-        o.addCreatedEvent(e);
-        DAOFactory.getInstance().createOrganizerDAO().updateOrganizer(o);
+        DAOFactory.getInstance().createEventDAO().storeEvent(e);
     }
 
     /**
@@ -248,13 +244,24 @@ public class AppService {
         popcorn.setOrganizer(orga);
         
             
-        User kiraYoshikage = userDAO.getUser("Kira@killerqueen.es");
-        kiraYoshikage.addEvent(popcorn);
+        // User kiraYoshikage = userDAO.getUser("Kira@killerqueen.es");
+        // kiraYoshikage.addEvent(popcorn);
         
         topicDAO.storeTopic(cinema);
         organizerDAO.storeOrganizer(orga);
         eventDAO.storeEvent(popcorn);
-        userDAO.storeUser(kiraYoshikage);
+        // userDAO.storeUser(kiraYoshikage);
+    }
+
+	public void updateUser() {
+        UserDAO udao = DAOFactory.getInstance().createUserDAO();
+        EventDAO edao = DAOFactory.getInstance().createEventDAO();
+        User user = udao.getUser("john@money.com");
+        Event event = edao.getEvents("Popcorn Party - second edition (PP2)").get(0);
+        user.addEvent(event);
+        udao.updateUser(user);
+        // user.setName("PLEAAASE");
+        // dao.updateUser(user);
     }
 
 }

@@ -140,7 +140,7 @@ public class Server {
 	@Path("/createEvent")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createEvent(EventInfo eventInfo) {
-		appService.createEvent(eventInfo); // TODO not implemented in AppService yet
+		appService.createEvent(eventInfo);
 		return Response.ok("").build();
 	}
 
