@@ -179,7 +179,7 @@ public class AppService {
 
     //-------------------------------------------EVENT MANAGEMENT---------------------------------------------
     public void createEvent(EventInfo eventInfo) {
-        Event e = new Event(eventInfo);   
+        Event e = new Event(eventInfo); 
         DAOFactory.getInstance().createEventDAO().storeEvent(e);
     }
 
@@ -284,6 +284,7 @@ public class AppService {
             
        // User kiraYoshikage = userDAO.getUser("Kira@killerqueen.es");
        // kiraYoshikage.addEvent(popcorn);
+
         
         topicDAO.storeTopic(cinema);
         organizerDAO.storeOrganizer(orga);
@@ -300,5 +301,6 @@ public class AppService {
         udao.updateUser(user);
         // user.setName("PLEAAASE");
         // dao.updateUser(user);
+    }
 
 }
