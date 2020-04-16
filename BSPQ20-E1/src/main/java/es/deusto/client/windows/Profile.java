@@ -134,6 +134,8 @@ public class Profile extends JFrame {
                 if (moreBox.isSelected()) interests.add(new TopicInfo("More"));
                 
                 // update user (since Sprint 2)
+                
+                controller.getUser().setCity(city.getText()); //change the users city
                 controller.getUser().setInterests(interests); //change the users interests.
                 controller.attemptNormalUpdate(); ///sends the modified user in the controller to the server.
             }
