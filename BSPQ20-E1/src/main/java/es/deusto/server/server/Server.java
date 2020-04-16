@@ -122,6 +122,30 @@ public class Server {
 		return Response.ok(resp).build();
 	}
 
+/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /update . It is used of the signup method of regular users.
+	 * @param signup Signup information of the user (name, email, password, city and interests)
+	 * @return Response object with the information of the user, in case of correct user registration. 
+	 * If not, an empty response is returned
+	 */
+	@POST
+	@Path("/Update")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptNormalUpdate(SignupAttempt signup) {
+		System.out.println("Update attempt received: "+signup);
+
+		User user = appService.attemptNormalUpdate(signup); //returns the updated user
+
+		Object resp = null;
+		if (user != null) {
+			resp = new UserInfo(user); //the response (UserInfo) doesn't need a password
+		}
+
+		return Response.ok(resp).build();
+	}
+	
+
 	/**
 	 * This method is invoked whenever a POST request is made to the following path:
 	 * /passwordRecovery . It is used for password recovery for users who can't remember their passwords.
@@ -140,7 +164,7 @@ public class Server {
 	@Path("/createEvent")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createEvent(EventInfo eventInfo) {
-		appService.createEvent(eventInfo); // TODO not implemented in AppService yet
+		appService.createEvent(eventInfo);
 		return Response.ok("").build();
 	}
 

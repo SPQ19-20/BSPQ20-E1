@@ -26,7 +26,7 @@ public class Controller {
      * to the components of the GUI.
      */
 
-    private UserInfo user;
+    private UserInfo user; //Controller's user
 
     private Client client;
     private WebTarget webTarget;
@@ -103,6 +103,38 @@ public class Controller {
 		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
 		if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
+            System.out.println("Not OK status code");
+            return false;
+        }
+
+        this.user = response.readEntity(UserInfo.class);
+
+        if (user != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Updates the user stored in the Controller, in order to use this function a user must log in before.
+     * @return true if the process is successful
+     */
+    public boolean attemptNormalUpdate() {
+        
+        SignupAttempt signup = new SignupAttempt();
+        signup.setEmail(this.getUser().getEmail());
+        signup.setName(this.getUser().getName());
+        signup.setCity(this.getUser().getCity());
+        signup.setInterests(this.getUser().getInterests());
+
+        WebTarget donationsWebTarget = webTarget.path("server/update");
+		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+		
+		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
+		if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
+            //si envio el campo pass vacio me devuelve false??
             System.out.println("Not OK status code");
             return false;
         }

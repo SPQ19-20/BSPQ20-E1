@@ -3,6 +3,7 @@ package es.deusto.server.server;
 import es.deusto.serialization.EventInfo;
 import es.deusto.serialization.LoginAttempt;
 import es.deusto.serialization.SignupAttempt;
+import es.deusto.serialization.UserInfo;
 import es.deusto.server.dao.TopicDAO;
 import es.deusto.server.dao.DAOFactory;
 import es.deusto.server.dao.EventDAO;
@@ -40,6 +41,8 @@ public class AppService {
     */
 
     public AppService() {}
+
+    //--------------------------------------LOGIN USERS-----------------------------------------------------
 
     /**
      * Receives a LoginAttempt (email and password string) and tries to log in.
@@ -91,6 +94,8 @@ public class AppService {
         return organizer;
     }
 
+    //----------------------------------------SIGNUP USERS-----------------------------------------------------------------
+
     /**
      * Receives a SignupAttempt (name, email, password, etc.) and tries to create a new user.
      * This method is used for the signup process of regular users (not organizers).
@@ -139,14 +144,43 @@ public class AppService {
         return organizer;
     }
 
-    public void createEvent(EventInfo eventInfo) {
-        Event e = new Event(eventInfo);
-        // DAOFactory.getInstance().createEventDAO().storeEvent(e);
-        // TODO add the new event to the organizer's event list
+    //--------------------------UPDATE USERS-----------------------------------------------------------------------
+
+     /**
+     * Receives a SignupAttempt (name, email, etc.) and tries to update an existing user.
+     * This method is used for the update process of regular users (not organizers).
+     * 
+     * @param signup SignupAttempt with the requester's data - name, email, password(empty) and city
+     * @return User The user that has been created as a result of the request. If the email doesn't exist
+     * null is returned
+     */
+    public User attemptNormalUpdate(SignupAttempt signup) {
+        UserDAO dao = DAOFactory.getInstance().createUserDAO();
         
-        Organizer o = e.getOrganizer();//DAOFactory.getInstance().createOrganizerDAO().getOrganizer(eventInfo.getOrganizer());//e.getOrganizer();
-        o.addCreatedEvent(e);
-        DAOFactory.getInstance().createOrganizerDAO().updateOrganizer(o);
+        // 1. Make sure the email exists
+        User user = dao.getUser(signup.getEmail());
+        if (user == null) {
+            return null;
+        }
+
+        //2. updates every atribute except the Password. --> if not the password is nullified.
+        User u = signup.buildUser();
+        user.setName(u.getName());
+        user.setCity(u.getCity());
+        user.setEmail(u.getEmail());
+        user.setInterests(u.getInterests());
+
+        //3. Update the user in the DB
+        dao.storeUser(user);
+        
+        return user;
+    }
+
+
+    //-------------------------------------------EVENT MANAGEMENT---------------------------------------------
+    public void createEvent(EventInfo eventInfo) {
+        Event e = new Event(eventInfo);   
+        DAOFactory.getInstance().createEventDAO().storeEvent(e);
     }
 
     /**
@@ -248,13 +282,23 @@ public class AppService {
         popcorn.setOrganizer(orga);
         
             
-        User kiraYoshikage = userDAO.getUser("Kira@killerqueen.es");
-        kiraYoshikage.addEvent(popcorn);
+       // User kiraYoshikage = userDAO.getUser("Kira@killerqueen.es");
+       // kiraYoshikage.addEvent(popcorn);
         
         topicDAO.storeTopic(cinema);
         organizerDAO.storeOrganizer(orga);
         eventDAO.storeEvent(popcorn);
-        userDAO.storeUser(kiraYoshikage);
+       // userDAO.storeUser(kiraYoshikage);
     }
+
+    public void updateUser() {
+        UserDAO udao = DAOFactory.getInstance().createUserDAO();
+        EventDAO edao = DAOFactory.getInstance().createEventDAO();
+        User user = udao.getUser("john@money.com");
+        Event event = edao.getEvents("Popcorn Party - second edition (PP2)").get(0);
+        user.addEvent(event);
+        udao.updateUser(user);
+        // user.setName("PLEAAASE");
+        // dao.updateUser(user);
 
 }

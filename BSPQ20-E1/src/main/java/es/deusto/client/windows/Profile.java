@@ -1,11 +1,13 @@
 package es.deusto.client.windows;
 
 import es.deusto.client.controller.Controller;
+import es.deusto.serialization.TopicInfo;
 import es.deusto.serialization.UserInfo;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -18,6 +20,7 @@ public class Profile extends JFrame {
     
     private Controller controller;
     private LanguageManager langManager;
+    private ArrayList<TopicInfo> interests = new ArrayList<>(); //list of interests of the user
 
     public Profile(Controller controller) {
         this.controller = controller;
@@ -118,19 +121,21 @@ public class Profile extends JFrame {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String interests = "";
-                if (musicBox.isSelected()) interests += "Music ";
-                if (theaterBox.isSelected()) interests += "Theater ";
-                if (cinemaBox.isSelected()) interests += "Cinema ";
-                if (sportsBox.isSelected()) interests += "Sports ";
-                if (artBox.isSelected()) interests += "Arts ";
-                if (cultureBox.isSelected()) interests += "Culture ";
-                if (foodBox.isSelected()) interests += "Food ";
-                if (festivalsBox.isSelected()) interests += "Festival ";
-                if (moreBox.isSelected()) interests += "More ";
+                //String interests = ""; //now it's a arrayList<TopicInfo>
+                if (musicBox.isSelected()) interests.add(new TopicInfo("Music"));
+                if (theaterBox.isSelected()) interests.add(new TopicInfo("Theater"));
+                if (cinemaBox.isSelected()) interests.add(new TopicInfo("Cinema"));
+                if (sportsBox.isSelected()) interests.add(new TopicInfo("Sports"));
+                if (artBox.isSelected()) interests.add(new TopicInfo("Art"));
+                if (cultureBox.isSelected()) interests.add(new TopicInfo("Culture"));
+                if (foodBox.isSelected()) interests.add(new TopicInfo("Food"));
+                if (festivalsBox.isSelected()) interests.add(new TopicInfo("Festivals"));
+                if (moreBox.isSelected()) interests.add(new TopicInfo("More"));
                 
                 // TODO update user
-
+                controller.getUser().setInterests(interests); //change the users interests.
+                ///sends the modified user in the controller to the server.
+                controller.attemptNormalUpdate();
             }
         });
 
