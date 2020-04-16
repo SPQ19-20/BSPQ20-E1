@@ -9,7 +9,6 @@ import es.deusto.serialization.EventInfo;
 import es.deusto.server.dao.DAOFactory;
 
 @PersistenceCapable(detachable="true")
-@Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
 public class Event{
 
 	private String name;
@@ -25,10 +24,17 @@ public class Event{
 	// 	this.name = name;
 	// }
 
+	public Event() {
+
+	}
+
 	public Event(EventInfo info) {
 		this.name = info.getName();
 		this.description = info.getDescription();
-		this.topic = new Topic(info.getTopic());
+		this.topic = DAOFactory.getInstance().createTopicDAO().getTopic(info.getTopic().getName());
+		if (this.topic == null) {
+			this.topic = new Topic(info.getTopic());
+		}
 		this.organizer = DAOFactory.getInstance().createOrganizerDAO().getOrganizer(info.getOrganizer());
 	}
 

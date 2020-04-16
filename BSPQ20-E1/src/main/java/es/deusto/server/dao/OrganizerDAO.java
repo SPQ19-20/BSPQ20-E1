@@ -18,7 +18,7 @@ public class OrganizerDAO {
     
     public Organizer getOrganizer(String email) {
         PersistenceManager pm = pmf.getPersistenceManager();
-		pm.getFetchPlan().setMaxFetchDepth(4);
+		pm.getFetchPlan().setMaxFetchDepth(40);
 		pm.setDetachAllOnCommit(true);
 		
 		Transaction tx = pm.currentTransaction();

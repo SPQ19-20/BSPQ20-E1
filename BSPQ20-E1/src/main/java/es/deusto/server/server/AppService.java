@@ -16,6 +16,7 @@ import es.deusto.server.data.User;
 import java.util.Properties;
 import java.util.Random;
 
+import javax.jdo.JDOHelper;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -140,11 +141,12 @@ public class AppService {
 
     public void createEvent(EventInfo eventInfo) {
         Event e = new Event(eventInfo);
-        DAOFactory.getInstance().createEventDAO().storeEvent(e);
+        // DAOFactory.getInstance().createEventDAO().storeEvent(e);
         // TODO add the new event to the organizer's event list
         
-        // Organizer o = e.getOrganizer();
-        // DAOFactory.getInstance().createOrganizerDAO().updateOrganizer(o);
+        Organizer o = e.getOrganizer();//DAOFactory.getInstance().createOrganizerDAO().getOrganizer(eventInfo.getOrganizer());//e.getOrganizer();
+        o.addCreatedEvent(e);
+        DAOFactory.getInstance().createOrganizerDAO().updateOrganizer(o);
     }
 
     /**
