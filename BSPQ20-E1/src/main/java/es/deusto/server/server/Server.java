@@ -30,6 +30,8 @@ public class Server {
 		this.appService = new AppService();
 	}
 
+	//--------------------------LOG IN -------------------------------------------------------------------------------
+
 	/**
 	 * This method is invoked whenever a POST request is made to the following path:
 	 * /login . It is used for the login process of regular users.
@@ -75,6 +77,8 @@ public class Server {
 
 		return Response.ok(resp).build();
 	}
+
+	//--------------------SIGN UP -----------------------------------------------------------------------------------------
 
 	/**
 	 * This method is invoked whenever a POST request is made to the following path:
@@ -122,15 +126,18 @@ public class Server {
 		return Response.ok(resp).build();
 	}
 
+	//------------------------------------UPDATE USERS-----------------------------------------------------
+
 /**
 	 * This method is invoked whenever a POST request is made to the following path:
 	 * /update . It is used of the signup method of regular users.
 	 * @param signup Signup information of the user (name, email, password, city and interests)
+	 * @since Sprint 2
 	 * @return Response object with the information of the user, in case of correct user registration. 
 	 * If not, an empty response is returned
 	 */
 	@POST
-	@Path("/Update")
+	@Path("/update")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalUpdate(SignupAttempt signup) {
 		System.out.println("Update attempt received: "+signup);
@@ -144,7 +151,32 @@ public class Server {
 
 		return Response.ok(resp).build();
 	}
+
+		/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /signupOrganizer . It is used of the signup method of organizers.
+	 * @param signup Signup information of the organizer (name, email, password and organization)
+	 * @since Sprint 2
+	 * @return Response object with the information of the organizer, in case of correct registration. 
+	 * If not, an empty response is returned
+	 */
+	@POST
+	@Path("/updateOrganizer")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptOrganizerUpdate(SignupAttempt signup) {
+		System.out.println("Update attempt received: "+signup);
+
+		Organizer organizer = appService.attemptOrganizerUpdate(signup);
+
+		Object resp = null;
+		if (organizer != null) {
+			resp = new OrganizerInfo(organizer); //the response (OrganizerInfo) doesn't need a password
+		}
+
+		return Response.ok(resp).build();
+	}
 	
+	//-----------------------------Password and event management------------------------------------------
 
 	/**
 	 * This method is invoked whenever a POST request is made to the following path:

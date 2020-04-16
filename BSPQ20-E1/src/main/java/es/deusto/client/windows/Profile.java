@@ -117,6 +117,7 @@ public class Profile extends JFrame {
         this.setVisible(true);
     }
 
+    /**Actions when the save button is clicked */
     private void setListeners() {
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -132,10 +133,9 @@ public class Profile extends JFrame {
                 if (festivalsBox.isSelected()) interests.add(new TopicInfo("Festivals"));
                 if (moreBox.isSelected()) interests.add(new TopicInfo("More"));
                 
-                // TODO update user
+                // update user (since Sprint 2)
                 controller.getUser().setInterests(interests); //change the users interests.
-                ///sends the modified user in the controller to the server.
-                controller.attemptNormalUpdate();
+                controller.attemptNormalUpdate(); ///sends the modified user in the controller to the server.
             }
         });
 

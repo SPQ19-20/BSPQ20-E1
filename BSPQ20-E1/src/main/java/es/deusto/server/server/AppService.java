@@ -151,6 +151,7 @@ public class AppService {
      * This method is used for the update process of regular users (not organizers).
      * 
      * @param signup SignupAttempt with the requester's data - name, email, password(empty) and city
+     * @since Sprint 2
      * @return User The user that has been created as a result of the request. If the email doesn't exist
      * null is returned
      */
@@ -167,7 +168,7 @@ public class AppService {
         User u = signup.buildUser();
         user.setName(u.getName());
         user.setCity(u.getCity());
-        user.setEmail(u.getEmail());
+        user.setEmail(u.getEmail()); // necesary to update the email??
         user.setInterests(u.getInterests());
 
         //3. Update the user in the DB
@@ -176,7 +177,36 @@ public class AppService {
         return user;
     }
 
+ /**
+     * Receives a SignupAttempt (name, email, password, etc.) and tries to UPDATE an existing organizer.
+     * This method is used for the updating process of organizers (not regular users).
+     * 
+     * @param signup SignupAttempt with the requester's data - name, email, password (empty) and organization
+     * @since Sprint 2
+     * @return Organizer the organizer that has been updated as a result of the request. If the email doesn't exist
+     * null is returned
+     */
+    public Organizer attemptOrganizerUpdate(SignupAttempt signup) {
+        OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
+        
+        // 1. Make sure the email is not in use
+        Organizer organizer = dao.getOrganizer(signup.getEmail());
+        if (organizer == null) {
+            return null;
+        }
 
+        // 2. update every atribute except the Password. --> if not the password is nullified.
+        Organizer u = signup.buildOrganizer();
+        organizer.setName(u.getName());
+        organizer.setEmail(u.getEmail()); // necesary to update the email??
+        organizer.setCreatedEvents(u.getCreatedEvents());
+        organizer.setOrganization(u.getOrganization());
+
+        //3.Store the user in the DB
+        dao.storeOrganizer(organizer);
+        
+        return organizer;
+    }
     //-------------------------------------------EVENT MANAGEMENT---------------------------------------------
     public void createEvent(EventInfo eventInfo) {
         Event e = new Event(eventInfo); 

@@ -116,9 +116,12 @@ public class Controller {
         return false;
     }
 
+    //--------------------------------------UPDATE USER-----------------------------------------------------------
+
     /**
      * Updates the user stored in the Controller, in order to use this function a user must log in before.
      * @return true if the process is successful
+     * @since Sprint 2
      */
     public boolean attemptNormalUpdate() {
         
