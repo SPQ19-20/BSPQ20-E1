@@ -7,6 +7,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 import es.deusto.server.data.Event;
+import es.deusto.server.data.Organizer;
 
 public class EventDAO {
 	private PersistenceManagerFactory pmf;
@@ -96,11 +97,11 @@ public class EventDAO {
 	}
 
 	/**
-	 * Retrieves List of the events of a specific Organization
-	 * @param organization name of the organization
+	 * Retrieves List of the events of a specific Organizer
+	 * @param Organizer
 	 * @return list of events from the database
 	 */
-    public ArrayList<Event> getEventsByOrganization(String organization) {
+    public ArrayList<Event> getEventsByOrganizer(Organizer organizer) {
         PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
@@ -114,7 +115,7 @@ public class EventDAO {
 			
 			Extent<Event> extent = pm.getExtent(Event.class, true);
 			for (Event u : extent) {
-				if (u.getOrganizer().getOrganization().contains(organization)){
+				if (u.getOrganizer().getEmail().equals(organizer.getEmail())){
 					event.add(u); //adds the event to the list.
 				}else{
 					System.out.println("no events found with given name");

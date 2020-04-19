@@ -104,7 +104,7 @@ public class EventWindow extends JFrame {
 
 		JLabel organizerLabel_title, organizerLabel;
 		organizerLabel_title = new JLabel(langManager.getString("organizerLabel"));
-		organizerLabel = new JLabel(this.event.getOrganizer());
+		organizerLabel = new JLabel(this.event.getOrganizerEmail());
 
 		organizerLabel_title.setFont(fontBold);
 		organizerLabel.setFont(font);

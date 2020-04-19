@@ -25,4 +25,8 @@ public class DAOFactory {
     public TopicDAO createTopicDAO() {
         return new TopicDAO();
     }
+
+    public PostDAO createPostDAO() {
+        return new PostDAO();
+    }
 }

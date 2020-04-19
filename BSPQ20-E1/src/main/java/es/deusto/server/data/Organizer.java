@@ -6,9 +6,12 @@ import javax.jdo.annotations.Element;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.Join;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 // import javax.jdo.annotations.PrimaryKey;
 import javax.jdo.annotations.Persistent;
+
+import es.deusto.server.dao.DAOFactory;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
@@ -16,9 +19,10 @@ public class Organizer extends GenericUser {
 	
 	private String organization;
 
-	@Join
-    @Element(dependent = "false")
-    @Persistent(defaultFetchGroup="true")
+	// @Join
+    // @Element(dependent = "false")
+	// @Persistent(defaultFetchGroup="true")
+	@NotPersistent
 	private ArrayList<Event> createdEvents = new ArrayList<>();
 
 	public Organizer() {
@@ -34,6 +38,7 @@ public class Organizer extends GenericUser {
 	}
 
 	public ArrayList<Event> getCreatedEvents() {
+		this.createdEvents = DAOFactory.getInstance().createEventDAO().getEventsByOrganizer(this);
 		return this.createdEvents;
 	}
 

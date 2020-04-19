@@ -192,11 +192,25 @@ public class Server {
 		return Response.ok("OK").build();
 	}
 
+	/**
+	 * This method is envoked whenever a POST request is made to the following path:
+	 * /createEvent . It is used for the creation of new events from a given organizer.
+	 * @param eventInfo EventInfo with the data of the event that will be created
+	 * @return Response an empty response
+	 */
 	@POST
 	@Path("/createEvent")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createEvent(EventInfo eventInfo) {
 		appService.createEvent(eventInfo);
+		return Response.ok("").build();
+	}
+
+	@POST
+	@Path("/createPost")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createPost(PostInfo postInfo) {
+		appService.createPost(postInfo);
 		return Response.ok("").build();
 	}
 
