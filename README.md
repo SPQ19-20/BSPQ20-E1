@@ -45,7 +45,7 @@ mvn exec:java -Pclient
 
 * **Mikel Moreno** - [miikel23](https://github.com/miikel23)
 * **Vasileios Matthaios** - [BillMat](https://github.com/BillMat)
-* **Erik Sáenz** - [ErikSdU](https://github.com/ErikSdU)
+* **Erik Sáenz de Ugarte** - [ErikSdU](https://github.com/ErikSdU)
 * **Iván García** - [ivan-garcia1996](https://github.com/ivan-garcia1996)
 * **Pablo Villacorta** - [pablo-villacorta](https://github.com/pablo-villacorta)
 
