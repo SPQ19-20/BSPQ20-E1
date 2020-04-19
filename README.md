@@ -22,7 +22,7 @@ mongod
 mvn datanucleus:schema-create
 ```
 
-	Note: the rest of the commands on this guide should be executed from the current directory (the one where the *pom.xml* file is placed)
+Note: the rest of the commands on this guide should be executed from the current directory (the one where the *pom.xml* file is placed)
 
 #### 2. Compile the project
 1. Open a new CMD window and run the following command:
