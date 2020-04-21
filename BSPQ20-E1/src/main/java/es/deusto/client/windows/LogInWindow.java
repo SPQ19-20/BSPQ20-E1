@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Cursor;
+import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -30,9 +31,8 @@ public class LogInWindow extends JFrame {
 	public JCheckBox cBoxAdmin, cBox;
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private JLabel labelES, labelGB;
+	private JLabel labelES, labelGB, labelGR;
 	private Controller controller;
-	
 	private LanguageManager langManager;
 
 	public LogInWindow(Controller controller) {
@@ -53,8 +53,9 @@ public class LogInWindow extends JFrame {
 		}
 		labelES = new JLabel(icon);
 		labelES.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		labelES.setBounds(335, 10, icon.getIconWidth(), icon.getIconHeight());
+		labelES.setBounds(320, 10, icon.getIconWidth(), icon.getIconHeight());
 		getContentPane().add(labelES);
+
 		ImageIcon icon1 = null;
 		try {
 			icon1 = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
@@ -63,8 +64,19 @@ public class LogInWindow extends JFrame {
 		}
 		labelGB = new JLabel(icon1);
 		labelGB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		labelGB.setBounds(340+icon.getIconWidth(), 10, icon1.getIconWidth(), icon1.getIconHeight());
+		labelGB.setBounds(325+icon.getIconWidth(), 10, icon1.getIconWidth(), icon1.getIconHeight());
 		getContentPane().add(labelGB);
+
+		ImageIcon icon2 = null;
+		try {
+			icon2 = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		labelGR = new JLabel(icon2);
+		labelGR.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		labelGR.setBounds(330+icon.getIconWidth()+icon1.getIconWidth(), 10, icon2.getIconWidth(), icon2.getIconHeight());
+		getContentPane().add(labelGR);
 
 		bCreate = new JButton(langManager.getString("newUserButton"));
 		bCreate.setBounds(120, 320, 125, 25);
@@ -144,7 +156,7 @@ public class LogInWindow extends JFrame {
 		labelES.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (langManager.getLanguage().equals("en")) {
+				if (!langManager.getLanguage().equals("es")) {
 					dispose();
 					controller.getLanguageManager().setLanguage("es");
 					LogInWindow login = new LogInWindow(controller);
@@ -158,9 +170,23 @@ public class LogInWindow extends JFrame {
 		labelGB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (langManager.getLanguage().equals("es")) {
+				if (!langManager.getLanguage().equals("en")) {
 					dispose();
 					controller.getLanguageManager().setLanguage("en");
+					LogInWindow login = new LogInWindow(controller);
+					login.setVisible(true);
+					login.setSize(400, 500);
+					login.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				}
+			}
+		});
+
+		labelGR.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (!langManager.getLanguage().equals("gr")) {
+					dispose();
+					controller.getLanguageManager().setLanguage("gr");
 					LogInWindow login = new LogInWindow(controller);
 					login.setVisible(true);
 					login.setSize(400, 500);

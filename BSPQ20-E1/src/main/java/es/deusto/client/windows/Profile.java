@@ -1,26 +1,23 @@
 package es.deusto.client.windows;
 
 import es.deusto.client.controller.Controller;
-import es.deusto.serialization.TopicInfo;
 import es.deusto.serialization.UserInfo;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
 public class Profile extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    public JButton saveButton, homeButton;
+    public JButton saveButton, homeButton, deleteButton;
     private JTextField city, email;
     private JCheckBox musicBox, theaterBox, cinemaBox, sportsBox, artBox, cultureBox, foodBox, festivalsBox, moreBox;
-    
+
     private Controller controller;
     private LanguageManager langManager;
-    private ArrayList<TopicInfo> interests = new ArrayList<>(); //list of interests of the user
 
     public Profile(Controller controller) {
         this.controller = controller;
@@ -31,7 +28,7 @@ public class Profile extends JFrame {
 
         getContentPane().setLayout(null);
         setTitle("Profile");
-        this.setSize(new Dimension(400, 600));
+        this.setSize(new Dimension(400, 550));
         this.setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -110,50 +107,64 @@ public class Profile extends JFrame {
         getContentPane().add(moreBox);
 
         saveButton = new JButton(langManager.getString("saveButton"));
-        saveButton.setBounds(120, 430, 140, 25);
+        saveButton.setBounds(40, 430, 140, 25);
         getContentPane().add(saveButton);
+
+        deleteButton = new JButton(langManager.getString("deleteButton"));
+        deleteButton.setBounds(200, 430, 140, 25);
+        getContentPane().add(deleteButton);
 
         this.setListeners();
         this.setVisible(true);
     }
 
-    /**Actions when the save button is clicked */
     private void setListeners() {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //String interests = ""; //now it's a arrayList<TopicInfo>
-                if (musicBox.isSelected()) interests.add(new TopicInfo("Music"));
-                if (theaterBox.isSelected()) interests.add(new TopicInfo("Theater"));
-                if (cinemaBox.isSelected()) interests.add(new TopicInfo("Cinema"));
-                if (sportsBox.isSelected()) interests.add(new TopicInfo("Sports"));
-                if (artBox.isSelected()) interests.add(new TopicInfo("Art"));
-                if (cultureBox.isSelected()) interests.add(new TopicInfo("Culture"));
-                if (foodBox.isSelected()) interests.add(new TopicInfo("Food"));
-                if (festivalsBox.isSelected()) interests.add(new TopicInfo("Festivals"));
-                if (moreBox.isSelected()) interests.add(new TopicInfo("More"));
-                
-                // update user (since Sprint 2)
-                
-                controller.getUser().setCity(city.getText()); //change the users city
-                controller.getUser().setInterests(interests); //change the users interests.
-                controller.attemptNormalUpdate(); ///sends the modified user in the controller to the server.
+                String interests = "";
+                if (musicBox.isSelected()) interests += "Music ";
+                if (theaterBox.isSelected()) interests += "Theater ";
+                if (cinemaBox.isSelected()) interests += "Cinema ";
+                if (sportsBox.isSelected()) interests += "Sports ";
+                if (artBox.isSelected()) interests += "Arts ";
+                if (cultureBox.isSelected()) interests += "Culture ";
+                if (foodBox.isSelected()) interests += "Food ";
+                if (festivalsBox.isSelected()) interests += "Festival ";
+                if (moreBox.isSelected()) interests += "More ";
+
+                // TODO update user
+
             }
         });
 
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("home button pressed");
-                int posY = getY();
-                int posX = getX();
-                int altura = getHeight();
-                int anchura = getWidth();
                 UserEventsWindow home = new UserEventsWindow(controller);
                 setVisible(false);
                 dispose();
             }
         });
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int res = JOptionPane.showConfirmDialog(null,
+                        langManager.getString("deleteMessage"),
+                        langManager.getString("deleteTitle"),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+                if (res == 0) {
+                    // TODO Delete Account - Delete user data from DB
+                    JOptionPane.showMessageDialog(null, langManager.getString("deleteConf"), langManager.getString("deleteTitle"), JOptionPane.INFORMATION_MESSAGE);
+                    LogInWindow logIn = new LogInWindow(controller);
+                    setVisible(false);
+                    dispose();
+                }
+            }
+        });
+
     }
 
 }
