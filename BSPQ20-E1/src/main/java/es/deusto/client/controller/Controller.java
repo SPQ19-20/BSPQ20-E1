@@ -44,6 +44,11 @@ public class Controller {
         langManager = new LanguageManager();
     }
 
+    public Controller(WebTarget target) {
+        this.webTarget = target;
+        langManager = new LanguageManager();
+    }
+
     public UserInfo getUser() {
         return this.user;
     }

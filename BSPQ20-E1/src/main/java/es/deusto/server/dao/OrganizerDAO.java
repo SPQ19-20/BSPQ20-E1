@@ -76,4 +76,27 @@ public class OrganizerDAO {
 		storeOrganizer(organizer);
 	}
 
+	public void deleteOrganizer(String email) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		pm.setDetachAllOnCommit(true);
+		Transaction tx = pm.currentTransaction();
+		
+		Organizer organizer = getOrganizer(email);
+
+		try {
+			tx.begin();
+
+			pm.deletePersistent(organizer);
+
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (tx != null && tx.isActive()) {
+	    		tx.rollback();
+	    	}
+			pm.close();
+		}	
+	}
+
 }

@@ -75,4 +75,27 @@ public class UserDAO {
     public void updateUser(User user) {
 		storeUser(user);
 	}
+
+	public void deleteUser(String email) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		pm.setDetachAllOnCommit(true);
+		Transaction tx = pm.currentTransaction();
+		
+		User user = getUser(email);
+
+		try {
+			tx.begin();
+
+			pm.deletePersistent(user);
+
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (tx != null && tx.isActive()) {
+	    		tx.rollback();
+	    	}
+			pm.close();
+		}	
+	}
 }

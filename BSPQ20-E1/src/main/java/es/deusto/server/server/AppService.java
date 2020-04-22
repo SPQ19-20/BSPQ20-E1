@@ -311,7 +311,7 @@ public class AppService {
     public void hello() {
         Post p = new Post();
         p.setDate(new Date());
-        p.setDescription("This is the super description");
+        p.setDescription("This is the super hyper mega description");
         p.setEventName("My fancy event");
         p.setOrganizerEmail("jack@blackpearl.com");
         p.setTitle("Title of the post");
