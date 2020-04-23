@@ -27,10 +27,9 @@ public class Controller {
      */
 
     private UserInfo user; //Controller's user
-
+    private OrganizerInfo organizer; //in case it's a organizer, it necesary for the progeam to be able to retrieve a Organizer.
     private Client client;
     private WebTarget webTarget;
-    
     private LanguageManager langManager;
 
     /**
@@ -48,6 +47,10 @@ public class Controller {
         return this.user;
     }
 
+    public OrganizerInfo getOrganize(){
+        return this.organizer;
+    }
+
     /**
      * This method is invoked by the login button in the GUI, and it makes
      * a login request to the server with the specified email and password.
@@ -56,8 +59,8 @@ public class Controller {
      * @param password Password taken from the GUI
      * @return true if the login was successful, otherwise it returns false
      */
-    public boolean attemptNormalLogin(String email, String password) {
-        LoginAttempt login = new LoginAttempt(email, password, false);
+    public boolean attemptNormalLogin(String email, String password) { 
+        LoginAttempt login = new LoginAttempt(email, password, false);//The boolean is never used!
         WebTarget donationsWebTarget = webTarget.path("server/login");
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 		
@@ -74,6 +77,84 @@ public class Controller {
             System.out.println("We got something");
             System.out.println(user.getName());
         }
+
+        return user != null;
+    }
+
+    /**
+     *    * This method is invoked by the login button in the GUI, and it makes
+     * a login request to the server with the specified email and password.
+     * It is used only for organizers.
+     * @param email email of the {@link Organizer} 
+     * @param password password of the organizer
+     * @return true  if succesful
+     */
+    public boolean attemptNormalLoginOrganizer(String email, String password) { 
+        LoginAttempt login = new LoginAttempt(email, password, true);//The boolean is never used!
+        WebTarget donationsWebTarget = webTarget.path("server/loginOrganizer");
+		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+		
+		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));
+		if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
+            System.out.println("Not OK status code");
+            return false;
+        }
+        
+        organizer = response.readEntity(OrganizerInfo.class);
+
+        if (organizer != null) {
+            System.out.println("We got something");
+            System.out.println(user.getName());
+        }
+
+        return organizer != null;
+    }
+
+    /***
+     *  This method is invoked by the login button in the GUI, and it makes
+     * a login request to the server with the specified email and password.
+     * The class of object must be indicated in the boolean input.
+     * This method works as a solution for both organizers and logins
+     * @param email email of the {@link User} or {@link Organizer}
+     * @param password password of the of the {@link User} or {@link Organizer}
+     * @param organizer boolean that indicates whether it's a {@link User} or {@link Organizer}
+     * @deprecated beeter to use attemptNormalLogin(email, password) and attemptNormalLoginOrganizer !
+     * @return  boolean if succesful
+     */
+    public boolean attemptNormalLogin(String email, String password, boolean organizer) { //tal vez seria bueno que hubiese un combobox que envia un dato para saber si es Organizador o Usuario
+        LoginAttempt login = new LoginAttempt(email, password, organizer);
+        WebTarget donationsWebTarget;
+        if(organizer == true){
+             donationsWebTarget = webTarget.path("server/loginOrganizer");
+        }else{
+             donationsWebTarget = webTarget.path("server/login");
+        }
+		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+		
+		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));
+		if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
+            System.out.println("Not OK status code");
+            return false;
+        }
+
+        if (organizer== true) {
+            this.organizer = response.readEntity(OrganizerInfo.class); //<-- como puedo hacer que no me salga error
+            if (this.organizer != null) {
+                System.out.println("We got something");
+                System.out.println(user.getName());
+            }
+            return this.organizer != null;
+        } else {
+            user = response.readEntity(UserInfo.class); 
+            if (user != null) {
+                System.out.println("We got something");
+                System.out.println(user.getName());
+            }
+            return user != null;
+        }
+       
 
         return user != null;
     }
