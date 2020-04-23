@@ -73,7 +73,36 @@ public class PostDAO {
 		}
     }
 	
-    public void updateUser(Post post) {
+    public void updatePost(Post post) {
 		storePost(post);
+	}
+
+	public void deletePost(Post post) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		pm.setDetachAllOnCommit(true);
+		Transaction tx = pm.currentTransaction();
+		
+		Post toDelete = null;
+		for (Post p: getPostsByEvent(DAOFactory.getInstance().createEventDAO().getEvents(post.getEventName()).get(0))) {
+			if (p.getTitle().equals(post.getTitle())) {
+				toDelete = p;
+				break;
+			}
+		}
+
+		try {
+			tx.begin();
+
+			pm.deletePersistent(toDelete);
+
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (tx != null && tx.isActive()) {
+	    		tx.rollback();
+	    	}
+			pm.close();
+		}	
 	}
 }   

@@ -76,4 +76,27 @@ public class TopicDAO {
 		storeTopic(topic);
 	}
 
+	public void deleteTopic(String name) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		pm.setDetachAllOnCommit(true);
+		Transaction tx = pm.currentTransaction();
+		
+		Topic topic = getTopic(name);
+
+		try {
+			tx.begin();
+
+			pm.deletePersistent(topic);
+
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (tx != null && tx.isActive()) {
+	    		tx.rollback();
+	    	}
+			pm.close();
+		}
+	}
+
 }

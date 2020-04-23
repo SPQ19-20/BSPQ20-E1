@@ -27,10 +27,10 @@ public class EventInfo {
         this.description = e.getDescription();
         this.topic = new TopicInfo(e.getTopic());
         this.organizerEmail = e.getOrganizer().getEmail();
-        ArrayList<Post> posts = e.getPosts();
+        ArrayList<Post> actualPosts = e.getPosts();
         this.posts = new ArrayList<>();
-        if (posts.isEmpty()) return;
-        for (Post p: posts) {
+        if (actualPosts.isEmpty()) return;
+        for (Post p: actualPosts) {
             this.posts.add(new PostInfo(p));
         }
     }

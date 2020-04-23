@@ -213,15 +213,17 @@ public class EventDAO {
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
 		
+
+		Event e = getEvents(event.getName()).get(0);
 	
 		try {
 			tx.begin();
 
-			pm.deletePersistent(event);
+			pm.deletePersistent(e);
 
 			tx.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		} finally {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
