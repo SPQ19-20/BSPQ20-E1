@@ -28,7 +28,7 @@ public class LogInWindow extends JFrame {
 	public JTextField id, pass;
 	public JButton bCreate, blogin;
 	private JButton bForgottenPass;
-	public JCheckBox cBoxAdmin, cBox;
+	public JCheckBox cBoxAdmin, cBoxOrganizer; //do we use this?? cBox
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private JLabel labelES, labelGB, labelGR;
@@ -86,6 +86,10 @@ public class LogInWindow extends JFrame {
 		blogin.setBounds(120, 220, 125, 25);
 		getContentPane().add(blogin);
 
+		cBoxOrganizer = new JCheckBox("I am a organizer"); //by default this checkbox is not enabled
+		cBoxOrganizer.setBounds(120, 270, 125, 25);
+		getContentPane().add(cBoxOrganizer);
+		
 		JLabel lblUsuario = new JLabel(langManager.getString("userLabel"));
 		lblUsuario.setBounds(22, 95, 79, 16);
 		getContentPane().add(lblUsuario);
@@ -137,11 +141,20 @@ public class LogInWindow extends JFrame {
 				String email, password;
 				email = textField.getText();
 				password = String.valueOf(passwordField.getPassword());
-				if (controller.attemptNormalLogin(email, password)) {
-					// login success
-					new UserEventsWindow(controller);
-					dispose();
+				if(cBoxOrganizer.isSelected()){ //if is selected then we need to log in a Organizer
+					if (controller.attemptNormalLoginOrganizer(email, password)) {
+						// organizer login success
+						new EventOrganizerWindow(controller); //now we can display the Organizer Event List.
+						dispose();
+					}
+				}else{
+					if (controller.attemptNormalLogin(email, password)) {
+						// user login success
+						new UserEventsWindow(controller);
+						dispose();
+					}
 				}
+				
 			}
 		});
 

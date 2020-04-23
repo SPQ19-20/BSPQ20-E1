@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
 
-public class OrganizerInfo {
+public class OrganizerInfo extends GenericUserInfo{
 
     private String name, email;
     private String organization;

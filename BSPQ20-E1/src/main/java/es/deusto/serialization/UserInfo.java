@@ -12,7 +12,7 @@ import es.deusto.server.data.User;
      *           EventInfo -> Event
      * Also the ...Info clases are the ones shown in the GUI.
      */
-public class UserInfo {
+public class UserInfo extends GenericUserInfo{
 
     private String name, email, city;
     private ArrayList<TopicInfo> interests;

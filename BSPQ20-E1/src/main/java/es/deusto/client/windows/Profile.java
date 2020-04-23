@@ -2,6 +2,8 @@ package es.deusto.client.windows;
 
 import es.deusto.client.controller.Controller;
 import es.deusto.serialization.UserInfo;
+import es.deusto.serialization.TopicInfo;
+import java.util.ArrayList;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -15,7 +17,7 @@ public class Profile extends JFrame {
     public JButton saveButton, homeButton, deleteButton;
     private JTextField city, email;
     private JCheckBox musicBox, theaterBox, cinemaBox, sportsBox, artBox, cultureBox, foodBox, festivalsBox, moreBox;
-
+    private ArrayList<TopicInfo> interests = new ArrayList<>(); //list of interests of the user PLEASE DO NOT DELETE MORE TIMES!
     private Controller controller;
     private LanguageManager langManager;
 
@@ -118,23 +120,27 @@ public class Profile extends JFrame {
         this.setVisible(true);
     }
 
-    private void setListeners() {
+     /**Actions when the save button is clicked */
+     private void setListeners() {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String interests = "";
-                if (musicBox.isSelected()) interests += "Music ";
-                if (theaterBox.isSelected()) interests += "Theater ";
-                if (cinemaBox.isSelected()) interests += "Cinema ";
-                if (sportsBox.isSelected()) interests += "Sports ";
-                if (artBox.isSelected()) interests += "Arts ";
-                if (cultureBox.isSelected()) interests += "Culture ";
-                if (foodBox.isSelected()) interests += "Food ";
-                if (festivalsBox.isSelected()) interests += "Festival ";
-                if (moreBox.isSelected()) interests += "More ";
-
-                // TODO update user
-
+                //String interests = ""; //now it's a arrayList<TopicInfo>
+                if (musicBox.isSelected()) interests.add(new TopicInfo("Music"));
+                if (theaterBox.isSelected()) interests.add(new TopicInfo("Theater"));
+                if (cinemaBox.isSelected()) interests.add(new TopicInfo("Cinema"));
+                if (sportsBox.isSelected()) interests.add(new TopicInfo("Sports"));
+                if (artBox.isSelected()) interests.add(new TopicInfo("Art"));
+                if (cultureBox.isSelected()) interests.add(new TopicInfo("Culture"));
+                if (foodBox.isSelected()) interests.add(new TopicInfo("Food"));
+                if (festivalsBox.isSelected()) interests.add(new TopicInfo("Festivals"));
+                if (moreBox.isSelected()) interests.add(new TopicInfo("More"));
+                
+                // update user (since Sprint 2)
+                
+                controller.getUser().setCity(city.getText()); //change the users city
+                controller.getUser().setInterests(interests); //change the users interests.
+                controller.attemptNormalUpdate(); ///sends the modified user in the controller to the server.
             }
         });
 
@@ -165,6 +171,6 @@ public class Profile extends JFrame {
             }
         });
 
-    }
+    }   
 
 }
