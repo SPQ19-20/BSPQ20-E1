@@ -152,7 +152,7 @@ public class AppService {
      /**
      * Receives a SignupAttempt (name, email, etc.) and tries to update an existing user.
      * This method is used for the update process of regular users (not organizers).
-     * 
+     *
      * @param signup SignupAttempt with the requester's data - name, email, password(empty) and city
      * @since Sprint 2
      * @return User The user that has been created as a result of the request. If the email doesn't exist
@@ -191,7 +191,7 @@ public class AppService {
      */
     public Organizer attemptOrganizerUpdate(SignupAttempt signup) {
         OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
-        
+
         // 1. Make sure the email is not in use
         Organizer organizer = dao.getOrganizer(signup.getEmail());
         if (organizer == null) {
@@ -207,9 +207,46 @@ public class AppService {
 
         //3.Store the user in the DB
         dao.storeOrganizer(organizer);
-        
+
         return organizer;
     }
+
+    //--------------------------DELETE USER-----------------------------------------------------------------------
+
+    /**
+     * Receives an user's email and tries to delete the user from the database.
+     * This method is used for the delete process of all type of users.
+     *
+     * @param String email - user's email
+     * @since Sprint 2
+     * @return boolean True if the email belongs to a user and the delete is complete successfully, false otherwise.
+     */
+
+    public boolean deleteUser(String email) {
+        UserDAO dao = DAOFactory.getInstance().createUserDAO();
+
+        // 1. Make sure that the email is in use
+        User user = dao.getUser(email);
+        if (user == null) return false;
+
+        // 2. Delete user from the database
+        dao.deleteUser(email);
+        return true;
+    }
+
+	public boolean deleteOrganizer(String email) {
+        OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
+
+        // 1. Make sure that the email is in use
+        Organizer organizer = dao.getOrganizer(email);
+        if (organizer == null) return false;
+
+        // 2. Delete user from the database
+        dao.deleteOrganizer(email);
+
+		return false;
+	}
+
     //-------------------------------------------EVENT MANAGEMENT---------------------------------------------
     public void createEvent(EventInfo eventInfo) {
         Event e = new Event(eventInfo); 
@@ -247,7 +284,6 @@ public class AppService {
         // user.setName("PLEAAASE");
         // dao.updateUser(user);
     }
-    
 
     // -----------------------------------------------------------------------
     // UTILITY METHODS

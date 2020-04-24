@@ -11,6 +11,10 @@ public class OrganizerInfo extends GenericUserInfo{
     private String organization;
     private ArrayList<EventInfo> createdEvents;
 
+    public OrganizerInfo() {
+        
+    }
+
     public OrganizerInfo(Organizer organizer) {
         this.name = organizer.getName();
         this.email = organizer.getEmail();

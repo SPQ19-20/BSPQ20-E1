@@ -112,7 +112,7 @@ public class Controller {
 
         if (organizer != null) {
             System.out.println("We got something");
-            System.out.println(user.getName());
+            System.out.println(organizer.getName());
         }
 
         return organizer != null;
@@ -233,9 +233,9 @@ public class Controller {
             return false;
         }
 
-        this.user = response.readEntity(UserInfo.class);
+        this.organizer = response.readEntity(OrganizerInfo.class);
 
-        if (user != null) {
+        if (organizer != null) {
             return true;
         }
 
@@ -250,7 +250,7 @@ public class Controller {
      * @since Sprint 2
      */
     public boolean attemptNormalUpdate() {
-        
+
         SignupAttempt signup = new SignupAttempt();
         signup.setEmail(this.getUser().getEmail());
         signup.setName(this.getUser().getName());
@@ -258,10 +258,10 @@ public class Controller {
         signup.setInterests(this.getUser().getInterests());
 
         WebTarget donationsWebTarget = webTarget.path("server/update");
-		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
-		
-		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
-		if (response.getStatus() != Status.OK.getStatusCode()) {
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+
+        Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
+        if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
             System.out.println("Not OK status code");
             return false;
@@ -298,13 +298,54 @@ public class Controller {
             return false;
         }
 
-        this.user = response.readEntity(UserInfo.class);
+        this.organizer = response.readEntity(OrganizerInfo.class);
 
-        if (user != null) {
+        if (organizer != null) {
             return true;
         }
 
         return false;
+    }
+
+    //--------------------------------------DELETE USER-----------------------------------------------------------
+
+    /**
+     * Deletes the user stored in the Controller.
+     * @return true if the process is successful, false if not
+     * @since Sprint 2
+     */
+    public boolean attemptUserDelete() {
+        WebTarget donationsWebTarget = webTarget.path("server/delete");
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+
+        Response response = invocationBuilder.post(Entity.entity(this.getUser(), MediaType.APPLICATION_JSON));
+
+        if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
+            System.out.println("Not OK status code");
+            return false;
+        }
+
+        this.user = null;
+        
+        return true;
+    }
+
+    public boolean attemptOrganizerDelete() {
+        WebTarget donationsWebTarget = webTarget.path("server/deleteOrganizer");
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+
+        Response response = invocationBuilder.post(Entity.entity(this.organizer, MediaType.APPLICATION_JSON));
+
+        if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
+            System.out.println("Not OK status code");
+            return false;
+        }
+
+        this.organizer = null;
+        
+        return true;
     }
 
     public LanguageManager getLanguageManager() {
