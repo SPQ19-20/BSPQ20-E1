@@ -163,7 +163,7 @@ public class Profile extends JFrame {
                         JOptionPane.WARNING_MESSAGE);
                 if (res == 0) {
                     // TODO Delete Account - Delete user data from DB
-                    if (controller.attempUserDelete()) {
+                    if (controller.attemptUserDelete()) {
                         JOptionPane.showMessageDialog(null, langManager.getString("deleteConf"), langManager.getString("deleteTitle"), JOptionPane.INFORMATION_MESSAGE);
                         LogInWindow logIn = new LogInWindow(controller);
                         setVisible(false);

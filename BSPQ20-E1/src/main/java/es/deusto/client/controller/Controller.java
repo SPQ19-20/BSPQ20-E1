@@ -110,7 +110,7 @@ public class Controller {
 
         if (organizer != null) {
             System.out.println("We got something");
-            System.out.println(user.getName());
+            System.out.println(organizer.getName());
         }
 
         return organizer != null;
@@ -201,6 +201,33 @@ public class Controller {
         return false;
     }
 
+    public boolean attemptOrganizerSignup(String email, String password, String name, String organization) {
+        
+        SignupAttempt signup = new SignupAttempt();
+        signup.setEmail(email);
+        signup.setName(name);
+        signup.setPassword(password);
+        signup.setOrganization(organization);
+
+        WebTarget donationsWebTarget = webTarget.path("server/signupOrganizer");
+		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+		
+		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
+		if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
+            System.out.println("Not OK status code");
+            return false;
+        }
+
+        this.organizer = response.readEntity(OrganizerInfo.class);
+
+        if (organizer != null) {
+            return true;
+        }
+
+        return false;
+    }
+
     //--------------------------------------UPDATE USER-----------------------------------------------------------
 
     /**
@@ -243,11 +270,11 @@ public class Controller {
      * @return true if the process is successful, false if not
      * @since Sprint 2
      */
-    public boolean attempUserDelete() {
+    public boolean attemptUserDelete() {
         WebTarget donationsWebTarget = webTarget.path("server/delete");
-        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.TEXT_PLAIN);
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 
-        Response response = invocationBuilder.post(Entity.entity(this.getUser().getEmail(), MediaType.TEXT_PLAIN));
+        Response response = invocationBuilder.post(Entity.entity(this.getUser(), MediaType.APPLICATION_JSON));
 
         if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
@@ -255,13 +282,26 @@ public class Controller {
             return false;
         }
 
-        this.user = response.readEntity(UserInfo.class);
+        this.user = null;
+        
+        return true;
+    }
 
-        if (user != null) {
-            return true;
+    public boolean attemptOrganizerDelete() {
+        WebTarget donationsWebTarget = webTarget.path("server/deleteOrganizer");
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+
+        Response response = invocationBuilder.post(Entity.entity(this.organizer, MediaType.APPLICATION_JSON));
+
+        if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
+            System.out.println("Not OK status code");
+            return false;
         }
 
-        return false;
+        this.organizer = null;
+        
+        return true;
     }
 
     public LanguageManager getLanguageManager() {

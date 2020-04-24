@@ -234,6 +234,19 @@ public class AppService {
         return true;
     }
 
+	public boolean deleteOrganizer(String email) {
+        OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
+
+        // 1. Make sure that the email is in use
+        Organizer organizer = dao.getOrganizer(email);
+        if (organizer == null) return false;
+
+        // 2. Delete user from the database
+        dao.deleteOrganizer(email);
+
+		return false;
+	}
+
     //-------------------------------------------EVENT MANAGEMENT---------------------------------------------
     public void createEvent(EventInfo eventInfo) {
         Event e = new Event(eventInfo); 

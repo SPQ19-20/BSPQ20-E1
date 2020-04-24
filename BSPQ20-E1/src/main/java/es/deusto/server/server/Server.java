@@ -226,8 +226,10 @@ public class Server {
 	 */
 	@POST
 	@Path("/delete")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response attemptUserDelete(String email) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptUserDelete(UserInfo userInfo) {
+		
+		String email = userInfo.getEmail();
 		System.out.println("Delete attempt received: " + email);
 
 		boolean check = appService.deleteUser(email); //returns true if user was deleted successfully
@@ -238,6 +240,21 @@ public class Server {
 		return Response.ok(resp).build();
 	}
 
+	@POST
+	@Path("/deleteOrganizer")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptOrganizerDelete(OrganizerInfo organizerInfo) {
+		
+		String email = organizerInfo.getEmail();
+		System.out.println("Organizer delete attempt received: " + email);
+
+		boolean check = appService.deleteOrganizer(email); //returns true if organizer was deleted successfully
+
+		String resp = null;
+		if (check) resp = "Delete: " + email;
+
+		return Response.ok(resp).build();
+	}
 
 	// --------------------------------------------------------------
 
