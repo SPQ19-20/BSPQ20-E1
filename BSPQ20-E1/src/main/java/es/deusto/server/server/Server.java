@@ -214,6 +214,30 @@ public class Server {
 		return Response.ok("").build();
 	}
 
+	//------------------------------------DELETE USER-----------------------------------------------------
+
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /delete . It is used of the delete method of users.
+	 * @param String email - user's email
+	 * @since Sprint 2
+	 * @return Response string with the user's email, in case of user delete was successful.
+	 * If not, an empty response is returned
+	 */
+	@POST
+	@Path("/delete")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response attemptUserDelete(String email) {
+		System.out.println("Delete attempt received: " + email);
+
+		boolean check = appService.deleteUser(email); //returns true if user was deleted successfully
+
+		String resp = null;
+		if (check) resp = "Delete: " + email;
+
+		return Response.ok(resp).build();
+	}
+
 
 	// --------------------------------------------------------------
 

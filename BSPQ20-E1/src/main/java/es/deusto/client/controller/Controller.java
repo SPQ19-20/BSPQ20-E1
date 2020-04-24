@@ -209,7 +209,7 @@ public class Controller {
      * @since Sprint 2
      */
     public boolean attemptNormalUpdate() {
-        
+
         SignupAttempt signup = new SignupAttempt();
         signup.setEmail(this.getUser().getEmail());
         signup.setName(this.getUser().getName());
@@ -217,12 +217,40 @@ public class Controller {
         signup.setInterests(this.getUser().getInterests());
 
         WebTarget donationsWebTarget = webTarget.path("server/update");
-		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
-		
-		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
-		if (response.getStatus() != Status.OK.getStatusCode()) {
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+
+        Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
+        if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
             //si envio el campo pass vacio me devuelve false??
+            System.out.println("Not OK status code");
+            return false;
+        }
+
+        this.user = response.readEntity(UserInfo.class);
+
+        if (user != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    //--------------------------------------DELETE USER-----------------------------------------------------------
+
+    /**
+     * Deletes the user stored in the Controller.
+     * @return true if the process is successful, false if not
+     * @since Sprint 2
+     */
+    public boolean attempUserDelete() {
+        WebTarget donationsWebTarget = webTarget.path("server/delete");
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.TEXT_PLAIN);
+
+        Response response = invocationBuilder.post(Entity.entity(this.getUser().getEmail(), MediaType.TEXT_PLAIN));
+
+        if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
             System.out.println("Not OK status code");
             return false;
         }

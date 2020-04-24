@@ -23,9 +23,7 @@ public class LanguageManager {
         this.setLanguage(language);
     }
 
-    public String getString(String key) {
-        return this.resourceBundle.getString(key);
-    }
+    public String getString(String key) { return this.resourceBundle.getString(key); }
 
     public String getLanguage() {
         return language;
