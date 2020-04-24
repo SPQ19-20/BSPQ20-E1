@@ -141,6 +141,18 @@ public class LogInWindow extends JFrame {
 				String email, password;
 				email = textField.getText();
 				password = String.valueOf(passwordField.getPassword());
+
+				//deprecated method
+				/*controller.attemptNormalLogin(email, password, cBoxOrganizer.isSelected());
+				if(cBoxOrganizer.isSelected()){
+					new EventOrganizerWindow(controller); //now we can display the Organizer Event List.
+						dispose();	
+				}else{
+					new UserEventsWindow(controller);
+					dispose();
+				}*/
+
+				//new method
 				if(cBoxOrganizer.isSelected()){ //if is selected then we need to log in a Organizer
 					if (controller.attemptNormalLoginOrganizer(email, password)) {
 						// organizer login success

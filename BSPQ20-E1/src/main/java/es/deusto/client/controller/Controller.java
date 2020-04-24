@@ -56,6 +56,7 @@ public class Controller {
         return this.organizer;
     }
 
+    //--------------------------LOG IN----------------------------------------------------------------------------
     /**
      * This method is invoked by the login button in the GUI, and it makes
      * a login request to the server with the specified email and password.
@@ -93,6 +94,7 @@ public class Controller {
      * @param email email of the {@link Organizer} 
      * @param password password of the organizer
      * @return true  if succesful
+     * @since Sprint 2
      */
     public boolean attemptNormalLoginOrganizer(String email, String password) { 
         LoginAttempt login = new LoginAttempt(email, password, true);//The boolean is never used!
@@ -125,6 +127,7 @@ public class Controller {
      * @param password password of the of the {@link User} or {@link Organizer}
      * @param organizer boolean that indicates whether it's a {@link User} or {@link Organizer}
      * @deprecated beeter to use attemptNormalLogin(email, password) and attemptNormalLoginOrganizer !
+     * @since Sprint 2
      * @return  boolean if succesful
      */
     public boolean attemptNormalLogin(String email, String password, boolean organizer) { //tal vez seria bueno que hubiese un combobox que envia un dato para saber si es Organizador o Usuario
@@ -162,7 +165,7 @@ public class Controller {
        
 
     }
-
+    //-----------------------------------SIGN UP--------------------------------------------------------------
     /** 
      * This method is invoked by the signup button in the GUI, and makes
      * a signup request to the server with the specified fields (email, password, name and city).
@@ -201,6 +204,44 @@ public class Controller {
         return false;
     }
 
+    /** 
+     * This method is invoked by the signup button in the GUI, and makes
+     * a signup request to the server with the specified fields (email, password, name and organization).
+     * It is used only for organizers.
+     * @param email Email String taken from the GUI
+     * @param password Password String taken from the GUI
+     * @param name Name String taken from the GUI
+     * @param city City String taken from the GUI
+     * @since Sprint 2
+     * @return true if the signup process was successful, otherwise it returns false
+    */
+    public boolean attemptOrganizerSignup(String email, String password, String name, String organization) {
+        
+        SignupAttempt signup = new SignupAttempt();
+        signup.setEmail(email);
+        signup.setName(name);
+        signup.setPassword(password);
+        signup.setOrganization(organization);
+
+        WebTarget donationsWebTarget = webTarget.path("server/signupOrganizer");
+		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+		
+        Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
+        
+		if (response.getStatus() != Status.OK.getStatusCode()) {
+            System.out.println("Not OK status code");
+            return false;
+        }
+
+        this.user = response.readEntity(UserInfo.class);
+
+        if (user != null) {
+            return true;
+        }
+
+        return false;
+    }
+
     //--------------------------------------UPDATE USER-----------------------------------------------------------
 
     /**
@@ -222,7 +263,37 @@ public class Controller {
 		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
 		if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
-            //si envio el campo pass vacio me devuelve false??
+            System.out.println("Not OK status code");
+            return false;
+        }
+
+        this.user = response.readEntity(UserInfo.class);
+
+        if (user != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Updates the Organizer stored in the Controller, in order to use this function a Organizer must log in before.
+    *  @return true if the process is successful
+    *  @since Sprint 2
+    */
+    public boolean attemptOrganizerUpdate() {
+        
+        SignupAttempt signup = new SignupAttempt();
+        signup.setEmail(this.getOrganize().getEmail());
+        signup.setName(this.getOrganize().getName());
+        signup.setOrganization(this.getOrganize().getOrganization());
+
+        WebTarget donationsWebTarget = webTarget.path("server/updateOrganizer");
+		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+		
+		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
+		if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
             System.out.println("Not OK status code");
             return false;
         }
