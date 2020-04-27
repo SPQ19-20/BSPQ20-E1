@@ -2,9 +2,13 @@ package es.deusto.client.controller;
 
 import es.deusto.client.windows.LanguageManager;
 import es.deusto.serialization.*;
+import javassist.bytecode.stackmap.TypeData.ClassName;
 
 import java.util.ArrayList;
-
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -31,7 +35,8 @@ public class Controller {
     private Client client;
     private WebTarget webTarget;
     private LanguageManager langManager;
-
+    private final static Logger LOGGER = Logger.getLogger(Controller.class.getName());
+    private static Handler fileHandler;
     /**
      * Constructor
      * @param hostname A String object with the path of the server
@@ -41,6 +46,15 @@ public class Controller {
         client = ClientBuilder.newClient();
         webTarget = client.target(String.format("http://%s:%s/rest", hostname, port));
         langManager = new LanguageManager();
+
+        //initialise the logger
+        try {
+            fileHandler = new FileHandler("BSPQ20-E1/src/main/java/es/deusto/client", true);   
+            LOGGER.addHandler(fileHandler);
+        } catch (Exception e) {
+            //TODO: handle exception
+            e.printStackTrace();
+        }
     }
 
     public Controller(WebTarget target) {
@@ -68,24 +82,29 @@ public class Controller {
     public boolean attemptNormalLogin(String email, String password) { 
         LoginAttempt login = new LoginAttempt(email, password, false);//The boolean is never used!
         WebTarget donationsWebTarget = webTarget.path("server/login");
+        LOGGER.log(Level.FINE, "Loggin USER: "+ email);
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 		
 		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));
 		if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
-            System.out.println("Not OK status code");
+            // System.out.println("Not OK status code");
+            LOGGER.log(Level.SEVERE, "Not OK status code: User Login failed");
             return false;
         }
         
         user = response.readEntity(UserInfo.class);
 
         if (user != null) {
-            System.out.println("We got something");
-            System.out.println(user.getName());
+            // System.out.println("We got something");
+            // System.out.println(user.getName());
+            LOGGER.log(Level.FINE, "We got something, " + user.getName());
         }
 
         return user != null;
     }
+
+
 
     /**
      *    * This method is invoked by the login button in the GUI, and it makes
@@ -99,20 +118,25 @@ public class Controller {
     public boolean attemptNormalLoginOrganizer(String email, String password) { 
         LoginAttempt login = new LoginAttempt(email, password, true);//The boolean is never used!
         WebTarget donationsWebTarget = webTarget.path("server/loginOrganizer");
+        LOGGER.log(Level.FINE, "Loggin ORGANIZER: "+ email);
+
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 		
 		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));
 		if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
-            System.out.println("Not OK status code");
+            // System.out.println("Not OK status code");
+            LOGGER.log(Level.SEVERE, "Not OK status code: User Login failed");
             return false;
         }
         
         organizer = response.readEntity(OrganizerInfo.class);
 
         if (organizer != null) {
-            System.out.println("We got something");
-            System.out.println(organizer.getName());
+           // System.out.println("We got something");
+           // System.out.println(organizer.getName());
+            LOGGER.log(Level.FINE, "We got something, " + user.getName());
+
         }
 
         return organizer != null;
@@ -186,18 +210,21 @@ public class Controller {
         signup.setInterests(interests);
 
         WebTarget donationsWebTarget = webTarget.path("server/signup");
+        LOGGER.log(Level.FINE, "Signing up USER");
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 		
 		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
 		if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
             System.out.println("Not OK status code");
+            LOGGER.log(Level.SEVERE, "Not OK status code : error while singing up user");
             return false;
         }
 
         this.user = response.readEntity(UserInfo.class);
 
         if (user != null) {
+            LOGGER.log(Level.FINE, "Signup for USER completed " + email);
             return true;
         }
 
@@ -224,18 +251,21 @@ public class Controller {
         signup.setOrganization(organization);
 
         WebTarget donationsWebTarget = webTarget.path("server/signupOrganizer");
+        LOGGER.log(Level.FINE, "Signing up organizer " + email);
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 		
         Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
         
 		if (response.getStatus() != Status.OK.getStatusCode()) {
-            System.out.println("Not OK status code");
+           // System.out.println("Not OK status code");
+           LOGGER.log(Level.SEVERE, "Not OK status code : error wile signing up Organizer");
             return false;
         }
 
         this.organizer = response.readEntity(OrganizerInfo.class);
 
         if (organizer != null) {
+            LOGGER.log(Level.FINE, "sIGNUP ORGANIZER COMPLETED");
             return true;
         }
 
@@ -250,7 +280,6 @@ public class Controller {
      * @since Sprint 2
      */
     public boolean attemptNormalUpdate() {
-
         SignupAttempt signup = new SignupAttempt();
         signup.setEmail(this.getUser().getEmail());
         signup.setName(this.getUser().getName());
@@ -258,21 +287,24 @@ public class Controller {
         signup.setInterests(this.getUser().getInterests());
 
         WebTarget donationsWebTarget = webTarget.path("server/update");
+        LOGGER.log(Level.FINE, "Updating the user: " + this.user.getEmail());
         Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 
         Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
         if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
-            System.out.println("Not OK status code");
+            LOGGER.log(Level.SEVERE, "Not OK status code: not possible to update USER " + this.user.getEmail());
+            // System.out.println("Not OK status code");
             return false;
         }
 
         this.user = response.readEntity(UserInfo.class);
 
         if (user != null) {
+            LOGGER.log(Level.FINE, "User updated");
             return true;
         }
-
+        LOGGER.log(Level.FINE, "Not possible to updated");
         return false;
     }
 
@@ -289,18 +321,21 @@ public class Controller {
         signup.setOrganization(this.getOrganize().getOrganization());
 
         WebTarget donationsWebTarget = webTarget.path("server/updateOrganizer");
+        LOGGER.log(Level.FINE, "Updating the organizer: " + this.organizer.getEmail());
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 		
 		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
 		if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
-            System.out.println("Not OK status code");
+            LOGGER.log(Level.SEVERE, "Not OK status code: Error while updating Organizer ");
+            //System.out.println("Not OK status code");
             return false;
         }
 
         this.organizer = response.readEntity(OrganizerInfo.class);
 
         if (organizer != null) {
+            LOGGER.log(Level.FINE, "Organizer Updated succesfully");
             return true;
         }
 
@@ -316,13 +351,15 @@ public class Controller {
      */
     public boolean attemptUserDelete() {
         WebTarget donationsWebTarget = webTarget.path("server/delete");
+        LOGGER.log(Level.FINE, "deleting user: "+ this.user.getEmail());
         Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 
         Response response = invocationBuilder.post(Entity.entity(this.getUser(), MediaType.APPLICATION_JSON));
 
         if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
-            System.out.println("Not OK status code");
+            LOGGER.log(Level.SEVERE, "Not OK status code : error while DELETING user");
+            //System.out.println("Not OK status code");
             return false;
         }
 
@@ -333,6 +370,7 @@ public class Controller {
 
     public boolean attemptOrganizerDelete() {
         WebTarget donationsWebTarget = webTarget.path("server/deleteOrganizer");
+        LOGGER.log(Level.FINE, "Deleting organizer " + this.organizer.getEmail());
         Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 
         Response response = invocationBuilder.post(Entity.entity(this.organizer, MediaType.APPLICATION_JSON));
@@ -340,16 +378,84 @@ public class Controller {
         if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
             System.out.println("Not OK status code");
+            LOGGER.log(Level.SEVERE, "Not OK status code");
             return false;
         }
 
         this.organizer = null;
-        
+        LOGGER.log(Level.FINE, "Organizer succesfully deleted");
         return true;
     }
 
+//-------------------------------------EVENT & POST-----------------------------------------------------
+
+    /**
+     * sends {@link EventInfo} to the server, to use this method the organizer must be logged in.
+     * @param eventInfo event to be sent to the server
+     * @return true if succesful
+     * @since sprint 2
+     */
+    public boolean createEvent(EventInfo eventInfo){
+        eventInfo.setOrganizerEmail(this.organizer.getEmail());
+        this.organizer.getCreatedEvents().add(eventInfo);
+
+        WebTarget donationsWebTarget = webTarget.path("server/createEvent");
+        LOGGER.log(Level.FINE, "Creating the Event: " + eventInfo.getName());
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+
+        Response response = invocationBuilder.post(Entity.entity(eventInfo, MediaType.APPLICATION_JSON));
+        if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
+            LOGGER.log(Level.SEVERE, "Not OK status code: not possible create Event " + eventInfo.getName());
+            // System.out.println("Not OK status code");
+            return false;
+        }
+
+        EventInfo event = response.readEntity(EventInfo.class);
+
+        if (event != null) {
+            LOGGER.log(Level.FINE, "Event Created");
+            return true;
+        }
+        LOGGER.log(Level.FINE, "Response was empty");
+        return false;
+    }
+
+    /**
+     * Adds a post on the indicated Event and notifies the server.
+     * @param eventInfo Event where the post is going to be held.
+     * @param postInfo Post to be added.
+     * @return true if succesful
+     * @since sprint 2
+     */
+    public boolean createPost(EventInfo eventInfo, PostInfo postInfo){
+        postInfo.setEventName(eventInfo.getName());
+        postInfo.setOrganizerEmail(eventInfo.getOrganizerEmail());
+        eventInfo.getPosts().add(postInfo);
+        WebTarget donationsWebTarget = webTarget.path("server/createPost");
+        LOGGER.log(Level.FINE, "Creating the Post for event: " + eventInfo.getName());
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+
+        Response response = invocationBuilder.post(Entity.entity(eventInfo, MediaType.APPLICATION_JSON));
+        if (response.getStatus() != Status.OK.getStatusCode()) {
+            // TODO handle this situation
+            LOGGER.log(Level.SEVERE, "Not OK status code: not possible to create post for Event " + eventInfo.getName());
+            // System.out.println("Not OK status code");
+            return false;
+        }
+
+        EventInfo event = response.readEntity(EventInfo.class);
+        if (event != null) {
+            LOGGER.log(Level.FINE, "POST Created");
+            return true;
+        }
+        LOGGER.log(Level.SEVERE, "Error when creating Post : Response was empty");
+        return false;
+    }
     public LanguageManager getLanguageManager() {
         return this.langManager;
     }
+
+    
 
 }

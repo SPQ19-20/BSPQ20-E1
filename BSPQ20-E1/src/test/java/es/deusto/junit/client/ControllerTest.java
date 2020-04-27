@@ -9,6 +9,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
@@ -17,6 +18,9 @@ import javax.ws.rs.core.Response;
 
 import junit.framework.JUnit4TestAdapter;
 import es.deusto.client.controller.Controller;
+import es.deusto.serialization.EventInfo;
+import es.deusto.serialization.PostInfo;
+import es.deusto.serialization.TopicInfo;
 import es.deusto.server.server.Server;
 
 import org.junit.After;
@@ -37,7 +41,8 @@ public class ControllerTest extends JerseyTest {
 
     private String userEmail, userPassword;
     private String organizerEmail, organizerPassword;
-
+    private EventInfo eventInfo;
+    private PostInfo postInfo;
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(ControllerTest.class);
     }
@@ -74,6 +79,19 @@ public class ControllerTest extends JerseyTest {
             "test---Johnny Organizer", 
             "test---Save the organizers"
         );
+
+        //create event
+        EventInfo eventInfo = new EventInfo();
+        eventInfo.setName("event Test");
+        eventInfo.setDescription("description for this event");
+        eventInfo.setOrganizerEmail("test---organizer@user.com");
+        eventInfo.setTopic(new TopicInfo("testingEventTopic"));
+
+        //create a post for the event
+        PostInfo postInfo = new PostInfo();
+        postInfo.setTitle("titlePost");
+        postInfo.setDescription("descriptionPost");
+        postInfo.setDate(new Date(1999, 3, 2));
     }
 
     @Test
@@ -81,6 +99,19 @@ public class ControllerTest extends JerseyTest {
     @PerfTest(invocations = 100)
     public void testNormalLogin() {
         boolean success = controller.attemptNormalLogin(userEmail, userPassword);
+        assertTrue(success);
+    }
+
+    @Test
+    public void testEventCreation(){
+        boolean success = controller.createEvent(eventInfo);
+        assertTrue(success);
+    }
+
+    @Test
+    public void testPostCreation(){
+        controller.createEvent(eventInfo);
+        boolean success = controller.createPost(eventInfo, postInfo);
         assertTrue(success);
     }
 
