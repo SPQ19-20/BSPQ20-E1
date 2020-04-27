@@ -31,7 +31,7 @@ public class LogInWindow extends JFrame {
 	public JCheckBox cBoxAdmin, cBoxOrganizer; //do we use this?? cBox
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private JLabel labelES, labelGB, labelGR;
+	private JLabel labelES, labelGB, labelIT;
 	private Controller controller;
 	private LanguageManager langManager;
 
@@ -69,14 +69,14 @@ public class LogInWindow extends JFrame {
 
 		ImageIcon icon2 = null;
 		try {
-			icon2 = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));
+			icon2 = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		labelGR = new JLabel(icon2);
-		labelGR.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		labelGR.setBounds(330+icon.getIconWidth()+icon1.getIconWidth(), 10, icon2.getIconWidth(), icon2.getIconHeight());
-		getContentPane().add(labelGR);
+		labelIT = new JLabel(icon2);
+		labelIT.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		labelIT.setBounds(330+icon.getIconWidth()+icon1.getIconWidth(), 10, icon2.getIconWidth(), icon2.getIconHeight());
+		getContentPane().add(labelIT);
 
 		bCreate = new JButton(langManager.getString("newUserButton"));
 		bCreate.setBounds(120, 320, 125, 25);
@@ -86,7 +86,7 @@ public class LogInWindow extends JFrame {
 		blogin.setBounds(120, 220, 125, 25);
 		getContentPane().add(blogin);
 
-		cBoxOrganizer = new JCheckBox("I am a organizer"); //by default this checkbox is not enabled
+		cBoxOrganizer = new JCheckBox(langManager.getString("checkboxOrganizer")); //by default this checkbox is not enabled
 		cBoxOrganizer.setBounds(120, 270, 125, 25);
 		getContentPane().add(cBoxOrganizer);
 		
@@ -141,7 +141,6 @@ public class LogInWindow extends JFrame {
 				String email, password;
 				email = textField.getText();
 				password = String.valueOf(passwordField.getPassword());
-
 				//deprecated method
 				/*controller.attemptNormalLogin(email, password, cBoxOrganizer.isSelected());
 				if(cBoxOrganizer.isSelected()){
@@ -153,13 +152,13 @@ public class LogInWindow extends JFrame {
 				}*/
 
 				//new method
-				if(cBoxOrganizer.isSelected()){ //if is selected then we need to log in a Organizer
+				if (cBoxOrganizer.isSelected()) { //if is selected then we need to log in a Organizer
 					if (controller.attemptNormalLoginOrganizer(email, password)) {
 						// organizer login success
 						new EventOrganizerWindow(controller); //now we can display the Organizer Event List.
 						dispose();
 					}
-				}else{
+				} else {
 					if (controller.attemptNormalLogin(email, password)) {
 						// user login success
 						new UserEventsWindow(controller);
@@ -206,12 +205,12 @@ public class LogInWindow extends JFrame {
 			}
 		});
 
-		labelGR.addMouseListener(new MouseAdapter() {
+		labelIT.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (!langManager.getLanguage().equals("gr")) {
+				if (!langManager.getLanguage().equals("it")) {
 					dispose();
-					controller.getLanguageManager().setLanguage("gr");
+					controller.getLanguageManager().setLanguage("it");
 					LogInWindow login = new LogInWindow(controller);
 					login.setVisible(true);
 					login.setSize(400, 500);

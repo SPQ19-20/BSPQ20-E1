@@ -12,8 +12,12 @@ public class LanguageManager {
      * Loads the default system language.
      */
     public LanguageManager() {
+        /*
         this.language = Locale.getDefault().getLanguage();
         this.resourceBundle = ResourceBundle.getBundle("SystemMessages", Locale.getDefault());
+        */
+        this.language = "en";
+        this.resourceBundle = ResourceBundle.getBundle("SystemMessages", new Locale("en", "GB"));
     }
 
     /**

@@ -122,6 +122,7 @@ public class Profile extends JFrame {
 
      /**Actions when the save button is clicked */
      private void setListeners() {
+
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -140,7 +141,11 @@ public class Profile extends JFrame {
                 
                 controller.getUser().setCity(city.getText()); //change the users city
                 controller.getUser().setInterests(interests); //change the users interests.
-                controller.attemptNormalUpdate(); ///sends the modified user in the controller to the server.
+                if (controller.attemptNormalUpdate()) { ///sends the modified user in the controller to the server.
+                    JOptionPane.showMessageDialog(null, langManager.getString("updateText"), langManager.getString("updateTitle"), JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, langManager.getString("failUpdateText"), langManager.getString("failUpdateTitle"), JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
 
