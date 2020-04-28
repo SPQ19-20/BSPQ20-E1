@@ -98,10 +98,12 @@ public class EventDAO {
 
 	/**
 	 * Retrieves List of the events of a specific Organizer
-	 * @param Organizer
+	 * @param organizer
 	 * @return list of events from the database
 	 */
     public ArrayList<Event> getEventsByOrganizer(Organizer organizer) {
+		if (organizer == null) return new ArrayList<>();
+
         PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
@@ -115,6 +117,7 @@ public class EventDAO {
 			
 			Extent<Event> extent = pm.getExtent(Event.class, true);
 			for (Event u : extent) {
+				if (u.getOrganizer() == null) continue;
 				if (u.getOrganizer().getEmail().equals(organizer.getEmail())){
 					event.add(u); //adds the event to the list.
 				}else{

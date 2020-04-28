@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import es.deusto.serialization.*;
+import es.deusto.server.dao.DAOFactory;
 import es.deusto.server.data.*;
 
 @Path("/server")
@@ -223,8 +224,8 @@ public class Server {
 	public Response createEvent(EventInfo eventInfo) {
 		LOGGER.log(Level.INFO, "Event creation attempt received: ", eventInfo);
 
-		appService.createEvent(eventInfo);
-		return Response.ok("").build();
+		Event e = appService.createEvent(eventInfo);
+		return Response.ok(new EventInfo(e)).build();
 	}
 
 	@POST
@@ -233,8 +234,8 @@ public class Server {
 	public Response createPost(PostInfo postInfo) {
 		LOGGER.log(Level.INFO, "POST creation attempt received: ", postInfo);
 
-		appService.createPost(postInfo);
-		return Response.ok("").build();
+		Post p = appService.createPost(postInfo);
+		return Response.ok(new PostInfo(p)).build();
 	}
 
 	//------------------------------------DELETE USER-----------------------------------------------------
@@ -242,7 +243,7 @@ public class Server {
 	/**
 	 * This method is invoked whenever a POST request is made to the following path:
 	 * /delete . It is used of the delete method of users.
-	 * @param String email - user's email
+	 * @param userInfo - UserInfo object containing user's email
 	 * @since Sprint 2
 	 * @return Response string with the user's email, in case of user delete was successful.
 	 * If not, an empty response is returned

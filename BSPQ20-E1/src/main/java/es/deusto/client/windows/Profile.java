@@ -127,24 +127,24 @@ public class Profile extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //String interests = ""; //now it's a arrayList<TopicInfo>
-                if (musicBox.isSelected()) interests.add(new TopicInfo("Music"));
-                if (theaterBox.isSelected()) interests.add(new TopicInfo("Theater"));
-                if (cinemaBox.isSelected()) interests.add(new TopicInfo("Cinema"));
-                if (sportsBox.isSelected()) interests.add(new TopicInfo("Sports"));
-                if (artBox.isSelected()) interests.add(new TopicInfo("Art"));
-                if (cultureBox.isSelected()) interests.add(new TopicInfo("Culture"));
-                if (foodBox.isSelected()) interests.add(new TopicInfo("Food"));
-                if (festivalsBox.isSelected()) interests.add(new TopicInfo("Festivals"));
-                if (moreBox.isSelected()) interests.add(new TopicInfo("More"));
+                if (musicBox.isSelected()) interests.add(new TopicInfo(langManager.getString("musicCheck")));
+                if (theaterBox.isSelected()) interests.add(new TopicInfo(langManager.getString("theaterCheck")));
+                if (cinemaBox.isSelected()) interests.add(new TopicInfo(langManager.getString("cinemaCheck")));
+                if (sportsBox.isSelected()) interests.add(new TopicInfo(langManager.getString("sportsCheck")));
+                if (artBox.isSelected()) interests.add(new TopicInfo(langManager.getString("artsCheck")));
+                if (cultureBox.isSelected()) interests.add(new TopicInfo(langManager.getString("cultureCheck")));
+                if (foodBox.isSelected()) interests.add(new TopicInfo(langManager.getString("foodCheck")));
+                if (festivalsBox.isSelected()) interests.add(new TopicInfo(langManager.getString("festivalsCheck")));
+                if (moreBox.isSelected()) interests.add(new TopicInfo(langManager.getString("moreCheck")));
                 
                 // update user (since Sprint 2)
                 
                 controller.getUser().setCity(city.getText()); //change the users city
                 controller.getUser().setInterests(interests); //change the users interests.
                 if (controller.attemptNormalUpdate()) { ///sends the modified user in the controller to the server.
-                    JOptionPane.showMessageDialog(null, langManager.getString("updateText"), langManager.getString("updateTitle"), JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, langManager.getString("updateText"), langManager.getString("success"), JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, langManager.getString("failUpdateText"), langManager.getString("failUpdateTitle"), JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, langManager.getString("failUpdateText"), langManager.getString("error"), JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });

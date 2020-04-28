@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PostDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EventFinder</a> &gt; <a href="index.source.html" class="el_package">es.deusto.server.dao</a> &gt; <span class="el_source">PostDAO.java</span></div><h1>PostDAO.java</h1><pre class="source lang-java linenums">package es.deusto.server.dao;
+
+import java.util.ArrayList;
+
+import javax.jdo.Extent;
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Transaction;
+
+import es.deusto.server.data.Event;
+import es.deusto.server.data.Post;
+
+public class PostDAO {
+    private PersistenceManagerFactory pmf;
+	
+<span class="fc" id="L17">	protected PostDAO() {</span>
+<span class="fc" id="L18">		pmf = JDOHelper.getPersistenceManagerFactory(&quot;datanucleus.properties&quot;);</span>
+<span class="fc" id="L19">    }</span>
+    
+    public ArrayList&lt;Post&gt; getPostsByEvent(Event event) {
+<span class="fc" id="L22">        PersistenceManager pm = pmf.getPersistenceManager();</span>
+<span class="fc" id="L23">		pm.getFetchPlan().setMaxFetchDepth(4);</span>
+<span class="fc" id="L24">		pm.setDetachAllOnCommit(true);</span>
+		
+<span class="fc" id="L26">		Transaction tx = pm.currentTransaction();</span>
+		
+<span class="fc" id="L28">		ArrayList&lt;Post&gt; posts = new ArrayList&lt;&gt;();</span>
+		
+		try {
+<span class="fc" id="L31">			tx.begin();</span>
+			
+<span class="fc" id="L33">			Extent&lt;Post&gt; extent = pm.getExtent(Post.class, true);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">			for (Post p : extent) {</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">				if (p.getEventName().equals(event.getName())) {</span>
+<span class="fc" id="L36">					posts.add(p);</span>
+				}
+<span class="fc" id="L38">			}</span>
+			
+<span class="fc" id="L40">			tx.commit();</span>
+<span class="nc" id="L41">		} catch (Exception e) {</span>
+<span class="nc" id="L42">			e.printStackTrace();</span>
+		} finally {
+<span class="pc bpc" id="L44" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L45">	    		tx.rollback();</span>
+	    	}
+			
+<span class="fc" id="L48">			pm.close();</span>
+		}
+		
+<span class="fc" id="L51">		return posts;</span>
+    }
+
+	public void storePost(Post post) {
+<span class="fc" id="L55">		PersistenceManager pm = pmf.getPersistenceManager();</span>
+<span class="fc" id="L56">		pm.setDetachAllOnCommit(true);</span>
+<span class="fc" id="L57">		Transaction tx = pm.currentTransaction();</span>
+		
+		try {
+<span class="fc" id="L60">			tx.begin();</span>
+			
+<span class="fc" id="L62">			pm.makePersistent(post);</span>
+			
+<span class="fc" id="L64">			tx.commit();</span>
+<span class="nc" id="L65">		} catch (Exception e) {</span>
+<span class="nc" id="L66">			e.printStackTrace();</span>
+		} finally {
+<span class="pc bpc" id="L68" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L69">	    		tx.rollback();</span>
+	    	}
+			
+<span class="fc" id="L72">			pm.close();</span>
+		}
+<span class="fc" id="L74">    }</span>
+	
+    public void updatePost(Post post) {
+<span class="nc" id="L77">		storePost(post);</span>
+<span class="nc" id="L78">	}</span>
+
+	public void deletePost(Post post) {
+<span class="fc" id="L81">		PersistenceManager pm = pmf.getPersistenceManager();</span>
+<span class="fc" id="L82">		pm.setDetachAllOnCommit(true);</span>
+<span class="fc" id="L83">		Transaction tx = pm.currentTransaction();</span>
+		
+<span class="fc" id="L85">		Post toDelete = null;</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">		for (Post p: getPostsByEvent(DAOFactory.getInstance().createEventDAO().getEvents(post.getEventName()).get(0))) {</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">			if (p.getTitle().equals(post.getTitle())) {</span>
+<span class="fc" id="L88">				toDelete = p;</span>
+<span class="fc" id="L89">				break;</span>
+			}
+<span class="nc" id="L91">		}</span>
+
+		try {
+<span class="fc" id="L94">			tx.begin();</span>
+
+<span class="fc" id="L96">			pm.deletePersistent(toDelete);</span>
+
+<span class="fc" id="L98">			tx.commit();</span>
+<span class="nc" id="L99">		} catch (Exception e) {</span>
+<span class="nc" id="L100">			e.printStackTrace();</span>
+		} finally {
+<span class="pc bpc" id="L102" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L103">	    		tx.rollback();</span>
+	    	}
+<span class="fc" id="L105">			pm.close();</span>
+		}	
+<span class="fc" id="L107">	}</span>
+}   
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -8,8 +8,8 @@ import es.deusto.server.data.User;
     /**
      * All the ...Info classes work as a middleman for the client and server bussines objects.
      * Due to the functionality of this classes their structure is similar to the 'original' ones in the server
-     * Examples: UserInfo -> User
-     *           EventInfo -> Event
+     * Examples: UserInfo: User
+     *           EventInfo: Event
      * Also the ...Info clases are the ones shown in the GUI.
      */
 public class UserInfo extends GenericUserInfo{

@@ -70,11 +70,11 @@ public class EventOrganizerWindow extends JFrame {
 
        // this.setListeners();
     }
-/**for the moment the organizer can't update i'ts profile, WE need a GUI for supporting this functionality
- * 
+/*for the moment the organizer can't update i'ts profile, WE need a GUI for supporting this functionality
+  
     private void setListeners() {
         profileCustomBtn.addActionListener(new ActionListener() {
-            @Override
+            
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 new Profile(controller);

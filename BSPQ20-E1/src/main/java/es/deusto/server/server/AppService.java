@@ -217,7 +217,7 @@ public class AppService {
      * Receives an user's email and tries to delete the user from the database.
      * This method is used for the delete process of all type of users.
      *
-     * @param String email - user's email
+     * @param email - user's email
      * @since Sprint 2
      * @return boolean True if the email belongs to a user and the delete is complete successfully, false otherwise.
      */
@@ -248,9 +248,10 @@ public class AppService {
 	}
 
     //-------------------------------------------EVENT MANAGEMENT---------------------------------------------
-    public void createEvent(EventInfo eventInfo) {
+    public Event createEvent(EventInfo eventInfo) {
         Event e = new Event(eventInfo); 
         DAOFactory.getInstance().createEventDAO().storeEvent(e);
+        return e;
     }
 
     /**
@@ -269,9 +270,10 @@ public class AppService {
         System.out.println("Changing and sending new password for " + email);
     }
 
-    public void createPost(PostInfo info) {
+    public Post createPost(PostInfo info) {
         Post post = new Post(info);
         DAOFactory.getInstance().createPostDAO().storePost(post);
+        return post;
     }
     
     public void updateUser() {

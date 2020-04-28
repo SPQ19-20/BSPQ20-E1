@@ -1,10 +1,12 @@
 package es.deusto.client.windows;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import es.deusto.client.controller.Controller;
 import es.deusto.serialization.EventInfo;
@@ -28,7 +30,7 @@ public class UserEventsWindow extends JFrame {
         initComponents();
         
         this.setResizable(true);
-        this.setSize(new Dimension(1600, 900));
+        this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -38,8 +40,75 @@ public class UserEventsWindow extends JFrame {
         this.cp = this.getContentPane();
         this.cp.setLayout(new BorderLayout());
 
+        JPanel bigMainPanel = new JPanel(new BorderLayout());
+
         this.titlePanel = new JPanel(new BorderLayout());
         this.mainPanel = new JPanel();
+
+        JPanel languageSwitchPanel = new JPanel();
+        JPanel langPanel = new JPanel();
+
+        try {
+			ImageIcon iconEN, iconES, iconIT;
+			iconEN = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
+			iconES = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
+			iconIT = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
+
+			JPanel enPanel, esPanel, itPanel;
+			enPanel = new JPanel();
+			enPanel.add(new JLabel(iconEN));
+			esPanel = new JPanel();
+			esPanel.add(new JLabel(iconES));
+			itPanel = new JPanel();
+			itPanel.add(new JLabel(iconIT));
+
+			enPanel.setBorder(new EmptyBorder(2,2,2,2));
+			esPanel.setBorder(new EmptyBorder(2,2,2,2));
+			itPanel.setBorder(new EmptyBorder(2,2,2,2));
+
+			enPanel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (!langManager.getLanguage().equals("en")) {
+						controller.getLanguageManager().setLanguage("en");
+						dispose();
+                        new UserEventsWindow(controller);
+					}
+				}
+			});
+
+			esPanel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (!langManager.getLanguage().equals("es")) {
+						controller.getLanguageManager().setLanguage("es");
+						dispose();
+						new UserEventsWindow(controller);
+					}
+				}
+			});
+
+			itPanel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (!langManager.getLanguage().equals("it")) {
+						controller.getLanguageManager().setLanguage("it");
+						dispose();
+						new UserEventsWindow(controller);
+					}
+				}
+			});
+
+            
+			langPanel.add(enPanel);
+			langPanel.add(esPanel);
+			langPanel.add(itPanel);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+        }
+        
+        languageSwitchPanel.add(langPanel, BorderLayout.EAST);
+        languageSwitchPanel.add(new JPanel(), BorderLayout.CENTER);
 
         // TOP PANEL
         JLabel pageTitle = new JLabel(langManager.getString("eventsText"));
@@ -65,8 +134,12 @@ public class UserEventsWindow extends JFrame {
             JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        this.cp.add(this.titlePanel, BorderLayout.NORTH);
-        this.cp.add(scrollPane, BorderLayout.CENTER);
+
+        bigMainPanel.add(this.titlePanel, BorderLayout.NORTH);
+        bigMainPanel.add(scrollPane, BorderLayout.CENTER);
+        
+        this.cp.add(languageSwitchPanel, BorderLayout.NORTH);
+        this.cp.add(bigMainPanel, BorderLayout.CENTER);
 
         this.setListeners();
     }

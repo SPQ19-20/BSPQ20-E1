@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Server.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EventFinder</a> &gt; <a href="index.source.html" class="el_package">es.deusto.server.server</a> &gt; <span class="el_source">Server.java</span></div><h1>Server.java</h1><pre class="source lang-java linenums">package es.deusto.server.server;
+
+import javax.print.attribute.standard.Media;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import es.deusto.serialization.*;
+import es.deusto.server.dao.DAOFactory;
+import es.deusto.server.data.*;
+
+@Path(&quot;/server&quot;)
+@Produces(MediaType.APPLICATION_JSON)
+public class Server {
+
+	/**
+	 * This class is the one that receives the requests from the client.
+	 * There is no functionality implemented in this class, all the possible
+	 * requests have a corresponding method inside the AppService class
+	 * in which all the functionality is implemented. That way, the Server
+	 * class is abstracted from the business objects.
+	 */
+
+	private AppService appService;
+
+<span class="fc" id="L30">	public Server() {</span>
+<span class="fc" id="L31">		this.appService = new AppService();</span>
+<span class="fc" id="L32">	}</span>
+
+	//--------------------------LOG IN -------------------------------------------------------------------------------
+
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /login . It is used for the login process of regular users.
+	 * @param login Login information of the user (email and password)
+	 * @return Response object with the information of the user, in case of valid credentials. 
+	 * If not, an empty response is returned
+	 */
+	@POST
+	@Path(&quot;/login&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptNormalLogin(LoginAttempt login) {
+<span class="fc" id="L47">		System.out.println(&quot;Login attempt received: &quot;+login);</span>
+
+<span class="fc" id="L49">		User user = appService.attemptNormalLogin(login);</span>
+
+<span class="fc" id="L51">		Object resp = null;</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">		if (user != null) {</span>
+<span class="fc" id="L53">			resp = new UserInfo(user);</span>
+		}
+
+<span class="fc" id="L56">		return Response.ok(resp).build();</span>
+	}
+
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /loginOrganizer . It is used for the login process of organizers.
+	 * @param login Login information of the organizer (email and password)
+	 * @return Response object with the information of the organizer, in case of valid credentials. 
+	 * If not, an empty response is returned
+	 */
+	@POST
+	@Path(&quot;/loginOrganizer&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptOrganizerLogin(LoginAttempt login) {
+<span class="fc" id="L70">		System.out.println(&quot;Organizer login attempt received: &quot;+login);</span>
+		
+<span class="fc" id="L72">		Organizer organizer = appService.attemptOrganizerLogin(login);</span>
+
+<span class="fc" id="L74">		Object resp = null;</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">		if (organizer != null) {</span>
+<span class="fc" id="L76">			resp = new OrganizerInfo(organizer);</span>
+		}
+
+<span class="fc" id="L79">		return Response.ok(resp).build();</span>
+	}
+
+	//--------------------SIGN UP -----------------------------------------------------------------------------------------
+
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /signup . It is used of the signup method of regular users.
+	 * @param signup Signup information of the user (name, email, password, city and interests)
+	 * @return Response object with the information of the user, in case of correct user registration. 
+	 * If not, an empty response is returned
+	 */
+	@POST
+	@Path(&quot;/signup&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptNormalSignup(SignupAttempt signup) {
+<span class="fc" id="L95">		System.out.println(&quot;Signup attempt received: &quot;+signup);</span>
+
+<span class="fc" id="L97">		User user = appService.attemptNormalSignup(signup);</span>
+
+<span class="fc" id="L99">		Object resp = null;</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">		if (user != null) {</span>
+<span class="fc" id="L101">			resp = new UserInfo(user);</span>
+		}
+
+<span class="fc" id="L104">		return Response.ok(resp).build();</span>
+	}
+
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /signupOrganizer . It is used of the signup method of organizers.
+	 * @param signup Signup information of the organizer (name, email, password and organization)
+	 * @return Response object with the information of the organizer, in case of correct registration. 
+	 * If not, an empty response is returned
+	 */
+	@POST
+	@Path(&quot;/signupOrganizer&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptOrganizerSignup(SignupAttempt signup) {
+<span class="fc" id="L118">		System.out.println(&quot;Signup attempt received: &quot;+signup);</span>
+
+<span class="fc" id="L120">		Organizer organizer = appService.attemptOrganizerSignup(signup);</span>
+
+<span class="fc" id="L122">		Object resp = null;</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">		if (organizer != null) {</span>
+<span class="fc" id="L124">			resp = new OrganizerInfo(organizer);</span>
+		}
+
+<span class="fc" id="L127">		return Response.ok(resp).build();</span>
+	}
+
+	//------------------------------------UPDATE USERS-----------------------------------------------------
+
+/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /update . It is used of the signup method of regular users.
+	 * @param signup Signup information of the user (name, email, password, city and interests)
+	 * @since Sprint 2
+	 * @return Response object with the information of the user, in case of correct user registration. 
+	 * If not, an empty response is returned
+	 */
+	@POST
+	@Path(&quot;/update&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptNormalUpdate(SignupAttempt signup) {
+<span class="fc" id="L144">		System.out.println(&quot;Update attempt received: &quot;+signup);</span>
+
+<span class="fc" id="L146">		User user = appService.attemptNormalUpdate(signup); //returns the updated user</span>
+
+<span class="fc" id="L148">		Object resp = null;</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">		if (user != null) {</span>
+<span class="fc" id="L150">			resp = new UserInfo(user); //the response (UserInfo) doesn't need a password</span>
+		}
+
+<span class="fc" id="L153">		return Response.ok(resp).build();</span>
+	}
+
+		/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /signupOrganizer . It is used of the signup method of organizers.
+	 * @param signup Signup information of the organizer (name, email, password and organization)
+	 * @since Sprint 2
+	 * @return Response object with the information of the organizer, in case of correct registration. 
+	 * If not, an empty response is returned
+	 */
+	@POST
+	@Path(&quot;/updateOrganizer&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptOrganizerUpdate(SignupAttempt signup) {
+<span class="fc" id="L168">		System.out.println(&quot;Update attempt received: &quot;+signup);</span>
+
+<span class="fc" id="L170">		Organizer organizer = appService.attemptOrganizerUpdate(signup);</span>
+
+<span class="fc" id="L172">		Object resp = null;</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">		if (organizer != null) {</span>
+<span class="fc" id="L174">			resp = new OrganizerInfo(organizer); //the response (OrganizerInfo) doesn't need a password</span>
+		}
+
+<span class="fc" id="L177">		return Response.ok(resp).build();</span>
+	}
+	
+	//-----------------------------Password and event management------------------------------------------
+
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /passwordRecovery . It is used for password recovery for users who can't remember their passwords.
+	 * @param userInfo LoginAttempt with the email of the user who needs a new password
+	 * @return Response object with the following message: &quot;OK&quot;
+	 */
+	@POST
+	@Path(&quot;/passwordRecovery&quot;)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response recoverPassword(LoginAttempt userInfo){
+<span class="fc" id="L192">		appService.recoverPassword(userInfo);</span>
+<span class="fc" id="L193">		return Response.ok(&quot;OK&quot;).build();</span>
+	}
+
+	/**
+	 * This method is envoked whenever a POST request is made to the following path:
+	 * /createEvent . It is used for the creation of new events from a given organizer.
+	 * @param eventInfo EventInfo with the data of the event that will be created
+	 * @return Response an empty response
+	 */
+	@POST
+	@Path(&quot;/createEvent&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createEvent(EventInfo eventInfo) {
+<span class="fc" id="L206">		Event e = appService.createEvent(eventInfo);</span>
+<span class="fc" id="L207">		return Response.ok(new EventInfo(e)).build();</span>
+	}
+
+	@POST
+	@Path(&quot;/createPost&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createPost(PostInfo postInfo) {
+<span class="fc" id="L214">		Post p = appService.createPost(postInfo);</span>
+<span class="fc" id="L215">		return Response.ok(new PostInfo(p)).build();</span>
+	}
+
+	//------------------------------------DELETE USER-----------------------------------------------------
+
+	/**
+	 * This method is invoked whenever a POST request is made to the following path:
+	 * /delete . It is used of the delete method of users.
+	 * @param userInfo - UserInfo object containing user's email
+	 * @since Sprint 2
+	 * @return Response string with the user's email, in case of user delete was successful.
+	 * If not, an empty response is returned
+	 */
+	@POST
+	@Path(&quot;/delete&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptUserDelete(UserInfo userInfo) {
+		
+<span class="fc" id="L233">		String email = userInfo.getEmail();</span>
+<span class="fc" id="L234">		System.out.println(&quot;Delete attempt received: &quot; + email);</span>
+
+<span class="fc" id="L236">		boolean check = appService.deleteUser(email); //returns true if user was deleted successfully</span>
+
+<span class="fc" id="L238">		String resp = null;</span>
+<span class="pc bpc" id="L239" title="1 of 2 branches missed.">		if (check) resp = &quot;Delete: &quot; + email;</span>
+
+<span class="fc" id="L241">		return Response.ok(resp).build();</span>
+	}
+
+	@POST
+	@Path(&quot;/deleteOrganizer&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response attemptOrganizerDelete(OrganizerInfo organizerInfo) {
+		
+<span class="fc" id="L249">		String email = organizerInfo.getEmail();</span>
+<span class="fc" id="L250">		System.out.println(&quot;Organizer delete attempt received: &quot; + email);</span>
+
+<span class="fc" id="L252">		boolean check = appService.deleteOrganizer(email); //returns true if organizer was deleted successfully</span>
+
+<span class="fc" id="L254">		String resp = null;</span>
+<span class="pc bpc" id="L255" title="1 of 2 branches missed.">		if (check) resp = &quot;Delete: &quot; + email;</span>
+
+<span class="fc" id="L257">		return Response.ok(resp).build();</span>
+	}
+
+	// --------------------------------------------------------------
+
+	// method used for manual testing 
+	@GET
+	@Path(&quot;/hello&quot;)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response sayHello() {
+        // Persistence of a set of Accounts and a User
+<span class="nc" id="L268">		appService.hello();</span>
+<span class="nc" id="L269">		return Response.ok(&quot;Hello world!&quot;).build();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

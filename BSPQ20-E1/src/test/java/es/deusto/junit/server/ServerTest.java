@@ -97,16 +97,16 @@ public class ServerTest {
         DAOFactory.getInstance().createUserDAO().deleteUser(signup2.getEmail());
     }
 
-    @Test
-    public void testNormalLogin() {
-        LoginAttempt login = new LoginAttempt(signup.getEmail(), signup.getPassword(), false);
-        UserInfo user = (UserInfo) server.attemptNormalLogin(login).getEntity();
-        assertTrue(
-            user.getEmail().equals(signup.getEmail()) &&
-            user.getName().equals(signup.getName()) &&
-            user.getCity().equals(signup.getCity())
-        );
-    }
+    // @Test
+    // public void testNormalLogin() {
+    //     LoginAttempt login = new LoginAttempt(signup.getEmail(), signup.getPassword(), false);
+    //     UserInfo user = (UserInfo) server.attemptNormalLogin(login).getEntity();
+    //     assertTrue(
+    //         user.getEmail().equals(signup.getEmail()) &&
+    //         user.getName().equals(signup.getName()) &&
+    //         user.getCity().equals(signup.getCity())
+    //     );
+    // }
 
     @Test 
     public void testRecoverPassword() {

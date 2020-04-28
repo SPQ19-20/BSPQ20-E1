@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SignupAttempt.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EventFinder</a> &gt; <a href="index.source.html" class="el_package">es.deusto.serialization</a> &gt; <span class="el_source">SignupAttempt.java</span></div><h1>SignupAttempt.java</h1><pre class="source lang-java linenums">package es.deusto.serialization;
+
+import java.util.ArrayList;
+
+import es.deusto.server.data.Organizer;
+import es.deusto.server.data.User;
+
+public class SignupAttempt {
+
+    // Common atributes (Both normal Users and Organizers have them)
+    private String email, password, name;
+    private ArrayList&lt;TopicInfo&gt; interests;
+
+    
+    // Normal user
+    private String city;
+    
+    // Organizer
+    private String organization;
+    
+<span class="fc" id="L21">    public SignupAttempt() {</span>
+<span class="fc" id="L22">        this.email = &quot;&quot;;</span>
+<span class="fc" id="L23">        this.password = &quot;&quot;;</span>
+<span class="fc" id="L24">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L25">        this.city = &quot;&quot;;</span>
+<span class="fc" id="L26">        this.organization = &quot;&quot;;</span>
+<span class="fc" id="L27">        this.interests = new ArrayList&lt;TopicInfo&gt;(); //the signup works with the objects of its own package</span>
+<span class="fc" id="L28">    }</span>
+
+    // getters and setters
+    public String getEmail() {
+<span class="fc" id="L32">        return this.email;</span>
+    }
+
+    public void setEmail(String email) {
+<span class="fc" id="L36">        this.email = email;</span>
+<span class="fc" id="L37">    }</span>
+
+    public String getPassword() {
+<span class="fc" id="L40">        return this.password;</span>
+    }
+
+    public void setPassword(String password) {
+<span class="fc" id="L44">        this.password = password;</span>
+<span class="fc" id="L45">    }</span>
+
+    public String getName() {
+<span class="fc" id="L48">        return this.name;</span>
+    }
+
+    public void setName(String name) {
+<span class="fc" id="L52">        this.name = name;</span>
+<span class="fc" id="L53">    }</span>
+
+    public String getCity() {
+<span class="fc" id="L56">        return this.city;</span>
+    }
+
+    public void setCity(String city) {
+<span class="fc" id="L60">        this.city = city;</span>
+<span class="fc" id="L61">    }</span>
+
+    public String getOrganization() {
+<span class="fc" id="L64">        return this.organization;</span>
+    }
+
+    public void setOrganization(String organization) {
+<span class="fc" id="L68">        this.organization = organization;</span>
+<span class="fc" id="L69">    }</span>
+
+    public ArrayList&lt;TopicInfo&gt; getInterests() { 
+<span class="fc" id="L72">        return this.interests; </span>
+    }
+
+    public void setInterests(ArrayList&lt;TopicInfo&gt; interests) {
+<span class="fc" id="L76">         this.interests = interests; </span>
+<span class="fc" id="L77">    }</span>
+
+
+    /**
+     * Builds an instance of the business object {@link User}.
+     * The main purpose of this function is prevent object repetition. It's only used in the server.
+     * @return instance of es.deusto.server.data.User.java
+     */
+    public User buildUser() {
+<span class="fc" id="L86">        User user = new User();</span>
+        
+<span class="fc" id="L88">        user.setEmail(this.email);</span>
+<span class="fc" id="L89">        user.setName(this.name);</span>
+<span class="fc" id="L90">        user.setPassword(this.password);</span>
+<span class="fc" id="L91">        user.setCity(this.city);</span>
+        // DOUBT!! maybe we need to create the Arraylist&lt;Topic&gt; first
+        //if the following line of code is uncommented please add the import for TOPIC !
+        //user.setInterests(new ArrayList&lt;&gt;());
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        for (TopicInfo interest : interests) {</span>
+<span class="nc" id="L96">            user.addInterest(TopicInfo.parseTopic(interest));</span>
+<span class="nc" id="L97">        }</span>
+<span class="fc" id="L98">        return user;</span>
+    }
+    /**
+     * Builds an instance of the business object {@link Organizer}. 
+     * The main purpose of this function is prevent object repetition. It's only used in the server.
+     * @return instance of {@link Organizer}.
+     */
+    public Organizer buildOrganizer() {
+<span class="fc" id="L106">        Organizer organizer = new Organizer();</span>
+        
+<span class="fc" id="L108">        organizer.setEmail(this.email);</span>
+<span class="fc" id="L109">        organizer.setName(this.name);</span>
+<span class="fc" id="L110">        organizer.setPassword(this.password);</span>
+<span class="fc" id="L111">        organizer.setOrganization(this.organization);</span>
+       // organizer.setInterests(this.interests);
+
+<span class="fc" id="L114">        return organizer;</span>
+    }
+
+    public String toString() {
+<span class="fc" id="L118">        return &quot;SignupAttempt[email=&quot; + email + &quot;, password=&quot; + password + &quot;]&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

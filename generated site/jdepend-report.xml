@@ -1,0 +1,535 @@
+<?xml version="1.0"?>
+<JDepend>
+    <Packages>
+
+        <Package name="es.deusto.client.controller">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>8</Ce>
+                <A>0</A>
+                <I>0.8</I>
+                <D>0.2</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Controller.java">
+                    es.deusto.client.controller.Controller
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>es.deusto.client.windows</Package>
+                <Package>es.deusto.serialization</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>java.util.logging</Package>
+                <Package>javax.ws.rs.client</Package>
+                <Package>javax.ws.rs.core</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>es.deusto.client.main</Package>
+                <Package>es.deusto.client.windows</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="es.deusto.client.main">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>5</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Main.java">
+                    es.deusto.client.main.Main
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>es.deusto.client.controller</Package>
+                <Package>es.deusto.client.windows</Package>
+                <Package>es.deusto.serialization</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="es.deusto.client.windows">
+            <Stats>
+                <TotalClasses>34</TotalClasses>
+                <ConcreteClasses>34</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>11</Ce>
+                <A>0</A>
+                <I>0.85</I>
+                <D>0.15</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="ChangePass.java">
+                    es.deusto.client.windows.ChangePass
+                </Class>
+                <Class sourceFile="ChangePass.java">
+                    es.deusto.client.windows.ChangePass$1
+                </Class>
+                <Class sourceFile="CodeVerification.java">
+                    es.deusto.client.windows.CodeVerification
+                </Class>
+                <Class sourceFile="CodeVerification.java">
+                    es.deusto.client.windows.CodeVerification$1
+                </Class>
+                <Class sourceFile="CodeVerification.java">
+                    es.deusto.client.windows.CodeVerification$2
+                </Class>
+                <Class sourceFile="CreateUserWindow.java">
+                    es.deusto.client.windows.CreateUserWindow
+                </Class>
+                <Class sourceFile="EventOrganizerWindow.java">
+                    es.deusto.client.windows.EventOrganizerWindow
+                </Class>
+                <Class sourceFile="EventOrganizerWindow.java">
+                    es.deusto.client.windows.EventOrganizerWindow$EventListElement
+                </Class>
+                <Class sourceFile="EventOrganizerWindow.java">
+                    es.deusto.client.windows.EventOrganizerWindow$EventListElement$1
+                </Class>
+                <Class sourceFile="EventWindow.java">
+                    es.deusto.client.windows.EventWindow
+                </Class>
+                <Class sourceFile="EventWindow.java">
+                    es.deusto.client.windows.EventWindow$1
+                </Class>
+                <Class sourceFile="EventWindow.java">
+                    es.deusto.client.windows.EventWindow$2
+                </Class>
+                <Class sourceFile="EventWindow.java">
+                    es.deusto.client.windows.EventWindow$3
+                </Class>
+                <Class sourceFile="EventWindow.java">
+                    es.deusto.client.windows.EventWindow$4
+                </Class>
+                <Class sourceFile="EventWindow.java">
+                    es.deusto.client.windows.EventWindow$PostPanel
+                </Class>
+                <Class sourceFile="ForgottenPassword.java">
+                    es.deusto.client.windows.ForgottenPassword
+                </Class>
+                <Class sourceFile="ForgottenPassword.java">
+                    es.deusto.client.windows.ForgottenPassword$1
+                </Class>
+                <Class sourceFile="ForgottenPassword.java">
+                    es.deusto.client.windows.ForgottenPassword$2
+                </Class>
+                <Class sourceFile="LanguageManager.java">
+                    es.deusto.client.windows.LanguageManager
+                </Class>
+                <Class sourceFile="LogInWindow.java">
+                    es.deusto.client.windows.LogInWindow
+                </Class>
+                <Class sourceFile="LogInWindow.java">
+                    es.deusto.client.windows.LogInWindow$1
+                </Class>
+                <Class sourceFile="LogInWindow.java">
+                    es.deusto.client.windows.LogInWindow$2
+                </Class>
+                <Class sourceFile="LogInWindow.java">
+                    es.deusto.client.windows.LogInWindow$3
+                </Class>
+                <Class sourceFile="LogInWindow.java">
+                    es.deusto.client.windows.LogInWindow$4
+                </Class>
+                <Class sourceFile="LogInWindow.java">
+                    es.deusto.client.windows.LogInWindow$5
+                </Class>
+                <Class sourceFile="LogInWindow.java">
+                    es.deusto.client.windows.LogInWindow$6
+                </Class>
+                <Class sourceFile="Profile.java">
+                    es.deusto.client.windows.Profile
+                </Class>
+                <Class sourceFile="Profile.java">
+                    es.deusto.client.windows.Profile$1
+                </Class>
+                <Class sourceFile="Profile.java">
+                    es.deusto.client.windows.Profile$2
+                </Class>
+                <Class sourceFile="Profile.java">
+                    es.deusto.client.windows.Profile$3
+                </Class>
+                <Class sourceFile="UserEventsWindow.java">
+                    es.deusto.client.windows.UserEventsWindow
+                </Class>
+                <Class sourceFile="UserEventsWindow.java">
+                    es.deusto.client.windows.UserEventsWindow$1
+                </Class>
+                <Class sourceFile="UserEventsWindow.java">
+                    es.deusto.client.windows.UserEventsWindow$EventListElement
+                </Class>
+                <Class sourceFile="UserEventsWindow.java">
+                    es.deusto.client.windows.UserEventsWindow$EventListElement$1
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>es.deusto.client.controller</Package>
+                <Package>es.deusto.serialization</Package>
+                <Package>java.awt</Package>
+                <Package>java.awt.event</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.net</Package>
+                <Package>java.util</Package>
+                <Package>javax.imageio</Package>
+                <Package>javax.swing</Package>
+                <Package>javax.swing.border</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>es.deusto.client.controller</Package>
+                <Package>es.deusto.client.main</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="es.deusto.serialization">
+            <Stats>
+                <TotalClasses>8</TotalClasses>
+                <ConcreteClasses>7</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>5</Ca>
+                <Ce>3</Ce>
+                <A>0.12</A>
+                <I>0.38</I>
+                <D>0.5</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="GenericUserInfo.java">
+                    es.deusto.serialization.GenericUserInfo
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="EventInfo.java">
+                    es.deusto.serialization.EventInfo
+                </Class>
+                <Class sourceFile="LoginAttempt.java">
+                    es.deusto.serialization.LoginAttempt
+                </Class>
+                <Class sourceFile="OrganizerInfo.java">
+                    es.deusto.serialization.OrganizerInfo
+                </Class>
+                <Class sourceFile="PostInfo.java">
+                    es.deusto.serialization.PostInfo
+                </Class>
+                <Class sourceFile="SignupAttempt.java">
+                    es.deusto.serialization.SignupAttempt
+                </Class>
+                <Class sourceFile="TopicInfo.java">
+                    es.deusto.serialization.TopicInfo
+                </Class>
+                <Class sourceFile="UserInfo.java">
+                    es.deusto.serialization.UserInfo
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>es.deusto.server.data</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>es.deusto.client.controller</Package>
+                <Package>es.deusto.client.main</Package>
+                <Package>es.deusto.client.windows</Package>
+                <Package>es.deusto.server.data</Package>
+                <Package>es.deusto.server.server</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="es.deusto.server.dao">
+            <Stats>
+                <TotalClasses>6</TotalClasses>
+                <ConcreteClasses>6</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>5</Ce>
+                <A>0</A>
+                <I>0.71</I>
+                <D>0.29</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="DAOFactory.java">
+                    es.deusto.server.dao.DAOFactory
+                </Class>
+                <Class sourceFile="EventDAO.java">
+                    es.deusto.server.dao.EventDAO
+                </Class>
+                <Class sourceFile="OrganizerDAO.java">
+                    es.deusto.server.dao.OrganizerDAO
+                </Class>
+                <Class sourceFile="PostDAO.java">
+                    es.deusto.server.dao.PostDAO
+                </Class>
+                <Class sourceFile="TopicDAO.java">
+                    es.deusto.server.dao.TopicDAO
+                </Class>
+                <Class sourceFile="UserDAO.java">
+                    es.deusto.server.dao.UserDAO
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>es.deusto.server.data</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>javax.jdo</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>es.deusto.server.data</Package>
+                <Package>es.deusto.server.server</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="es.deusto.server.data">
+            <Stats>
+                <TotalClasses>6</TotalClasses>
+                <ConcreteClasses>5</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>3</Ca>
+                <Ce>7</Ce>
+                <A>0.17</A>
+                <I>0.7</I>
+                <D>0.13</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="GenericUser.java">
+                    es.deusto.server.data.GenericUser
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Event.java">
+                    es.deusto.server.data.Event
+                </Class>
+                <Class sourceFile="Organizer.java">
+                    es.deusto.server.data.Organizer
+                </Class>
+                <Class sourceFile="Post.java">
+                    es.deusto.server.data.Post
+                </Class>
+                <Class sourceFile="Topic.java">
+                    es.deusto.server.data.Topic
+                </Class>
+                <Class sourceFile="User.java">
+                    es.deusto.server.data.User
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>es.deusto.serialization</Package>
+                <Package>es.deusto.server.dao</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>javax.jdo</Package>
+                <Package>org.datanucleus.enhancement</Package>
+                <Package>org.datanucleus.enhancer</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>es.deusto.serialization</Package>
+                <Package>es.deusto.server.dao</Package>
+                <Package>es.deusto.server.server</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="es.deusto.server.server">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>9</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="AppService.java">
+                    es.deusto.server.server.AppService
+                </Class>
+                <Class sourceFile="AppService.java">
+                    es.deusto.server.server.AppService$1
+                </Class>
+                <Class sourceFile="Server.java">
+                    es.deusto.server.server.Server
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>es.deusto.serialization</Package>
+                <Package>es.deusto.server.dao</Package>
+                <Package>es.deusto.server.data</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>javax.mail</Package>
+                <Package>javax.mail.internet</Package>
+                <Package>javax.ws.rs.core</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="java.awt">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.awt.event">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.io">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.lang">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.net">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.util">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.util.logging">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="javax.imageio">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="javax.jdo">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="javax.mail">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="javax.mail.internet">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="javax.swing">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="javax.swing.border">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="javax.ws.rs.client">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="javax.ws.rs.core">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.datanucleus.enhancement">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.datanucleus.enhancer">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+    </Packages>
+
+    <Cycles>
+        <Package Name="es.deusto.client.controller">
+            <Package>es.deusto.client.windows</Package>
+            <Package>es.deusto.client.controller</Package>
+        </Package>
+
+        <Package Name="es.deusto.client.main">
+            <Package>es.deusto.client.controller</Package>
+            <Package>es.deusto.client.windows</Package>
+            <Package>es.deusto.client.controller</Package>
+        </Package>
+
+        <Package Name="es.deusto.client.windows">
+            <Package>es.deusto.client.controller</Package>
+            <Package>es.deusto.client.windows</Package>
+        </Package>
+
+        <Package Name="es.deusto.serialization">
+            <Package>es.deusto.server.data</Package>
+            <Package>es.deusto.server.dao</Package>
+            <Package>es.deusto.server.data</Package>
+        </Package>
+
+        <Package Name="es.deusto.server.dao">
+            <Package>es.deusto.server.data</Package>
+            <Package>es.deusto.server.dao</Package>
+        </Package>
+
+        <Package Name="es.deusto.server.data">
+            <Package>es.deusto.server.dao</Package>
+            <Package>es.deusto.server.data</Package>
+        </Package>
+
+        <Package Name="es.deusto.server.server">
+            <Package>es.deusto.server.dao</Package>
+            <Package>es.deusto.server.data</Package>
+            <Package>es.deusto.server.dao</Package>
+        </Package>
+
+    </Cycles>
+</JDepend>

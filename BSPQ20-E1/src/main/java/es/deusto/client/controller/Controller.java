@@ -70,6 +70,11 @@ public class Controller {
         return this.organizer;
     }
 
+    public void setOrganizer(OrganizerInfo org) {
+        this.organizer = org;
+    }
+        
+
     //--------------------------LOG IN----------------------------------------------------------------------------
     /**
      * This method is invoked by the login button in the GUI, and it makes
@@ -110,7 +115,7 @@ public class Controller {
      *    * This method is invoked by the login button in the GUI, and it makes
      * a login request to the server with the specified email and password.
      * It is used only for organizers.
-     * @param email email of the {@link Organizer} 
+     * @param email email of the Organizer
      * @param password password of the organizer
      * @return true  if succesful
      * @since Sprint 2
@@ -135,7 +140,7 @@ public class Controller {
         if (organizer != null) {
            // System.out.println("We got something");
            // System.out.println(organizer.getName());
-            LOGGER.log(Level.FINE, "We got something, " + user.getName());
+            LOGGER.log(Level.FINE, "We got something, " + organizer.getName());
 
         }
 
@@ -147,9 +152,9 @@ public class Controller {
      * a login request to the server with the specified email and password.
      * The class of object must be indicated in the boolean input.
      * This method works as a solution for both organizers and logins
-     * @param email email of the {@link User} or {@link Organizer}
-     * @param password password of the of the {@link User} or {@link Organizer}
-     * @param organizer boolean that indicates whether it's a {@link User} or {@link Organizer}
+     * @param email email of the User or Organizer
+     * @param password password of the of the User or Organizer
+     * @param organizer boolean that indicates whether it's a User or Organizer
      * @deprecated beeter to use attemptNormalLogin(email, password) and attemptNormalLoginOrganizer !
      * @since Sprint 2
      * @return  boolean if succesful
@@ -238,7 +243,7 @@ public class Controller {
      * @param email Email String taken from the GUI
      * @param password Password String taken from the GUI
      * @param name Name String taken from the GUI
-     * @param city City String taken from the GUI
+       @param organization String 
      * @since Sprint 2
      * @return true if the signup process was successful, otherwise it returns false
     */
@@ -357,7 +362,7 @@ public class Controller {
         Response response = invocationBuilder.post(Entity.entity(this.getUser(), MediaType.APPLICATION_JSON));
 
         if (response.getStatus() != Status.OK.getStatusCode()) {
-            
+            // TODO handle this situation
             LOGGER.log(Level.SEVERE, "Not OK status code : error while DELETING user");
             //System.out.println("Not OK status code");
             return false;
@@ -390,7 +395,7 @@ public class Controller {
 //-------------------------------------EVENT & POST-----------------------------------------------------
 
     /**
-     * sends {@link EventInfo} to the server, to use this method the organizer must be logged in.
+     * sends EventInfo to the server, to use this method the organizer must be logged in.
      * @param eventInfo event to be sent to the server
      * @return true if succesful
      * @since sprint 2
@@ -411,9 +416,14 @@ public class Controller {
             return false;
         }
 
-        LOGGER.log(Level.FINE, "Event Created");
-        return true;
-        
+        EventInfo event = response.readEntity(EventInfo.class);
+
+        if (event != null) {
+            LOGGER.log(Level.FINE, "Event Created");
+            return true;
+        }
+        LOGGER.log(Level.FINE, "Response was empty");
+        return false;
     }
 
     /**
@@ -431,17 +441,22 @@ public class Controller {
         LOGGER.log(Level.FINE, "Creating the Post for event: " + eventInfo.getName());
         Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 
-        Response response = invocationBuilder.post(Entity.entity(eventInfo, MediaType.APPLICATION_JSON));
+        Response response = invocationBuilder.post(Entity.entity(postInfo, MediaType.APPLICATION_JSON));
         if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
             LOGGER.log(Level.SEVERE, "Not OK status code: not possible to create post for Event " + eventInfo.getName());
             // System.out.println("Not OK status code");
             return false;
         }
-        LOGGER.log(Level.FINE, "POST Created");
-        return true;
-    }
 
+        PostInfo post = response.readEntity(PostInfo.class);
+        if (post != null) {
+            LOGGER.log(Level.FINE, "POST Created");
+            return true;
+        }
+        LOGGER.log(Level.SEVERE, "Error when creating Post : Response was empty");
+        return false;
+    }
     public LanguageManager getLanguageManager() {
         return this.langManager;
     }

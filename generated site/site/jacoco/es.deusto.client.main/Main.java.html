@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EventFinder</a> &gt; <a href="index.source.html" class="el_package">es.deusto.client.main</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package es.deusto.client.main;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.swing.JFrame;
+
+import es.deusto.client.controller.Controller;
+import es.deusto.client.windows.EventWindow;
+import es.deusto.client.windows.ForgottenPassword;
+import es.deusto.client.windows.LogInWindow;
+
+import es.deusto.client.windows.UserEventsWindow;
+import es.deusto.serialization.EventInfo;
+import es.deusto.serialization.OrganizerInfo;
+import es.deusto.serialization.PostInfo;
+import es.deusto.serialization.TopicInfo;
+
+<span class="nc" id="L19">public class Main {</span>
+
+	public static void main(String[] args) throws ClassNotFoundException {
+<span class="nc" id="L22">		Controller c = new Controller(&quot;localhost&quot;, &quot;8080&quot;);</span>
+		// new LogInWindow(c);
+
+<span class="nc" id="L25">		OrganizerInfo organizer = new OrganizerInfo();</span>
+<span class="nc" id="L26">		organizer.setName(&quot;Organizer name&quot;);</span>
+<span class="nc" id="L27">		organizer.setEmail(&quot;this.is@somemail.com&quot;);</span>
+<span class="nc" id="L28">		organizer.setOrganization(&quot;Save the organizers&quot;);</span>
+
+<span class="nc" id="L30">		ArrayList&lt;EventInfo&gt; events = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L32">		EventInfo event = new EventInfo();</span>
+<span class="nc" id="L33">		event.setName(&quot;My testing event&quot;);</span>
+<span class="nc" id="L34">		event.setDescription(&quot;This is the description of the event. This text should consist of a couple of sentendes.&quot;);</span>
+<span class="nc" id="L35">		event.setOrganizerEmail(&quot;this.is@somemail.org&quot;);</span>
+<span class="nc" id="L36">		event.setTopic(new TopicInfo(&quot;ToToTopic&quot;));</span>
+<span class="nc" id="L37">		ArrayList&lt;PostInfo&gt; posts = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L38">		PostInfo p1 = new PostInfo();</span>
+<span class="nc" id="L39">		p1.setDate(new Date());</span>
+<span class="nc" id="L40">		p1.setTitle(&quot;This is the title of the first post&quot;);</span>
+<span class="nc" id="L41">		p1.setDescription(&quot;This is the description (or body) of the post inside the event&quot;);</span>
+<span class="nc" id="L42">		p1.setEventName(&quot;This should be the same as the name of the event&quot;);</span>
+<span class="nc" id="L43">		p1.setOrganizerEmail(&quot;This should be the email of the organizer&quot;);</span>
+		
+<span class="nc" id="L45">		PostInfo p2 = new PostInfo();</span>
+<span class="nc" id="L46">		p2.setDate(new Date());</span>
+<span class="nc" id="L47">		p2.setTitle(&quot;This is the title of the second post&quot;);</span>
+<span class="nc" id="L48">		p2.setDescription(&quot;This is the description (or body) of the second post inside the event&quot;);</span>
+<span class="nc" id="L49">		p2.setEventName(&quot;This should be the same as the name of the event&quot;);</span>
+<span class="nc" id="L50">		p2.setOrganizerEmail(&quot;This should be the email of the organizer&quot;);</span>
+
+<span class="nc" id="L52">		event.getPosts().add(p1);</span>
+<span class="nc" id="L53">		event.getPosts().add(p2);</span>
+
+<span class="nc" id="L55">		EventInfo event2 = new EventInfo();</span>
+<span class="nc" id="L56">		event2.setName(&quot;My second testing event&quot;);</span>
+<span class="nc" id="L57">		event2.setDescription(&quot;This is the description of the second event. This text should consist of a couple of sentendes.&quot;);</span>
+<span class="nc" id="L58">		event2.setOrganizerEmail(&quot;this.is@somemail.org&quot;);</span>
+<span class="nc" id="L59">		event2.setTopic(new TopicInfo(&quot;ToToTopic&quot;));</span>
+<span class="nc" id="L60">		event2.setPosts(new ArrayList&lt;&gt;());</span>
+
+<span class="nc" id="L62">		events.add(event);</span>
+<span class="nc" id="L63">		events.add(event2);</span>
+<span class="nc" id="L64">		organizer.setCreatedEvents(events);</span>
+
+<span class="nc" id="L66">		c.setOrganizer(organizer);</span>
+
+<span class="nc" id="L68">		new EventWindow(c, event);</span>
+		// new OrganizerHome(c);
+<span class="nc" id="L70">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

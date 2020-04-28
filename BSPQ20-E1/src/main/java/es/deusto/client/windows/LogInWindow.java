@@ -12,6 +12,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 
@@ -141,28 +142,23 @@ public class LogInWindow extends JFrame {
 				String email, password;
 				email = textField.getText();
 				password = String.valueOf(passwordField.getPassword());
-				//deprecated method
-				/*controller.attemptNormalLogin(email, password, cBoxOrganizer.isSelected());
-				if(cBoxOrganizer.isSelected()){
-					new EventOrganizerWindow(controller); //now we can display the Organizer Event List.
-						dispose();	
-				}else{
-					new UserEventsWindow(controller);
-					dispose();
-				}*/
 
 				//new method
 				if (cBoxOrganizer.isSelected()) { //if is selected then we need to log in a Organizer
 					if (controller.attemptNormalLoginOrganizer(email, password)) {
 						// organizer login success
-						new EventOrganizerWindow(controller); //now we can display the Organizer Event List.
+						new OrganizerHome(controller); //now we can display the Organizer Event List.
 						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, langManager.getString("wrongCredentials"), langManager.getString("error"), JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
 					if (controller.attemptNormalLogin(email, password)) {
 						// user login success
 						new UserEventsWindow(controller);
 						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, langManager.getString("wrongCredentials"), langManager.getString("error"), JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				

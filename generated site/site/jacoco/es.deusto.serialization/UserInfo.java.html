@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserInfo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EventFinder</a> &gt; <a href="index.source.html" class="el_package">es.deusto.serialization</a> &gt; <span class="el_source">UserInfo.java</span></div><h1>UserInfo.java</h1><pre class="source lang-java linenums">package es.deusto.serialization;
+
+import java.util.ArrayList;
+
+import es.deusto.server.data.Event;
+import es.deusto.server.data.Topic;
+import es.deusto.server.data.User;
+    /**
+     * All the ...Info classes work as a middleman for the client and server bussines objects.
+     * Due to the functionality of this classes their structure is similar to the 'original' ones in the server
+     * Examples: UserInfo: User
+     *           EventInfo: Event
+     * Also the ...Info clases are the ones shown in the GUI.
+     */
+public class UserInfo extends GenericUserInfo{
+
+    private String name, email, city;
+    private ArrayList&lt;TopicInfo&gt; interests;
+    private ArrayList&lt;EventInfo&gt; savedEvents;
+
+<span class="fc" id="L21">    public UserInfo(String name, String email, String city) {</span>
+<span class="fc" id="L22">        this.name = name;</span>
+<span class="fc" id="L23">        this.email = email;</span>
+<span class="fc" id="L24">        this.city = city;</span>
+<span class="fc" id="L25">        this.savedEvents = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L26">        this.interests = new ArrayList&lt;TopicInfo&gt;();</span>
+<span class="fc" id="L27">    }</span>
+
+<span class="fc" id="L29">    public UserInfo() {</span>
+<span class="fc" id="L30">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L31">        this.email = &quot;&quot;;</span>
+<span class="fc" id="L32">        this.city = &quot;&quot;;</span>
+<span class="fc" id="L33">        this.savedEvents = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L34">        this.interests = new ArrayList&lt;TopicInfo&gt;();</span>
+<span class="fc" id="L35">    }</span>
+
+<span class="fc" id="L37">    public UserInfo(User user) {</span>
+<span class="fc" id="L38">        this.name = user.getName();</span>
+<span class="fc" id="L39">        this.email = user.getEmail();</span>
+<span class="fc" id="L40">        this.city = user.getCity();</span>
+<span class="fc" id="L41">        this.savedEvents = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (Event e: user.getSavedEvents()) {</span>
+<span class="fc" id="L43">            this.savedEvents.add(new EventInfo(e));</span>
+<span class="fc" id="L44">        }</span>
+
+        //change the list of Topic.java of User.java for a list of TopicInfo.java
+<span class="fc" id="L47">        this.interests = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        for (Topic interest : user.getInterests()) {</span>
+<span class="fc" id="L49">            this.interests.add(new TopicInfo(interest));</span>
+<span class="fc" id="L50">        }</span>
+<span class="fc" id="L51">    }</span>
+
+    public String getName() {
+<span class="fc" id="L54">        return this.name;</span>
+    }    
+
+    public void setName(String name) {
+<span class="fc" id="L58">        this.name = name;</span>
+<span class="fc" id="L59">    }</span>
+
+    public String getEmail() {
+<span class="fc" id="L62">        return this.email;</span>
+    }
+
+    public void setEmail(String email) {
+<span class="fc" id="L66">        this.email = email;</span>
+<span class="fc" id="L67">    }</span>
+
+    public String getCity() {
+<span class="fc" id="L70">        return this.city;</span>
+    }
+
+    public void setCity(String city) {
+<span class="fc" id="L74">        this.city = city;</span>
+<span class="fc" id="L75">    }</span>
+
+    public ArrayList&lt;EventInfo&gt; getSavedEvents() {
+<span class="fc" id="L78">        return this.savedEvents;</span>
+    }
+
+    public void setSavedEvents(ArrayList&lt;EventInfo&gt; savedEvents) {
+<span class="fc" id="L82">        this.savedEvents = savedEvents;</span>
+<span class="fc" id="L83">    }</span>
+
+    public ArrayList&lt;TopicInfo&gt; getInterests() { 
+<span class="fc" id="L86">        return this.interests;</span>
+     }
+
+    public void setInterests(ArrayList&lt;TopicInfo&gt; interests) { 
+<span class="fc" id="L90">        this.interests = interests;</span>
+<span class="fc" id="L91">     }</span>
+     public void addInterest(TopicInfo interest) { 
+<span class="fc" id="L93">        this.interests.add(interest);</span>
+<span class="fc" id="L94">     }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

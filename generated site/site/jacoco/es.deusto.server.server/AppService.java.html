@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AppService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EventFinder</a> &gt; <a href="index.source.html" class="el_package">es.deusto.server.server</a> &gt; <span class="el_source">AppService.java</span></div><h1>AppService.java</h1><pre class="source lang-java linenums">package es.deusto.server.server;
+
+import es.deusto.serialization.EventInfo;
+import es.deusto.serialization.LoginAttempt;
+import es.deusto.serialization.PostInfo;
+import es.deusto.serialization.SignupAttempt;
+import es.deusto.serialization.UserInfo;
+import es.deusto.server.dao.TopicDAO;
+import es.deusto.server.dao.DAOFactory;
+import es.deusto.server.dao.EventDAO;
+import es.deusto.server.dao.OrganizerDAO;
+import es.deusto.server.dao.UserDAO;
+import es.deusto.server.data.Topic;
+import es.deusto.server.data.Event;
+import es.deusto.server.data.Organizer;
+import es.deusto.server.data.Post;
+import es.deusto.server.data.User;
+
+import java.util.Date;
+import java.util.Properties;
+import java.util.Random;
+
+import javax.jdo.JDOHelper;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+public class AppService {
+
+    /**
+     * This class will include methods representing
+     * the different functionalities of the server. 
+     * 
+     * This class should be called by the Server class,
+     * so that the Server is abstracted from the
+     * business logic of the project.
+     * 
+     * In order to access to the database, use the
+     * DAO objects (create them using DAOFactory class).
+    */
+
+<span class="fc" id="L46">    public AppService() {}</span>
+
+    //--------------------------------------LOGIN USERS-----------------------------------------------------
+
+    /**
+     * Receives a LoginAttempt (email and password string) and tries to log in.
+     * This method is used for the login process of regular users (not organizers).
+     * 
+     * @param login LoginAttempt with the requester's email and password
+     * @return User The user to which the login email corresponds. If the credentials are
+     * invalid, null is returned
+     */
+    public User attemptNormalLogin(LoginAttempt login) {
+<span class="fc" id="L59">        UserDAO dao = DAOFactory.getInstance().createUserDAO();</span>
+
+        // 1. Get user by email
+<span class="fc" id="L62">        User user = dao.getUser(login.getEmail());</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (user == null) {</span>
+<span class="nc" id="L64">            return null;</span>
+        }
+
+        // 2. Check the password
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (!user.getPassword().equals(login.getPassword())) {</span>
+<span class="nc" id="L69">            return null;</span>
+        }
+
+<span class="fc" id="L72">        return user;</span>
+    }
+
+    /**
+     * Receives a LoginAttempt (email and password string) and tries to log in.
+     * This method is used for the login process of organizers (not regular users).
+     * 
+     * @param login LoginAttempt with the requester's email and password
+     * @return Organizer The organizer to which the login email corresponds. If the credentials are
+     * invalid, null is returned
+     */
+    public Organizer attemptOrganizerLogin(LoginAttempt login) {
+<span class="fc" id="L84">        OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();</span>
+
+        // 1. Get organizer by email
+<span class="fc" id="L87">        Organizer organizer = dao.getOrganizer(login.getEmail());</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if (organizer == null) {</span>
+<span class="nc" id="L89">            return null;</span>
+        }
+
+        // 2. Check the password
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        if (!organizer.getPassword().equals(login.getPassword())) {</span>
+<span class="nc" id="L94">            return null;</span>
+        }
+
+<span class="fc" id="L97">        return organizer;</span>
+    }
+
+    //----------------------------------------SIGNUP USERS-----------------------------------------------------------------
+
+    /**
+     * Receives a SignupAttempt (name, email, password, etc.) and tries to create a new user.
+     * This method is used for the signup process of regular users (not organizers).
+     * 
+     * @param signup SignupAttempt with the requester's signup data - name, email, password and city
+     * @return User The user that has been created as a result of the request. If the email is already in
+     * use, null is returned
+     */
+    public User attemptNormalSignup(SignupAttempt signup) {
+<span class="fc" id="L111">        UserDAO dao = DAOFactory.getInstance().createUserDAO();</span>
+        
+        // 1. Make sure the email is not in use
+<span class="fc" id="L114">        User user = dao.getUser(signup.getEmail());</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">        if (user != null) {</span>
+<span class="nc" id="L116">            return null;</span>
+        }
+
+        // 2. Create the user in the DB
+<span class="fc" id="L120">        user = signup.buildUser();</span>
+<span class="fc" id="L121">        dao.storeUser(user);</span>
+        
+<span class="fc" id="L123">        return user;</span>
+    }
+
+    /**
+     * Receives a SignupAttempt (name, email, password, etc.) and tries to create a new organizer.
+     * This method is used for the signup process of organizers (not regular users).
+     * 
+     * @param signup SignupAttempt with the requester's signup data - name, email, password and organization
+     * @return Organizer the organizer that has been created as a result of the request. If the email is already in
+     * use, null is returned
+     */
+    public Organizer attemptOrganizerSignup(SignupAttempt signup) {
+<span class="fc" id="L135">        OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();</span>
+        
+        // 1. Make sure the email is not in use
+<span class="fc" id="L138">        Organizer organizer = dao.getOrganizer(signup.getEmail());</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">        if (organizer != null) {</span>
+<span class="nc" id="L140">            return null;</span>
+        }
+
+        // 2. Create the user in the DB
+<span class="fc" id="L144">        organizer = signup.buildOrganizer();</span>
+<span class="fc" id="L145">        dao.storeOrganizer(organizer);</span>
+        
+<span class="fc" id="L147">        return organizer;</span>
+    }
+
+    //--------------------------UPDATE USERS-----------------------------------------------------------------------
+
+     /**
+     * Receives a SignupAttempt (name, email, etc.) and tries to update an existing user.
+     * This method is used for the update process of regular users (not organizers).
+     *
+     * @param signup SignupAttempt with the requester's data - name, email, password(empty) and city
+     * @since Sprint 2
+     * @return User The user that has been created as a result of the request. If the email doesn't exist
+     * null is returned
+     */
+    public User attemptNormalUpdate(SignupAttempt signup) {
+<span class="fc" id="L162">        UserDAO dao = DAOFactory.getInstance().createUserDAO();</span>
+        
+        // 1. Make sure the email exists
+<span class="fc" id="L165">        User user = dao.getUser(signup.getEmail());</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">        if (user == null) {</span>
+<span class="nc" id="L167">            return null;</span>
+        }
+
+        //2. updates every atribute except the Password. --&gt; if not the password is nullified.
+<span class="fc" id="L171">        User u = signup.buildUser();</span>
+<span class="fc" id="L172">        user.setName(u.getName());</span>
+<span class="fc" id="L173">        user.setCity(u.getCity());</span>
+<span class="fc" id="L174">        user.setEmail(u.getEmail()); // necesary to update the email??</span>
+<span class="fc" id="L175">        user.setInterests(u.getInterests());</span>
+
+        //3. Update the user in the DB
+<span class="fc" id="L178">        dao.storeUser(user);</span>
+        
+<span class="fc" id="L180">        return user;</span>
+    }
+
+ /**
+     * Receives a SignupAttempt (name, email, password, etc.) and tries to UPDATE an existing organizer.
+     * This method is used for the updating process of organizers (not regular users).
+     * 
+     * @param signup SignupAttempt with the requester's data - name, email, password (empty) and organization
+     * @since Sprint 2
+     * @return Organizer the organizer that has been updated as a result of the request. If the email doesn't exist
+     * null is returned
+     */
+    public Organizer attemptOrganizerUpdate(SignupAttempt signup) {
+<span class="fc" id="L193">        OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();</span>
+
+        // 1. Make sure the email is not in use
+<span class="fc" id="L196">        Organizer organizer = dao.getOrganizer(signup.getEmail());</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        if (organizer == null) {</span>
+<span class="nc" id="L198">            return null;</span>
+        }
+
+        // 2. update every atribute except the Password. --&gt; if not the password is nullified.
+<span class="fc" id="L202">        Organizer u = signup.buildOrganizer();</span>
+<span class="fc" id="L203">        organizer.setName(u.getName());</span>
+<span class="fc" id="L204">        organizer.setEmail(u.getEmail()); // necesary to update the email??</span>
+<span class="fc" id="L205">        organizer.setCreatedEvents(u.getCreatedEvents());</span>
+<span class="fc" id="L206">        organizer.setOrganization(u.getOrganization());</span>
+
+        //3.Store the user in the DB
+<span class="fc" id="L209">        dao.storeOrganizer(organizer);</span>
+
+<span class="fc" id="L211">        return organizer;</span>
+    }
+
+    //--------------------------DELETE USER-----------------------------------------------------------------------
+
+    /**
+     * Receives an user's email and tries to delete the user from the database.
+     * This method is used for the delete process of all type of users.
+     *
+     * @param email - user's email
+     * @since Sprint 2
+     * @return boolean True if the email belongs to a user and the delete is complete successfully, false otherwise.
+     */
+
+    public boolean deleteUser(String email) {
+<span class="fc" id="L226">        UserDAO dao = DAOFactory.getInstance().createUserDAO();</span>
+
+        // 1. Make sure that the email is in use
+<span class="fc" id="L229">        User user = dao.getUser(email);</span>
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">        if (user == null) return false;</span>
+
+        // 2. Delete user from the database
+<span class="fc" id="L233">        dao.deleteUser(email);</span>
+<span class="fc" id="L234">        return true;</span>
+    }
+
+	public boolean deleteOrganizer(String email) {
+<span class="fc" id="L238">        OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();</span>
+
+        // 1. Make sure that the email is in use
+<span class="fc" id="L241">        Organizer organizer = dao.getOrganizer(email);</span>
+<span class="pc bpc" id="L242" title="1 of 2 branches missed.">        if (organizer == null) return false;</span>
+
+        // 2. Delete user from the database
+<span class="fc" id="L245">        dao.deleteOrganizer(email);</span>
+
+<span class="fc" id="L247">		return false;</span>
+	}
+
+    //-------------------------------------------EVENT MANAGEMENT---------------------------------------------
+    public Event createEvent(EventInfo eventInfo) {
+<span class="fc" id="L252">        Event e = new Event(eventInfo); </span>
+<span class="fc" id="L253">        DAOFactory.getInstance().createEventDAO().storeEvent(e);</span>
+<span class="fc" id="L254">        return e;</span>
+    }
+
+    /**
+     * This method is used for new password generation. It receives a LoginAttempt
+     * with the email of the user that wants to recover his/her password, generates a new password 
+     * for that user and updates the data in the database. It also sends an email to the received
+     * email with the new password so that the user can log in. If there is no account in the database
+     * with that same email linked to it, the method does nothing.
+     * 
+     * @param login LoginAttempt with the user's email
+     */
+    public void recoverPassword(LoginAttempt login) {
+<span class="fc" id="L267">        String email = login.getEmail();</span>
+<span class="fc" id="L268">        String newPassword = generatePassword();</span>
+<span class="fc" id="L269">        sendEmail(email, newPassword);</span>
+<span class="fc" id="L270">        System.out.println(&quot;Changing and sending new password for &quot; + email);</span>
+<span class="fc" id="L271">    }</span>
+
+    public Post createPost(PostInfo info) {
+<span class="fc" id="L274">        Post post = new Post(info);</span>
+<span class="fc" id="L275">        DAOFactory.getInstance().createPostDAO().storePost(post);</span>
+<span class="fc" id="L276">        return post;</span>
+    }
+    
+    public void updateUser() {
+<span class="nc" id="L280">        UserDAO udao = DAOFactory.getInstance().createUserDAO();</span>
+<span class="nc" id="L281">        EventDAO edao = DAOFactory.getInstance().createEventDAO();</span>
+<span class="nc" id="L282">        User user = udao.getUser(&quot;john@money.com&quot;);</span>
+<span class="nc" id="L283">        Event event = edao.getEvents(&quot;Popcorn Party - second edition (PP2)&quot;).get(0);</span>
+<span class="nc" id="L284">        user.addEvent(event);</span>
+<span class="nc" id="L285">        udao.updateUser(user);</span>
+        // user.setName(&quot;PLEAAASE&quot;);
+        // dao.updateUser(user);
+<span class="nc" id="L288">    }</span>
+
+    // -----------------------------------------------------------------------
+    // UTILITY METHODS
+
+    private static String generatePassword() {
+<span class="fc" id="L294">        String SALTCHARS = &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;;</span>
+<span class="fc" id="L295">        StringBuilder salt = new StringBuilder();</span>
+<span class="fc" id="L296">        Random rnd = new Random();</span>
+<span class="fc bfc" id="L297" title="All 2 branches covered.">        while (salt.length() &lt; 12) {</span>
+<span class="fc" id="L298">            int index = (int) (rnd.nextFloat() * SALTCHARS.length());</span>
+<span class="fc" id="L299">            salt.append(SALTCHARS.charAt(index));</span>
+<span class="fc" id="L300">        }</span>
+<span class="fc" id="L301">        return salt.toString();</span>
+    }
+
+    private static void sendEmail(String to, String password) {
+<span class="fc" id="L305">        String from = &quot;bspq20e1@gmail.com&quot;;</span>
+
+<span class="fc" id="L307">        Properties properties = System.getProperties();</span>
+<span class="fc" id="L308">        properties.put(&quot;mail.smtp.host&quot;, &quot;smtp.gmail.com&quot;);</span>
+<span class="fc" id="L309">        properties.put(&quot;mail.smtp.port&quot;, &quot;465&quot;);</span>
+<span class="fc" id="L310">        properties.put(&quot;mail.smtp.ssl.enable&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L311">        properties.put(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</span>
+
+<span class="fc" id="L313">        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {</span>
+            protected PasswordAuthentication getPasswordAuthentication() {
+<span class="fc" id="L315">                return new PasswordAuthentication(&quot;bspq20e1@gmail.com&quot;, &quot;spqproject20:D&quot;);</span>
+            }
+        });
+
+<span class="fc" id="L319">        session.setDebug(true);</span>
+
+        try {
+<span class="fc" id="L322">            MimeMessage message = new MimeMessage(session);</span>
+<span class="fc" id="L323">            message.setFrom(new InternetAddress(from));</span>
+<span class="fc" id="L324">            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));</span>
+<span class="fc" id="L325">            message.setSubject(&quot;Reset Password&quot;);</span>
+<span class="fc" id="L326">            message.setText(&quot;Your new password is: &quot; + password + &quot;\nWe advise you to change your password as soon as you login into your account.\n\nThe team&quot;);</span>
+<span class="fc" id="L327">            Transport.send(message);</span>
+<span class="fc" id="L328">            changePassword(to, password);</span>
+<span class="nc" id="L329">        } catch (MessagingException mex) {</span>
+<span class="nc" id="L330">            mex.printStackTrace();</span>
+<span class="fc" id="L331">        }</span>
+<span class="fc" id="L332">    }</span>
+
+    private static void changePassword(String email, String password) {
+<span class="fc" id="L335">        UserDAO dao = DAOFactory.getInstance().createUserDAO();</span>
+<span class="fc" id="L336">        User user = dao.getUser(email);</span>
+<span class="fc" id="L337">        user.setPassword(password);</span>
+<span class="fc" id="L338">        dao.updateUser(user);</span>
+        
+        // Another way if we use password encryption with encrypted password and salt fields
+        // String salt = &quot;&quot;;
+        // users.update((DBObject) JSON.parse(&quot;{'email':'&quot;+ email + &quot;'}&quot;), (DBObject) JSON.parse(&quot;{'$set':{'password':'&quot; + password + &quot;,'salt':&quot; + salt + &quot;}}&quot;));
+<span class="fc" id="L343">    }</span>
+
+
+    // --------------------------------------------------------------
+
+    // method used for manual testing 
+    public void hello() {
+<span class="nc" id="L350">        Post p = new Post();</span>
+<span class="nc" id="L351">        p.setDate(new Date());</span>
+<span class="nc" id="L352">        p.setDescription(&quot;This is the super hyper mega description&quot;);</span>
+<span class="nc" id="L353">        p.setEventName(&quot;My fancy event&quot;);</span>
+<span class="nc" id="L354">        p.setOrganizerEmail(&quot;jack@blackpearl.com&quot;);</span>
+<span class="nc" id="L355">        p.setTitle(&quot;Title of the post&quot;);</span>
+<span class="nc" id="L356">        DAOFactory.getInstance().createPostDAO().storePost(p);</span>
+
+    
+        //     TopicDAO topicDAO = DAOFactory.getInstance().createTopicDAO();
+    //     OrganizerDAO organizerDAO = DAOFactory.getInstance().createOrganizerDAO();
+    //     EventDAO eventDAO = DAOFactory.getInstance().createEventDAO();
+    //     UserDAO userDAO = DAOFactory.getInstance().createUserDAO();
+
+    //     Organizer orga = new Organizer();
+    //     orga.setName(&quot;Norman&quot;);
+    //     orga.setEmail(&quot;norman@EPCsol.es&quot;);
+    //     orga.setPassword(&quot;1234easy&quot;);
+    //     orga.setOrganization(&quot;EPC solutions&quot;);
+
+    //     Topic cinema = new Topic();
+    //     cinema.setName(&quot;cinema&quot;);
+        
+    //     Event popcorn = new Event();
+    //     popcorn.setName(&quot;Popcorn Party - second edition (PP2)&quot;);
+    //     popcorn.setDescription(&quot;another popcorn party&quot;);
+    //     popcorn.setTopic(cinema);
+    //     popcorn.setOrganizer(orga);
+        
+            
+    //    // User kiraYoshikage = userDAO.getUser(&quot;Kira@killerqueen.es&quot;);
+    //    // kiraYoshikage.addEvent(popcorn);
+
+        
+    //     topicDAO.storeTopic(cinema);
+    //     organizerDAO.storeOrganizer(orga);
+    //     eventDAO.storeEvent(popcorn);
+    //    // userDAO.storeUser(kiraYoshikage);
+<span class="nc" id="L388">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
