@@ -357,7 +357,7 @@ public class Controller {
         Response response = invocationBuilder.post(Entity.entity(this.getUser(), MediaType.APPLICATION_JSON));
 
         if (response.getStatus() != Status.OK.getStatusCode()) {
-            // TODO handle this situation
+            
             LOGGER.log(Level.SEVERE, "Not OK status code : error while DELETING user");
             //System.out.println("Not OK status code");
             return false;
@@ -411,14 +411,9 @@ public class Controller {
             return false;
         }
 
-        EventInfo event = response.readEntity(EventInfo.class);
-
-        if (event != null) {
-            LOGGER.log(Level.FINE, "Event Created");
-            return true;
-        }
-        LOGGER.log(Level.FINE, "Response was empty");
-        return false;
+        LOGGER.log(Level.FINE, "Event Created");
+        return true;
+        
     }
 
     /**
@@ -443,15 +438,10 @@ public class Controller {
             // System.out.println("Not OK status code");
             return false;
         }
-
-        EventInfo event = response.readEntity(EventInfo.class);
-        if (event != null) {
-            LOGGER.log(Level.FINE, "POST Created");
-            return true;
-        }
-        LOGGER.log(Level.SEVERE, "Error when creating Post : Response was empty");
-        return false;
+        LOGGER.log(Level.FINE, "POST Created");
+        return true;
     }
+
     public LanguageManager getLanguageManager() {
         return this.langManager;
     }

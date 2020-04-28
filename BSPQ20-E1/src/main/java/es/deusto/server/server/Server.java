@@ -1,5 +1,7 @@
 package es.deusto.server.server;
 
+import java.util.logging.*;
+
 import javax.print.attribute.standard.Media;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,6 +17,9 @@ import es.deusto.server.data.*;
 @Path("/server")
 @Produces(MediaType.APPLICATION_JSON)
 public class Server {
+	//initialise the logger for the server
+	private final static Logger LOGGER = Logger.getLogger(Server.class.getName());
+	private static Handler fileHandler;
 
 	/**
 	 * This class is the one that receives the requests from the client.
@@ -28,6 +33,12 @@ public class Server {
 
 	public Server() {
 		this.appService = new AppService();
+		try {
+            fileHandler = new FileHandler("BSPQ20-E1/src/main/java/es/deusto/server", true);   
+            LOGGER.addHandler(fileHandler);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 
 	//--------------------------LOG IN -------------------------------------------------------------------------------
@@ -43,7 +54,8 @@ public class Server {
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalLogin(LoginAttempt login) {
-		System.out.println("Login attempt received: "+login);
+		//System.out.println("Login attempt received: "+login);
+		LOGGER.log(Level.INFO, "Login attempt received: ", login);
 
 		User user = appService.attemptNormalLogin(login);
 
@@ -66,8 +78,9 @@ public class Server {
 	@Path("/loginOrganizer")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerLogin(LoginAttempt login) {
-		System.out.println("Organizer login attempt received: "+login);
-		
+		//System.out.println("Organizer login attempt received: "+login);
+		LOGGER.log(Level.INFO, "Organizer login attempt received: ", login);
+
 		Organizer organizer = appService.attemptOrganizerLogin(login);
 
 		Object resp = null;
@@ -91,7 +104,8 @@ public class Server {
 	@Path("/signup")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalSignup(SignupAttempt signup) {
-		System.out.println("Signup attempt received: "+signup);
+		//System.out.println("Signup attempt received: "+signup);
+		LOGGER.log(Level.INFO, "Signup attempt received: ", signup);
 
 		User user = appService.attemptNormalSignup(signup);
 
@@ -114,7 +128,8 @@ public class Server {
 	@Path("/signupOrganizer")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerSignup(SignupAttempt signup) {
-		System.out.println("Signup attempt received: "+signup);
+		//System.out.println("Signup attempt received: "+signup);
+		LOGGER.log(Level.INFO, " Organizer Signup attempt received: ", signup);
 
 		Organizer organizer = appService.attemptOrganizerSignup(signup);
 
@@ -140,7 +155,8 @@ public class Server {
 	@Path("/update")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalUpdate(SignupAttempt signup) {
-		System.out.println("Update attempt received: "+signup);
+		//System.out.println("Update attempt received: "+signup);
+		LOGGER.log(Level.INFO, "Update attempt received: ", signup);
 
 		User user = appService.attemptNormalUpdate(signup); //returns the updated user
 
@@ -164,7 +180,8 @@ public class Server {
 	@Path("/updateOrganizer")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerUpdate(SignupAttempt signup) {
-		System.out.println("Update attempt received: "+signup);
+		//System.out.println("Update attempt received: "+signup);
+		LOGGER.log(Level.INFO, "Organizer Update attempt received: ", signup);
 
 		Organizer organizer = appService.attemptOrganizerUpdate(signup);
 
@@ -188,6 +205,8 @@ public class Server {
 	@Path("/passwordRecovery")
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response recoverPassword(LoginAttempt userInfo){
+		LOGGER.log(Level.INFO, "Password Recovery attempt received: "+ userInfo.getEmail());
+
 		appService.recoverPassword(userInfo);
 		return Response.ok("OK").build();
 	}
@@ -202,6 +221,8 @@ public class Server {
 	@Path("/createEvent")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createEvent(EventInfo eventInfo) {
+		LOGGER.log(Level.INFO, "Event creation attempt received: ", eventInfo);
+
 		appService.createEvent(eventInfo);
 		return Response.ok("").build();
 	}
@@ -210,6 +231,8 @@ public class Server {
 	@Path("/createPost")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createPost(PostInfo postInfo) {
+		LOGGER.log(Level.INFO, "POST creation attempt received: ", postInfo);
+
 		appService.createPost(postInfo);
 		return Response.ok("").build();
 	}
@@ -230,7 +253,8 @@ public class Server {
 	public Response attemptUserDelete(UserInfo userInfo) {
 		
 		String email = userInfo.getEmail();
-		System.out.println("Delete attempt received: " + email);
+		//System.out.println("Delete attempt received: " + email);
+		LOGGER.log(Level.INFO, "Delete attempt received:  " + email);
 
 		boolean check = appService.deleteUser(email); //returns true if user was deleted successfully
 
@@ -246,7 +270,8 @@ public class Server {
 	public Response attemptOrganizerDelete(OrganizerInfo organizerInfo) {
 		
 		String email = organizerInfo.getEmail();
-		System.out.println("Organizer delete attempt received: " + email);
+		//System.out.println("Organizer delete attempt received: " + email);
+		LOGGER.log(Level.INFO, "Organizer delete attempt received:  " + email);
 
 		boolean check = appService.deleteOrganizer(email); //returns true if organizer was deleted successfully
 
