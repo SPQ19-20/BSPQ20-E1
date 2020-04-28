@@ -37,8 +37,6 @@ public class EventDAO {
 			for (Event u : extent) {
 				if (u.getName().contains(name)){
 					event.add(u); //adds the event to the list.
-				}else{
-					System.out.println("no events found with given name");
 				}
 			}
 			
@@ -77,8 +75,6 @@ public class EventDAO {
 			for (Event u : extent) {
 				if (u.getTopic().getName().contains(topic)){
 					event.add(u); //adds the event to the list.
-				}else{
-					System.out.println("no events found with given name");
 				}
 			}
 			
@@ -120,8 +116,6 @@ public class EventDAO {
 				if (u.getOrganizer() == null) continue;
 				if (u.getOrganizer().getEmail().equals(organizer.getEmail())){
 					event.add(u); //adds the event to the list.
-				}else{
-					System.out.println("no events found with given name");
 				}
 			}
 			

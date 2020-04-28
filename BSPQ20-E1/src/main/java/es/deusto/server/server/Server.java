@@ -20,6 +20,8 @@ import es.deusto.server.data.*;
 public class Server {
 	//initialise the logger for the server
 	private final static Logger LOGGER = Logger.getLogger(Server.class.getName());
+	private static Handler fileHandler;
+	private static Handler consoleHandler;
 	/**
 	 * This class is the one that receives the requests from the client.
 	 * There is no functionality implemented in this class, all the possible
@@ -30,19 +32,22 @@ public class Server {
 
 	private AppService appService;
 
+	static {
+		try {
+			consoleHandler = new ConsoleHandler();
+            fileHandler = new FileHandler("./log/logServer.log", true); 
+           
+            fileHandler.setFormatter(new SimpleFormatter());
+
+            LOGGER.addHandler(consoleHandler);  
+            LOGGER.addHandler(fileHandler);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Server() {
 		this.appService = new AppService();
-		try {
-			Handler consoleHandler = new ConsoleHandler();
-            Handler fileHandler = new FileHandler("./src/main/java/es/deusto/server/logServer.log", true);   
-		   
-			fileHandler.setFormatter(new SimpleFormatter());
-
-			LOGGER.addHandler(consoleHandler);
-			LOGGER.addHandler(fileHandler);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 	}
 
 	//--------------------------LOG IN -------------------------------------------------------------------------------
@@ -58,7 +63,6 @@ public class Server {
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalLogin(LoginAttempt login) {
-		//System.out.println("Login attempt received: "+login);
 		LOGGER.log(Level.INFO, "Login attempt received: ", login);
 
 		User user = appService.attemptNormalLogin(login);
@@ -82,7 +86,6 @@ public class Server {
 	@Path("/loginOrganizer")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerLogin(LoginAttempt login) {
-		//System.out.println("Organizer login attempt received: "+login);
 		LOGGER.log(Level.INFO, "Organizer login attempt received: ", login);
 
 		Organizer organizer = appService.attemptOrganizerLogin(login);
@@ -108,7 +111,6 @@ public class Server {
 	@Path("/signup")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalSignup(SignupAttempt signup) {
-		//System.out.println("Signup attempt received: "+signup);
 		LOGGER.log(Level.INFO, "Signup attempt received: ", signup);
 
 		User user = appService.attemptNormalSignup(signup);
@@ -132,7 +134,6 @@ public class Server {
 	@Path("/signupOrganizer")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerSignup(SignupAttempt signup) {
-		//System.out.println("Signup attempt received: "+signup);
 		LOGGER.log(Level.INFO, " Organizer Signup attempt received: ", signup);
 
 		Organizer organizer = appService.attemptOrganizerSignup(signup);
@@ -159,7 +160,6 @@ public class Server {
 	@Path("/update")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalUpdate(SignupAttempt signup) {
-		//System.out.println("Update attempt received: "+signup);
 		LOGGER.log(Level.INFO, "Update attempt received: ", signup);
 
 		User user = appService.attemptNormalUpdate(signup); //returns the updated user
@@ -184,7 +184,6 @@ public class Server {
 	@Path("/updateOrganizer")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerUpdate(SignupAttempt signup) {
-		//System.out.println("Update attempt received: "+signup);
 		LOGGER.log(Level.INFO, "Organizer Update attempt received: ", signup);
 
 		Organizer organizer = appService.attemptOrganizerUpdate(signup);
@@ -255,9 +254,7 @@ public class Server {
 	@Path("/delete")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptUserDelete(UserInfo userInfo) {
-		
 		String email = userInfo.getEmail();
-		//System.out.println("Delete attempt received: " + email);
 		LOGGER.log(Level.INFO, "Delete attempt received:  " + email);
 
 		boolean check = appService.deleteUser(email); //returns true if user was deleted successfully
@@ -274,7 +271,6 @@ public class Server {
 	public Response attemptOrganizerDelete(OrganizerInfo organizerInfo) {
 		
 		String email = organizerInfo.getEmail();
-		//System.out.println("Organizer delete attempt received: " + email);
 		LOGGER.log(Level.INFO, "Organizer delete attempt received:  " + email);
 
 		boolean check = appService.deleteOrganizer(email); //returns true if organizer was deleted successfully

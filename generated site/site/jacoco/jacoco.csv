@@ -4,20 +4,20 @@ EventFinder,es.deusto.server.dao,DAOFactory,0,27,0,0,0,7,0,7,0,7
 EventFinder,es.deusto.server.dao,UserDAO,15,120,6,10,9,40,6,7,0,5
 EventFinder,es.deusto.server.dao,OrganizerDAO,19,116,6,10,11,38,7,6,1,4
 EventFinder,es.deusto.server.dao,PostDAO,20,146,8,12,12,41,9,6,1,4
-EventFinder,es.deusto.server.dao,EventDAO,158,190,25,17,51,55,21,8,3,5
-EventFinder,es.deusto.server.server,Server,16,269,8,8,2,57,9,12,1,12
+EventFinder,es.deusto.server.dao,EventDAO,153,183,25,17,50,53,21,8,3,5
+EventFinder,es.deusto.server.server,Server,19,290,8,8,4,68,9,13,1,13
 EventFinder,es.deusto.server.server,AppService.new Authenticator() {...},0,9,0,0,0,2,0,2,0,2
-EventFinder,es.deusto.server.server,AppService,73,331,10,12,25,94,12,16,2,15
-EventFinder,es.deusto.client.main,Main,146,0,0,0,39,0,2,0,2,0
+EventFinder,es.deusto.server.server,AppService,73,321,10,12,25,93,12,16,2,15
+EventFinder,es.deusto.client.main,Main,15,0,0,0,4,0,2,0,2,0
 EventFinder,es.deusto.serialization,PostInfo,0,76,0,0,0,29,0,12,0,12
 EventFinder,es.deusto.serialization,SignupAttempt,9,133,1,1,2,40,1,16,0,16
 EventFinder,es.deusto.serialization,EventInfo,20,89,3,1,4,30,2,12,0,12
-EventFinder,es.deusto.serialization,LoginAttempt,0,62,0,0,0,20,0,9,0,9
+EventFinder,es.deusto.serialization,LoginAttempt,17,45,0,0,1,19,1,8,1,8
 EventFinder,es.deusto.serialization,UserInfo,0,150,0,4,0,44,0,16,0,14
 EventFinder,es.deusto.serialization,OrganizerInfo,20,57,3,1,4,21,2,10,0,10
 EventFinder,es.deusto.serialization,TopicInfo,20,16,0,0,8,7,3,3,3,3
 EventFinder,es.deusto.serialization,GenericUserInfo,0,3,0,0,0,1,0,1,0,1
-EventFinder,es.deusto.client.controller,Controller,461,467,40,14,101,84,35,10,8,10
+EventFinder,es.deusto.client.controller,Controller,446,467,36,14,96,84,33,10,8,10
 EventFinder,es.deusto.server.data,Event,427,635,87,91,2,26,78,75,14,44
 EventFinder,es.deusto.server.data,Post,444,575,94,84,0,29,80,72,13,44
 EventFinder,es.deusto.server.data,GenericUser,454,416,93,66,1,10,75,60,18,33

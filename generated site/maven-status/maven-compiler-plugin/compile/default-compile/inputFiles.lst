@@ -1,4 +1,5 @@
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\server\Server.java
+C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\CreateEvent.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\serialization\OrganizerInfo.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\dao\DAOFactory.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\server\AppService.java
@@ -6,6 +7,7 @@ C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\main\Main.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\ForgottenPassword.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\LanguageManager.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\EventOrganizerWindow.java
+C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\OrganizerHome.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\serialization\TopicInfo.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\data\Topic.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\data\Organizer.java

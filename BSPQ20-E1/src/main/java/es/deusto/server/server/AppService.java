@@ -267,7 +267,6 @@ public class AppService {
         String email = login.getEmail();
         String newPassword = generatePassword();
         sendEmail(email, newPassword);
-        System.out.println("Changing and sending new password for " + email);
     }
 
     public Post createPost(PostInfo info) {

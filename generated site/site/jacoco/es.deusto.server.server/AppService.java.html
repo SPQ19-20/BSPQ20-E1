@@ -267,93 +267,92 @@ public class AppService {
 <span class="fc" id="L267">        String email = login.getEmail();</span>
 <span class="fc" id="L268">        String newPassword = generatePassword();</span>
 <span class="fc" id="L269">        sendEmail(email, newPassword);</span>
-<span class="fc" id="L270">        System.out.println(&quot;Changing and sending new password for &quot; + email);</span>
-<span class="fc" id="L271">    }</span>
+<span class="fc" id="L270">    }</span>
 
     public Post createPost(PostInfo info) {
-<span class="fc" id="L274">        Post post = new Post(info);</span>
-<span class="fc" id="L275">        DAOFactory.getInstance().createPostDAO().storePost(post);</span>
-<span class="fc" id="L276">        return post;</span>
+<span class="fc" id="L273">        Post post = new Post(info);</span>
+<span class="fc" id="L274">        DAOFactory.getInstance().createPostDAO().storePost(post);</span>
+<span class="fc" id="L275">        return post;</span>
     }
     
     public void updateUser() {
-<span class="nc" id="L280">        UserDAO udao = DAOFactory.getInstance().createUserDAO();</span>
-<span class="nc" id="L281">        EventDAO edao = DAOFactory.getInstance().createEventDAO();</span>
-<span class="nc" id="L282">        User user = udao.getUser(&quot;john@money.com&quot;);</span>
-<span class="nc" id="L283">        Event event = edao.getEvents(&quot;Popcorn Party - second edition (PP2)&quot;).get(0);</span>
-<span class="nc" id="L284">        user.addEvent(event);</span>
-<span class="nc" id="L285">        udao.updateUser(user);</span>
+<span class="nc" id="L279">        UserDAO udao = DAOFactory.getInstance().createUserDAO();</span>
+<span class="nc" id="L280">        EventDAO edao = DAOFactory.getInstance().createEventDAO();</span>
+<span class="nc" id="L281">        User user = udao.getUser(&quot;john@money.com&quot;);</span>
+<span class="nc" id="L282">        Event event = edao.getEvents(&quot;Popcorn Party - second edition (PP2)&quot;).get(0);</span>
+<span class="nc" id="L283">        user.addEvent(event);</span>
+<span class="nc" id="L284">        udao.updateUser(user);</span>
         // user.setName(&quot;PLEAAASE&quot;);
         // dao.updateUser(user);
-<span class="nc" id="L288">    }</span>
+<span class="nc" id="L287">    }</span>
 
     // -----------------------------------------------------------------------
     // UTILITY METHODS
 
     private static String generatePassword() {
-<span class="fc" id="L294">        String SALTCHARS = &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;;</span>
-<span class="fc" id="L295">        StringBuilder salt = new StringBuilder();</span>
-<span class="fc" id="L296">        Random rnd = new Random();</span>
-<span class="fc bfc" id="L297" title="All 2 branches covered.">        while (salt.length() &lt; 12) {</span>
-<span class="fc" id="L298">            int index = (int) (rnd.nextFloat() * SALTCHARS.length());</span>
-<span class="fc" id="L299">            salt.append(SALTCHARS.charAt(index));</span>
-<span class="fc" id="L300">        }</span>
-<span class="fc" id="L301">        return salt.toString();</span>
+<span class="fc" id="L293">        String SALTCHARS = &quot;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;;</span>
+<span class="fc" id="L294">        StringBuilder salt = new StringBuilder();</span>
+<span class="fc" id="L295">        Random rnd = new Random();</span>
+<span class="fc bfc" id="L296" title="All 2 branches covered.">        while (salt.length() &lt; 12) {</span>
+<span class="fc" id="L297">            int index = (int) (rnd.nextFloat() * SALTCHARS.length());</span>
+<span class="fc" id="L298">            salt.append(SALTCHARS.charAt(index));</span>
+<span class="fc" id="L299">        }</span>
+<span class="fc" id="L300">        return salt.toString();</span>
     }
 
     private static void sendEmail(String to, String password) {
-<span class="fc" id="L305">        String from = &quot;bspq20e1@gmail.com&quot;;</span>
+<span class="fc" id="L304">        String from = &quot;bspq20e1@gmail.com&quot;;</span>
 
-<span class="fc" id="L307">        Properties properties = System.getProperties();</span>
-<span class="fc" id="L308">        properties.put(&quot;mail.smtp.host&quot;, &quot;smtp.gmail.com&quot;);</span>
-<span class="fc" id="L309">        properties.put(&quot;mail.smtp.port&quot;, &quot;465&quot;);</span>
-<span class="fc" id="L310">        properties.put(&quot;mail.smtp.ssl.enable&quot;, &quot;true&quot;);</span>
-<span class="fc" id="L311">        properties.put(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L306">        Properties properties = System.getProperties();</span>
+<span class="fc" id="L307">        properties.put(&quot;mail.smtp.host&quot;, &quot;smtp.gmail.com&quot;);</span>
+<span class="fc" id="L308">        properties.put(&quot;mail.smtp.port&quot;, &quot;465&quot;);</span>
+<span class="fc" id="L309">        properties.put(&quot;mail.smtp.ssl.enable&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L310">        properties.put(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</span>
 
-<span class="fc" id="L313">        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {</span>
+<span class="fc" id="L312">        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {</span>
             protected PasswordAuthentication getPasswordAuthentication() {
-<span class="fc" id="L315">                return new PasswordAuthentication(&quot;bspq20e1@gmail.com&quot;, &quot;spqproject20:D&quot;);</span>
+<span class="fc" id="L314">                return new PasswordAuthentication(&quot;bspq20e1@gmail.com&quot;, &quot;spqproject20:D&quot;);</span>
             }
         });
 
-<span class="fc" id="L319">        session.setDebug(true);</span>
+<span class="fc" id="L318">        session.setDebug(true);</span>
 
         try {
-<span class="fc" id="L322">            MimeMessage message = new MimeMessage(session);</span>
-<span class="fc" id="L323">            message.setFrom(new InternetAddress(from));</span>
-<span class="fc" id="L324">            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));</span>
-<span class="fc" id="L325">            message.setSubject(&quot;Reset Password&quot;);</span>
-<span class="fc" id="L326">            message.setText(&quot;Your new password is: &quot; + password + &quot;\nWe advise you to change your password as soon as you login into your account.\n\nThe team&quot;);</span>
-<span class="fc" id="L327">            Transport.send(message);</span>
-<span class="fc" id="L328">            changePassword(to, password);</span>
-<span class="nc" id="L329">        } catch (MessagingException mex) {</span>
-<span class="nc" id="L330">            mex.printStackTrace();</span>
-<span class="fc" id="L331">        }</span>
-<span class="fc" id="L332">    }</span>
+<span class="fc" id="L321">            MimeMessage message = new MimeMessage(session);</span>
+<span class="fc" id="L322">            message.setFrom(new InternetAddress(from));</span>
+<span class="fc" id="L323">            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));</span>
+<span class="fc" id="L324">            message.setSubject(&quot;Reset Password&quot;);</span>
+<span class="fc" id="L325">            message.setText(&quot;Your new password is: &quot; + password + &quot;\nWe advise you to change your password as soon as you login into your account.\n\nThe team&quot;);</span>
+<span class="fc" id="L326">            Transport.send(message);</span>
+<span class="fc" id="L327">            changePassword(to, password);</span>
+<span class="nc" id="L328">        } catch (MessagingException mex) {</span>
+<span class="nc" id="L329">            mex.printStackTrace();</span>
+<span class="fc" id="L330">        }</span>
+<span class="fc" id="L331">    }</span>
 
     private static void changePassword(String email, String password) {
-<span class="fc" id="L335">        UserDAO dao = DAOFactory.getInstance().createUserDAO();</span>
-<span class="fc" id="L336">        User user = dao.getUser(email);</span>
-<span class="fc" id="L337">        user.setPassword(password);</span>
-<span class="fc" id="L338">        dao.updateUser(user);</span>
+<span class="fc" id="L334">        UserDAO dao = DAOFactory.getInstance().createUserDAO();</span>
+<span class="fc" id="L335">        User user = dao.getUser(email);</span>
+<span class="fc" id="L336">        user.setPassword(password);</span>
+<span class="fc" id="L337">        dao.updateUser(user);</span>
         
         // Another way if we use password encryption with encrypted password and salt fields
         // String salt = &quot;&quot;;
         // users.update((DBObject) JSON.parse(&quot;{'email':'&quot;+ email + &quot;'}&quot;), (DBObject) JSON.parse(&quot;{'$set':{'password':'&quot; + password + &quot;,'salt':&quot; + salt + &quot;}}&quot;));
-<span class="fc" id="L343">    }</span>
+<span class="fc" id="L342">    }</span>
 
 
     // --------------------------------------------------------------
 
     // method used for manual testing 
     public void hello() {
-<span class="nc" id="L350">        Post p = new Post();</span>
-<span class="nc" id="L351">        p.setDate(new Date());</span>
-<span class="nc" id="L352">        p.setDescription(&quot;This is the super hyper mega description&quot;);</span>
-<span class="nc" id="L353">        p.setEventName(&quot;My fancy event&quot;);</span>
-<span class="nc" id="L354">        p.setOrganizerEmail(&quot;jack@blackpearl.com&quot;);</span>
-<span class="nc" id="L355">        p.setTitle(&quot;Title of the post&quot;);</span>
-<span class="nc" id="L356">        DAOFactory.getInstance().createPostDAO().storePost(p);</span>
+<span class="nc" id="L349">        Post p = new Post();</span>
+<span class="nc" id="L350">        p.setDate(new Date());</span>
+<span class="nc" id="L351">        p.setDescription(&quot;This is the super hyper mega description&quot;);</span>
+<span class="nc" id="L352">        p.setEventName(&quot;My fancy event&quot;);</span>
+<span class="nc" id="L353">        p.setOrganizerEmail(&quot;jack@blackpearl.com&quot;);</span>
+<span class="nc" id="L354">        p.setTitle(&quot;Title of the post&quot;);</span>
+<span class="nc" id="L355">        DAOFactory.getInstance().createPostDAO().storePost(p);</span>
 
     
         //     TopicDAO topicDAO = DAOFactory.getInstance().createTopicDAO();
@@ -385,7 +384,7 @@ public class AppService {
     //     organizerDAO.storeOrganizer(orga);
     //     eventDAO.storeEvent(popcorn);
     //    // userDAO.storeUser(kiraYoshikage);
-<span class="nc" id="L388">    }</span>
+<span class="nc" id="L387">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

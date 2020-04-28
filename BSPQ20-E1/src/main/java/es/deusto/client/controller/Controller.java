@@ -53,7 +53,8 @@ public class Controller {
         //initialise the logger
         try {
             Handler consoleHandler = new ConsoleHandler();
-            Handler fileHandler = new FileHandler("./src/main/java/es/deusto/client/logClient.log", true); 
+            // Handler fileHandler = new FileHandler("./src/main/java/es/deusto/client/logClient.log", true); 
+            Handler fileHandler = new FileHandler("./log/logClient.log", true); 
            
             fileHandler.setFormatter(new SimpleFormatter());
 
@@ -101,8 +102,6 @@ public class Controller {
 		
 		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));
 		if (response.getStatus() != Status.OK.getStatusCode()) {
-            // TODO handle this situation
-            // System.out.println("Not OK status code");
             LOGGER.log(Level.SEVERE, "Not OK status code: User Login failed");
             return false;
         }
@@ -110,8 +109,6 @@ public class Controller {
         user = response.readEntity(UserInfo.class);
 
         if (user != null) {
-            // System.out.println("We got something");
-            // System.out.println(user.getName());
             LOGGER.log(Level.INFO, "We got something, " + user.getName());
         }
 
@@ -138,8 +135,6 @@ public class Controller {
 		
 		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));
 		if (response.getStatus() != Status.OK.getStatusCode()) {
-            // TODO handle this situation
-            // System.out.println("Not OK status code");
             LOGGER.log(Level.SEVERE, "Not OK status code: User Login failed");
             return false;
         }
@@ -147,8 +142,6 @@ public class Controller {
         organizer = response.readEntity(OrganizerInfo.class);
 
         if (organizer != null) {
-           // System.out.println("We got something");
-           // System.out.println(organizer.getName());
             LOGGER.log(Level.INFO, "We got something, " + organizer.getName());
 
         }
@@ -180,24 +173,15 @@ public class Controller {
 		
 		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));
 		if (response.getStatus() != Status.OK.getStatusCode()) {
-            // TODO handle this situation
-            System.out.println("Not OK status code");
+            LOGGER.log(Level.SEVERE, "Not OK status code: User Login failed");
             return false;
         }
 
         if (organizer== true) {
             this.organizer = response.readEntity(OrganizerInfo.class); //<-- como puedo hacer que no me salga error
-            if (this.organizer != null) {
-                System.out.println("We got something");
-                System.out.println(user.getName());
-            }
             return this.organizer != null;
         } else {
             user = response.readEntity(UserInfo.class); 
-            if (user != null) {
-                System.out.println("We got something");
-                System.out.println(user.getName());
-            }
             return user != null;
         }
        
@@ -229,8 +213,6 @@ public class Controller {
 		
 		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
 		if (response.getStatus() != Status.OK.getStatusCode()) {
-            // TODO handle this situation
-            System.out.println("Not OK status code");
             LOGGER.log(Level.SEVERE, "Not OK status code : error while singing up user");
             return false;
         }
@@ -271,7 +253,6 @@ public class Controller {
         Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
         
 		if (response.getStatus() != Status.OK.getStatusCode()) {
-           // System.out.println("Not OK status code");
            LOGGER.log(Level.SEVERE, "Not OK status code : error wile signing up Organizer");
             return false;
         }
@@ -308,7 +289,6 @@ public class Controller {
         if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
             LOGGER.log(Level.SEVERE, "Not OK status code: not possible to update USER " + this.user.getEmail());
-            // System.out.println("Not OK status code");
             return false;
         }
 
@@ -342,7 +322,6 @@ public class Controller {
 		if (response.getStatus() != Status.OK.getStatusCode()) {
             // TODO handle this situation
             LOGGER.log(Level.SEVERE, "Not OK status code: Error while updating Organizer ");
-            //System.out.println("Not OK status code");
             return false;
         }
 
@@ -371,9 +350,7 @@ public class Controller {
         Response response = invocationBuilder.post(Entity.entity(this.getUser(), MediaType.APPLICATION_JSON));
 
         if (response.getStatus() != Status.OK.getStatusCode()) {
-            // TODO handle this situation
             LOGGER.log(Level.SEVERE, "Not OK status code : error while DELETING user");
-            //System.out.println("Not OK status code");
             return false;
         }
 
@@ -390,8 +367,6 @@ public class Controller {
         Response response = invocationBuilder.post(Entity.entity(this.organizer, MediaType.APPLICATION_JSON));
 
         if (response.getStatus() != Status.OK.getStatusCode()) {
-            // TODO handle this situation
-            System.out.println("Not OK status code");
             LOGGER.log(Level.SEVERE, "Not OK status code");
             return false;
         }
@@ -419,9 +394,7 @@ public class Controller {
 
         Response response = invocationBuilder.post(Entity.entity(eventInfo, MediaType.APPLICATION_JSON));
         if (response.getStatus() != Status.OK.getStatusCode()) {
-            // TODO handle this situation
             LOGGER.log(Level.SEVERE, "Not OK status code: not possible create Event " + eventInfo.getName());
-            // System.out.println("Not OK status code");
             return false;
         }
 
@@ -452,9 +425,7 @@ public class Controller {
 
         Response response = invocationBuilder.post(Entity.entity(postInfo, MediaType.APPLICATION_JSON));
         if (response.getStatus() != Status.OK.getStatusCode()) {
-            // TODO handle this situation
             LOGGER.log(Level.SEVERE, "Not OK status code: not possible to create post for Event " + eventInfo.getName());
-            // System.out.println("Not OK status code");
             return false;
         }
 

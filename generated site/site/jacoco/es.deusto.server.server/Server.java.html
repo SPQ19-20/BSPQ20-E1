@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Server.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EventFinder</a> &gt; <a href="index.source.html" class="el_package">es.deusto.server.server</a> &gt; <span class="el_source">Server.java</span></div><h1>Server.java</h1><pre class="source lang-java linenums">package es.deusto.server.server;
 
+import java.util.logging.*;
+
 import javax.print.attribute.standard.Media;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -16,7 +18,10 @@ import es.deusto.server.data.*;
 @Path(&quot;/server&quot;)
 @Produces(MediaType.APPLICATION_JSON)
 public class Server {
-
+	//initialise the logger for the server
+<span class="fc" id="L22">	private final static Logger LOGGER = Logger.getLogger(Server.class.getName());</span>
+	private static Handler fileHandler;
+	private static Handler consoleHandler;
 	/**
 	 * This class is the one that receives the requests from the client.
 	 * There is no functionality implemented in this class, all the possible
@@ -27,9 +32,23 @@ public class Server {
 
 	private AppService appService;
 
-<span class="fc" id="L30">	public Server() {</span>
-<span class="fc" id="L31">		this.appService = new AppService();</span>
-<span class="fc" id="L32">	}</span>
+	static {
+		try {
+<span class="fc" id="L37">			consoleHandler = new ConsoleHandler();</span>
+<span class="fc" id="L38">            fileHandler = new FileHandler(&quot;./log/logServer.log&quot;, true); </span>
+           
+<span class="fc" id="L40">            fileHandler.setFormatter(new SimpleFormatter());</span>
+
+<span class="fc" id="L42">            LOGGER.addHandler(consoleHandler);  </span>
+<span class="fc" id="L43">            LOGGER.addHandler(fileHandler);</span>
+<span class="nc" id="L44">		} catch (Exception e) {</span>
+<span class="nc" id="L45">			e.printStackTrace();</span>
+<span class="fc" id="L46">		}</span>
+<span class="fc" id="L47">	}</span>
+
+<span class="fc" id="L49">	public Server() {</span>
+<span class="fc" id="L50">		this.appService = new AppService();</span>
+<span class="fc" id="L51">	}</span>
 
 	//--------------------------LOG IN -------------------------------------------------------------------------------
 
@@ -44,16 +63,16 @@ public class Server {
 	@Path(&quot;/login&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalLogin(LoginAttempt login) {
-<span class="fc" id="L47">		System.out.println(&quot;Login attempt received: &quot;+login);</span>
+<span class="fc" id="L66">		LOGGER.log(Level.INFO, &quot;Login attempt received: &quot;, login);</span>
 
-<span class="fc" id="L49">		User user = appService.attemptNormalLogin(login);</span>
+<span class="fc" id="L68">		User user = appService.attemptNormalLogin(login);</span>
 
-<span class="fc" id="L51">		Object resp = null;</span>
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">		if (user != null) {</span>
-<span class="fc" id="L53">			resp = new UserInfo(user);</span>
+<span class="fc" id="L70">		Object resp = null;</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">		if (user != null) {</span>
+<span class="fc" id="L72">			resp = new UserInfo(user);</span>
 		}
 
-<span class="fc" id="L56">		return Response.ok(resp).build();</span>
+<span class="fc" id="L75">		return Response.ok(resp).build();</span>
 	}
 
 	/**
@@ -67,16 +86,16 @@ public class Server {
 	@Path(&quot;/loginOrganizer&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerLogin(LoginAttempt login) {
-<span class="fc" id="L70">		System.out.println(&quot;Organizer login attempt received: &quot;+login);</span>
-		
-<span class="fc" id="L72">		Organizer organizer = appService.attemptOrganizerLogin(login);</span>
+<span class="fc" id="L89">		LOGGER.log(Level.INFO, &quot;Organizer login attempt received: &quot;, login);</span>
 
-<span class="fc" id="L74">		Object resp = null;</span>
-<span class="pc bpc" id="L75" title="1 of 2 branches missed.">		if (organizer != null) {</span>
-<span class="fc" id="L76">			resp = new OrganizerInfo(organizer);</span>
+<span class="fc" id="L91">		Organizer organizer = appService.attemptOrganizerLogin(login);</span>
+
+<span class="fc" id="L93">		Object resp = null;</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">		if (organizer != null) {</span>
+<span class="fc" id="L95">			resp = new OrganizerInfo(organizer);</span>
 		}
 
-<span class="fc" id="L79">		return Response.ok(resp).build();</span>
+<span class="fc" id="L98">		return Response.ok(resp).build();</span>
 	}
 
 	//--------------------SIGN UP -----------------------------------------------------------------------------------------
@@ -92,16 +111,16 @@ public class Server {
 	@Path(&quot;/signup&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalSignup(SignupAttempt signup) {
-<span class="fc" id="L95">		System.out.println(&quot;Signup attempt received: &quot;+signup);</span>
+<span class="fc" id="L114">		LOGGER.log(Level.INFO, &quot;Signup attempt received: &quot;, signup);</span>
 
-<span class="fc" id="L97">		User user = appService.attemptNormalSignup(signup);</span>
+<span class="fc" id="L116">		User user = appService.attemptNormalSignup(signup);</span>
 
-<span class="fc" id="L99">		Object resp = null;</span>
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">		if (user != null) {</span>
-<span class="fc" id="L101">			resp = new UserInfo(user);</span>
+<span class="fc" id="L118">		Object resp = null;</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">		if (user != null) {</span>
+<span class="fc" id="L120">			resp = new UserInfo(user);</span>
 		}
 
-<span class="fc" id="L104">		return Response.ok(resp).build();</span>
+<span class="fc" id="L123">		return Response.ok(resp).build();</span>
 	}
 
 	/**
@@ -115,16 +134,16 @@ public class Server {
 	@Path(&quot;/signupOrganizer&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerSignup(SignupAttempt signup) {
-<span class="fc" id="L118">		System.out.println(&quot;Signup attempt received: &quot;+signup);</span>
+<span class="fc" id="L137">		LOGGER.log(Level.INFO, &quot; Organizer Signup attempt received: &quot;, signup);</span>
 
-<span class="fc" id="L120">		Organizer organizer = appService.attemptOrganizerSignup(signup);</span>
+<span class="fc" id="L139">		Organizer organizer = appService.attemptOrganizerSignup(signup);</span>
 
-<span class="fc" id="L122">		Object resp = null;</span>
-<span class="pc bpc" id="L123" title="1 of 2 branches missed.">		if (organizer != null) {</span>
-<span class="fc" id="L124">			resp = new OrganizerInfo(organizer);</span>
+<span class="fc" id="L141">		Object resp = null;</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		if (organizer != null) {</span>
+<span class="fc" id="L143">			resp = new OrganizerInfo(organizer);</span>
 		}
 
-<span class="fc" id="L127">		return Response.ok(resp).build();</span>
+<span class="fc" id="L146">		return Response.ok(resp).build();</span>
 	}
 
 	//------------------------------------UPDATE USERS-----------------------------------------------------
@@ -141,16 +160,16 @@ public class Server {
 	@Path(&quot;/update&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalUpdate(SignupAttempt signup) {
-<span class="fc" id="L144">		System.out.println(&quot;Update attempt received: &quot;+signup);</span>
+<span class="fc" id="L163">		LOGGER.log(Level.INFO, &quot;Update attempt received: &quot;, signup);</span>
 
-<span class="fc" id="L146">		User user = appService.attemptNormalUpdate(signup); //returns the updated user</span>
+<span class="fc" id="L165">		User user = appService.attemptNormalUpdate(signup); //returns the updated user</span>
 
-<span class="fc" id="L148">		Object resp = null;</span>
-<span class="pc bpc" id="L149" title="1 of 2 branches missed.">		if (user != null) {</span>
-<span class="fc" id="L150">			resp = new UserInfo(user); //the response (UserInfo) doesn't need a password</span>
+<span class="fc" id="L167">		Object resp = null;</span>
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">		if (user != null) {</span>
+<span class="fc" id="L169">			resp = new UserInfo(user); //the response (UserInfo) doesn't need a password</span>
 		}
 
-<span class="fc" id="L153">		return Response.ok(resp).build();</span>
+<span class="fc" id="L172">		return Response.ok(resp).build();</span>
 	}
 
 		/**
@@ -165,16 +184,16 @@ public class Server {
 	@Path(&quot;/updateOrganizer&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerUpdate(SignupAttempt signup) {
-<span class="fc" id="L168">		System.out.println(&quot;Update attempt received: &quot;+signup);</span>
+<span class="fc" id="L187">		LOGGER.log(Level.INFO, &quot;Organizer Update attempt received: &quot;, signup);</span>
 
-<span class="fc" id="L170">		Organizer organizer = appService.attemptOrganizerUpdate(signup);</span>
+<span class="fc" id="L189">		Organizer organizer = appService.attemptOrganizerUpdate(signup);</span>
 
-<span class="fc" id="L172">		Object resp = null;</span>
-<span class="pc bpc" id="L173" title="1 of 2 branches missed.">		if (organizer != null) {</span>
-<span class="fc" id="L174">			resp = new OrganizerInfo(organizer); //the response (OrganizerInfo) doesn't need a password</span>
+<span class="fc" id="L191">		Object resp = null;</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">		if (organizer != null) {</span>
+<span class="fc" id="L193">			resp = new OrganizerInfo(organizer); //the response (OrganizerInfo) doesn't need a password</span>
 		}
 
-<span class="fc" id="L177">		return Response.ok(resp).build();</span>
+<span class="fc" id="L196">		return Response.ok(resp).build();</span>
 	}
 	
 	//-----------------------------Password and event management------------------------------------------
@@ -189,8 +208,10 @@ public class Server {
 	@Path(&quot;/passwordRecovery&quot;)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response recoverPassword(LoginAttempt userInfo){
-<span class="fc" id="L192">		appService.recoverPassword(userInfo);</span>
-<span class="fc" id="L193">		return Response.ok(&quot;OK&quot;).build();</span>
+<span class="fc" id="L211">		LOGGER.log(Level.INFO, &quot;Password Recovery attempt received: &quot;+ userInfo.getEmail());</span>
+
+<span class="fc" id="L213">		appService.recoverPassword(userInfo);</span>
+<span class="fc" id="L214">		return Response.ok(&quot;OK&quot;).build();</span>
 	}
 
 	/**
@@ -203,16 +224,20 @@ public class Server {
 	@Path(&quot;/createEvent&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createEvent(EventInfo eventInfo) {
-<span class="fc" id="L206">		Event e = appService.createEvent(eventInfo);</span>
-<span class="fc" id="L207">		return Response.ok(new EventInfo(e)).build();</span>
+<span class="fc" id="L227">		LOGGER.log(Level.INFO, &quot;Event creation attempt received: &quot;, eventInfo);</span>
+
+<span class="fc" id="L229">		Event e = appService.createEvent(eventInfo);</span>
+<span class="fc" id="L230">		return Response.ok(new EventInfo(e)).build();</span>
 	}
 
 	@POST
 	@Path(&quot;/createPost&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createPost(PostInfo postInfo) {
-<span class="fc" id="L214">		Post p = appService.createPost(postInfo);</span>
-<span class="fc" id="L215">		return Response.ok(new PostInfo(p)).build();</span>
+<span class="fc" id="L237">		LOGGER.log(Level.INFO, &quot;POST creation attempt received: &quot;, postInfo);</span>
+
+<span class="fc" id="L239">		Post p = appService.createPost(postInfo);</span>
+<span class="fc" id="L240">		return Response.ok(new PostInfo(p)).build();</span>
 	}
 
 	//------------------------------------DELETE USER-----------------------------------------------------
@@ -229,16 +254,15 @@ public class Server {
 	@Path(&quot;/delete&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptUserDelete(UserInfo userInfo) {
-		
-<span class="fc" id="L233">		String email = userInfo.getEmail();</span>
-<span class="fc" id="L234">		System.out.println(&quot;Delete attempt received: &quot; + email);</span>
+<span class="fc" id="L257">		String email = userInfo.getEmail();</span>
+<span class="fc" id="L258">		LOGGER.log(Level.INFO, &quot;Delete attempt received:  &quot; + email);</span>
 
-<span class="fc" id="L236">		boolean check = appService.deleteUser(email); //returns true if user was deleted successfully</span>
+<span class="fc" id="L260">		boolean check = appService.deleteUser(email); //returns true if user was deleted successfully</span>
 
-<span class="fc" id="L238">		String resp = null;</span>
-<span class="pc bpc" id="L239" title="1 of 2 branches missed.">		if (check) resp = &quot;Delete: &quot; + email;</span>
+<span class="fc" id="L262">		String resp = null;</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">		if (check) resp = &quot;Delete: &quot; + email;</span>
 
-<span class="fc" id="L241">		return Response.ok(resp).build();</span>
+<span class="fc" id="L265">		return Response.ok(resp).build();</span>
 	}
 
 	@POST
@@ -246,15 +270,15 @@ public class Server {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerDelete(OrganizerInfo organizerInfo) {
 		
-<span class="fc" id="L249">		String email = organizerInfo.getEmail();</span>
-<span class="fc" id="L250">		System.out.println(&quot;Organizer delete attempt received: &quot; + email);</span>
+<span class="fc" id="L273">		String email = organizerInfo.getEmail();</span>
+<span class="fc" id="L274">		LOGGER.log(Level.INFO, &quot;Organizer delete attempt received:  &quot; + email);</span>
 
-<span class="fc" id="L252">		boolean check = appService.deleteOrganizer(email); //returns true if organizer was deleted successfully</span>
+<span class="fc" id="L276">		boolean check = appService.deleteOrganizer(email); //returns true if organizer was deleted successfully</span>
 
-<span class="fc" id="L254">		String resp = null;</span>
-<span class="pc bpc" id="L255" title="1 of 2 branches missed.">		if (check) resp = &quot;Delete: &quot; + email;</span>
+<span class="fc" id="L278">		String resp = null;</span>
+<span class="pc bpc" id="L279" title="1 of 2 branches missed.">		if (check) resp = &quot;Delete: &quot; + email;</span>
 
-<span class="fc" id="L257">		return Response.ok(resp).build();</span>
+<span class="fc" id="L281">		return Response.ok(resp).build();</span>
 	}
 
 	// --------------------------------------------------------------
@@ -265,8 +289,8 @@ public class Server {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response sayHello() {
         // Persistence of a set of Accounts and a User
-<span class="nc" id="L268">		appService.hello();</span>
-<span class="nc" id="L269">		return Response.ok(&quot;Hello world!&quot;).build();</span>
+<span class="nc" id="L292">		appService.hello();</span>
+<span class="nc" id="L293">		return Response.ok(&quot;Hello world!&quot;).build();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

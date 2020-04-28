@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="11" failures="0" name="es.deusto.junit.serialization.SerializationTest" time="1.162" errors="0" skipped="0">
+<testsuite tests="11" failures="0" name="es.deusto.junit.serialization.SerializationTest" time="1.209" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_151\jre\bin"/>
@@ -65,15 +65,15 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testEventInfoFromEvent" time="0.137"/>
-  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testEventInfoSetters" time="0.082"/>
-  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testOrganizerInfoSetters" time="0.129"/>
-  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testUserInfoSetters" time="0.082"/>
-  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testUserInfoStringConstructor" time="0.078"/>
-  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testUserInfoFromUser" time="0.133"/>
+  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testSignupAttemptOrganizer" time="0.063"/>
+  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testUserInfoStringConstructor" time="0.082"/>
+  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testUserInfoSetters" time="0.078"/>
+  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testEventInfoSetters" time="0.154"/>
+  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testPostInfoFromPost" time="0.081"/>
+  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testEventInfoFromEvent" time="0.161"/>
   <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testOrganizerInfoFromOrganizer" time="0.142"/>
-  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testPostInfoFromPost" time="0.093"/>
-  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testPostInfoSetters" time="0.096"/>
-  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testSignupAttemptUser" time="0.101"/>
-  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testSignupAttemptOrganizer" time="0.089"/>
+  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testOrganizerInfoSetters" time="0.132"/>
+  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testPostInfoSetters" time="0.093"/>
+  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testSignupAttemptUser" time="0.098"/>
+  <testcase classname="es.deusto.junit.serialization.SerializationTest" name="testUserInfoFromUser" time="0.125"/>
 </testsuite>

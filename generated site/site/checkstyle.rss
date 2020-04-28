@@ -25,8 +25,8 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2020</copyright>
     <item>
-      <title>File: 40,
-             Errors: 1912,
+      <title>File: 42,
+             Errors: 2112,
              Warnings: 0,
              Infos: 0
       </title>
@@ -84,6 +84,20 @@ under the License.
                 </td>
                 <td>
                   6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://maven.apache.org/checkstyle.html#es.deusto.client.windows.CreateEvent.java">es/deusto/client/windows/CreateEvent.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  98
                 </td>
               </tr>
                           <tr>
@@ -279,7 +293,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  38
+                  66
                 </td>
               </tr>
                           <tr>
@@ -307,7 +321,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  138
+                  141
                 </td>
               </tr>
                           <tr>
@@ -335,7 +349,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  19
+                  26
                 </td>
               </tr>
                           <tr>
@@ -349,7 +363,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  85
+                  87
                 </td>
               </tr>
                           <tr>
@@ -396,6 +410,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://maven.apache.org/checkstyle.html#es.deusto.client.windows.OrganizerHome.java">es/deusto/client/windows/OrganizerHome.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  74
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://maven.apache.org/checkstyle.html#es.deusto.client.windows.LogInWindow.java">es/deusto/client/windows/LogInWindow.java</a>
                 </td>
                 <td>
@@ -405,7 +433,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  120
+                  119
                 </td>
               </tr>
                           <tr>
@@ -419,7 +447,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  149
+                  153
                 </td>
               </tr>
                           <tr>
@@ -503,7 +531,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  85
+                  70
                 </td>
               </tr>
                           <tr>

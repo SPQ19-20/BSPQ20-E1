@@ -37,23 +37,21 @@ public class EventDAO {
 <span class="fc bfc" id="L37" title="All 2 branches covered.">			for (Event u : extent) {</span>
 <span class="fc bfc" id="L38" title="All 2 branches covered.">				if (u.getName().contains(name)){</span>
 <span class="fc" id="L39">					event.add(u); //adds the event to the list.</span>
-				}else{
-<span class="fc" id="L41">					System.out.println(&quot;no events found with given name&quot;);</span>
 				}
-<span class="fc" id="L43">			}</span>
+<span class="fc" id="L41">			}</span>
 			
-<span class="fc" id="L45">			tx.commit();</span>
-<span class="nc" id="L46">		} catch (Exception e) {</span>
-<span class="nc" id="L47">			e.printStackTrace();</span>
+<span class="fc" id="L43">			tx.commit();</span>
+<span class="nc" id="L44">		} catch (Exception e) {</span>
+<span class="nc" id="L45">			e.printStackTrace();</span>
 		} finally {
-<span class="pc bpc" id="L49" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
-<span class="nc" id="L50">	    		tx.rollback();</span>
+<span class="pc bpc" id="L47" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L48">	    		tx.rollback();</span>
 	    	}
 			
-<span class="fc" id="L53">			pm.close();</span>
+<span class="fc" id="L51">			pm.close();</span>
 		}
 		
-<span class="fc" id="L56">		return event;</span>
+<span class="fc" id="L54">		return event;</span>
 	}
 	
 	/**
@@ -62,38 +60,36 @@ public class EventDAO {
 	 * @return list of events from the database
 	 */
     public ArrayList&lt;Event&gt; getEventsbyTopic(String topic) {
-<span class="nc" id="L65">        PersistenceManager pm = pmf.getPersistenceManager();</span>
-<span class="nc" id="L66">		pm.getFetchPlan().setMaxFetchDepth(4);</span>
-<span class="nc" id="L67">		pm.setDetachAllOnCommit(true);</span>
+<span class="nc" id="L63">        PersistenceManager pm = pmf.getPersistenceManager();</span>
+<span class="nc" id="L64">		pm.getFetchPlan().setMaxFetchDepth(4);</span>
+<span class="nc" id="L65">		pm.setDetachAllOnCommit(true);</span>
 		
-<span class="nc" id="L69">		Transaction tx = pm.currentTransaction();</span>
+<span class="nc" id="L67">		Transaction tx = pm.currentTransaction();</span>
 		
 	
-<span class="nc" id="L72">		ArrayList&lt;Event&gt; event = new ArrayList&lt;Event&gt;();</span>
+<span class="nc" id="L70">		ArrayList&lt;Event&gt; event = new ArrayList&lt;Event&gt;();</span>
 		try {
-<span class="nc" id="L74">			tx.begin();</span>
+<span class="nc" id="L72">			tx.begin();</span>
 			
-<span class="nc" id="L76">			Extent&lt;Event&gt; extent = pm.getExtent(Event.class, true);</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">			for (Event u : extent) {</span>
-<span class="nc bnc" id="L78" title="All 2 branches missed.">				if (u.getTopic().getName().contains(topic)){</span>
-<span class="nc" id="L79">					event.add(u); //adds the event to the list.</span>
-				}else{
-<span class="nc" id="L81">					System.out.println(&quot;no events found with given name&quot;);</span>
+<span class="nc" id="L74">			Extent&lt;Event&gt; extent = pm.getExtent(Event.class, true);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">			for (Event u : extent) {</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">				if (u.getTopic().getName().contains(topic)){</span>
+<span class="nc" id="L77">					event.add(u); //adds the event to the list.</span>
 				}
-<span class="nc" id="L83">			}</span>
+<span class="nc" id="L79">			}</span>
 			
-<span class="nc" id="L85">			tx.commit();</span>
-<span class="nc" id="L86">		} catch (Exception e) {</span>
-<span class="nc" id="L87">			e.printStackTrace();</span>
+<span class="nc" id="L81">			tx.commit();</span>
+<span class="nc" id="L82">		} catch (Exception e) {</span>
+<span class="nc" id="L83">			e.printStackTrace();</span>
 		} finally {
-<span class="nc bnc" id="L89" title="All 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
-<span class="nc" id="L90">	    		tx.rollback();</span>
+<span class="nc bnc" id="L85" title="All 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L86">	    		tx.rollback();</span>
 	    	}
 			
-<span class="nc" id="L93">			pm.close();</span>
+<span class="nc" id="L89">			pm.close();</span>
 		}
 		
-<span class="nc" id="L96">		return event;</span>
+<span class="nc" id="L92">		return event;</span>
 	}
 
 	/**
@@ -102,77 +98,75 @@ public class EventDAO {
 	 * @return list of events from the database
 	 */
     public ArrayList&lt;Event&gt; getEventsByOrganizer(Organizer organizer) {
-<span class="pc bpc" id="L105" title="1 of 2 branches missed.">		if (organizer == null) return new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">		if (organizer == null) return new ArrayList&lt;&gt;();</span>
 
-<span class="fc" id="L107">        PersistenceManager pm = pmf.getPersistenceManager();</span>
-<span class="fc" id="L108">		pm.getFetchPlan().setMaxFetchDepth(4);</span>
-<span class="fc" id="L109">		pm.setDetachAllOnCommit(true);</span>
+<span class="fc" id="L103">        PersistenceManager pm = pmf.getPersistenceManager();</span>
+<span class="fc" id="L104">		pm.getFetchPlan().setMaxFetchDepth(4);</span>
+<span class="fc" id="L105">		pm.setDetachAllOnCommit(true);</span>
 		
-<span class="fc" id="L111">		Transaction tx = pm.currentTransaction();</span>
+<span class="fc" id="L107">		Transaction tx = pm.currentTransaction();</span>
 		
 	
-<span class="fc" id="L114">		ArrayList&lt;Event&gt; event = new ArrayList&lt;Event&gt;();</span>
+<span class="fc" id="L110">		ArrayList&lt;Event&gt; event = new ArrayList&lt;Event&gt;();</span>
 		try {
-<span class="fc" id="L116">			tx.begin();</span>
+<span class="fc" id="L112">			tx.begin();</span>
 			
-<span class="fc" id="L118">			Extent&lt;Event&gt; extent = pm.getExtent(Event.class, true);</span>
-<span class="fc bfc" id="L119" title="All 2 branches covered.">			for (Event u : extent) {</span>
-<span class="pc bpc" id="L120" title="1 of 2 branches missed.">				if (u.getOrganizer() == null) continue;</span>
-<span class="pc bpc" id="L121" title="1 of 2 branches missed.">				if (u.getOrganizer().getEmail().equals(organizer.getEmail())){</span>
-<span class="nc" id="L122">					event.add(u); //adds the event to the list.</span>
-				}else{
-<span class="fc" id="L124">					System.out.println(&quot;no events found with given name&quot;);</span>
+<span class="fc" id="L114">			Extent&lt;Event&gt; extent = pm.getExtent(Event.class, true);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">			for (Event u : extent) {</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">				if (u.getOrganizer() == null) continue;</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">				if (u.getOrganizer().getEmail().equals(organizer.getEmail())){</span>
+<span class="nc" id="L118">					event.add(u); //adds the event to the list.</span>
 				}
-<span class="fc" id="L126">			}</span>
+<span class="fc" id="L120">			}</span>
 			
-<span class="fc" id="L128">			tx.commit();</span>
-<span class="nc" id="L129">		} catch (Exception e) {</span>
-<span class="nc" id="L130">			e.printStackTrace();</span>
+<span class="fc" id="L122">			tx.commit();</span>
+<span class="nc" id="L123">		} catch (Exception e) {</span>
+<span class="nc" id="L124">			e.printStackTrace();</span>
 		} finally {
-<span class="pc bpc" id="L132" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
-<span class="nc" id="L133">	    		tx.rollback();</span>
+<span class="pc bpc" id="L126" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L127">	    		tx.rollback();</span>
 	    	}
 			
-<span class="fc" id="L136">			pm.close();</span>
+<span class="fc" id="L130">			pm.close();</span>
 		}
 		
-<span class="fc" id="L139">		return event;</span>
+<span class="fc" id="L133">		return event;</span>
 	}
 
 	/**
 	 * Retrieves a list of all the events from the database
 	 */
 	public ArrayList&lt;Event&gt; getEvents() {
-<span class="nc" id="L146">        PersistenceManager pm = pmf.getPersistenceManager();</span>
-<span class="nc" id="L147">		pm.getFetchPlan().setMaxFetchDepth(4);</span>
-<span class="nc" id="L148">		pm.setDetachAllOnCommit(true);</span>
+<span class="nc" id="L140">        PersistenceManager pm = pmf.getPersistenceManager();</span>
+<span class="nc" id="L141">		pm.getFetchPlan().setMaxFetchDepth(4);</span>
+<span class="nc" id="L142">		pm.setDetachAllOnCommit(true);</span>
 		
-<span class="nc" id="L150">		Transaction tx = pm.currentTransaction();</span>
+<span class="nc" id="L144">		Transaction tx = pm.currentTransaction();</span>
 		
 	
-<span class="nc" id="L153">		ArrayList&lt;Event&gt; event = new ArrayList&lt;Event&gt;();</span>
+<span class="nc" id="L147">		ArrayList&lt;Event&gt; event = new ArrayList&lt;Event&gt;();</span>
 		try {
-<span class="nc" id="L155">			tx.begin();</span>
+<span class="nc" id="L149">			tx.begin();</span>
 			
-<span class="nc" id="L157">			Extent&lt;Event&gt; extent = pm.getExtent(Event.class, true);</span>
-<span class="nc bnc" id="L158" title="All 2 branches missed.">			for (Event u : extent) {</span>
+<span class="nc" id="L151">			Extent&lt;Event&gt; extent = pm.getExtent(Event.class, true);</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">			for (Event u : extent) {</span>
 				
-<span class="nc" id="L160">					event.add(u); //adds the event to the list.</span>
+<span class="nc" id="L154">					event.add(u); //adds the event to the list.</span>
 				
-<span class="nc" id="L162">			}</span>
+<span class="nc" id="L156">			}</span>
 			
-<span class="nc" id="L164">			tx.commit();</span>
-<span class="nc" id="L165">		} catch (Exception e) {</span>
-<span class="nc" id="L166">			e.printStackTrace();</span>
+<span class="nc" id="L158">			tx.commit();</span>
+<span class="nc" id="L159">		} catch (Exception e) {</span>
+<span class="nc" id="L160">			e.printStackTrace();</span>
 		} finally {
-<span class="nc bnc" id="L168" title="All 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
-<span class="nc" id="L169">	    		tx.rollback();</span>
+<span class="nc bnc" id="L162" title="All 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L163">	    		tx.rollback();</span>
 	    	}
 			
-<span class="nc" id="L172">			pm.close();</span>
+<span class="nc" id="L166">			pm.close();</span>
 		}
 		
-<span class="nc" id="L175">		return event;</span>
+<span class="nc" id="L169">		return event;</span>
     }
 
 	/**
@@ -180,60 +174,60 @@ public class EventDAO {
 	 * @param event event to be submited
 	 */
 	public void storeEvent(Event event) {
-<span class="fc" id="L183">		PersistenceManager pm = pmf.getPersistenceManager();</span>
-<span class="fc" id="L184">		pm.setDetachAllOnCommit(true);</span>
-<span class="fc" id="L185">		Transaction tx = pm.currentTransaction();</span>
+<span class="fc" id="L177">		PersistenceManager pm = pmf.getPersistenceManager();</span>
+<span class="fc" id="L178">		pm.setDetachAllOnCommit(true);</span>
+<span class="fc" id="L179">		Transaction tx = pm.currentTransaction();</span>
 		
 		try {
-<span class="fc" id="L188">			tx.begin();</span>
+<span class="fc" id="L182">			tx.begin();</span>
 			
-<span class="fc" id="L190">			pm.makePersistent(event);</span>
+<span class="fc" id="L184">			pm.makePersistent(event);</span>
 			
-<span class="fc" id="L192">			tx.commit();</span>
-<span class="nc" id="L193">		} catch (Exception e) {</span>
-<span class="nc" id="L194">			e.printStackTrace();</span>
+<span class="fc" id="L186">			tx.commit();</span>
+<span class="nc" id="L187">		} catch (Exception e) {</span>
+<span class="nc" id="L188">			e.printStackTrace();</span>
 		} finally {
-<span class="pc bpc" id="L196" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
-<span class="nc" id="L197">	    		tx.rollback();</span>
+<span class="pc bpc" id="L190" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L191">	    		tx.rollback();</span>
 	    	}
-<span class="fc" id="L199">			pm.close();</span>
+<span class="fc" id="L193">			pm.close();</span>
 		}
-<span class="fc" id="L201">    }</span>
+<span class="fc" id="L195">    }</span>
     /**
 	 * Updates an event
 	 * @param event
 	 */
     public void updateEvent(Event event) {
-<span class="nc" id="L207">		storeEvent(event);</span>
-<span class="nc" id="L208">	}</span>
+<span class="nc" id="L201">		storeEvent(event);</span>
+<span class="nc" id="L202">	}</span>
 
 	/**
 	 * deletes an event from the database.
 	 * @param event event to be deleted
 	 */
 	public void deleteEvent(Event event){
-<span class="fc" id="L215">		PersistenceManager pm = pmf.getPersistenceManager();</span>
-<span class="fc" id="L216">		pm.setDetachAllOnCommit(true);</span>
-<span class="fc" id="L217">		Transaction tx = pm.currentTransaction();</span>
+<span class="fc" id="L209">		PersistenceManager pm = pmf.getPersistenceManager();</span>
+<span class="fc" id="L210">		pm.setDetachAllOnCommit(true);</span>
+<span class="fc" id="L211">		Transaction tx = pm.currentTransaction();</span>
 		
 
-<span class="fc" id="L220">		Event e = getEvents(event.getName()).get(0);</span>
+<span class="fc" id="L214">		Event e = getEvents(event.getName()).get(0);</span>
 	
 		try {
-<span class="fc" id="L223">			tx.begin();</span>
+<span class="fc" id="L217">			tx.begin();</span>
 
-<span class="fc" id="L225">			pm.deletePersistent(e);</span>
+<span class="fc" id="L219">			pm.deletePersistent(e);</span>
 
-<span class="fc" id="L227">			tx.commit();</span>
-<span class="nc" id="L228">		} catch (Exception ex) {</span>
-<span class="nc" id="L229">			ex.printStackTrace();</span>
+<span class="fc" id="L221">			tx.commit();</span>
+<span class="nc" id="L222">		} catch (Exception ex) {</span>
+<span class="nc" id="L223">			ex.printStackTrace();</span>
 		} finally {
-<span class="pc bpc" id="L231" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
-<span class="nc" id="L232">	    		tx.rollback();</span>
+<span class="pc bpc" id="L225" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L226">	    		tx.rollback();</span>
 	    	}
-<span class="fc" id="L234">			pm.close();</span>
+<span class="fc" id="L228">			pm.close();</span>
 		}	
 		
-<span class="fc" id="L237">	}</span>
+<span class="fc" id="L231">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

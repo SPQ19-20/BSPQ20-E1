@@ -8,10 +8,10 @@
                 <ConcreteClasses>1</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>2</Ca>
-                <Ce>8</Ce>
+                <Ce>7</Ce>
                 <A>0</A>
-                <I>0.8</I>
-                <D>0.2</D>
+                <I>0.78</I>
+                <D>0.22</D>
                 <V>1</V>
             </Stats>
 
@@ -27,7 +27,6 @@
             <DependsUpon>
                 <Package>es.deusto.client.windows</Package>
                 <Package>es.deusto.serialization</Package>
-                <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>java.util.logging</Package>
@@ -47,7 +46,7 @@
                 <ConcreteClasses>1</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>5</Ce>
+                <Ce>3</Ce>
                 <A>0</A>
                 <I>1</I>
                 <D>0</D>
@@ -66,9 +65,7 @@
             <DependsUpon>
                 <Package>es.deusto.client.controller</Package>
                 <Package>es.deusto.client.windows</Package>
-                <Package>es.deusto.serialization</Package>
                 <Package>java.lang</Package>
-                <Package>java.util</Package>
             </DependsUpon>
 
             <UsedBy>
@@ -77,8 +74,8 @@
 
         <Package name="es.deusto.client.windows">
             <Stats>
-                <TotalClasses>34</TotalClasses>
-                <ConcreteClasses>34</ConcreteClasses>
+                <TotalClasses>47</TotalClasses>
+                <ConcreteClasses>47</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>2</Ca>
                 <Ce>11</Ce>
@@ -106,6 +103,12 @@
                 </Class>
                 <Class sourceFile="CodeVerification.java">
                     es.deusto.client.windows.CodeVerification$2
+                </Class>
+                <Class sourceFile="CreateEvent.java">
+                    es.deusto.client.windows.CreateEvent
+                </Class>
+                <Class sourceFile="CreateEvent.java">
+                    es.deusto.client.windows.CreateEvent$1
                 </Class>
                 <Class sourceFile="CreateUserWindow.java">
                     es.deusto.client.windows.CreateUserWindow
@@ -170,6 +173,30 @@
                 <Class sourceFile="LogInWindow.java">
                     es.deusto.client.windows.LogInWindow$6
                 </Class>
+                <Class sourceFile="OrganizerHome.java">
+                    es.deusto.client.windows.OrganizerHome
+                </Class>
+                <Class sourceFile="OrganizerHome.java">
+                    es.deusto.client.windows.OrganizerHome$1
+                </Class>
+                <Class sourceFile="OrganizerHome.java">
+                    es.deusto.client.windows.OrganizerHome$2
+                </Class>
+                <Class sourceFile="OrganizerHome.java">
+                    es.deusto.client.windows.OrganizerHome$3
+                </Class>
+                <Class sourceFile="OrganizerHome.java">
+                    es.deusto.client.windows.OrganizerHome$4
+                </Class>
+                <Class sourceFile="OrganizerHome.java">
+                    es.deusto.client.windows.OrganizerHome$5
+                </Class>
+                <Class sourceFile="OrganizerHome.java">
+                    es.deusto.client.windows.OrganizerHome$EventListItem
+                </Class>
+                <Class sourceFile="OrganizerHome.java">
+                    es.deusto.client.windows.OrganizerHome$EventListItem$1
+                </Class>
                 <Class sourceFile="Profile.java">
                     es.deusto.client.windows.Profile
                 </Class>
@@ -187,6 +214,15 @@
                 </Class>
                 <Class sourceFile="UserEventsWindow.java">
                     es.deusto.client.windows.UserEventsWindow$1
+                </Class>
+                <Class sourceFile="UserEventsWindow.java">
+                    es.deusto.client.windows.UserEventsWindow$2
+                </Class>
+                <Class sourceFile="UserEventsWindow.java">
+                    es.deusto.client.windows.UserEventsWindow$3
+                </Class>
+                <Class sourceFile="UserEventsWindow.java">
+                    es.deusto.client.windows.UserEventsWindow$4
                 </Class>
                 <Class sourceFile="UserEventsWindow.java">
                     es.deusto.client.windows.UserEventsWindow$EventListElement
@@ -221,11 +257,11 @@
                 <TotalClasses>8</TotalClasses>
                 <ConcreteClasses>7</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>5</Ca>
+                <Ca>4</Ca>
                 <Ce>3</Ce>
                 <A>0.12</A>
-                <I>0.38</I>
-                <D>0.5</D>
+                <I>0.43</I>
+                <D>0.45</D>
                 <V>1</V>
             </Stats>
 
@@ -267,7 +303,6 @@
 
             <UsedBy>
                 <Package>es.deusto.client.controller</Package>
-                <Package>es.deusto.client.main</Package>
                 <Package>es.deusto.client.windows</Package>
                 <Package>es.deusto.server.data</Package>
                 <Package>es.deusto.server.server</Package>
@@ -280,10 +315,10 @@
                 <ConcreteClasses>6</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>2</Ca>
-                <Ce>5</Ce>
+                <Ce>4</Ce>
                 <A>0</A>
-                <I>0.71</I>
-                <D>0.29</D>
+                <I>0.67</I>
+                <D>0.33</D>
                 <V>1</V>
             </Stats>
 
@@ -313,7 +348,6 @@
 
             <DependsUpon>
                 <Package>es.deusto.server.data</Package>
-                <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>javax.jdo</Package>
@@ -411,9 +445,9 @@
                 <Package>es.deusto.serialization</Package>
                 <Package>es.deusto.server.dao</Package>
                 <Package>es.deusto.server.data</Package>
-                <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
+                <Package>java.util.logging</Package>
                 <Package>javax.mail</Package>
                 <Package>javax.mail.internet</Package>
                 <Package>javax.ws.rs.core</Package>
