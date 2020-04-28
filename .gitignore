@@ -6,3 +6,5 @@ README.txt
 datanucleus.log
 .mvn/
 .settings/
+/log/
+log/
