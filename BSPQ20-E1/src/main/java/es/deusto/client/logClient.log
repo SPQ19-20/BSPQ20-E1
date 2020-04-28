@@ -1,0 +1,8 @@
+abr 28, 2020 9:43:22 PM es.deusto.client.controller.Controller attemptNormalSignup
+INFORMACIÓN: Signing up USER
+abr 28, 2020 9:43:23 PM es.deusto.client.controller.Controller attemptNormalSignup
+INFORMACIÓN: Signup for USER completed 2234dc@gmail.com
+abr 28, 2020 9:43:30 PM es.deusto.client.controller.Controller attemptNormalUpdate
+INFORMACIÓN: Updating the user: 2234dc@gmail.com
+abr 28, 2020 9:43:30 PM es.deusto.client.controller.Controller attemptNormalUpdate
+INFORMACIÓN: User updated

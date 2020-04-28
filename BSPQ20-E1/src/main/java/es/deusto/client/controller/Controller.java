@@ -5,10 +5,13 @@ import es.deusto.serialization.*;
 import javassist.bytecode.stackmap.TypeData.ClassName;
 
 import java.util.ArrayList;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -36,7 +39,7 @@ public class Controller {
     private WebTarget webTarget;
     private LanguageManager langManager;
     private final static Logger LOGGER = Logger.getLogger(Controller.class.getName());
-    private static Handler fileHandler;
+    
     /**
      * Constructor
      * @param hostname A String object with the path of the server
@@ -49,8 +52,14 @@ public class Controller {
 
         //initialise the logger
         try {
-            fileHandler = new FileHandler("BSPQ20-E1/src/main/java/es/deusto/client", true);   
+            Handler consoleHandler = new ConsoleHandler();
+            Handler fileHandler = new FileHandler("./src/main/java/es/deusto/client/logClient.log", true); 
+           
+            fileHandler.setFormatter(new SimpleFormatter());
+
+            LOGGER.addHandler(consoleHandler);  
             LOGGER.addHandler(fileHandler);
+            
         } catch (Exception e) {
             //TODO: handle exception
             e.printStackTrace();
@@ -87,7 +96,7 @@ public class Controller {
     public boolean attemptNormalLogin(String email, String password) { 
         LoginAttempt login = new LoginAttempt(email, password, false);//The boolean is never used!
         WebTarget donationsWebTarget = webTarget.path("server/login");
-        LOGGER.log(Level.FINE, "Loggin USER: "+ email);
+        LOGGER.log(Level.INFO, "Loggin USER: "+ email);
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 		
 		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));
@@ -103,7 +112,7 @@ public class Controller {
         if (user != null) {
             // System.out.println("We got something");
             // System.out.println(user.getName());
-            LOGGER.log(Level.FINE, "We got something, " + user.getName());
+            LOGGER.log(Level.INFO, "We got something, " + user.getName());
         }
 
         return user != null;
@@ -123,7 +132,7 @@ public class Controller {
     public boolean attemptNormalLoginOrganizer(String email, String password) { 
         LoginAttempt login = new LoginAttempt(email, password, true);//The boolean is never used!
         WebTarget donationsWebTarget = webTarget.path("server/loginOrganizer");
-        LOGGER.log(Level.FINE, "Loggin ORGANIZER: "+ email);
+        LOGGER.log(Level.INFO, "Loggin ORGANIZER: "+ email);
 
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 		
@@ -140,7 +149,7 @@ public class Controller {
         if (organizer != null) {
            // System.out.println("We got something");
            // System.out.println(organizer.getName());
-            LOGGER.log(Level.FINE, "We got something, " + organizer.getName());
+            LOGGER.log(Level.INFO, "We got something, " + organizer.getName());
 
         }
 
@@ -215,7 +224,7 @@ public class Controller {
         signup.setInterests(interests);
 
         WebTarget donationsWebTarget = webTarget.path("server/signup");
-        LOGGER.log(Level.FINE, "Signing up USER");
+        LOGGER.log(Level.INFO, "Signing up USER");
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 		
 		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
@@ -229,7 +238,7 @@ public class Controller {
         this.user = response.readEntity(UserInfo.class);
 
         if (user != null) {
-            LOGGER.log(Level.FINE, "Signup for USER completed " + email);
+            LOGGER.log(Level.INFO, "Signup for USER completed " + email);
             return true;
         }
 
@@ -256,7 +265,7 @@ public class Controller {
         signup.setOrganization(organization);
 
         WebTarget donationsWebTarget = webTarget.path("server/signupOrganizer");
-        LOGGER.log(Level.FINE, "Signing up organizer " + email);
+        LOGGER.log(Level.INFO, "Signing up organizer " + email);
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 		
         Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
@@ -270,7 +279,7 @@ public class Controller {
         this.organizer = response.readEntity(OrganizerInfo.class);
 
         if (organizer != null) {
-            LOGGER.log(Level.FINE, "sIGNUP ORGANIZER COMPLETED");
+            LOGGER.log(Level.INFO, "sIGNUP ORGANIZER COMPLETED");
             return true;
         }
 
@@ -292,7 +301,7 @@ public class Controller {
         signup.setInterests(this.getUser().getInterests());
 
         WebTarget donationsWebTarget = webTarget.path("server/update");
-        LOGGER.log(Level.FINE, "Updating the user: " + this.user.getEmail());
+        LOGGER.log(Level.INFO, "Updating the user: " + this.user.getEmail());
         Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 
         Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
@@ -306,10 +315,10 @@ public class Controller {
         this.user = response.readEntity(UserInfo.class);
 
         if (user != null) {
-            LOGGER.log(Level.FINE, "User updated");
+            LOGGER.log(Level.INFO, "User updated");
             return true;
         }
-        LOGGER.log(Level.FINE, "Not possible to updated");
+        LOGGER.log(Level.WARNING, "Not possible to update");
         return false;
     }
 
@@ -326,7 +335,7 @@ public class Controller {
         signup.setOrganization(this.getOrganize().getOrganization());
 
         WebTarget donationsWebTarget = webTarget.path("server/updateOrganizer");
-        LOGGER.log(Level.FINE, "Updating the organizer: " + this.organizer.getEmail());
+        LOGGER.log(Level.INFO, "Updating the organizer: " + this.organizer.getEmail());
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 		
 		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));
@@ -340,7 +349,7 @@ public class Controller {
         this.organizer = response.readEntity(OrganizerInfo.class);
 
         if (organizer != null) {
-            LOGGER.log(Level.FINE, "Organizer Updated succesfully");
+            LOGGER.log(Level.INFO, "Organizer Updated succesfully");
             return true;
         }
 
@@ -356,7 +365,7 @@ public class Controller {
      */
     public boolean attemptUserDelete() {
         WebTarget donationsWebTarget = webTarget.path("server/delete");
-        LOGGER.log(Level.FINE, "deleting user: "+ this.user.getEmail());
+        LOGGER.log(Level.INFO, "deleting user: "+ this.user.getEmail());
         Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 
         Response response = invocationBuilder.post(Entity.entity(this.getUser(), MediaType.APPLICATION_JSON));
@@ -375,7 +384,7 @@ public class Controller {
 
     public boolean attemptOrganizerDelete() {
         WebTarget donationsWebTarget = webTarget.path("server/deleteOrganizer");
-        LOGGER.log(Level.FINE, "Deleting organizer " + this.organizer.getEmail());
+        LOGGER.log(Level.INFO, "Deleting organizer " + this.organizer.getEmail());
         Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 
         Response response = invocationBuilder.post(Entity.entity(this.organizer, MediaType.APPLICATION_JSON));
@@ -388,7 +397,7 @@ public class Controller {
         }
 
         this.organizer = null;
-        LOGGER.log(Level.FINE, "Organizer succesfully deleted");
+        LOGGER.log(Level.INFO, "Organizer succesfully deleted");
         return true;
     }
 
@@ -405,7 +414,7 @@ public class Controller {
         this.organizer.getCreatedEvents().add(eventInfo);
 
         WebTarget donationsWebTarget = webTarget.path("server/createEvent");
-        LOGGER.log(Level.FINE, "Creating the Event: " + eventInfo.getName());
+        LOGGER.log(Level.INFO, "Creating the Event: " + eventInfo.getName());
         Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 
         Response response = invocationBuilder.post(Entity.entity(eventInfo, MediaType.APPLICATION_JSON));
@@ -419,10 +428,10 @@ public class Controller {
         EventInfo event = response.readEntity(EventInfo.class);
 
         if (event != null) {
-            LOGGER.log(Level.FINE, "Event Created");
+            LOGGER.log(Level.INFO, "Event Created");
             return true;
         }
-        LOGGER.log(Level.FINE, "Response was empty");
+        LOGGER.log(Level.WARNING, "Response was empty");
         return false;
     }
 
@@ -438,7 +447,7 @@ public class Controller {
         postInfo.setOrganizerEmail(eventInfo.getOrganizerEmail());
         eventInfo.getPosts().add(postInfo);
         WebTarget donationsWebTarget = webTarget.path("server/createPost");
-        LOGGER.log(Level.FINE, "Creating the Post for event: " + eventInfo.getName());
+        LOGGER.log(Level.INFO, "Creating the Post for event: " + eventInfo.getName());
         Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 
         Response response = invocationBuilder.post(Entity.entity(postInfo, MediaType.APPLICATION_JSON));
@@ -451,7 +460,7 @@ public class Controller {
 
         PostInfo post = response.readEntity(PostInfo.class);
         if (post != null) {
-            LOGGER.log(Level.FINE, "POST Created");
+            LOGGER.log(Level.INFO, "POST Created");
             return true;
         }
         LOGGER.log(Level.SEVERE, "Error when creating Post : Response was empty");

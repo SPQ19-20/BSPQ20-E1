@@ -20,8 +20,6 @@ import es.deusto.server.data.*;
 public class Server {
 	//initialise the logger for the server
 	private final static Logger LOGGER = Logger.getLogger(Server.class.getName());
-	private static Handler fileHandler;
-
 	/**
 	 * This class is the one that receives the requests from the client.
 	 * There is no functionality implemented in this class, all the possible
@@ -35,8 +33,13 @@ public class Server {
 	public Server() {
 		this.appService = new AppService();
 		try {
-            fileHandler = new FileHandler("BSPQ20-E1/src/main/java/es/deusto/server", true);   
-            LOGGER.addHandler(fileHandler);
+			Handler consoleHandler = new ConsoleHandler();
+            Handler fileHandler = new FileHandler("./src/main/java/es/deusto/server/logServer.log", true);   
+		   
+			fileHandler.setFormatter(new SimpleFormatter());
+
+			LOGGER.addHandler(consoleHandler);
+			LOGGER.addHandler(fileHandler);
         } catch (Exception e) {
             e.printStackTrace();
         }
