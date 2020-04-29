@@ -41,6 +41,32 @@ mvn jetty:run
 ```
 mvn exec:java -Pclient
 ```
+## Execute the tests
+These are the commands that need to be introduced in order to run the project tests on Windows:
+###  Tests without performance:
+1. Open a new CMD window and run the following command:
+```
+mvn clean test
+```
+
+###  Tests with performance (takes longer time):
+1. Open a new CMD window and run the following command:
+```
+mvn clean test –DargLine=”-Dcontiperf.active=false”
+```
+
+###  Run the client
+1. Open a new CMD window and run the following command:
+```
+mvn [clean compile] exec:java -Pclient
+```
+
+### Run the server
+1. Open a new CMD window and run the following command:
+```
+mvn [clean compile] jetty:run
+```
+
 ## Authors
 
 * **Mikel Moreno** - [miikel23](https://github.com/miikel23)
