@@ -49,22 +49,26 @@ public class UserEventsWindow extends JFrame {
         JPanel langPanel = new JPanel();
 
         try {
-			ImageIcon iconEN, iconES, iconIT;
+			ImageIcon iconEN, iconES, iconIT, iconGR;
 			iconEN = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
 			iconES = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
-			iconIT = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
+            iconIT = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
+            iconGR = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));
 
-			JPanel enPanel, esPanel, itPanel;
+			JPanel enPanel, esPanel, itPanel, grPanel;
 			enPanel = new JPanel();
 			enPanel.add(new JLabel(iconEN));
 			esPanel = new JPanel();
 			esPanel.add(new JLabel(iconES));
-			itPanel = new JPanel();
-			itPanel.add(new JLabel(iconIT));
+            itPanel = new JPanel();
+            itPanel.add(new JLabel(iconIT));
+            grPanel = new JPanel();
+            grPanel.add(new JLabel(iconGR));
 
 			enPanel.setBorder(new EmptyBorder(2,2,2,2));
 			esPanel.setBorder(new EmptyBorder(2,2,2,2));
-			itPanel.setBorder(new EmptyBorder(2,2,2,2));
+            itPanel.setBorder(new EmptyBorder(2,2,2,2));
+            grPanel.setBorder(new EmptyBorder(2,2,2,2));
 
 			enPanel.addMouseListener(new MouseAdapter() {
 				@Override
@@ -99,10 +103,22 @@ public class UserEventsWindow extends JFrame {
 				}
 			});
 
+            grPanel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (!langManager.getLanguage().equals("el")) {
+                        controller.getLanguageManager().setLanguage("el");
+                        dispose();
+                        new UserEventsWindow(controller);
+                    }
+                }
+            });
             
 			langPanel.add(enPanel);
 			langPanel.add(esPanel);
 			langPanel.add(itPanel);
+			langPanel.add(grPanel);
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
         }
@@ -133,7 +149,6 @@ public class UserEventsWindow extends JFrame {
         JScrollPane scrollPane = new JScrollPane(this.mainPanel, 
             JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
 
         bigMainPanel.add(this.titlePanel, BorderLayout.NORTH);
         bigMainPanel.add(scrollPane, BorderLayout.CENTER);

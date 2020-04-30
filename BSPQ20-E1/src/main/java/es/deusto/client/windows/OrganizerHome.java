@@ -53,22 +53,26 @@ public class OrganizerHome extends JFrame {
 		JPanel languageButtonsPanel = new JPanel(new GridLayout(1, 3));
 
 		try {
-			ImageIcon iconEN, iconES, iconIT;
+			ImageIcon iconEN, iconES, iconIT, iconGR;
 			iconEN = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
 			iconES = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
 			iconIT = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
+			iconGR = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));
 
-			JPanel enPanel, esPanel, itPanel;
+			JPanel enPanel, esPanel, itPanel, grPanel;
 			enPanel = new JPanel();
 			enPanel.add(new JLabel(iconEN));
 			esPanel = new JPanel();
 			esPanel.add(new JLabel(iconES));
 			itPanel = new JPanel();
 			itPanel.add(new JLabel(iconIT));
+			grPanel = new JPanel();
+			grPanel.add(new JLabel(iconGR));
 
 			enPanel.setBorder(new EmptyBorder(2,2,2,2));
 			esPanel.setBorder(new EmptyBorder(2,2,2,2));
 			itPanel.setBorder(new EmptyBorder(2,2,2,2));
+			grPanel.setBorder(new EmptyBorder(2,2,2,2));
 
 			enPanel.addMouseListener(new MouseAdapter() {
 				@Override
@@ -103,9 +107,21 @@ public class OrganizerHome extends JFrame {
 				}
 			});
 
+			grPanel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (!langManager.getLanguage().equals("el")) {
+						controller.getLanguageManager().setLanguage("el");
+						dispose();
+						new OrganizerHome(controller);
+					}
+				}
+			});
+
 			languageButtonsPanel.add(enPanel);
 			languageButtonsPanel.add(esPanel);
 			languageButtonsPanel.add(itPanel);
+			languageButtonsPanel.add(grPanel);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -141,8 +157,6 @@ public class OrganizerHome extends JFrame {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 
 		createEventButton = new JButton(langManager.getString("createEvent"));
-
-
 
 		JPanel buttonsContainer = new JPanel();
 		buttonsContainer.add(createEventButton);

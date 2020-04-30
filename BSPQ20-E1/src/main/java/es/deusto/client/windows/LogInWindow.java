@@ -32,7 +32,7 @@ public class LogInWindow extends JFrame {
 	public JCheckBox cBoxAdmin, cBoxOrganizer; //do we use this?? cBox
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private JLabel labelES, labelGB, labelIT;
+	private JLabel labelES, labelGB, labelIT, labelGR;
 	private Controller controller;
 	private LanguageManager langManager;
 
@@ -45,7 +45,6 @@ public class LogInWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-
 		ImageIcon icon = null;
 		try {
 			icon = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
@@ -54,7 +53,7 @@ public class LogInWindow extends JFrame {
 		}
 		labelES = new JLabel(icon);
 		labelES.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		labelES.setBounds(320, 10, icon.getIconWidth(), icon.getIconHeight());
+		labelES.setBounds(300, 10, icon.getIconWidth(), icon.getIconHeight());
 		getContentPane().add(labelES);
 
 		ImageIcon icon1 = null;
@@ -65,7 +64,7 @@ public class LogInWindow extends JFrame {
 		}
 		labelGB = new JLabel(icon1);
 		labelGB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		labelGB.setBounds(325+icon.getIconWidth(), 10, icon1.getIconWidth(), icon1.getIconHeight());
+		labelGB.setBounds(305+icon.getIconWidth(), 10, icon1.getIconWidth(), icon1.getIconHeight());
 		getContentPane().add(labelGB);
 
 		ImageIcon icon2 = null;
@@ -76,8 +75,19 @@ public class LogInWindow extends JFrame {
 		}
 		labelIT = new JLabel(icon2);
 		labelIT.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		labelIT.setBounds(330+icon.getIconWidth()+icon1.getIconWidth(), 10, icon2.getIconWidth(), icon2.getIconHeight());
+		labelIT.setBounds(310+icon.getIconWidth()+icon1.getIconWidth(), 10, icon2.getIconWidth(), icon2.getIconHeight());
 		getContentPane().add(labelIT);
+
+		ImageIcon icon3 = null;
+		try {
+			icon3 = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		labelGR = new JLabel(icon3);
+		labelGR.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		labelGR.setBounds(315+icon.getIconWidth()+icon1.getIconWidth()+icon2.getIconWidth(), 10, icon3.getIconWidth(), icon3.getIconHeight());
+		getContentPane().add(labelGR);
 
 		bCreate = new JButton(langManager.getString("newUserButton"));
 		bCreate.setBounds(120, 320, 125, 25);
@@ -88,7 +98,7 @@ public class LogInWindow extends JFrame {
 		getContentPane().add(blogin);
 
 		cBoxOrganizer = new JCheckBox(langManager.getString("checkboxOrganizer")); //by default this checkbox is not enabled
-		cBoxOrganizer.setBounds(120, 270, 125, 25);
+		cBoxOrganizer.setBounds(110, 270, 150, 25);
 		getContentPane().add(cBoxOrganizer);
 		
 		JLabel lblUsuario = new JLabel(langManager.getString("userLabel"));
@@ -207,6 +217,20 @@ public class LogInWindow extends JFrame {
 				if (!langManager.getLanguage().equals("it")) {
 					dispose();
 					controller.getLanguageManager().setLanguage("it");
+					LogInWindow login = new LogInWindow(controller);
+					login.setVisible(true);
+					login.setSize(400, 500);
+					login.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				}
+			}
+		});
+
+		labelGR.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (!langManager.getLanguage().equals("el")) {
+					dispose();
+					controller.getLanguageManager().setLanguage("el");
 					LogInWindow login = new LogInWindow(controller);
 					login.setVisible(true);
 					login.setSize(400, 500);
