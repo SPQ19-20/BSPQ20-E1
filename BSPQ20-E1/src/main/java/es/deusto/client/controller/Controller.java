@@ -206,7 +206,7 @@ public class Controller {
         signup.setPassword(password);
         signup.setCity(city);
         signup.setInterests(interests);
-
+        signup.setSaveEvents(new ArrayList<EventInfo>());//when signing up the user hasn't still saved any event. IS THIS LINE NECESSARY OR DOES MONGO CREATE A BLANC LIST IN THE DATABASE?
         WebTarget donationsWebTarget = webTarget.path("server/signup");
         LOGGER.log(Level.INFO, "Signing up USER");
 		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
@@ -280,7 +280,7 @@ public class Controller {
         signup.setName(this.getUser().getName());
         signup.setCity(this.getUser().getCity());
         signup.setInterests(this.getUser().getInterests());
-
+        signup.setSaveEvents(this.getUser().getSavedEvents());//send the events this user has followed.
         WebTarget donationsWebTarget = webTarget.path("server/update");
         LOGGER.log(Level.INFO, "Updating the user: " + this.user.getEmail());
         Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);

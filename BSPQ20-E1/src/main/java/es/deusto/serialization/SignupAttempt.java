@@ -2,6 +2,7 @@ package es.deusto.serialization;
 
 import java.util.ArrayList;
 
+import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
 import es.deusto.server.data.User;
 
@@ -10,7 +11,7 @@ public class SignupAttempt {
     // Common atributes (Both normal Users and Organizers have them)
     private String email, password, name;
     private ArrayList<TopicInfo> interests;
-
+    private ArrayList<EventInfo> savedEvents;//information about the saved events.
     
     // Normal user
     private String city;
@@ -25,6 +26,7 @@ public class SignupAttempt {
         this.city = "";
         this.organization = "";
         this.interests = new ArrayList<TopicInfo>(); //the signup works with the objects of its own package
+        this.savedEvents = new ArrayList<EventInfo>();
     }
 
     // getters and setters
@@ -76,6 +78,13 @@ public class SignupAttempt {
          this.interests = interests; 
     }
 
+    public ArrayList<EventInfo> getSavedEvents() { 
+        return this.savedEvents; 
+    }
+
+    public void setSaveEvents(ArrayList<EventInfo> savedEvents) {
+         this.savedEvents = savedEvents; 
+    }
 
     /**
      * Builds an instance of the business object {@link User}.
@@ -94,6 +103,9 @@ public class SignupAttempt {
         //user.setInterests(new ArrayList<>());
         for (TopicInfo interest : interests) {
             user.addInterest(TopicInfo.parseTopic(interest));
+        }
+        for (EventInfo eventInfo : savedEvents) {
+            user.addEvent(new Event(eventInfo));
         }
         return user;
     }
