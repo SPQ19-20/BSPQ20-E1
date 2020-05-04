@@ -64,6 +64,7 @@ public class ChangePass extends JFrame {
 		txtagain.setBounds(280, 142, 96, 19);
 		contentPane.add(txtagain);
 		txtagain.setColumns(10);
+		//txtagain.setVisible(true);
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.addMouseListener(new MouseAdapter() {
@@ -78,5 +79,7 @@ public class ChangePass extends JFrame {
 		});
 		btnSave.setBounds(155, 221, 85, 21);
 		contentPane.add(btnSave);
+		
 	}
+
 }

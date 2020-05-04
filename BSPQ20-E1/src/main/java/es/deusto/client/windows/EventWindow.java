@@ -329,5 +329,6 @@ public class EventWindow extends JFrame {
 		}
 
 	}
+	
 
 }
