@@ -16,6 +16,7 @@ import es.deusto.server.data.Organizer;
 import es.deusto.server.data.Post;
 import es.deusto.server.data.User;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
@@ -173,7 +174,49 @@ public class AppService {
         user.setCity(u.getCity());
         user.setEmail(u.getEmail()); // necesary to update the email??
         user.setInterests(u.getInterests());
-        user.setSavedEvents(u.getSavedEvents());
+        // user.setSavedEvents(u.getSavedEvents());
+        
+        EventDAO eventDAO = DAOFactory.getInstance().createEventDAO();
+        ArrayList<Event> toAdd = new ArrayList<>();
+        for (Event e1: u.getSavedEvents()) {
+            boolean isIncluded = false;
+            for (Event e2: user.getSavedEvents()) {
+                if (e1.getName().equals(e2.getName())) {
+                    isIncluded = true;
+                    break;
+                }
+            }
+
+            if (!isIncluded) {
+                Event e = eventDAO.getEvents(e1.getName()).get(0);
+                if (e != null) toAdd.add(e);
+            }
+        }
+
+        ArrayList<Event> toDelete = new ArrayList<>();
+        for (Event e1: user.getSavedEvents()) {
+            boolean missing = true;
+            for (Event e2: u.getSavedEvents()) {
+                if (e1.getName().equals(e2.getName())) {
+                    missing = false;
+                    break;
+                }
+            }
+
+            if (missing) {
+                Event e = eventDAO.getEvents(e1.getName()).get(0);
+                if (e != null) toDelete.add(e);
+            }
+        }
+
+        for (Event e: toAdd) {
+            user.getSavedEvents().add(e);
+        }
+
+        for (Event e: toDelete) {
+            user.getSavedEvents().remove(e);
+        }
+
         //3. Update the user in the DB
         dao.storeUser(user);
         

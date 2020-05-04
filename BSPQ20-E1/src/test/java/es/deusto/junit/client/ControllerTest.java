@@ -171,7 +171,7 @@ public class ControllerTest extends JerseyTest {
         );
 
         controller.getUser().setCity("test---Tokyo");
-        controller.getUser().getSavedEvents().add(eventInfo);
+        // controller.getUser().getSavedEvents().add(eventInfo);
 
         boolean success = controller.attemptNormalUpdate();
 
