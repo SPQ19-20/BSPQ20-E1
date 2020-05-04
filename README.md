@@ -1,6 +1,8 @@
 # BSPQ20-E1
 This is an application that helps people find events that match their interests and take place near their area. Not only can users browse over their recommended events, but also they can mark them as interesting, so that event organizers can find out how appealing their proposals are before they take place. Besides, organizers will be able to post updates on their events so that people interested in them can be up to date.
 
+[![Build Status](https://travis-ci.org/SPQ19-20/BSPQ20-E1.svg?branch=master)](https://travis-ci.org/SPQ19-20/BSPQ20-E1)
+
 ## Getting Started
 ### Prerequisites
 * Java
