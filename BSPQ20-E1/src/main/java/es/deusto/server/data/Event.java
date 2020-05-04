@@ -15,6 +15,7 @@ public class Event{
 
 	private String name;
 	private String description;
+	private int interested;
 	
 	@Persistent(defaultFetchGroup="true")
 	private Topic topic;
@@ -40,6 +41,7 @@ public class Event{
 			this.topic = new Topic(info.getTopic());
 		}
 		this.organizer = DAOFactory.getInstance().createOrganizerDAO().getOrganizer(info.getOrganizerEmail());
+		this.interested = 0;
 	}
 
 	public String getName() {
@@ -73,9 +75,18 @@ public class Event{
 	public void setOrganizer(Organizer organizer) {
 		this.organizer = organizer;
 	}
+
+	public int getInterested() { return interested; }
+
+	public void setInterested(int interested) { this.interested = interested; }
+
+	public void addInterested() { interested++; }
+
+	public void reduceInterested() { interested--; }
+
 	@Override
 	public String toString() {
-		return "Event [ name=" + name + ", description= "+ description +", Topic= "+ topic.getName() +", organizer= "+ organizer + "]";
+		return "Event [ name=" + name + ", description= "+ description +", Topic= "+ topic.getName() +", organizer= "+ organizer + ", interested= "+ interested +" ]";
 	}
 
 	public ArrayList<Post> getPosts() {

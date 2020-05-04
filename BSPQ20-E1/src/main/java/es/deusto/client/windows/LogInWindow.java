@@ -101,7 +101,7 @@ public class LogInWindow extends JFrame {
 		cBoxOrganizer.setBounds(110, 270, 150, 25);
 		getContentPane().add(cBoxOrganizer);
 		
-		JLabel lblUsuario = new JLabel(langManager.getString("userLabel"));
+		JLabel lblUsuario = new JLabel(langManager.getString("emailLabel"));
 		lblUsuario.setBounds(22, 95, 79, 16);
 		getContentPane().add(lblUsuario);
 
