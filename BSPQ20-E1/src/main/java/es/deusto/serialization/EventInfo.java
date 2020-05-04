@@ -11,6 +11,7 @@ public class EventInfo {
 	private String description;
 	private TopicInfo topic;
     private String organizerEmail;
+    private int interested;
     
     private ArrayList<PostInfo> posts;
     
@@ -20,6 +21,7 @@ public class EventInfo {
         this.topic = null;
         this.organizerEmail = null;
         this.posts = new ArrayList<>();
+        this.interested = 0;
     }
 
     public EventInfo(Event e) {
@@ -33,6 +35,7 @@ public class EventInfo {
         for (Post p: actualPosts) {
             this.posts.add(new PostInfo(p));
         }
+        this.interested = e.getInterested();
     }
 
     public String getName() {
@@ -74,4 +77,12 @@ public class EventInfo {
     public void setPosts(ArrayList<PostInfo> posts) {
         this.posts = posts;
     }
+
+    public int getInterested() { return interested; }
+
+    public void setInterested(int interested) { this.interested = interested; }
+
+    public void addInterested() { interested++; }
+
+    public void reduceInterested() { interested--; }
 }

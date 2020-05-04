@@ -129,7 +129,7 @@ public class EventDAO {
 			
 			pm.close();
 		}
-		
+
 		return event;
 	}
 
@@ -142,7 +142,6 @@ public class EventDAO {
 		pm.setDetachAllOnCommit(true);
 		
 		Transaction tx = pm.currentTransaction();
-		
 	
 		ArrayList<Event> event = new ArrayList<Event>();
 		try {
@@ -150,9 +149,7 @@ public class EventDAO {
 			
 			Extent<Event> extent = pm.getExtent(Event.class, true);
 			for (Event u : extent) {
-				
-					event.add(u); //adds the event to the list.
-				
+				event.add(u); //adds the event to the list.
 			}
 			
 			tx.commit();
@@ -209,7 +206,6 @@ public class EventDAO {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
-		
 
 		Event e = getEvents(event.getName()).get(0);
 	

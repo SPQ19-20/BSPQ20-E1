@@ -180,6 +180,7 @@ public class OrganizerHome extends JFrame {
 		eventListPanel.setLayout(new BoxLayout(eventListPanel, BoxLayout.Y_AXIS));
 
 		for (EventInfo e: controller.getOrganize().getCreatedEvents()) {
+		//for (EventInfo e : this.controller.getOrganize().getSavedEvents()) {
 			eventListPanel.add(new EventListItem(e));
 			eventListPanel.add(Box.createVerticalGlue());
 		}
