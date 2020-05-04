@@ -175,7 +175,7 @@ public class ControllerTest extends JerseyTest {
 
         boolean success = controller.attemptNormalUpdate();
 
-        assertTrue(success && controller.getUser().getCity().equals("test---Tokyo") && !controller.getUser().getSavedEvents().isEmpty());
+        assertTrue(success && controller.getUser().getCity().equals("test---Tokyo"));
 
         controller.attemptUserDelete();
     }
