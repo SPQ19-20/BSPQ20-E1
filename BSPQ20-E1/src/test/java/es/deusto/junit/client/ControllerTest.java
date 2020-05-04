@@ -103,7 +103,7 @@ public class ControllerTest extends JerseyTest {
         assertTrue(success);
     }
 
-    /*
+    
     @Test
     public void testEventCreation() {
         boolean success = controller.createEvent(eventInfo);
@@ -115,7 +115,7 @@ public class ControllerTest extends JerseyTest {
         controller.createEvent(eventInfo);
         boolean success = controller.createPost(eventInfo, postInfo);
         assertTrue(success);
-    }*/
+    }
 
     @Test
     @PerfTest(duration = 10000, threads = 10) // test for at least 10 seconds with 10 threads
@@ -160,7 +160,7 @@ public class ControllerTest extends JerseyTest {
 
     @Test
     @PerfTest(duration = 10000)
-    @Required(median = 700)
+    @Required(median = 2000)
     public void testUserUpdate() {
         controller.attemptNormalSignup(
             "test---signup.test@test.com",
@@ -171,9 +171,11 @@ public class ControllerTest extends JerseyTest {
         );
 
         controller.getUser().setCity("test---Tokyo");
+        controller.getUser().getSavedEvents().add(eventInfo);
+
         boolean success = controller.attemptNormalUpdate();
 
-        assertTrue(success && controller.getUser().getCity().equals("test---Tokyo"));
+        assertTrue(success && controller.getUser().getCity().equals("test---Tokyo") && controller.getUser().getSavedEvents().size() == 1);
 
         controller.attemptUserDelete();
     }

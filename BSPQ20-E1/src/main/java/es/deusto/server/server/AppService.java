@@ -173,7 +173,7 @@ public class AppService {
         user.setCity(u.getCity());
         user.setEmail(u.getEmail()); // necesary to update the email??
         user.setInterests(u.getInterests());
-
+        user.setSavedEvents(u.getSavedEvents());
         //3. Update the user in the DB
         dao.storeUser(user);
         
