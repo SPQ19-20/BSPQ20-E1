@@ -204,6 +204,7 @@ public class OrganizerHome extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 				controller.setOrganizer(null);
+				dispose();
                 new LogInWindow(controller);
             }
 		});

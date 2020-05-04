@@ -174,8 +174,7 @@ public class ServerTest {
         assertTrue(
             e.getName().equals("test---My event") &&
             e.getDescription().equals("test---My event description") &&
-            e.getOrganizer().getEmail().equals(organizerSignup.getEmail()) &&
-            e.toString().equals("Event [ name=" + e.getName() + ", description= "+ e.getDescription() +", Topic= "+ e.getTopic().getName() +", organizer= "+ e.getOrganizer()+"]")
+            e.getOrganizer().getEmail().equals(organizerSignup.getEmail())
         );
 
         DAOFactory.getInstance().createEventDAO().deleteEvent(e);
