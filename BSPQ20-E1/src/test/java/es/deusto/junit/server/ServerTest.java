@@ -108,14 +108,14 @@ public class ServerTest {
     //     );
     // }
 
-    @Test 
-    public void testRecoverPassword() {
-        LoginAttempt login = new LoginAttempt(signup.getEmail(), signup.getPassword(), false);
-        server.recoverPassword(login);
-        User u = DAOFactory.getInstance().createUserDAO().getUser(login.getEmail());
-        // make sure the password has changed
-        assertTrue(!signup.getPassword().equals(u.getPassword()));
-    }
+    // @Test 
+    // public void testRecoverPassword() {
+    //     LoginAttempt login = new LoginAttempt(signup.getEmail(), signup.getPassword(), false);
+    //     server.recoverPassword(login);
+    //     User u = DAOFactory.getInstance().createUserDAO().getUser(login.getEmail());
+    //     // make sure the password has changed
+    //     assertTrue(!signup.getPassword().equals(u.getPassword()));
+    // }
 
     @Test
     public void testOrganizerSignup() {
