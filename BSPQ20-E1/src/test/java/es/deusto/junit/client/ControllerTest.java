@@ -70,6 +70,7 @@ public class ControllerTest extends JerseyTest {
             userPassword, 
             "test---John Smith", 
             "test---NYC", 
+            "test---USA",
             new ArrayList<>()
         );
 
@@ -134,6 +135,7 @@ public class ControllerTest extends JerseyTest {
             "myPassword",
             "test---John Doe",
             "test---Paris",
+            "test---France",
             new ArrayList<>()
         );
 
@@ -167,6 +169,7 @@ public class ControllerTest extends JerseyTest {
             "myPassword",
             "test---John Doe",
             "test---Paris",
+            "test---France",
             new ArrayList<>()
         );
 

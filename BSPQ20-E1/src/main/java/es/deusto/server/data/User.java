@@ -8,28 +8,35 @@ import javax.jdo.annotations.Element;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.Join;
 import java.util.ArrayList;
-// import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable(detachable="true")
-@Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
+@PersistenceCapable(detachable = "true")
+@Inheritance(strategy = InheritanceStrategy.COMPLETE_TABLE)
 public class User extends GenericUser {
 	// atributes
-	private String city;
-	
+	private String city, country;
+
 	@Join
-    @Element(dependent = "false")
-    @Persistent(defaultFetchGroup="true")
-	private ArrayList<Event> savedEvents= new ArrayList<Event>();
-		
+	@Element(dependent = "false")
+	@Persistent(defaultFetchGroup = "true")
+	private ArrayList<Event> savedEvents = new ArrayList<Event>();
+
 	@Join
-    @Element(dependent = "false")
-    @Persistent(defaultFetchGroup="true")
+	@Element(dependent = "false")
+	@Persistent(defaultFetchGroup = "true")
 	private ArrayList<Topic> interests = new ArrayList<>();
-	
+
 	public String getCity() {
 		return city;
 	}
-	
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
 	public void setCity(String city) {
 		this.city = city;
 	}

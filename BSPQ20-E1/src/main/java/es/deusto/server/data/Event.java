@@ -1,6 +1,7 @@
 package es.deusto.server.data;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
@@ -10,23 +11,27 @@ import javax.jdo.annotations.Persistent;
 import es.deusto.serialization.EventInfo;
 import es.deusto.server.dao.DAOFactory;
 
-@PersistenceCapable(detachable="true")
-public class Event{
+@PersistenceCapable(detachable = "true")
+public class Event {
 
 	private String name;
 	private String description;
 	private int interested;
-	
-	@Persistent(defaultFetchGroup="true")
+	private String city, country;
+
+	@Persistent(defaultFetchGroup = "true")
+	private Date date;
+
+	@Persistent(defaultFetchGroup = "true")
 	private Topic topic;
-	
-	@Persistent(defaultFetchGroup="true")
-	private Organizer organizer; 
+
+	@Persistent(defaultFetchGroup = "true")
+	private Organizer organizer;
 
 	private ArrayList<Post> posts;
 	// public User(String code, String name) {
-	// 	this.code = code;
-	// 	this.name = name;
+	// this.code = code;
+	// this.name = name;
 	// }
 
 	public Event() {
@@ -41,7 +46,10 @@ public class Event{
 			this.topic = new Topic(info.getTopic());
 		}
 		this.organizer = DAOFactory.getInstance().createOrganizerDAO().getOrganizer(info.getOrganizerEmail());
-		this.interested = 0;
+		this.interested = info.getInterested();
+		this.city = info.getCity();
+		this.country = info.getCountry();
+		this.date = info.getDate();
 	}
 
 	public String getName() {
@@ -76,17 +84,44 @@ public class Event{
 		this.organizer = organizer;
 	}
 
-	public int getInterested() { return interested; }
+	public String getCity() {
+		return city;
+	}
 
-	public void setInterested(int interested) { this.interested = interested; }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-	public void addInterested() { interested++; }
+	public String getCountry() {
+		return country;
+	}
 
-	public void reduceInterested() { interested--; }
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
-	@Override
-	public String toString() {
-		return "Event [ name=" + name + ", description= "+ description +", Topic= "+ topic.getName() +", organizer= "+ organizer + ", interested= "+ interested +" ]";
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public int getInterested() { 
+		return interested; 
+	}
+
+	public void setInterested(int interested) { 
+		this.interested = interested; 
+	}
+
+	public void addInterested() { 
+		interested++; 
+	}
+
+	public void reduceInterested() { 
+		interested--; 
 	}
 
 	public ArrayList<Post> getPosts() {
@@ -98,4 +133,8 @@ public class Event{
 		this.posts = posts;
 	}
 	
+	@Override
+	public String toString() {
+		return "Event [ name=" + name + ", description= "+ description +", Topic= "+ topic.getName() +", organizer= "+ organizer + ", interested= "+ interested +" ]";
+	}
 }

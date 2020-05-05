@@ -14,14 +14,15 @@ import es.deusto.server.data.User;
      */
 public class UserInfo extends GenericUserInfo{
 
-    private String name, email, city;
+    private String name, email, city, country;
     private ArrayList<TopicInfo> interests;
     private ArrayList<EventInfo> savedEvents;
 
-    public UserInfo(String name, String email, String city) {
+    public UserInfo(String name, String email, String city, String country) {
         this.name = name;
         this.email = email;
         this.city = city;
+        this.country = country;
         this.savedEvents = new ArrayList<>();
         this.interests = new ArrayList<TopicInfo>();
     }
@@ -30,6 +31,7 @@ public class UserInfo extends GenericUserInfo{
         this.name = "";
         this.email = "";
         this.city = "";
+        this.country = "";
         this.savedEvents = new ArrayList<>();
         this.interests = new ArrayList<TopicInfo>();
     }
@@ -38,6 +40,7 @@ public class UserInfo extends GenericUserInfo{
         this.name = user.getName();
         this.email = user.getEmail();
         this.city = user.getCity();
+        this.country = user.getCountry();
         this.savedEvents = new ArrayList<>();
         for (Event e: user.getSavedEvents()) {
             this.savedEvents.add(new EventInfo(e));
@@ -91,6 +94,14 @@ public class UserInfo extends GenericUserInfo{
      }
      public void addInterest(TopicInfo interest) { 
         this.interests.add(interest);
+     }
+
+     public String getCountry() {
+         return country;
+     }
+
+     public void setCountry(String country) {
+         this.country = country;
      }
 
 }

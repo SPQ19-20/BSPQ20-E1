@@ -198,13 +198,14 @@ public class Controller {
      * @param city City String taken from the GUI
      * @return true if the signup process was successful, otherwise it returns false
     */
-    public boolean attemptNormalSignup(String email, String password, String name, String city, ArrayList<TopicInfo>interests) {
+    public boolean attemptNormalSignup(String email, String password, String name, String city, String country, ArrayList<TopicInfo>interests) {
         
         SignupAttempt signup = new SignupAttempt();
         signup.setEmail(email);
         signup.setName(name);
         signup.setPassword(password);
         signup.setCity(city);
+        signup.setCountry(country);
         signup.setInterests(interests);
         signup.setSaveEvents(new ArrayList<EventInfo>());//when signing up the user hasn't still saved any event. IS THIS LINE NECESSARY OR DOES MONGO CREATE A BLANC LIST IN THE DATABASE?
         WebTarget donationsWebTarget = webTarget.path("server/signup");
@@ -279,6 +280,7 @@ public class Controller {
         signup.setEmail(this.getUser().getEmail());
         signup.setName(this.getUser().getName());
         signup.setCity(this.getUser().getCity());
+        signup.setCountry(this.getUser().getCountry());
         signup.setInterests(this.getUser().getInterests());
         signup.setSaveEvents(this.getUser().getSavedEvents());//send the events this user has followed.
         WebTarget donationsWebTarget = webTarget.path("server/update");

@@ -14,7 +14,7 @@ public class SignupAttempt {
     private ArrayList<EventInfo> savedEvents;//information about the saved events.
     
     // Normal user
-    private String city;
+    private String city, country;
     
     // Organizer
     private String organization;
@@ -24,6 +24,7 @@ public class SignupAttempt {
         this.password = "";
         this.name = "";
         this.city = "";
+        this.country = "";
         this.organization = "";
         this.interests = new ArrayList<TopicInfo>(); //the signup works with the objects of its own package
         this.savedEvents = new ArrayList<EventInfo>();
@@ -98,7 +99,8 @@ public class SignupAttempt {
         user.setName(this.name);
         user.setPassword(this.password);
         user.setCity(this.city);
-        // DOUBT!! maybe we need to create the Arraylist<Topic> first
+        user.setCountry(this.country);
+        // TODO DOUBT!! maybe we need to create the Arraylist<Topic> first
         //if the following line of code is uncommented please add the import for TOPIC !
         //user.setInterests(new ArrayList<>());
         for (TopicInfo interest : interests) {
@@ -126,6 +128,14 @@ public class SignupAttempt {
         return organizer;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    
     public String toString() {
         return "SignupAttempt[email=" + email + ", password=" + password + "]";
     }

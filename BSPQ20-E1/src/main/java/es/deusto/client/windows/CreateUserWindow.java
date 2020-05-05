@@ -129,6 +129,7 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 			String password = this.textField_password.getText();
 			String name = this.textField_username.getText();
 			String city = this.textField_city.getText();
+			String country = ""; // TODO add country field in GUI
 			ArrayList<TopicInfo> interests = new ArrayList<>();
 			if (musicBox.isSelected()) interests.add(new TopicInfo("Music"));
 			if (theaterBox.isSelected()) interests.add(new TopicInfo("Theater"));
@@ -139,7 +140,7 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 			if (foodBox.isSelected()) interests.add(new TopicInfo("Food"));
 			if (festivalsBox.isSelected()) interests.add(new TopicInfo("Festival"));
 			if (moreBox.isSelected()) interests.add(new TopicInfo("More"));
-			if (this.controller.attemptNormalSignup(email, password, name, city, interests)) {
+			if (this.controller.attemptNormalSignup(email, password, name, city, country, interests)) {
 				new UserEventsWindow(this.controller);
 				this.dispose();
 			} else {

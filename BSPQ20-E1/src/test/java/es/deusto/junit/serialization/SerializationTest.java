@@ -220,11 +220,12 @@ public class SerializationTest {
 
     @Test
     public void testUserInfoStringConstructor() {
-        UserInfo info = new UserInfo("John Doe", "john.doe@doe.com", "NYC");
+        UserInfo info = new UserInfo("John Doe", "john.doe@doe.com", "NYC", "USA");
         assertTrue(
             info.getName().equals("John Doe") &&
             info.getEmail().equals("john.doe@doe.com") &&
-            info.getCity().equals("NYC")
+            info.getCity().equals("NYC") &&
+            info.getCountry().equals("USA")
         );
     }
 

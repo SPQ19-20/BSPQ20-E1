@@ -205,16 +205,21 @@ public class AppService {
 
             if (missing) {
                 Event e = eventDAO.getEvents(e1.getName()).get(0);
-                if (e != null) toDelete.add(e);
+                if (e != null) toDelete.add(e1);
             }
         }
 
         for (Event e: toAdd) {
             user.getSavedEvents().add(e);
+            e.addInterested();
         }
 
         for (Event e: toDelete) {
             user.getSavedEvents().remove(e);
+
+            Event edb = eventDAO.getEvents(e.getName()).get(0);
+            edb.reduceInterested();
+            if (edb != null) eventDAO.updateEvent(edb);
         }
 
         //3. Update the user in the DB
