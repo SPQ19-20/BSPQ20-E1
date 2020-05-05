@@ -8,6 +8,8 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
 import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
+import es.deusto.server.data.Topic;
+import es.deusto.server.data.User;
 
 public class EventDAO {
 	private PersistenceManager pm;
@@ -52,11 +54,12 @@ public class EventDAO {
 	}
 	
 	/**
-	 * Retrieves List of events from the database given the Topic name.
+	 * Retrieves List of events from the database that match the user's interests and location.
+	 * this is use to create recomendation lists. 
 	 * @param topic name of the topic
 	 * @return list of events from the database
 	 */
-    public ArrayList<Event> getEventsbyTopic(String topic) {
+    public ArrayList<Event> getEventsbyUser(User user) {
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
 		
@@ -68,11 +71,16 @@ public class EventDAO {
 			tx.begin();
 			
 			Extent<Event> extent = pm.getExtent(Event.class, true);
-			for (Event u : extent) {
-				if (u.getTopic().getName().contains(topic)){
-					event.add(u); //adds the event to the list.
+
+			//get the events that match with the user's interests(topics) and location.
+			for (Topic topic : user.getInterests()) {
+				for (Event u : extent) {
+					if (u.getTopic().getName().equals(topic.getName()) && u.getCity().equals(user.getCity()) && u.getCountry().equals(user.getCountry())){
+						event.add(u); //adds the event to the list.
+					}
 				}
 			}
+		
 			
 			tx.commit();
 		} catch (Exception e) {
@@ -85,6 +93,7 @@ public class EventDAO {
 		
 		return event;
 	}
+
 
 	/**
 	 * Retrieves List of the events of a specific Organizer

@@ -318,6 +318,23 @@ public class AppService {
         return e;
     }
 
+    public ArrayList<EventInfo> getRecomendedEvents(SignupAttempt signupAttempt){
+        User user = signupAttempt.buildUser();
+        EventDAO dao = DAOFactory.getInstance().createEventDAO();
+
+        ArrayList<Event> recommEvents = dao.getEventsbyUser(user);
+        ArrayList<EventInfo> recommEventsInfo = new ArrayList<>();
+
+        DAOFactory.getInstance().closeDAO(dao);
+
+        //change from event to eventInfo
+        for (Event event : recommEvents) {
+            EventInfo eventInfo = new EventInfo(event);
+            recommEventsInfo.add(eventInfo);
+        }
+        return recommEventsInfo;
+    }
+
     /**
      * This method is used for new password generation. It receives a LoginAttempt
      * with the email of the user that wants to recover his/her password, generates a new password 

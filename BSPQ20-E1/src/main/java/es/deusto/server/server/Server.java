@@ -1,5 +1,6 @@
 package es.deusto.server.server;
 
+import java.util.ArrayList;
 import java.util.logging.*;
 
 import javax.print.attribute.standard.Media;
@@ -199,6 +200,24 @@ public class Server {
 	//-----------------------------Password and event management------------------------------------------
 
 	/**
+ 	 * This method is invoked whenever a POST request is made to the following path:
+	 * /recomendation . It is used for recommend events to users.
+	 * @param signupAttempt Signupattempt with the interests and locations of the user 
+	 * @return Response object with the events information
+	 */
+	@POST
+	@Path("/recomendation")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getRecommendedEvents(SignupAttempt signupAttempt) {
+		
+		LOGGER.log(Level.INFO, "sending recomendations...");
+
+		ArrayList<EventInfo> resp = appService.getRecomendedEvents(signupAttempt);
+
+		return Response.ok(resp).build();
+	}
+	
+	/**
 	 * This method is invoked whenever a POST request is made to the following path:
 	 * /passwordRecovery . It is used for password recovery for users who can't remember their passwords.
 	 * @param userInfo LoginAttempt with the email of the user who needs a new password
@@ -280,6 +299,8 @@ public class Server {
 
 		return Response.ok(resp).build();
 	}
+
+
 
 	// --------------------------------------------------------------
 

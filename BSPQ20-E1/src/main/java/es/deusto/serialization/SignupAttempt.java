@@ -30,6 +30,17 @@ public class SignupAttempt {
         this.savedEvents = new ArrayList<EventInfo>();
     }
 
+    public SignupAttempt(UserInfo userInfo) {
+        this.email = userInfo.getEmail();
+        this.password = "";
+        this.name = userInfo.getName();
+        this.city = userInfo.getCity();
+        this.country = userInfo.getCountry();
+        this.organization = "";
+        this.interests = userInfo.getInterests();//the signup works with the objects of its own package
+        this.savedEvents = userInfo.getSavedEvents();
+    }
+
     // getters and setters
     public String getEmail() {
         return this.email;

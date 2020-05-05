@@ -443,6 +443,34 @@ public class Controller {
         return this.langManager;
     }
 
-    
+    /**
+     * Sends to the server the information of the logged User in order to get event recomendations
+     * @return a list of recommended events
+     * @since Sprint 3
+     */
+    public ArrayList<EventInfo> getRecommendations(){
+
+        SignupAttempt signupAttempt = new SignupAttempt(this.user);
+        
+        WebTarget donationsWebTarget = webTarget.path("server/recomendation");
+        LOGGER.log(Level.INFO, "sending interests to get recomendations");
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
+
+        Response response = invocationBuilder.post(Entity.entity(signupAttempt, MediaType.APPLICATION_JSON));
+      
+        if (response.getStatus() != Status.OK.getStatusCode()) {
+            LOGGER.log(Level.SEVERE, "Not OK status code: not possible to get recomendations");
+            return new ArrayList<EventInfo>();
+        }
+
+       ArrayList<EventInfo> recomendations = response.readEntity(ArrayList.class); //WARNING: how to transform a response into a list
+
+        if (recomendations != null) {
+            LOGGER.log(Level.INFO, "the event has recommended something");
+            return recomendations;
+        }
+        LOGGER.log(Level.WARNING, "Response was empty");
+        return new ArrayList<EventInfo>();
+    }
 
 }
