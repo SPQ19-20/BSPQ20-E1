@@ -12,6 +12,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import es.deusto.server.dao.DAOFactory;
+import es.deusto.server.dao.EventDAO;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
@@ -38,7 +39,9 @@ public class Organizer extends GenericUser {
 	}
 
 	public ArrayList<Event> getCreatedEvents() {
-		this.createdEvents = DAOFactory.getInstance().createEventDAO().getEventsByOrganizer(this);
+		EventDAO dao = DAOFactory.getInstance().createEventDAO();
+		this.createdEvents = dao.getEventsByOrganizer(this);
+		DAOFactory.getInstance().closeDAO(dao);
 		return this.createdEvents;
 	}
 

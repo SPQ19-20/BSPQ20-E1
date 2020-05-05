@@ -10,14 +10,13 @@ import es.deusto.server.data.User;
 
 public class UserDAO {
 
-    private PersistenceManagerFactory pmf;
+    private PersistenceManager pm;
 	
-	protected UserDAO() {
-		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+	protected UserDAO(PersistenceManager pm) {
+		this.pm = pm;
     }
     
     public User getUser(String email) {
-        PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
 		
@@ -43,15 +42,12 @@ public class UserDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
 		
 		return user;
     }
 
 	public void storeUser(User user) {
-		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
 		
@@ -67,8 +63,6 @@ public class UserDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
     }
 	
@@ -77,7 +71,6 @@ public class UserDAO {
 	}
 
 	public void deleteUser(String email) {
-		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
 		
@@ -95,7 +88,14 @@ public class UserDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			pm.close();
 		}	
+	}
+
+	protected PersistenceManager getPersistenceManager() {
+		return this.pm;
+	}
+
+	protected void close() {
+		this.pm = null;
 	}
 }

@@ -9,6 +9,7 @@ import es.deusto.server.dao.TopicDAO;
 import es.deusto.server.dao.DAOFactory;
 import es.deusto.server.dao.EventDAO;
 import es.deusto.server.dao.OrganizerDAO;
+import es.deusto.server.dao.PostDAO;
 import es.deusto.server.dao.UserDAO;
 import es.deusto.server.data.Topic;
 import es.deusto.server.data.Event;
@@ -70,6 +71,8 @@ public class AppService {
             return null;
         }
 
+        DAOFactory.getInstance().closeDAO(dao);
+
         return user;
     }
 
@@ -95,6 +98,7 @@ public class AppService {
             return null;
         }
 
+        DAOFactory.getInstance().closeDAO(dao);
         return organizer;
     }
 
@@ -120,6 +124,8 @@ public class AppService {
         // 2. Create the user in the DB
         user = signup.buildUser();
         dao.storeUser(user);
+
+        DAOFactory.getInstance().closeDAO(dao);
         
         return user;
     }
@@ -144,6 +150,8 @@ public class AppService {
         // 2. Create the user in the DB
         organizer = signup.buildOrganizer();
         dao.storeOrganizer(organizer);
+
+        DAOFactory.getInstance().closeDAO(dao);
         
         return organizer;
     }
@@ -224,6 +232,9 @@ public class AppService {
 
         //3. Update the user in the DB
         dao.storeUser(user);
+
+        DAOFactory.getInstance().closeDAO(dao);
+        DAOFactory.getInstance().closeDAO(eventDAO);
         
         return user;
     }
@@ -255,6 +266,7 @@ public class AppService {
 
         //3.Store the user in the DB
         dao.storeOrganizer(organizer);
+        DAOFactory.getInstance().closeDAO(dao);
 
         return organizer;
     }
@@ -279,6 +291,7 @@ public class AppService {
 
         // 2. Delete user from the database
         dao.deleteUser(email);
+        DAOFactory.getInstance().closeDAO(dao);
         return true;
     }
 
@@ -291,6 +304,7 @@ public class AppService {
 
         // 2. Delete user from the database
         dao.deleteOrganizer(email);
+        DAOFactory.getInstance().closeDAO(dao);
 
 		return false;
 	}
@@ -298,7 +312,9 @@ public class AppService {
     //-------------------------------------------EVENT MANAGEMENT---------------------------------------------
     public Event createEvent(EventInfo eventInfo) {
         Event e = new Event(eventInfo); 
-        DAOFactory.getInstance().createEventDAO().storeEvent(e);
+        EventDAO dao = DAOFactory.getInstance().createEventDAO();
+        dao.storeEvent(e);
+        DAOFactory.getInstance().closeDAO(dao);
         return e;
     }
 
@@ -319,19 +335,22 @@ public class AppService {
 
     public Post createPost(PostInfo info) {
         Post post = new Post(info);
-        DAOFactory.getInstance().createPostDAO().storePost(post);
+        PostDAO pdao = DAOFactory.getInstance().createPostDAO();
+        pdao.storePost(post);
+        DAOFactory.getInstance().closeDAO(pdao);
         return post;
     }
     
     public void updateUser() {
         UserDAO udao = DAOFactory.getInstance().createUserDAO();
         EventDAO edao = DAOFactory.getInstance().createEventDAO();
+        // TODO what's this??
         User user = udao.getUser("john@money.com");
         Event event = edao.getEvents("Popcorn Party - second edition (PP2)").get(0);
         user.addEvent(event);
         udao.updateUser(user);
-        // user.setName("PLEAAASE");
-        // dao.updateUser(user);
+        DAOFactory.getInstance().closeDAO(udao);
+        DAOFactory.getInstance().closeDAO(edao);
     }
 
     // -----------------------------------------------------------------------
@@ -383,6 +402,7 @@ public class AppService {
         User user = dao.getUser(email);
         user.setPassword(password);
         dao.updateUser(user);
+        DAOFactory.getInstance().closeDAO(dao);
         
         // Another way if we use password encryption with encrypted password and salt fields
         // String salt = "";
@@ -400,38 +420,9 @@ public class AppService {
         p.setEventName("My fancy event");
         p.setOrganizerEmail("jack@blackpearl.com");
         p.setTitle("Title of the post");
-        DAOFactory.getInstance().createPostDAO().storePost(p);
-
-    
-        //     TopicDAO topicDAO = DAOFactory.getInstance().createTopicDAO();
-    //     OrganizerDAO organizerDAO = DAOFactory.getInstance().createOrganizerDAO();
-    //     EventDAO eventDAO = DAOFactory.getInstance().createEventDAO();
-    //     UserDAO userDAO = DAOFactory.getInstance().createUserDAO();
-
-    //     Organizer orga = new Organizer();
-    //     orga.setName("Norman");
-    //     orga.setEmail("norman@EPCsol.es");
-    //     orga.setPassword("1234easy");
-    //     orga.setOrganization("EPC solutions");
-
-    //     Topic cinema = new Topic();
-    //     cinema.setName("cinema");
-        
-    //     Event popcorn = new Event();
-    //     popcorn.setName("Popcorn Party - second edition (PP2)");
-    //     popcorn.setDescription("another popcorn party");
-    //     popcorn.setTopic(cinema);
-    //     popcorn.setOrganizer(orga);
-        
-            
-    //    // User kiraYoshikage = userDAO.getUser("Kira@killerqueen.es");
-    //    // kiraYoshikage.addEvent(popcorn);
-
-        
-    //     topicDAO.storeTopic(cinema);
-    //     organizerDAO.storeOrganizer(orga);
-    //     eventDAO.storeEvent(popcorn);
-    //    // userDAO.storeUser(kiraYoshikage);
+        PostDAO pdao = DAOFactory.getInstance().createPostDAO();
+        pdao.storePost(p);
+        DAOFactory.getInstance().closeDAO(pdao);
     }
 
 }

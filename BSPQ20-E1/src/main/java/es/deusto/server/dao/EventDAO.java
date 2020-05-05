@@ -10,10 +10,10 @@ import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
 
 public class EventDAO {
-	private PersistenceManagerFactory pmf;
+	private PersistenceManager pm;
 	
-	protected EventDAO() {
-		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+	protected EventDAO(PersistenceManager pm) {
+		this.pm = pm;
     }
     
 	/**
@@ -22,7 +22,6 @@ public class EventDAO {
 	 * @return list of events from the database
 	 */
     public ArrayList<Event> getEvents(String name) {
-        PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
 		
@@ -47,8 +46,6 @@ public class EventDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
 		
 		return event;
@@ -60,7 +57,6 @@ public class EventDAO {
 	 * @return list of events from the database
 	 */
     public ArrayList<Event> getEventsbyTopic(String topic) {
-        PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
 		
@@ -85,8 +81,6 @@ public class EventDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
 		
 		return event;
@@ -100,7 +94,6 @@ public class EventDAO {
     public ArrayList<Event> getEventsByOrganizer(Organizer organizer) {
 		if (organizer == null) return new ArrayList<>();
 
-        PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
 		
@@ -126,8 +119,6 @@ public class EventDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
 
 		return event;
@@ -137,7 +128,6 @@ public class EventDAO {
 	 * Retrieves a list of all the events from the database
 	 */
 	public ArrayList<Event> getEvents() {
-        PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
 		
@@ -159,8 +149,6 @@ public class EventDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
 		
 		return event;
@@ -171,7 +159,6 @@ public class EventDAO {
 	 * @param event event to be submited
 	 */
 	public void storeEvent(Event event) {
-		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
 		
@@ -187,7 +174,6 @@ public class EventDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			pm.close();
 		}
     }
     /**
@@ -203,7 +189,6 @@ public class EventDAO {
 	 * @param event event to be deleted
 	 */
 	public void deleteEvent(Event event){
-		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
 
@@ -221,8 +206,15 @@ public class EventDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			pm.close();
 		}	
 		
+	}
+
+	protected PersistenceManager getPersistenceManager() {
+		return this.pm;
+	}
+
+	protected void close() {
+		this.pm = null;
 	}
 }

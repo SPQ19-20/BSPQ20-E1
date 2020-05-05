@@ -10,14 +10,13 @@ import es.deusto.server.data.Organizer;
 
 public class OrganizerDAO {
 
-    private PersistenceManagerFactory pmf;
+    private PersistenceManager pm;
 	
-	protected OrganizerDAO() {
-		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+	protected OrganizerDAO(PersistenceManager pm) {
+		this.pm = pm;
     }
     
     public Organizer getOrganizer(String email) {
-        PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(40);
 		pm.setDetachAllOnCommit(true);
 		
@@ -43,15 +42,12 @@ public class OrganizerDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
 		
 		return organizer;
     }
 
 	public void storeOrganizer(Organizer organizer) {
-		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
 		
@@ -67,8 +63,6 @@ public class OrganizerDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
     }
     
@@ -77,7 +71,6 @@ public class OrganizerDAO {
 	}
 
 	public void deleteOrganizer(String email) {
-		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
 		
@@ -95,8 +88,15 @@ public class OrganizerDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			pm.close();
 		}	
+	}
+
+	protected PersistenceManager getPersistenceManager() {
+		return this.pm;
+	}
+
+	protected void close() {
+		this.pm = null;
 	}
 
 }

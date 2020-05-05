@@ -10,6 +10,9 @@ import javax.jdo.annotations.Persistent;
 
 import es.deusto.serialization.EventInfo;
 import es.deusto.server.dao.DAOFactory;
+import es.deusto.server.dao.OrganizerDAO;
+import es.deusto.server.dao.PostDAO;
+import es.deusto.server.dao.TopicDAO;
 
 @PersistenceCapable(detachable = "true")
 public class Event {
@@ -41,15 +44,20 @@ public class Event {
 	public Event(EventInfo info) {
 		this.name = info.getName();
 		this.description = info.getDescription();
-		this.topic = DAOFactory.getInstance().createTopicDAO().getTopic(info.getTopic().getName());
+		TopicDAO tdao = DAOFactory.getInstance().createTopicDAO();
+		this.topic = tdao.getTopic(info.getTopic().getName());
 		if (this.topic == null) {
 			this.topic = new Topic(info.getTopic());
 		}
-		this.organizer = DAOFactory.getInstance().createOrganizerDAO().getOrganizer(info.getOrganizerEmail());
+		OrganizerDAO odao = DAOFactory.getInstance().createOrganizerDAO();
+		this.organizer = odao.getOrganizer(info.getOrganizerEmail());
 		this.interested = info.getInterested();
 		this.city = info.getCity();
 		this.country = info.getCountry();
 		this.date = info.getDate();
+
+		DAOFactory.getInstance().closeDAO(tdao);
+        DAOFactory.getInstance().closeDAO(odao);
 	}
 
 	public String getName() {
@@ -125,7 +133,9 @@ public class Event {
 	}
 
 	public ArrayList<Post> getPosts() {
-		posts = DAOFactory.getInstance().createPostDAO().getPostsByEvent(this);
+		PostDAO pdao = DAOFactory.getInstance().createPostDAO();
+		posts = pdao.getPostsByEvent(this);
+		DAOFactory.getInstance().closeDAO(pdao);
 		return posts;
 	}
 

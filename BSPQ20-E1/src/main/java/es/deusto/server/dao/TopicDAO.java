@@ -10,14 +10,13 @@ import es.deusto.server.data.Topic;
 
 public class TopicDAO {
 
-    private PersistenceManagerFactory pmf;
+    private PersistenceManager pm;
 	
-	protected TopicDAO() {
-		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+	protected TopicDAO(PersistenceManager pm) {
+		this.pm = pm;
     }
     
     public Topic getTopic(String name) {
-        PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
 		
@@ -43,15 +42,12 @@ public class TopicDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
 		
 		return topic;
     }
 
 	public void storeTopic(Topic topic) {
-		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
 		
@@ -67,8 +63,6 @@ public class TopicDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
     }
     
@@ -77,7 +71,6 @@ public class TopicDAO {
 	}
 
 	public void deleteTopic(String name) {
-		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
 		
@@ -95,8 +88,15 @@ public class TopicDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			pm.close();
 		}
+	}
+
+	protected PersistenceManager getPersistenceManager() {
+		return this.pm;
+	}
+
+	protected void close() {
+		this.pm = null;
 	}
 
 }

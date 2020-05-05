@@ -12,14 +12,13 @@ import es.deusto.server.data.Event;
 import es.deusto.server.data.Post;
 
 public class PostDAO {
-    private PersistenceManagerFactory pmf;
+    private PersistenceManager pm;
 	
-	protected PostDAO() {
-		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
+	protected PostDAO(PersistenceManager pm) {
+		this.pm = pm;
     }
     
     public ArrayList<Post> getPostsByEvent(Event event) {
-        PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);
 		
@@ -44,15 +43,12 @@ public class PostDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
 		
 		return posts;
     }
 
 	public void storePost(Post post) {
-		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
 		
@@ -68,8 +64,6 @@ public class PostDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			
-			pm.close();
 		}
     }
 	
@@ -78,12 +72,12 @@ public class PostDAO {
 	}
 
 	public void deletePost(Post post) {
-		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.setDetachAllOnCommit(true);
 		Transaction tx = pm.currentTransaction();
 		
 		Post toDelete = null;
-		for (Post p: getPostsByEvent(DAOFactory.getInstance().createEventDAO().getEvents(post.getEventName()).get(0))) {
+		EventDAO edao = DAOFactory.getInstance().createEventDAO();
+		for (Post p: getPostsByEvent(edao.getEvents(post.getEventName()).get(0))) {
 			if (p.getTitle().equals(post.getTitle())) {
 				toDelete = p;
 				break;
@@ -102,7 +96,17 @@ public class PostDAO {
 			if (tx != null && tx.isActive()) {
 	    		tx.rollback();
 	    	}
-			pm.close();
 		}	
+
+		DAOFactory.getInstance().closeDAO(edao);
 	}
+
+	protected PersistenceManager getPersistenceManager() {
+		return this.pm;
+	}
+
+	protected void close() {
+		this.pm = null;
+	}
+	
 }   

@@ -18,6 +18,11 @@ import es.deusto.serialization.SignupAttempt;
 import es.deusto.serialization.TopicInfo;
 import es.deusto.serialization.UserInfo;
 import es.deusto.server.dao.DAOFactory;
+import es.deusto.server.dao.EventDAO;
+import es.deusto.server.dao.OrganizerDAO;
+import es.deusto.server.dao.PostDAO;
+import es.deusto.server.dao.TopicDAO;
+import es.deusto.server.dao.UserDAO;
 import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
 import es.deusto.server.data.Post;
@@ -71,12 +76,15 @@ public class ServerTest {
         server.attemptNormalSignup(signup2);
 
         // check that the user has been created in the DB
-        User u = DAOFactory.getInstance().createUserDAO().getUser(signup.getEmail());
+        UserDAO udao = DAOFactory.getInstance().createUserDAO();
+        User u = udao.getUser(signup.getEmail());
         assertTrue(
             u != null &&
             u.toString().equals("User [name= " + u.getName() +" city=" + u.getCity() +", Saved Events= " +u.getSavedEvents().toString() + " interests= " + u.getInterests().toString()+ "]")
         );
-        DAOFactory.getInstance().createUserDAO().deleteUser(signup2.getEmail());
+        udao.deleteUser(signup2.getEmail());
+
+        DAOFactory.getInstance().closeDAO(udao);
     }
 
     @Test
@@ -91,31 +99,14 @@ public class ServerTest {
         signup2.setName("test---John Smith 007");
         server.attemptNormalUpdate(signup2);
 
-        User u = DAOFactory.getInstance().createUserDAO().getUser(signup2.getEmail());
+        UserDAO udao = DAOFactory.getInstance().createUserDAO();
+        User u = udao.getUser(signup2.getEmail());
         assertTrue(u.getName().equals("test---John Smith 007"));
 
-        DAOFactory.getInstance().createUserDAO().deleteUser(signup2.getEmail());
+        udao.deleteUser(signup2.getEmail());
+
+        DAOFactory.getInstance().closeDAO(udao);
     }
-
-    // @Test
-    // public void testNormalLogin() {
-    //     LoginAttempt login = new LoginAttempt(signup.getEmail(), signup.getPassword(), false);
-    //     UserInfo user = (UserInfo) server.attemptNormalLogin(login).getEntity();
-    //     assertTrue(
-    //         user.getEmail().equals(signup.getEmail()) &&
-    //         user.getName().equals(signup.getName()) &&
-    //         user.getCity().equals(signup.getCity())
-    //     );
-    // }
-
-    // @Test 
-    // public void testRecoverPassword() {
-    //     LoginAttempt login = new LoginAttempt(signup.getEmail(), signup.getPassword(), false);
-    //     server.recoverPassword(login);
-    //     User u = DAOFactory.getInstance().createUserDAO().getUser(login.getEmail());
-    //     // make sure the password has changed
-    //     assertTrue(!signup.getPassword().equals(u.getPassword()));
-    // }
 
     @Test
     public void testOrganizerSignup() {
@@ -127,9 +118,11 @@ public class ServerTest {
         server.attemptOrganizerSignup(organizerSignup2);
 
         // check that the user has been created in the DB
-        Organizer u = DAOFactory.getInstance().createOrganizerDAO().getOrganizer(organizerSignup2.getEmail());
+        OrganizerDAO odao = DAOFactory.getInstance().createOrganizerDAO();
+        Organizer u = odao.getOrganizer(organizerSignup2.getEmail());
         assertTrue(u != null);
-        DAOFactory.getInstance().createOrganizerDAO().deleteOrganizer(organizerSignup2.getEmail());
+        odao.deleteOrganizer(organizerSignup2.getEmail());
+        DAOFactory.getInstance().closeDAO(odao);
     }
 
     @Test
@@ -155,10 +148,13 @@ public class ServerTest {
         organizerSignup2.setName("test---John Smith 007");
         server.attemptOrganizerUpdate(organizerSignup2);
 
-        Organizer o = DAOFactory.getInstance().createOrganizerDAO().getOrganizer(organizerSignup2.getEmail());
+        OrganizerDAO odao = DAOFactory.getInstance().createOrganizerDAO();
+        Organizer o = odao.getOrganizer(organizerSignup2.getEmail());
         assertTrue(o.getName().equals("test---John Smith 007"));
 
-        DAOFactory.getInstance().createOrganizerDAO().deleteOrganizer(organizerSignup2.getEmail());
+        odao.deleteOrganizer(organizerSignup2.getEmail());
+
+        DAOFactory.getInstance().closeDAO(odao);
     }
 
     @Test
@@ -170,15 +166,20 @@ public class ServerTest {
         eventInfo.setTopic(new TopicInfo("test---My super own topic"));
         server.createEvent(eventInfo);
 
-        Event e = DAOFactory.getInstance().createEventDAO().getEvents("test---My event").get(0);
+        EventDAO edao = DAOFactory.getInstance().createEventDAO();
+        Event e = edao.getEvents("test---My event").get(0);
         assertTrue(
             e.getName().equals("test---My event") &&
             e.getDescription().equals("test---My event description") &&
             e.getOrganizer().getEmail().equals(organizerSignup.getEmail())
         );
 
-        DAOFactory.getInstance().createEventDAO().deleteEvent(e);
-        DAOFactory.getInstance().createTopicDAO().deleteTopic("test---My super own topic");
+        edao.deleteEvent(e);
+        TopicDAO tdao = DAOFactory.getInstance().createTopicDAO();
+        tdao.deleteTopic("test---My super own topic");
+
+        DAOFactory.getInstance().closeDAO(edao);
+        DAOFactory.getInstance().closeDAO(tdao);
     }
 
     @Test 
@@ -198,7 +199,8 @@ public class ServerTest {
         postInfo.setOrganizerEmail(eventInfo.getOrganizerEmail());
         server.createPost(postInfo);
 
-        Event e = DAOFactory.getInstance().createEventDAO().getEvents("test---My event").get(0);
+        EventDAO edao = DAOFactory.getInstance().createEventDAO();
+        Event e = edao.getEvents("test---My event").get(0);
         Post post = null;
 
         for (Post p: e.getPosts()) {
@@ -210,20 +212,31 @@ public class ServerTest {
 
         if (post != null) {
             assertTrue(true);
-            DAOFactory.getInstance().createPostDAO().deletePost(post);
+            PostDAO pdao = DAOFactory.getInstance().createPostDAO();
+            pdao.deletePost(post);
+            DAOFactory.getInstance().closeDAO(pdao);
         } else {
             fail();
         }
 
-        DAOFactory.getInstance().createEventDAO().deleteEvent(e);
-        DAOFactory.getInstance().createTopicDAO().deleteTopic("test---My super own topic");
+        edao.deleteEvent(e);
+        TopicDAO tdao = DAOFactory.getInstance().createTopicDAO();
+        tdao.deleteTopic("test---My super own topic");
+
+        DAOFactory.getInstance().closeDAO(edao);
+        DAOFactory.getInstance().closeDAO(tdao);
     }
 
     @AfterClass
     public static void tearDown() {
         // delete all the stuff created in the DB during the tests
-        DAOFactory.getInstance().createUserDAO().deleteUser(signup.getEmail());
-        DAOFactory.getInstance().createOrganizerDAO().deleteOrganizer(organizerSignup.getEmail());
+        UserDAO udao = DAOFactory.getInstance().createUserDAO();
+        OrganizerDAO odao = DAOFactory.getInstance().createOrganizerDAO();
+        udao.deleteUser(signup.getEmail());
+        odao.deleteOrganizer(organizerSignup.getEmail());
+
+        DAOFactory.getInstance().closeDAO(udao);
+        DAOFactory.getInstance().closeDAO(odao);
     }
 
 }
