@@ -1,6 +1,8 @@
 package es.deusto.server.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import javax.jdo.Extent;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
@@ -64,19 +66,23 @@ public class EventDAO {
 		pm.setDetachAllOnCommit(true);
 		
 		Transaction tx = pm.currentTransaction();
-		
-	
+
 		ArrayList<Event> event = new ArrayList<Event>();
 		try {
 			tx.begin();
-			
+			pm.flush();
+
 			Extent<Event> extent = pm.getExtent(Event.class, true);
 
 			//get the events that match with the user's interests(topics) and location.
-			for (Topic topic : user.getInterests()) {
-				for (Event u : extent) {
-					if (u.getTopic().getName().equals(topic.getName()) && u.getCity().equals(user.getCity()) && u.getCountry().equals(user.getCountry())){
+			Date now = new Date();
+			for (Event u : extent) {
+				for (Topic topic : user.getInterests()) {
+					if (u.getTopic().getName().equals(topic.getName()) && 
+						u.getCountry().equals(user.getCountry()) && 
+						(u.getDate().equals(now) || u.getDate().after(now))) {
 						event.add(u); //adds the event to the list.
+						break;
 					}
 				}
 			}

@@ -52,26 +52,31 @@ public class DAOFactory {
 
     public UserDAO createUserDAO() {
         PersistenceManager pm = useConnectionFromPool(null);
+        pm.refreshAll();
         return new UserDAO(pm);
     }
 
     public OrganizerDAO createOrganizerDAO() {
         PersistenceManager pm = useConnectionFromPool(null);
+        pm.refreshAll();
         return new OrganizerDAO(pm);
     }
 
     public EventDAO createEventDAO(){
         PersistenceManager pm = useConnectionFromPool(null);
+        pm.refreshAll();
         return new EventDAO(pm);
     }
 
     public TopicDAO createTopicDAO() {
         PersistenceManager pm = useConnectionFromPool(null);
+        pm.refreshAll();
         return new TopicDAO(pm);
     }
 
     public PostDAO createPostDAO() {
         PersistenceManager pm = useConnectionFromPool(null);
+        pm.refreshAll();
         return new PostDAO(pm);
     }
 

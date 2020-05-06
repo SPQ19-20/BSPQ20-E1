@@ -4,6 +4,7 @@ import es.deusto.serialization.EventInfo;
 import es.deusto.serialization.LoginAttempt;
 import es.deusto.serialization.PostInfo;
 import es.deusto.serialization.SignupAttempt;
+import es.deusto.serialization.TopicInfo;
 import es.deusto.serialization.UserInfo;
 import es.deusto.server.dao.TopicDAO;
 import es.deusto.server.dao.DAOFactory;
@@ -180,6 +181,7 @@ public class AppService {
         User u = signup.buildUser();
         user.setName(u.getName());
         user.setCity(u.getCity());
+        user.setCountry(u.getCountry());
         user.setEmail(u.getEmail()); // necesary to update the email??
         user.setInterests(u.getInterests());
         // user.setSavedEvents(u.getSavedEvents());
@@ -318,7 +320,7 @@ public class AppService {
         return e;
     }
 
-    public ArrayList<EventInfo> getRecomendedEvents(SignupAttempt signupAttempt){
+    public ArrayList<EventInfo> getRecommendedEvents(SignupAttempt signupAttempt){
         User user = signupAttempt.buildUser();
         EventDAO dao = DAOFactory.getInstance().createEventDAO();
 
@@ -431,15 +433,111 @@ public class AppService {
 
     // method used for manual testing 
     public void hello() {
-        Post p = new Post();
-        p.setDate(new Date());
-        p.setDescription("This is the super hyper mega description");
-        p.setEventName("My fancy event");
-        p.setOrganizerEmail("jack@blackpearl.com");
-        p.setTitle("Title of the post");
-        PostDAO pdao = DAOFactory.getInstance().createPostDAO();
-        pdao.storePost(p);
-        DAOFactory.getInstance().closeDAO(pdao);
+        OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
+        EventDAO edao = DAOFactory.getInstance().createEventDAO();
+        ArrayList<Event> events = new ArrayList<>();
+
+        Organizer org = new Organizer();
+        org.setName("Test Organizer");
+        org.setPassword("password");
+        org.setEmail("testorganizer@test.com");
+        org.setOrganization("Save the organizers");
+        
+        dao.storeOrganizer(org);
+
+        Event e1 = new Event();
+        e1.setName("testEvent1");
+        e1.setDescription("testDescription1");
+        e1.setCity("Bilbao");
+        e1.setCountry("Spain");
+        e1.setTopic(new Topic(new TopicInfo("Sport")));
+        e1.setOrganizer(org);
+        e1.setDate(new Date(1588780482445l)); 
+        edao.storeEvent(e1);
+        events.add(e1);
+        
+        Event e2 = new Event();
+        e2.setName("testEvent2");
+        e2.setDescription("testDescription2");
+        e2.setCity("Bilbao");
+        e2.setCountry("Spain");
+        e2.setTopic(new Topic(new TopicInfo("Music")));
+        e2.setOrganizer(org);
+        e2.setDate(new Date(1588780492445l));
+        edao.storeEvent(e2);
+        events.add(e2);
+
+        Event e3 = new Event();
+        e3.setName("testEvent3");
+        e3.setDescription("testDescription3");
+        e3.setCity("Barcelona");
+        e3.setCountry("Spain");
+        e3.setTopic(new Topic(new TopicInfo("Sport")));
+        e3.setOrganizer(org);
+        e3.setDate(new Date(1588780502444l));
+        edao.storeEvent(e3);
+        events.add(e3);
+
+        Event e4 = new Event();
+        e4.setName("testEvent4");
+        e4.setDescription("testDescription4");
+        e4.setCity("Barcelona");
+        e4.setCountry("Spain");
+        e4.setTopic(new Topic(new TopicInfo("Theater")));
+        e4.setOrganizer(org);
+        e4.setDate(new Date(1588780510445l));
+        edao.storeEvent(e4);
+        events.add(e4);
+
+        Event e5 = new Event();
+        e5.setName("testEvent5");
+        e5.setDescription("testDescription5");
+        e5.setCity("Madrid");
+        e5.setCountry("Spain");
+        e5.setTopic(new Topic(new TopicInfo("Theater")));
+        e5.setOrganizer(org);
+        e5.setDate(new Date(1588780520446l));
+        edao.storeEvent(e5);
+        events.add(e5);
+
+        Event e6 = new Event();
+        e6.setName("testEvent6");
+        e6.setDescription("testDescription6");
+        e6.setCity("Madrid");
+        e6.setCountry("Spain");
+        e6.setTopic(new Topic(new TopicInfo("Music")));
+        e6.setOrganizer(org);
+        e6.setDate(new Date(1588780527446l));
+        edao.storeEvent(e6);
+        events.add(e6);
+
+        Event e7 = new Event();
+        e7.setName("testEvent7");
+        e7.setDescription("testDescription7");
+        e7.setCity("Paris");
+        e7.setCountry("France");
+        e7.setTopic(new Topic(new TopicInfo("Sport")));
+        e7.setOrganizer(org);
+        e7.setDate(new Date(1588780533446l));
+        edao.storeEvent(e7);
+        events.add(e7);
+
+        Event e8 = new Event();
+        e8.setName("testEvent8");
+        e8.setDescription("testDescription8");
+        e8.setCity("Paris");
+        e8.setCountry("France");
+        e8.setTopic(new Topic(new TopicInfo("Music")));
+        e8.setOrganizer(org);
+        e8.setDate(new Date(1588780533446l));
+        edao.storeEvent(e8);
+        events.add(e8);
+
+        org.setCreatedEvents(events);
+
+        dao.updateOrganizer(org);
+        
+        DAOFactory.getInstance().closeDAO(dao);
     }
 
 }

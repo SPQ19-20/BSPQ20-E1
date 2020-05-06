@@ -206,13 +206,13 @@ public class Server {
 	 * @return Response object with the events information
 	 */
 	@POST
-	@Path("/recomendation")
+	@Path("/recommendation")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getRecommendedEvents(SignupAttempt signupAttempt) {
 		
-		LOGGER.log(Level.INFO, "sending recomendations...");
+		LOGGER.log(Level.INFO, "sending recommendations...");
 
-		ArrayList<EventInfo> resp = appService.getRecomendedEvents(signupAttempt);
+		ArrayList<EventInfo> resp = appService.getRecommendedEvents(signupAttempt);
 
 		return Response.ok(resp).build();
 	}
