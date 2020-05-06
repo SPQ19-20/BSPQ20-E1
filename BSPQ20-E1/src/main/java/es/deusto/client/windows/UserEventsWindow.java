@@ -174,6 +174,7 @@ public class UserEventsWindow extends JFrame {
         private static final long serialVersionUID = 1L;
 
         private JButton detailsButton;
+        private JCheckBox interestCBox;
         UserEventsWindow window;
 
         private EventInfo event;
@@ -200,6 +201,17 @@ public class UserEventsWindow extends JFrame {
             detailsButtonPanel.add(Box.createVerticalGlue());
             this.add(detailsButtonPanel);
 
+            JPanel interestPanel = new JPanel();
+            interestPanel.setLayout(new BoxLayout(interestPanel, BoxLayout.Y_AXIS));
+            interestCBox = new JCheckBox(langManager.getString("Interesting"));
+            interestPanel.add(Box.createVerticalGlue());
+            interestPanel.add(interestCBox);
+            interestPanel.add(Box.createVerticalGlue());
+            this.add(interestPanel);
+
+            
+
+
             detailsButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -207,6 +219,7 @@ public class UserEventsWindow extends JFrame {
                     window.dispose();
                 }
             });
+
 
             this.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
             this.setPreferredSize(new Dimension(2000, 200));
