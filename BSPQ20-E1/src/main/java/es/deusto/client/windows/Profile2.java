@@ -18,6 +18,10 @@ public class Profile2 extends JFrame {
     private Controller controller;
     private LanguageManager langManager;
 
+    private DefaultListModel<TopicInfo> interestsListModel;
+
+    private JTextField cityField, countryField;
+
     public Profile2(Controller controller) {
         super();
         
@@ -25,6 +29,8 @@ public class Profile2 extends JFrame {
         this.langManager = controller.getLanguageManager();
 
         initComponents();
+
+        setTitle("Profile");
 
         this.setSize(new Dimension(400, 655));
         this.setResizable(false);
@@ -53,7 +59,7 @@ public class Profile2 extends JFrame {
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
+                dispose();
             }
         });
 
@@ -74,7 +80,8 @@ public class Profile2 extends JFrame {
         JLabel nameLabel = new JLabel(langManager.getString("nameLabel"));
         nameTitlePanel.add(nameLabel, BorderLayout.WEST);
         
-        JTextField nameField = new JTextField(controller.getUser().getName());
+        JTextField nameField = new JTextField(15);
+        nameField.setText(controller.getUser().getName());
         nameField.setEditable(false);
         JPanel namec = new JPanel();
         namec.add(nameField);
@@ -92,7 +99,8 @@ public class Profile2 extends JFrame {
         JLabel emailLabel = new JLabel(langManager.getString("emailLabel"));
         emailTitlePanel.add(emailLabel, BorderLayout.WEST);
 
-        JTextField emailField = new JTextField(controller.getUser().getEmail());
+        JTextField emailField = new JTextField(15);
+        emailField.setText(controller.getUser().getEmail());
         emailField.setEditable(false);
         JPanel emailc = new JPanel();
         emailc.add(emailField);
@@ -110,7 +118,8 @@ public class Profile2 extends JFrame {
         JLabel cityLabel = new JLabel(langManager.getString("cityLabel"));
         cityTitlePanel.add(cityLabel, BorderLayout.WEST);
 
-        JTextField cityField = new JTextField(controller.getUser().getCity());
+        cityField = new JTextField(15);
+        cityField.setText(controller.getUser().getCity());
         JPanel cityc = new JPanel();
         cityc.add(cityField);
         cityContentPanel.add(cityc, BorderLayout.WEST);
@@ -127,7 +136,8 @@ public class Profile2 extends JFrame {
         JLabel countryLabel = new JLabel(langManager.getString("countryLabel"));
         countryTitlePanel.add(countryLabel, BorderLayout.WEST);
 
-        JTextField countryField = new JTextField(controller.getUser().getCountry());
+        countryField = new JTextField(15);
+        countryField.setText(controller.getUser().getCountry());
         JPanel countryc = new JPanel();
         countryc.add(countryField);
         countryContentPanel.add(countryc, BorderLayout.WEST);
@@ -139,13 +149,10 @@ public class Profile2 extends JFrame {
         // interests
         JPanel interestsPanel = new JPanel(new BorderLayout());
         JPanel interestsTitlePanel = new JPanel(new BorderLayout());
-        JPanel interestsContentPanel = new JPanel(new BorderLayout());
+        JPanel interestsContentPanel = initInterestsPanel();
 
         JLabel interestsLabel = new JLabel(langManager.getString("interestsLabel"));
-        interestsTitlePanel.add(interestsLabel, BorderLayout.WEST);
-
-        // meter lista de intereses
-        
+        interestsTitlePanel.add(interestsLabel, BorderLayout.WEST);       
         
         interestsPanel.add(interestsTitlePanel, BorderLayout.NORTH);
         interestsPanel.add(interestsContentPanel, BorderLayout.CENTER);
@@ -161,6 +168,81 @@ public class Profile2 extends JFrame {
         panel.add(Box.createVerticalStrut(sep));
         panel.add(interestsPanel);
         panel.add(Box.createVerticalStrut(sep));
+
+        return panel;
+    }
+
+    private JPanel initInterestsPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        
+        JPanel topPanel, mainPanel;
+
+        // top panel
+        topPanel = new JPanel(new BorderLayout());
+        JTextField newInterestField = new JTextField(20);
+        JButton addInterestButton = new JButton("Add new");
+
+        JPanel fieldPanel, btnPanel;
+        fieldPanel = new JPanel();
+        fieldPanel.add(newInterestField);
+        fieldPanel.setBorder(new EmptyBorder(3, 3, 0, 0));
+        btnPanel = new JPanel();
+        btnPanel.add(addInterestButton);
+
+        topPanel.add(fieldPanel, BorderLayout.WEST);
+        topPanel.add(btnPanel, BorderLayout.CENTER);
+
+        // main panel
+        mainPanel = new JPanel(new BorderLayout());
+        JPanel listPanel, bottomPanel;
+        
+        // listPanel
+        listPanel = new JPanel();
+        interestsListModel = new DefaultListModel<>();
+        for (TopicInfo topic: controller.getUser().getInterests()) {
+            for (int i = 0; i < 5; i++) {
+                topic.setName(topic.getName()+"k");
+                interestsListModel.addElement(new TopicInfo(topic.getName()));
+            }
+        }
+
+        JList<TopicInfo> list = new JList<>(interestsListModel);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setPreferredSize(new Dimension(335, 200));
+        DefaultListCellRenderer renderer =  (DefaultListCellRenderer)list.getCellRenderer();  
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+        JScrollPane scroll = new JScrollPane(list);
+        listPanel.add(scroll);
+
+        // bottomPanel
+        bottomPanel = new JPanel(new BorderLayout());
+        JButton deleteButton = new JButton("Delete selected");
+        bottomPanel.setBorder(new EmptyBorder(10,10,10,10));
+        bottomPanel.add(deleteButton, BorderLayout.CENTER);
+
+        mainPanel.add(listPanel, BorderLayout.CENTER);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+        panel.add(topPanel, BorderLayout.NORTH);
+        panel.add(mainPanel, BorderLayout.CENTER);
+
+        addInterestButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TopicInfo topic = new TopicInfo(newInterestField.getText());
+                interestsListModel.addElement(topic);
+            }
+        });
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = list.getSelectedIndex();
+                if (index > -1) {
+                    interestsListModel.remove(index);
+                }
+            }
+        });
 
         return panel;
     }
@@ -188,14 +270,40 @@ public class Profile2 extends JFrame {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
+                controller.getUser().setCity(cityField.getText()); //change the users city
+                controller.getUser().setCountry(countryField.getText()); //change the users city
+                ArrayList<TopicInfo> interests = new ArrayList<>();
+
+                for (int i = 0; i < interestsListModel.getSize(); i++) {
+                    interests.add(interestsListModel.getElementAt(i));
+                }
+
+                controller.getUser().setInterests(interests); //change the users interests.
+                if (controller.attemptNormalUpdate()) { ///sends the modified user in the controller to the server.
+                    JOptionPane.showMessageDialog(null, langManager.getString("updateText"), langManager.getString("success"), JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, langManager.getString("failUpdateText"), langManager.getString("error"), JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
 
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO
+                int res = JOptionPane.showConfirmDialog(null,
+                        langManager.getString("deleteMessage"),
+                        langManager.getString("deleteTitle"),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+                if (res == 0) {
+                    if (controller.attemptUserDelete()) {
+                        JOptionPane.showMessageDialog(null, langManager.getString("deleteConf"), langManager.getString("deleteTitle"), JOptionPane.INFORMATION_MESSAGE);
+                        LogInWindow logIn = new LogInWindow(controller);
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, langManager.getString("deleteConf1"), langManager.getString("deleteTitle"), JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
             }
         });
         

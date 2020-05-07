@@ -35,4 +35,9 @@ public class TopicInfo {
         return t;
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
 }
