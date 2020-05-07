@@ -68,8 +68,20 @@ public class EventListItem extends JPanel {
             }
         });
 
-        container.add(iconLabel, BorderLayout.EAST);
-        container.add(detailsLabel, BorderLayout.CENTER);
+        JPanel interestedPanel = new JPanel();
+        interestedPanel.setLayout(new GridLayout(1, 1));
+        JLabel interestedLabel = new JLabel(event.getInterested()+" interested");
+        interestedPanel.add(interestedLabel);
+        interestedPanel.setBorder(new EmptyBorder(0,30,0,0));
+        interestedLabel.setFont(new Font("Arial", Font.PLAIN, 17));
+
+        if (controller.getUser() != null && controller.getOrganize() == null) {
+            container.add(iconLabel, BorderLayout.EAST);
+            container.add(detailsLabel, BorderLayout.CENTER);
+        } else {
+            container.add(interestedPanel, BorderLayout.CENTER);
+            container.add(detailsLabel, BorderLayout.EAST);
+        }
 
         return container;
     }

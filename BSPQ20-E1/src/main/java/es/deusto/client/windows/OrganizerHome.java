@@ -9,19 +9,18 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import es.deusto.client.controller.Controller;
-import es.deusto.client.windows.*;
 import es.deusto.serialization.EventInfo;
-import es.deusto.serialization.PostInfo;
 
 public class OrganizerHome extends JFrame {
-
+    
     private static final long serialVersionUID = 1L;
+
+    private Container cp;
+    private JPanel titlePanel, mainPanel;
+    private JButton profileCustomBtn;
 
     private Controller controller;
     private LanguageManager langManager;
-    
-	private JButton logoutButton;
-	private JButton createEventButton;
 
     public OrganizerHome(Controller controller) {
         super();
@@ -29,277 +28,183 @@ public class OrganizerHome extends JFrame {
         this.langManager = controller.getLanguageManager();
 
         initComponents();
-        setListeners();
-
+        
+        this.setResizable(false);
+        this.setSize(new Dimension(650, 750));
         this.setVisible(true);
-		this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     private void initComponents() {
-        this.setTitle("");
-        getContentPane().setLayout(new BorderLayout());
+        this.setMenuBar();
+        this.cp = this.getContentPane();
+        this.cp.setLayout(new BorderLayout());
 
-        JPanel topControlPanel = initTopControlPanel();
-        JPanel contentPanel = initContentPanel();
+        JPanel bigMainPanel = new JPanel(new BorderLayout());
 
-        getContentPane().add(topControlPanel, BorderLayout.NORTH);
-        getContentPane().add(contentPanel, BorderLayout.CENTER);
-    }
-    
-    private JPanel initTopControlPanel() {
-        JPanel topControlPanel = new JPanel(new BorderLayout());
+        this.titlePanel = new JPanel(new BorderLayout());
+        this.mainPanel = new JPanel();
 
-		logoutButton = new JButton(langManager.getString("logout"));
-		JPanel languageButtonsPanel = new JPanel(new GridLayout(1, 3));
-
-		try {
-			ImageIcon iconEN, iconES, iconIT, iconGR;
-			iconEN = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
-			iconES = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
-			iconIT = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
-			iconGR = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));
-
-			JPanel enPanel, esPanel, itPanel, grPanel;
-			enPanel = new JPanel();
-			enPanel.add(new JLabel(iconEN));
-			esPanel = new JPanel();
-			esPanel.add(new JLabel(iconES));
-			itPanel = new JPanel();
-			itPanel.add(new JLabel(iconIT));
-			grPanel = new JPanel();
-			grPanel.add(new JLabel(iconGR));
-
-			enPanel.setBorder(new EmptyBorder(2,2,2,2));
-			esPanel.setBorder(new EmptyBorder(2,2,2,2));
-			itPanel.setBorder(new EmptyBorder(2,2,2,2));
-			grPanel.setBorder(new EmptyBorder(2,2,2,2));
-
-			enPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("en")) {
-						controller.getLanguageManager().setLanguage("en");
-						dispose();
-                        new OrganizerHome(controller);
-					}
-				}
-			});
-
-			esPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("es")) {
-						controller.getLanguageManager().setLanguage("es");
-						dispose();
-						new OrganizerHome(controller);
-					}
-				}
-			});
-
-			itPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("it")) {
-						controller.getLanguageManager().setLanguage("it");
-						dispose();
-						new OrganizerHome(controller);
-					}
-				}
-			});
-
-			grPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("el")) {
-						controller.getLanguageManager().setLanguage("el");
-						dispose();
-						new OrganizerHome(controller);
-					}
-				}
-			});
-
-			languageButtonsPanel.add(enPanel);
-			languageButtonsPanel.add(esPanel);
-			languageButtonsPanel.add(itPanel);
-			languageButtonsPanel.add(grPanel);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-		JPanel logoutButtonContainer = new JPanel();
-		logoutButtonContainer.add(logoutButton);
-
-		JPanel languageButtonsPanelContainer = new JPanel();
-		languageButtonsPanelContainer.add(languageButtonsPanel);
-		
-		topControlPanel.add(logoutButtonContainer, BorderLayout.WEST);
-		topControlPanel.add(languageButtonsPanelContainer, BorderLayout.EAST);
-
-		return topControlPanel;
-    }    
-
-    private JPanel initContentPanel() {
-        JPanel contentPanel = new JPanel(new BorderLayout());
+        // TOP PANEL
+        JLabel pageTitle = new JLabel(langManager.getString("suggestionsForYou"));
+        JPanel title_panel = new JPanel();
+        title_panel.add(pageTitle);
+        pageTitle.setFont(new Font("Arial", Font.BOLD, 30));
+        title_panel.setBorder(new EmptyBorder(20,20,20,20));
 
         JPanel welcomePanel = new JPanel(new BorderLayout());
-        JPanel mainPanel = initMainPanel();
+        welcomePanel.setBorder(new EmptyBorder(10,10,0,10));
+        JLabel welcomeLabel = new JLabel("Welcome back, "+controller.getOrganize().getName());
+        welcomeLabel.setFont(new Font("Arial", Font.ITALIC, 25));
 
-        JLabel welcomeLabel = new JLabel(langManager.getString("welcome")+", " + controller.getOrganize().getName());
-        welcomePanel.add(welcomeLabel);
+        welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
 
-        contentPanel.add(welcomePanel, BorderLayout.NORTH);
-        contentPanel.add(mainPanel, BorderLayout.CENTER);
+        titlePanel.add(welcomePanel, BorderLayout.CENTER);
+        titlePanel.add(title_panel, BorderLayout.SOUTH);
 
-        return contentPanel;
-	}
-	
-	private JPanel initMainPanel() {
-		JPanel mainPanel = new JPanel(new BorderLayout());
+        profileCustomBtn = new JButton(langManager.getString("customizeText"));
+        JPanel profileCustom_panel = new JPanel();
+        profileCustom_panel.add(profileCustomBtn);
 
-		createEventButton = new JButton(langManager.getString("createEvent"));
+        // this.titlePanel.add(profileCustom_panel, BorderLayout.EAST);
 
-		JPanel buttonsContainer = new JPanel();
-		buttonsContainer.add(createEventButton);
+        // MAIN PANEL
+        this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
+        for (EventInfo e : this.controller.getOrganize().getCreatedEvents()) {
+            for (int i = 0; i < 20; i++) {
+                // e.setName(e.getName()+"kkk");
+                this.mainPanel.add(new EventListItem(controller, e));
+            }
+        }
+        
+        this.mainPanel.add(Box.createVerticalGlue());
 
-		JPanel eventsPanel = initEventsPanel();
+        JScrollPane scrollPane = new JScrollPane(this.mainPanel, 
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-		mainPanel.add(buttonsContainer, BorderLayout.NORTH);
-		mainPanel.add(eventsPanel, BorderLayout.CENTER);
+        scrollPane.setViewportBorder(new EmptyBorder(10,10,10,10));
 
-		return mainPanel;
-	}
+        bigMainPanel.add(this.titlePanel, BorderLayout.NORTH);
+        bigMainPanel.add(scrollPane, BorderLayout.CENTER);
+        
+        this.cp.add(bigMainPanel, BorderLayout.CENTER);
 
-    private JPanel initEventsPanel() {
-		JPanel eventsPanel = new JPanel(new BorderLayout());
+        this.setListeners();
+    }
 
-		JPanel titlePanel = new JPanel();
-		JLabel titleLabel = new JLabel(langManager.getString("yourEvents"));
-		titlePanel.add(titleLabel);
+    private void setMenuBar() {
+        JMenuBar bar = new JMenuBar();
+        setJMenuBar(bar);
+        JMenu accountMenu = new JMenu("Account");
+        JMenu eventsMenu = new JMenu("Events");
+        JMenu settingsMenu = new JMenu("Settings");
 
-		JPanel eventListPanel = new JPanel();
-		eventListPanel.setLayout(new BoxLayout(eventListPanel, BoxLayout.Y_AXIS));
+        // account menu
+        JMenuItem logoutItem = new JMenuItem("Logout");
 
-		for (EventInfo e: controller.getOrganize().getCreatedEvents()) {
-		//for (EventInfo e : this.controller.getOrganize().getSavedEvents()) {
-			eventListPanel.add(new EventListItem(e));
-			eventListPanel.add(Box.createVerticalGlue());
-		}
-
-		eventListPanel.add(Box.createVerticalGlue());
-
-		JScrollPane scroll = new JScrollPane(
-			eventListPanel,
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-		);
-
-		eventsPanel.add(titlePanel, BorderLayout.NORTH);
-		eventsPanel.add(scroll, BorderLayout.CENTER);
-
-		return eventsPanel;
-	}
-
-	private void setListeners() {
-        logoutButton.addActionListener(new ActionListener() {
+        logoutItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-				controller.setOrganizer(null);
-				dispose();
+                controller.setOrganizer(null);
+                dispose();
                 new LogInWindow(controller);
             }
-		});
-		
-		createEventButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				new CreateEvent(controller);
-			}
-		});
-	}
-	
-	private class EventListItem extends JPanel {
+        });
+        
+        accountMenu.add(logoutItem);
+        
+        // events menu
+        JMenuItem createEventItem = new JMenuItem("Create event");
 
-		private static final long serialVersionUID = 1L;
+        createEventItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new CreateEvent(controller);
+            }
+        });
+        
+        eventsMenu.add(createEventItem);
 
-		private EventInfo event;
+        // settingsMenu
+        JMenu languageMenu = new JMenu("Language");
+        JMenuItem english = new JMenuItem("EN");
+        JMenuItem spanish = new JMenuItem("ES");
+        JMenuItem greek = new JMenuItem("EL");
+        JMenuItem italian = new JMenuItem("IT");
 
-		public EventListItem(EventInfo event) {
-			super();
-			this.event = event;
+        try {
+            ImageIcon iconEN, iconES, iconIT, iconGR;
+            iconEN = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
+            iconES = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
+            iconIT = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
+            iconGR = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));
+            english.setIcon(iconEN);
+            spanish.setIcon(iconES);
+            greek.setIcon(iconGR);
+            italian.setIcon(iconIT);
+        } catch (Exception e) {}
 
-			initComponents();
-		}
+        english.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!langManager.getLanguage().equals("en")) {
+                    controller.getLanguageManager().setLanguage("en");
+                    dispose();
+                    new OrganizerHome(controller);
+                }
+            }
+        });
 
-		private void initComponents() {
-			setLayout(new BorderLayout());
-			setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        spanish.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!langManager.getLanguage().equals("es")) {
+                    controller.getLanguageManager().setLanguage("es");
+                    dispose();
+                    new OrganizerHome(controller);
+                }
+            }
+        });
 
-			JPanel leftPanel, middlePanel, rightPanel;
+        italian.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!langManager.getLanguage().equals("it")) {
+                    controller.getLanguageManager().setLanguage("it");
+                    dispose();
+                    new OrganizerHome(controller);
+                }
+            }
+        });
 
-			leftPanel = initLeftPanel();
-			middlePanel = initMiddlePanel();
-			rightPanel = initRightPanel();
+        greek.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!langManager.getLanguage().equals("el")) {
+                    controller.getLanguageManager().setLanguage("el");
+                    dispose();
+                    new OrganizerHome(controller);
+                }
+            }
+        });
 
-			JPanel leftContainer, rightContainer, middleContainer;
-			leftContainer = new JPanel();
-			middleContainer = new JPanel();
-			rightContainer = new JPanel();
+        languageMenu.add(english);
+        languageMenu.add(spanish);
+        languageMenu.add(greek);
+        languageMenu.add(italian);
+        
+        settingsMenu.add(languageMenu);       
 
-			// leftContainer.add(leftPanel);
-			// middleContainer.add(middlePanel);
-			rightContainer.add(rightPanel);
-			
+        bar.add(accountMenu);
+        bar.add(eventsMenu);
+        bar.add(settingsMenu);
+    }
 
-			add(leftPanel, BorderLayout.WEST);
-			add(middlePanel, BorderLayout.CENTER);
-			add(rightContainer, BorderLayout.EAST);
-		}
-
-		private JPanel initLeftPanel() {
-			JPanel leftPanel = new JPanel(new GridLayout(2, 2));
-
-			JLabel labelName = new JLabel(langManager.getString("name"));
-			JLabel labelDescription = new JLabel(langManager.getString("description"));
-			JLabel labelNameContent = new JLabel(event.getName());
-			JLabel labelDescriptionContent = new JLabel(event.getDescription());
-			
-			leftPanel.add(labelName);
-			leftPanel.add(labelNameContent);
-			leftPanel.add(labelDescription);
-			leftPanel.add(labelDescriptionContent);
-
-			return leftPanel;
-		}
-
-		private JPanel initMiddlePanel() {
-			JPanel middlePanel = new JPanel(new GridLayout(1, 2));
-
-			JLabel labelTopic = new JLabel(langManager.getString("topic"));
-			JLabel labelTopicContent = new JLabel(event.getTopic().getName());
-			
-			middlePanel.add(labelTopic);
-			middlePanel.add(labelTopicContent);
-
-			return middlePanel;
-		}
-	
-		private JPanel initRightPanel() {
-			JPanel rightPanel = new JPanel();
-
-			JButton buttonDetails = new JButton(langManager.getString("detailsText"));
-			rightPanel.add(buttonDetails);
-
-			buttonDetails.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-					new EventWindow(controller, event);
-				}
-			});
-
-			return rightPanel;
-		}
-	}
+    private void setListeners() {
+        
+    }
 
 }

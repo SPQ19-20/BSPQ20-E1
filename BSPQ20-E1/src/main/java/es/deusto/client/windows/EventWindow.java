@@ -47,6 +47,10 @@ public class EventWindow extends JFrame {
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
 
+		if (controller.getUser() == null && controller.getOrganize() != null) {
+			initMenuBar();
+		}
+
 		this.setTitle("Event page");
 
 		JPanel topControlPanel, contentPanel;
@@ -57,6 +61,25 @@ public class EventWindow extends JFrame {
 		cp.add(contentPanel, BorderLayout.CENTER);
 	
 		setListeners();
+	}
+
+	private void initMenuBar() {
+		JMenuBar bar = new JMenuBar();
+		setJMenuBar(bar);
+
+		JMenu postsMenu = new JMenu("Posts");
+		JMenuItem createPost = new JMenuItem("New post");
+
+		createPost.addActionListener(new ActionListener() { 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new PostCreationWindow(controller, event);
+			}
+		});
+
+		postsMenu.add(createPost);
+		bar.add(postsMenu);
 	}
 
 	private JPanel initTopControlPanel() {
@@ -132,36 +155,44 @@ public class EventWindow extends JFrame {
 	}
 
 	private JPanel initEventDetailsPanel() {
-		JPanel detailsPanel = new JPanel(new GridLayout(4, 2));
+		int rows = (controller.getUser() == null && controller.getOrganize() != null) ? 5 : 4;
+		JPanel detailsPanel = new JPanel(new GridLayout(rows, 2));
 		
 		Font f = new Font("Arial", Font.PLAIN, 15);
 		Font fb = new Font("Arial", Font.BOLD, 15);
 
+		JLabel interestedLabel = new JLabel("Interested users: ");
 		JLabel organizerLabel = new JLabel(langManager.getString("organizer")+": ");
 		JLabel topicLabel = new JLabel(langManager.getString("topic") + ": ");
 		JLabel locationLabel = new JLabel(langManager.getString("location") + ": ");
 		JLabel dateLabel = new JLabel(langManager.getString("date") + ": ");
 
+		interestedLabel.setFont(fb);
 		organizerLabel.setFont(fb);
 		topicLabel.setFont(fb);
 		locationLabel.setFont(fb);
 		dateLabel.setFont(fb);
 
+		JLabel interestedContentLabel = new JLabel(event.getInterested()+" users");
 		JLabel organizerContentLabel = new JLabel(event.getOrganizerEmail());
 		JLabel topicContentLabel = new JLabel(event.getTopic().getName());
 		JLabel locationContentLabel = new JLabel("London");
 		JLabel dateContentLabel = new JLabel("17/05/21");
 
+		interestedContentLabel.setFont(f);
 		organizerContentLabel.setFont(f);
 		topicContentLabel.setFont(f);
 		locationContentLabel.setFont(f);
 		dateContentLabel.setFont(f);
 
+		JPanel interestedLabelContainer, interestedContentLabelContainer;
 		JPanel organizerLabelContainer, organizerContentLabelContainer;
 		JPanel topicLabelContainer, topicContentLabelContainer;
 		JPanel locationLabelContainer, locationContentLabelContainer;
 		JPanel dateLabelContainer, dateContentLabelContainer;
 
+		interestedLabelContainer = new JPanel(new BorderLayout());
+		interestedContentLabelContainer = new JPanel(new BorderLayout());
 		organizerLabelContainer = new JPanel(new BorderLayout());
 		organizerContentLabelContainer = new JPanel(new BorderLayout());
 		locationLabelContainer = new JPanel(new BorderLayout());
@@ -173,6 +204,8 @@ public class EventWindow extends JFrame {
 
 		int t = 15;
 		
+		interestedLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
+		interestedContentLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
 		organizerLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
 		organizerContentLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
 		locationLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
@@ -182,7 +215,8 @@ public class EventWindow extends JFrame {
 		topicLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
 		topicContentLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
 		
-
+		interestedLabelContainer.add(interestedLabel, BorderLayout.WEST);
+		interestedContentLabelContainer.add(interestedContentLabel, BorderLayout.WEST);
 		organizerLabelContainer.add(organizerLabel, BorderLayout.WEST);
 		organizerContentLabelContainer.add(organizerContentLabel, BorderLayout.WEST);
 		topicLabelContainer.add(topicLabel, BorderLayout.WEST);
@@ -191,6 +225,11 @@ public class EventWindow extends JFrame {
 		locationContentLabelContainer.add(locationContentLabel, BorderLayout.WEST);
 		dateLabelContainer.add(dateLabel, BorderLayout.WEST);
 		dateContentLabelContainer.add(dateContentLabel, BorderLayout.WEST);
+
+		if (controller.getUser() == null && controller.getOrganize() != null) {
+			detailsPanel.add(interestedLabelContainer);
+			detailsPanel.add(interestedContentLabelContainer);
+		}
 
 		detailsPanel.add(organizerLabelContainer);
 		detailsPanel.add(organizerContentLabelContainer);

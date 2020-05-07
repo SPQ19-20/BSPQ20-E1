@@ -118,7 +118,7 @@ public class UserEventsWindow extends JFrame {
         customItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Profile2(controller);
+                new Profile(controller);
             }
         });
         

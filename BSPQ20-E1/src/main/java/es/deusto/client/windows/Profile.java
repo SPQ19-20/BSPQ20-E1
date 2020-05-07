@@ -9,122 +9,281 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.border.*;
 
 public class Profile extends JFrame {
-
+    
     private static final long serialVersionUID = 1L;
-    public JButton saveButton, homeButton, deleteButton;
-    private JTextField city, email;
-    private JCheckBox musicBox, theaterBox, cinemaBox, sportsBox, artBox, cultureBox, foodBox, festivalsBox, moreBox;
-    private ArrayList<TopicInfo> interests = new ArrayList<>(); //list of interests of the user PLEASE DO NOT DELETE MORE TIMES!
+    
     private Controller controller;
     private LanguageManager langManager;
 
+    private DefaultListModel<TopicInfo> interestsListModel;
+
+    private JTextField cityField, countryField;
+
     public Profile(Controller controller) {
+        super();
+        
         this.controller = controller;
         this.langManager = controller.getLanguageManager();
 
-        // TODO get the logged in user email
-        String userInterests = "Music Theater";//(String) userData.get("interests");
+        initComponents();
 
-        getContentPane().setLayout(null);
         setTitle("Profile");
-        this.setSize(new Dimension(400, 550));
+
+        this.setSize(new Dimension(400, 655));
         this.setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        homeButton = new JButton(UIManager.getIcon("FileChooser.homeFolderIcon"));
-        homeButton.setBounds(320, 25, 25, 25);
-        getContentPane().add(homeButton);
-
-        UserInfo userInfo = this.controller.getUser();
-
-        JLabel username = new JLabel(langManager.getString("nameLabel"));
-        username.setBounds(40, 50, 80, 16);
-        getContentPane().add(username);
-
-        JTextField user = new JTextField(userInfo.getName());
-        user.setBounds(40, 70, 80, 20);
-        user.setEditable(false);
-        getContentPane().add(user);
-
-        JLabel emailAdd = new JLabel(langManager.getString("emailLabel"));
-        emailAdd.setBounds(40, 100, 80, 20);
-        getContentPane().add(emailAdd);
-
-        email = new JTextField(userInfo.getEmail());
-        email.setBounds(40, 120, 150, 20);
-        email.setEditable(false);
-        getContentPane().add(email);
-
-        JLabel cityLabel = new JLabel(langManager.getString("cityLabel"));
-        cityLabel.setBounds(40, 150, 80, 20);
-        getContentPane().add(cityLabel);
-
-        city = new JTextField(userInfo.getCity());
-        city.setBounds(40, 170, 150, 20);
-        city.setEditable(true);
-        getContentPane().add(city);
-
-        JLabel interests = new JLabel(langManager.getString("interestsLabel"));
-        interests.setBounds(40, 200, 80, 20);
-        getContentPane().add(interests);
-
-        JPanel interestsContainer = new JPanel();
-        interestsContainer.setBackground(Color.RED);
-        interestsContainer.setBounds(40, 220, 100, 180);
-        interestsContainer.add(new JLabel("hey"));
-        // musicBox.setBounds(40, 220, 150, 20);
-        // moreBox.setBounds(40, 380, 150, 20);
-
-        saveButton = new JButton(langManager.getString("saveButton"));
-        saveButton.setBounds(40, 430, 140, 25);
-        getContentPane().add(saveButton);
-
-        deleteButton = new JButton(langManager.getString("deleteButton"));
-        deleteButton.setBounds(200, 430, 140, 25);
-        getContentPane().add(deleteButton);
-
-        this.setListeners();
         this.setVisible(true);
     }
 
-     /**Actions when the save button is clicked */
-     private void setListeners() {
+    private void initComponents() {
+        Container cp = this.getContentPane();
+        cp.setLayout(new BorderLayout());
+        JPanel container = new JPanel(new BorderLayout());
+        container.setBorder(new EmptyBorder(20,20,20,20));
+
+        container.add(initTopPanel(), BorderLayout.NORTH);
+        container.add(initMainPanel(), BorderLayout.CENTER);
+        container.add(initBottomPanel(), BorderLayout.SOUTH);
+
+        cp.add(container, BorderLayout.CENTER);
+    }
+
+    private JPanel initTopPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        
+        JButton homeButton = new JButton(UIManager.getIcon("FileChooser.homeFolderIcon"));
+        panel.add(homeButton, BorderLayout.EAST);
+
+        homeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
+        return panel;
+    }
+
+    private JPanel initMainPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        int margin = 5;
+
+        // name
+        JPanel namePanel = new JPanel(new BorderLayout());
+        JPanel nameTitlePanel = new JPanel(new BorderLayout());
+        JPanel nameContentPanel = new JPanel(new BorderLayout());
+
+        JLabel nameLabel = new JLabel(langManager.getString("nameLabel"));
+        nameTitlePanel.add(nameLabel, BorderLayout.WEST);
+        
+        JTextField nameField = new JTextField(15);
+        nameField.setText(controller.getUser().getName());
+        nameField.setEditable(false);
+        JPanel namec = new JPanel();
+        namec.add(nameField);
+        nameContentPanel.add(namec, BorderLayout.WEST);
+        nameContentPanel.setBorder(new EmptyBorder(margin, margin, margin, margin));
+
+        namePanel.add(nameTitlePanel, BorderLayout.NORTH);
+        namePanel.add(nameContentPanel, BorderLayout.CENTER);
+
+        // email
+        JPanel emailPanel = new JPanel(new BorderLayout());
+        JPanel emailTitlePanel = new JPanel(new BorderLayout());
+        JPanel emailContentPanel = new JPanel(new BorderLayout());
+
+        JLabel emailLabel = new JLabel(langManager.getString("emailLabel"));
+        emailTitlePanel.add(emailLabel, BorderLayout.WEST);
+
+        JTextField emailField = new JTextField(15);
+        emailField.setText(controller.getUser().getEmail());
+        emailField.setEditable(false);
+        JPanel emailc = new JPanel();
+        emailc.add(emailField);
+        emailContentPanel.add(emailc, BorderLayout.WEST);
+        emailContentPanel.setBorder(new EmptyBorder(margin, margin, margin, margin));
+
+        emailPanel.add(emailTitlePanel, BorderLayout.NORTH);
+        emailPanel.add(emailContentPanel, BorderLayout.CENTER);
+
+        // city
+        JPanel cityPanel = new JPanel(new BorderLayout());
+        JPanel cityTitlePanel = new JPanel(new BorderLayout());
+        JPanel cityContentPanel = new JPanel(new BorderLayout());
+
+        JLabel cityLabel = new JLabel(langManager.getString("cityLabel"));
+        cityTitlePanel.add(cityLabel, BorderLayout.WEST);
+
+        cityField = new JTextField(15);
+        cityField.setText(controller.getUser().getCity());
+        JPanel cityc = new JPanel();
+        cityc.add(cityField);
+        cityContentPanel.add(cityc, BorderLayout.WEST);
+        cityContentPanel.setBorder(new EmptyBorder(margin, margin, margin, margin));
+
+        cityPanel.add(cityTitlePanel, BorderLayout.NORTH);
+        cityPanel.add(cityContentPanel, BorderLayout.CENTER);
+        
+        // country
+        JPanel countryPanel = new JPanel(new BorderLayout());
+        JPanel countryTitlePanel = new JPanel(new BorderLayout());
+        JPanel countryContentPanel = new JPanel(new BorderLayout());
+
+        JLabel countryLabel = new JLabel(langManager.getString("countryLabel"));
+        countryTitlePanel.add(countryLabel, BorderLayout.WEST);
+
+        countryField = new JTextField(15);
+        countryField.setText(controller.getUser().getCountry());
+        JPanel countryc = new JPanel();
+        countryc.add(countryField);
+        countryContentPanel.add(countryc, BorderLayout.WEST);
+        countryContentPanel.setBorder(new EmptyBorder(margin, margin, margin, margin));
+
+        countryPanel.add(countryTitlePanel, BorderLayout.NORTH);
+        countryPanel.add(countryContentPanel, BorderLayout.CENTER);
+
+        // interests
+        JPanel interestsPanel = new JPanel(new BorderLayout());
+        JPanel interestsTitlePanel = new JPanel(new BorderLayout());
+        JPanel interestsContentPanel = initInterestsPanel();
+
+        JLabel interestsLabel = new JLabel(langManager.getString("interestsLabel"));
+        interestsTitlePanel.add(interestsLabel, BorderLayout.WEST);       
+        
+        interestsPanel.add(interestsTitlePanel, BorderLayout.NORTH);
+        interestsPanel.add(interestsContentPanel, BorderLayout.CENTER);
+
+        int sep = 5;
+        panel.add(namePanel);
+        panel.add(Box.createVerticalStrut(sep));
+        panel.add(emailPanel);
+        panel.add(Box.createVerticalStrut(sep));
+        panel.add(cityPanel);
+        panel.add(Box.createVerticalStrut(sep));
+        panel.add(countryPanel);
+        panel.add(Box.createVerticalStrut(sep));
+        panel.add(interestsPanel);
+        panel.add(Box.createVerticalStrut(sep));
+
+        return panel;
+    }
+
+    private JPanel initInterestsPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        
+        JPanel topPanel, mainPanel;
+
+        // top panel
+        topPanel = new JPanel(new BorderLayout());
+        JTextField newInterestField = new JTextField(20);
+        JButton addInterestButton = new JButton("Add new");
+
+        JPanel fieldPanel, btnPanel;
+        fieldPanel = new JPanel();
+        fieldPanel.add(newInterestField);
+        fieldPanel.setBorder(new EmptyBorder(3, 3, 0, 0));
+        btnPanel = new JPanel();
+        btnPanel.add(addInterestButton);
+
+        topPanel.add(fieldPanel, BorderLayout.WEST);
+        topPanel.add(btnPanel, BorderLayout.CENTER);
+
+        // main panel
+        mainPanel = new JPanel(new BorderLayout());
+        JPanel listPanel, bottomPanel;
+        
+        // listPanel
+        listPanel = new JPanel();
+        interestsListModel = new DefaultListModel<>();
+        for (TopicInfo topic: controller.getUser().getInterests()) {
+            for (int i = 0; i < 5; i++) {
+                topic.setName(topic.getName()+"k");
+                interestsListModel.addElement(new TopicInfo(topic.getName()));
+            }
+        }
+
+        JList<TopicInfo> list = new JList<>(interestsListModel);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setPreferredSize(new Dimension(335, 200));
+        DefaultListCellRenderer renderer =  (DefaultListCellRenderer)list.getCellRenderer();  
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+        JScrollPane scroll = new JScrollPane(list);
+        listPanel.add(scroll);
+
+        // bottomPanel
+        bottomPanel = new JPanel(new BorderLayout());
+        JButton deleteButton = new JButton("Delete selected");
+        bottomPanel.setBorder(new EmptyBorder(10,10,10,10));
+        bottomPanel.add(deleteButton, BorderLayout.CENTER);
+
+        mainPanel.add(listPanel, BorderLayout.CENTER);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+        panel.add(topPanel, BorderLayout.NORTH);
+        panel.add(mainPanel, BorderLayout.CENTER);
+
+        addInterestButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TopicInfo topic = new TopicInfo(newInterestField.getText());
+                interestsListModel.addElement(topic);
+            }
+        });
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = list.getSelectedIndex();
+                if (index > -1) {
+                    interestsListModel.remove(index);
+                }
+            }
+        });
+
+        return panel;
+    }
+
+    private JPanel initBottomPanel() {
+        JPanel panel = new JPanel(new GridLayout(1, 2));
+
+        JButton saveButton, deleteButton;
+        saveButton = new JButton(langManager.getString("saveButton"));
+        deleteButton = new JButton(langManager.getString("deleteButton"));
+
+        JPanel savePanel, deletePanel;
+        savePanel = new JPanel();
+        deletePanel = new JPanel();
+
+        savePanel.add(saveButton);
+        deletePanel.add(deleteButton);
+
+        savePanel.setBorder(new EmptyBorder(10,0,10,10));
+        deletePanel.setBorder(new EmptyBorder(10,10,10,0));
+
+        panel.add(savePanel);
+        panel.add(deletePanel);
 
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //String interests = ""; //now it's a arrayList<TopicInfo>
-                if (musicBox.isSelected()) interests.add(new TopicInfo(langManager.getString("musicCheck")));
-                if (theaterBox.isSelected()) interests.add(new TopicInfo(langManager.getString("theaterCheck")));
-                if (cinemaBox.isSelected()) interests.add(new TopicInfo(langManager.getString("cinemaCheck")));
-                if (sportsBox.isSelected()) interests.add(new TopicInfo(langManager.getString("sportsCheck")));
-                if (artBox.isSelected()) interests.add(new TopicInfo(langManager.getString("artsCheck")));
-                if (cultureBox.isSelected()) interests.add(new TopicInfo(langManager.getString("cultureCheck")));
-                if (foodBox.isSelected()) interests.add(new TopicInfo(langManager.getString("foodCheck")));
-                if (festivalsBox.isSelected()) interests.add(new TopicInfo(langManager.getString("festivalsCheck")));
-                if (moreBox.isSelected()) interests.add(new TopicInfo(langManager.getString("moreCheck")));
-                
-                // update user (since Sprint 2)
-                
-                controller.getUser().setCity(city.getText()); //change the users city
+                controller.getUser().setCity(cityField.getText()); //change the users city
+                controller.getUser().setCountry(countryField.getText()); //change the users city
+                ArrayList<TopicInfo> interests = new ArrayList<>();
+
+                for (int i = 0; i < interestsListModel.getSize(); i++) {
+                    interests.add(interestsListModel.getElementAt(i));
+                }
+
                 controller.getUser().setInterests(interests); //change the users interests.
                 if (controller.attemptNormalUpdate()) { ///sends the modified user in the controller to the server.
                     JOptionPane.showMessageDialog(null, langManager.getString("updateText"), langManager.getString("success"), JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, langManager.getString("failUpdateText"), langManager.getString("error"), JOptionPane.INFORMATION_MESSAGE);
                 }
-            }
-        });
-
-        homeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                UserEventsWindow home = new UserEventsWindow(controller);
-                setVisible(false);
-                dispose();
             }
         });
 
@@ -137,11 +296,9 @@ public class Profile extends JFrame {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE);
                 if (res == 0) {
-                    // TODO Delete Account - Delete user data from DB
                     if (controller.attemptUserDelete()) {
                         JOptionPane.showMessageDialog(null, langManager.getString("deleteConf"), langManager.getString("deleteTitle"), JOptionPane.INFORMATION_MESSAGE);
                         LogInWindow logIn = new LogInWindow(controller);
-                        setVisible(false);
                         dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, langManager.getString("deleteConf1"), langManager.getString("deleteTitle"), JOptionPane.INFORMATION_MESSAGE);
@@ -149,7 +306,8 @@ public class Profile extends JFrame {
                 }
             }
         });
-
-    }   
+        
+        return panel;
+    }
 
 }
