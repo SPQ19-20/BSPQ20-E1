@@ -84,6 +84,9 @@ public class Controller {
         this.organizer = org;
     }
         
+    public void setUser(UserInfo u) {
+        this.user = u;
+    }
 
     //--------------------------LOG IN----------------------------------------------------------------------------
     /**

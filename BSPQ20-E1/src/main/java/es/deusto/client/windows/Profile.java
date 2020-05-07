@@ -5,9 +5,8 @@ import es.deusto.serialization.UserInfo;
 import es.deusto.serialization.TopicInfo;
 import java.util.ArrayList;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
 
@@ -72,41 +71,12 @@ public class Profile extends JFrame {
         interests.setBounds(40, 200, 80, 20);
         getContentPane().add(interests);
 
-        musicBox = new JCheckBox(langManager.getString("musicCheck"), userInterests.contains("Music"));
-        musicBox.setBounds(40, 220, 150, 20);
-        getContentPane().add(musicBox);
-
-        cinemaBox = new JCheckBox(langManager.getString("cinemaCheck"), userInterests.contains("Cinema"));
-        cinemaBox.setBounds(40, 240, 150, 20);
-        getContentPane().add(cinemaBox);
-
-        theaterBox = new JCheckBox(langManager.getString("theaterCheck"), userInterests.contains("Theater"));
-        theaterBox.setBounds(40, 260, 150, 20);
-        getContentPane().add(theaterBox);
-
-        sportsBox = new JCheckBox(langManager.getString("sportsCheck"), userInterests.contains("Sports"));
-        sportsBox.setBounds(40, 280, 150, 20);
-        getContentPane().add(sportsBox);
-
-        cultureBox = new JCheckBox(langManager.getString("cultureCheck"), userInterests.contains("Culture"));
-        cultureBox.setBounds(40, 300, 150, 20);
-        getContentPane().add(cultureBox);
-
-        artBox = new JCheckBox(langManager.getString("artsCheck"), userInterests.contains("Arts"));
-        artBox.setBounds(40, 320, 150, 20);
-        getContentPane().add(artBox);
-
-        foodBox = new JCheckBox(langManager.getString("foodCheck"), userInterests.contains("Food"));
-        foodBox.setBounds(40, 340, 150, 20);
-        getContentPane().add(foodBox);
-
-        festivalsBox = new JCheckBox(langManager.getString("festivalsCheck"), userInterests.contains("Festivals"));
-        festivalsBox.setBounds(40, 360, 150, 20);
-        getContentPane().add(festivalsBox);
-
-        moreBox = new JCheckBox(langManager.getString("moreCheck"), userInterests.contains("More.."));
-        moreBox.setBounds(40, 380, 150, 20);
-        getContentPane().add(moreBox);
+        JPanel interestsContainer = new JPanel();
+        interestsContainer.setBackground(Color.RED);
+        interestsContainer.setBounds(40, 220, 100, 180);
+        interestsContainer.add(new JLabel("hey"));
+        // musicBox.setBounds(40, 220, 150, 20);
+        // moreBox.setBounds(40, 380, 150, 20);
 
         saveButton = new JButton(langManager.getString("saveButton"));
         saveButton.setBounds(40, 430, 140, 25);

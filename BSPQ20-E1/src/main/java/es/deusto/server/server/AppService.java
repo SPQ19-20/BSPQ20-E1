@@ -538,6 +538,7 @@ public class AppService {
         dao.updateOrganizer(org);
         
         DAOFactory.getInstance().closeDAO(dao);
+        DAOFactory.getInstance().closeDAO(edao);
     }
 
 }

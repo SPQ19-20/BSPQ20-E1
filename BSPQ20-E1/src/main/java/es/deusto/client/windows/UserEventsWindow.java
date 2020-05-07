@@ -29,14 +29,16 @@ public class UserEventsWindow extends JFrame {
 
         initComponents();
         
-        this.setResizable(true);
-        this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        this.setResizable(false);
+        this.setSize(new Dimension(650, 750));
+        //this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     private void initComponents() {
+        this.setMenuBar();
         this.cp = this.getContentPane();
         this.cp.setLayout(new BorderLayout());
 
@@ -45,185 +47,173 @@ public class UserEventsWindow extends JFrame {
         this.titlePanel = new JPanel(new BorderLayout());
         this.mainPanel = new JPanel();
 
-        JPanel languageSwitchPanel = new JPanel();
-        JPanel langPanel = new JPanel();
-
-        try {
-			ImageIcon iconEN, iconES, iconIT, iconGR;
-			iconEN = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
-			iconES = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
-            iconIT = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
-            iconGR = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));
-
-			JPanel enPanel, esPanel, itPanel, grPanel;
-			enPanel = new JPanel();
-			enPanel.add(new JLabel(iconEN));
-			esPanel = new JPanel();
-			esPanel.add(new JLabel(iconES));
-            itPanel = new JPanel();
-            itPanel.add(new JLabel(iconIT));
-            grPanel = new JPanel();
-            grPanel.add(new JLabel(iconGR));
-
-			enPanel.setBorder(new EmptyBorder(2,2,2,2));
-			esPanel.setBorder(new EmptyBorder(2,2,2,2));
-            itPanel.setBorder(new EmptyBorder(2,2,2,2));
-            grPanel.setBorder(new EmptyBorder(2,2,2,2));
-
-			enPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("en")) {
-						controller.getLanguageManager().setLanguage("en");
-						dispose();
-                        new UserEventsWindow(controller);
-					}
-				}
-			});
-
-			esPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("es")) {
-						controller.getLanguageManager().setLanguage("es");
-						dispose();
-						new UserEventsWindow(controller);
-					}
-				}
-			});
-
-			itPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("it")) {
-						controller.getLanguageManager().setLanguage("it");
-						dispose();
-						new UserEventsWindow(controller);
-					}
-				}
-			});
-
-            grPanel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (!langManager.getLanguage().equals("el")) {
-                        controller.getLanguageManager().setLanguage("el");
-                        dispose();
-                        new UserEventsWindow(controller);
-                    }
-                }
-            });
-            
-			langPanel.add(enPanel);
-			langPanel.add(esPanel);
-			langPanel.add(itPanel);
-			langPanel.add(grPanel);
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-        }
-        
-        languageSwitchPanel.add(langPanel, BorderLayout.EAST);
-        languageSwitchPanel.add(new JPanel(), BorderLayout.CENTER);
-
         // TOP PANEL
-        JLabel pageTitle = new JLabel(langManager.getString("eventsText"));
+        JLabel pageTitle = new JLabel(langManager.getString("suggestionsForYou"));
         JPanel title_panel = new JPanel();
         title_panel.add(pageTitle);
+        pageTitle.setFont(new Font("Arial", Font.BOLD, 30));
+        title_panel.setBorder(new EmptyBorder(20,20,20,20));
 
-        this.titlePanel.add(title_panel, BorderLayout.CENTER);
+        JPanel welcomePanel = new JPanel(new BorderLayout());
+        welcomePanel.setBorder(new EmptyBorder(10,10,0,10));
+        JLabel welcomeLabel = new JLabel("Welcome back, "+controller.getUser().getName());
+        welcomeLabel.setFont(new Font("Arial", Font.ITALIC, 25));
 
-        this.profileCustomBtn = new JButton(langManager.getString("customizeText"));
+        welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
+
+        titlePanel.add(welcomePanel, BorderLayout.CENTER);
+        titlePanel.add(title_panel, BorderLayout.SOUTH);
+
+        profileCustomBtn = new JButton(langManager.getString("customizeText"));
         JPanel profileCustom_panel = new JPanel();
         profileCustom_panel.add(profileCustomBtn);
 
-        this.titlePanel.add(profileCustom_panel, BorderLayout.EAST);
+        // this.titlePanel.add(profileCustom_panel, BorderLayout.EAST);
 
         // MAIN PANEL
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
         for (EventInfo e : this.controller.getUser().getSavedEvents()) {
-            this.mainPanel.add(new EventListElement(this, e));
+            for (int i = 0; i < 20; i++) {
+                // e.setName(e.getName()+"kkk");
+                this.mainPanel.add(new EventListItem(controller, e));
+            }
         }
+        
         this.mainPanel.add(Box.createVerticalGlue());
 
         JScrollPane scrollPane = new JScrollPane(this.mainPanel, 
             JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
+        scrollPane.setViewportBorder(new EmptyBorder(10,10,10,10));
+
         bigMainPanel.add(this.titlePanel, BorderLayout.NORTH);
         bigMainPanel.add(scrollPane, BorderLayout.CENTER);
         
-        this.cp.add(languageSwitchPanel, BorderLayout.NORTH);
         this.cp.add(bigMainPanel, BorderLayout.CENTER);
 
         this.setListeners();
     }
 
-    private void setListeners() {
-        profileCustomBtn.addActionListener(new ActionListener() {
+    private void setMenuBar() {
+        JMenuBar bar = new JMenuBar();
+        setJMenuBar(bar);
+        JMenu accountMenu = new JMenu("Account");
+        JMenu eventsMenu = new JMenu("Events");
+        JMenu settingsMenu = new JMenu("Settings");
+
+        // account menu
+        JMenuItem logoutItem = new JMenuItem("Logout");
+        JMenuItem customItem = new JMenuItem("Profile customization");
+
+        logoutItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                controller.setUser(null);
                 dispose();
-                new Profile(controller);
+                new LogInWindow(controller);
             }
         });
+
+        customItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Profile2(controller);
+            }
+        });
+        
+        accountMenu.add(customItem);
+        accountMenu.add(logoutItem);
+        
+        // events menu
+        JMenuItem yourEventsItem = new JMenuItem("Your events");
+
+        yourEventsItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO create another list-based window with the events
+                // marked as interesting by the user   
+            }
+        });
+        
+        eventsMenu.add(yourEventsItem);
+
+        // settingsMenu
+        JMenu languageMenu = new JMenu("Language");
+        JMenuItem english = new JMenuItem("EN");
+        JMenuItem spanish = new JMenuItem("ES");
+        JMenuItem greek = new JMenuItem("EL");
+        JMenuItem italian = new JMenuItem("IT");
+
+        try {
+            ImageIcon iconEN, iconES, iconIT, iconGR;
+            iconEN = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
+            iconES = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
+            iconIT = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
+            iconGR = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));
+            english.setIcon(iconEN);
+            spanish.setIcon(iconES);
+            greek.setIcon(iconGR);
+            italian.setIcon(iconIT);
+        } catch (Exception e) {}
+
+        english.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!langManager.getLanguage().equals("en")) {
+                    controller.getLanguageManager().setLanguage("en");
+                    dispose();
+                    new UserEventsWindow(controller);
+                }
+            }
+        });
+
+        spanish.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!langManager.getLanguage().equals("es")) {
+                    controller.getLanguageManager().setLanguage("es");
+                    dispose();
+                    new UserEventsWindow(controller);
+                }
+            }
+        });
+
+        italian.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!langManager.getLanguage().equals("it")) {
+                    controller.getLanguageManager().setLanguage("it");
+                    dispose();
+                    new UserEventsWindow(controller);
+                }
+            }
+        });
+
+        greek.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!langManager.getLanguage().equals("el")) {
+                    controller.getLanguageManager().setLanguage("el");
+                    dispose();
+                    new UserEventsWindow(controller);
+                }
+            }
+        });
+
+        languageMenu.add(english);
+        languageMenu.add(spanish);
+        languageMenu.add(greek);
+        languageMenu.add(italian);
+        
+        settingsMenu.add(languageMenu);       
+
+        bar.add(accountMenu);
+        bar.add(eventsMenu);
+        bar.add(settingsMenu);
     }
 
-    private class EventListElement extends JPanel {
-
-        private static final long serialVersionUID = 1L;
-
-        private JButton detailsButton;
-        private JCheckBox interestCBox;
-        UserEventsWindow window;
-
-        private EventInfo event;
-
-        public EventListElement(UserEventsWindow window, EventInfo event) {
-            super();
-
-            this.window = window;
-            this.event = event;
-
-            this.initComponents();
-        }
-
-        private void initComponents() {
-            this.setLayout(new GridLayout(1, 3));
-            this.add(new JLabel(this.event.getName()));
-            this.add(new JLabel(this.event.getDescription()));
-            
-            JPanel detailsButtonPanel = new JPanel();
-            detailsButtonPanel.setLayout(new BoxLayout(detailsButtonPanel, BoxLayout.Y_AXIS));
-            detailsButton = new JButton(langManager.getString("detailsText"));
-            detailsButtonPanel.add(Box.createVerticalGlue());
-            detailsButtonPanel.add(detailsButton);
-            detailsButtonPanel.add(Box.createVerticalGlue());
-            this.add(detailsButtonPanel);
-
-            JPanel interestPanel = new JPanel();
-            interestPanel.setLayout(new BoxLayout(interestPanel, BoxLayout.Y_AXIS));
-            interestCBox = new JCheckBox(langManager.getString("Interesting"));
-            interestPanel.add(Box.createVerticalGlue());
-            interestPanel.add(interestCBox);
-            interestPanel.add(Box.createVerticalGlue());
-            this.add(interestPanel);
-
-            
-
-
-            detailsButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    new EventWindow(window.controller, event);
-                    window.dispose();
-                }
-            });
-
-
-            this.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-            this.setPreferredSize(new Dimension(2000, 200));
-        }
+    private void setListeners() {
         
     }
 

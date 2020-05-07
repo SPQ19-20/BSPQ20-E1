@@ -6,6 +6,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 import es.deusto.client.controller.Controller;
@@ -37,14 +38,16 @@ public class EventWindow extends JFrame {
 		initComponents();
 
 		this.setVisible(true);
-		this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		setSize(new Dimension(1000, 650));
+		setResizable(false);
+		// this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 	}
 
 	private void initComponents() {
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
 
-		this.setTitle(this.event.getName()+" event page");
+		this.setTitle("Event page");
 
 		JPanel topControlPanel, contentPanel;
 		topControlPanel = initTopControlPanel();
@@ -60,74 +63,20 @@ public class EventWindow extends JFrame {
 		JPanel topControlPanel = new JPanel(new BorderLayout());
 
 		backButton = new JButton(langManager.getString("closeButton"));
-		JPanel languageButtonsPanel = new JPanel(new GridLayout(1, 3));
-
-		try {
-			ImageIcon iconEN, iconES, iconIT;
-			iconEN = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
-			iconES = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
-			iconIT = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
-
-			JPanel enPanel, esPanel, itPanel;
-			enPanel = new JPanel();
-			enPanel.add(new JLabel(iconEN));
-			esPanel = new JPanel();
-			esPanel.add(new JLabel(iconES));
-			itPanel = new JPanel();
-			itPanel.add(new JLabel(iconIT));
-
-			enPanel.setBorder(new EmptyBorder(2,2,2,2));
-			esPanel.setBorder(new EmptyBorder(2,2,2,2));
-			itPanel.setBorder(new EmptyBorder(2,2,2,2));
-
-			enPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("en")) {
-						controller.getLanguageManager().setLanguage("en");
-						dispose();
-						new EventWindow(controller, event);
-					}
-				}
-			});
-
-			esPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("es")) {
-						controller.getLanguageManager().setLanguage("es");
-						dispose();
-						new EventWindow(controller, event);
-					}
-				}
-			});
-
-			itPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("it")) {
-						controller.getLanguageManager().setLanguage("it");
-						dispose();
-						new EventWindow(controller, event);
-					}
-				}
-			});
-
-			languageButtonsPanel.add(enPanel);
-			languageButtonsPanel.add(esPanel);
-			languageButtonsPanel.add(itPanel);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-		JPanel backButtonContainer = new JPanel();
-		backButtonContainer.add(backButton);
-
-		JPanel languageButtonsPanelContainer = new JPanel();
-		languageButtonsPanelContainer.add(languageButtonsPanel);
 		
-		topControlPanel.add(backButtonContainer, BorderLayout.WEST);
-		topControlPanel.add(languageButtonsPanelContainer, BorderLayout.EAST);
+		JPanel backButtonContainer = new JPanel(new BorderLayout());
+		backButtonContainer.setBorder(new EmptyBorder(20,20,10,10));
+		backButtonContainer.add(backButton, BorderLayout.WEST);
+
+		JLabel eventNameLabel = new JLabel(event.getName());
+		eventNameLabel.setFont(new Font("Arial", Font.BOLD, 25));
+
+		JPanel titleContainer = new JPanel(new BorderLayout());
+		titleContainer.setBorder(new EmptyBorder(20,20,10,10));
+		titleContainer.add(eventNameLabel, BorderLayout.WEST);
+		
+		topControlPanel.add(backButtonContainer, BorderLayout.NORTH);
+		topControlPanel.add(titleContainer, BorderLayout.CENTER);
 
 		return topControlPanel;
 	}
@@ -152,18 +101,20 @@ public class EventWindow extends JFrame {
 	private JPanel initLeftContentPanel() {
 		JPanel leftContentPanel = new JPanel(new BorderLayout());
 
-		JLabel eventNameLabel = new JLabel(event.getName());
-		eventNameLabel.setFont(new Font("Arial", Font.PLAIN, 40));
-		JPanel eventNameLabelContainer = new JPanel();
-		eventNameLabelContainer.add(eventNameLabel);
+		JLabel eventNameLabel = new JLabel("Basic information");
+		eventNameLabel.setFont(new Font("Arial", Font.BOLD, 18));
+		JPanel eventNameLabelContainer = new JPanel(new BorderLayout());
+		eventNameLabelContainer.setBorder(new EmptyBorder(10,15,10,10));
+		eventNameLabelContainer.add(eventNameLabel, BorderLayout.WEST);
 
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		
 		JPanel eventDetailsPanel = initEventDetailsPanel();
-		JPanel eventDescriptionPanel = new JPanel();
-
+		JPanel eventDescriptionPanel = new JPanel(new BorderLayout());
+		
 		JLabel eventDescriptionLabel = new JLabel(event.getDescription());
-		eventDescriptionPanel.add(eventDescriptionLabel);
+		eventDescriptionPanel.setBorder(new EmptyBorder(25,30,25,25));
+		eventDescriptionPanel.add(eventDescriptionLabel, BorderLayout.WEST);
 
 		JPanel eventDetailsPanelContainer = new JPanel();
 		eventDetailsPanelContainer.add(eventDetailsPanel);
@@ -183,38 +134,63 @@ public class EventWindow extends JFrame {
 	private JPanel initEventDetailsPanel() {
 		JPanel detailsPanel = new JPanel(new GridLayout(4, 2));
 		
+		Font f = new Font("Arial", Font.PLAIN, 15);
+		Font fb = new Font("Arial", Font.BOLD, 15);
+
 		JLabel organizerLabel = new JLabel(langManager.getString("organizer")+": ");
 		JLabel topicLabel = new JLabel(langManager.getString("topic") + ": ");
 		JLabel locationLabel = new JLabel(langManager.getString("location") + ": ");
 		JLabel dateLabel = new JLabel(langManager.getString("date") + ": ");
+
+		organizerLabel.setFont(fb);
+		topicLabel.setFont(fb);
+		locationLabel.setFont(fb);
+		dateLabel.setFont(fb);
 
 		JLabel organizerContentLabel = new JLabel(event.getOrganizerEmail());
 		JLabel topicContentLabel = new JLabel(event.getTopic().getName());
 		JLabel locationContentLabel = new JLabel("London");
 		JLabel dateContentLabel = new JLabel("17/05/21");
 
+		organizerContentLabel.setFont(f);
+		topicContentLabel.setFont(f);
+		locationContentLabel.setFont(f);
+		dateContentLabel.setFont(f);
+
 		JPanel organizerLabelContainer, organizerContentLabelContainer;
 		JPanel topicLabelContainer, topicContentLabelContainer;
 		JPanel locationLabelContainer, locationContentLabelContainer;
 		JPanel dateLabelContainer, dateContentLabelContainer;
 
-		organizerLabelContainer = new JPanel();
-		organizerContentLabelContainer = new JPanel();
-		locationLabelContainer = new JPanel();
-		locationContentLabelContainer = new JPanel();
-		dateLabelContainer = new JPanel();
-		dateContentLabelContainer = new JPanel();
-		topicLabelContainer = new JPanel();
-		topicContentLabelContainer = new JPanel();
+		organizerLabelContainer = new JPanel(new BorderLayout());
+		organizerContentLabelContainer = new JPanel(new BorderLayout());
+		locationLabelContainer = new JPanel(new BorderLayout());
+		locationContentLabelContainer = new JPanel(new BorderLayout());
+		dateLabelContainer = new JPanel(new BorderLayout());
+		dateContentLabelContainer = new JPanel(new BorderLayout());
+		topicLabelContainer = new JPanel(new BorderLayout());
+		topicContentLabelContainer = new JPanel(new BorderLayout());
 
-		organizerLabelContainer.add(organizerLabel);
-		organizerContentLabelContainer.add(organizerContentLabel);
-		topicLabelContainer.add(topicLabel);
-		topicContentLabelContainer.add(topicContentLabel);
-		locationLabelContainer.add(locationLabel);
-		locationContentLabelContainer.add(locationContentLabel);
-		dateLabelContainer.add(dateLabel);
-		dateContentLabelContainer.add(dateContentLabel);
+		int t = 15;
+		
+		organizerLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
+		organizerContentLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
+		locationLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
+		locationContentLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
+		dateLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
+		dateContentLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
+		topicLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
+		topicContentLabelContainer.setBorder(new EmptyBorder(t,t*2,t,0));
+		
+
+		organizerLabelContainer.add(organizerLabel, BorderLayout.WEST);
+		organizerContentLabelContainer.add(organizerContentLabel, BorderLayout.WEST);
+		topicLabelContainer.add(topicLabel, BorderLayout.WEST);
+		topicContentLabelContainer.add(topicContentLabel, BorderLayout.WEST);
+		locationLabelContainer.add(locationLabel, BorderLayout.WEST);
+		locationContentLabelContainer.add(locationContentLabel, BorderLayout.WEST);
+		dateLabelContainer.add(dateLabel, BorderLayout.WEST);
+		dateContentLabelContainer.add(dateContentLabel, BorderLayout.WEST);
 
 		detailsPanel.add(organizerLabelContainer);
 		detailsPanel.add(organizerContentLabelContainer);
@@ -223,44 +199,40 @@ public class EventWindow extends JFrame {
 		detailsPanel.add(locationLabelContainer);
 		detailsPanel.add(locationContentLabelContainer);
 		detailsPanel.add(dateLabelContainer);
-		detailsPanel.add(dateContentLabelContainer);		
-		
+		detailsPanel.add(dateContentLabelContainer);
 
 		return detailsPanel;
 	}
 
 	private JPanel initRightContentPanel() {
 		JPanel rightPanel = new JPanel(new BorderLayout());
-
-		JPanel topTitlePanel, mainPanel;
+		JPanel topTitlePanel;
 
 		topTitlePanel = new JPanel();
 		JLabel titleLabel = new JLabel(langManager.getString("postsTitle") + ": ");
-		titleLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+		titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
 		topTitlePanel.add(titleLabel);
 
-		mainPanel = initMainPostsPanel();
-
 		rightPanel.add(topTitlePanel, BorderLayout.NORTH);
-		rightPanel.add(mainPanel, BorderLayout.CENTER);
+		rightPanel.add(initMainPostsPanel(), BorderLayout.CENTER);
 
 		return rightPanel;
 	}
 
 	private JPanel initMainPostsPanel() {
 		JPanel container = new JPanel();
-
 		JPanel postsPanel = new JPanel();
+		
 		postsPanel.setLayout(new BoxLayout(postsPanel, BoxLayout.Y_AXIS));
 
 		// add here the posts
 		for (PostInfo p: event.getPosts()) {
 			// generate post panel and add it to postsPanel
-			postsPanel.add(new PostPanel(p));
-			postsPanel.add(Box.createVerticalGlue());
+			for (int i = 0; i < 10; i++) {
+				postsPanel.add(new PostPanel(p));
+				postsPanel.add(Box.createHorizontalStrut(10));
+			}
 		}
-
-		postsPanel.add(Box.createVerticalGlue());
 
 		JScrollPane scroll = new JScrollPane(
 			postsPanel,
@@ -268,8 +240,9 @@ public class EventWindow extends JFrame {
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
 		);
 
-		container.add(scroll);
+		scroll.setPreferredSize(new Dimension(500, 400));
 
+		container.add(scroll);
 		return container;
 	}
 
@@ -278,11 +251,6 @@ public class EventWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				if (controller.getUser() != null) {
-					new UserEventsWindow(controller);
-				} else {
-					new OrganizerHome(controller);
-				}
 			}
 		});
 	}
@@ -303,29 +271,39 @@ public class EventWindow extends JFrame {
 		private void initComponents() {
 			setLayout(new BorderLayout());
 
-			JPanel titlePanel = new JPanel();
-			JPanel bodyPanel = new JPanel();
+			JPanel topPanel, bottomPanel;
+			topPanel = new JPanel();
+			bottomPanel = new JPanel(new BorderLayout());
+
+			// top panel
+			topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+
+			JPanel titlePanel, datePanel;
+			titlePanel = new JPanel(new BorderLayout());
+			datePanel = new JPanel(new BorderLayout());
 
 			JLabel titleLabel = new JLabel(post.getTitle());
-			titlePanel.add(titleLabel);
+			titleLabel.setFont(new Font("Arial", Font.BOLD, 15));
+			titlePanel.add(titleLabel, BorderLayout.WEST);
 
-			JPanel descriptionPanel, datePanel;
+			JLabel dateLabel = new JLabel(post.getDate()+"");
+			dateLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+			datePanel.add(dateLabel, BorderLayout.WEST);
 
-			descriptionPanel = new JPanel();
-			JLabel descriptionLabel = new JLabel(post.getDescription());
-			descriptionPanel.add(descriptionLabel);
+			topPanel.add(titlePanel);
+			topPanel.add(Box.createHorizontalStrut(20));
+			topPanel.add(datePanel);
 
-			datePanel = new JPanel(new BorderLayout());
-			JLabel dateLabel = new JLabel(post.getDate().toString());
-			datePanel.add(dateLabel, BorderLayout.EAST);
+			// bottom panel
+			JLabel descLabel = new JLabel(post.getDescription());
+			descLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+			bottomPanel.setBorder(new EmptyBorder(10, 0, 10, 0));
+			bottomPanel.add(descLabel, BorderLayout.WEST);
 
-			bodyPanel.add(descriptionPanel, BorderLayout.CENTER);
-			bodyPanel.add(datePanel, BorderLayout.SOUTH);
+			add(topPanel, BorderLayout.CENTER);
+			add(bottomPanel, BorderLayout.SOUTH);
 
-			add(titlePanel, BorderLayout.NORTH);
-			add(bodyPanel, BorderLayout.CENTER);
-
-			setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+			setBorder(new CompoundBorder(new EmptyBorder(10,20,10,20), BorderFactory.createMatteBorder(0,0,2,0,Color.lightGray)));
 		}
 
 	}
