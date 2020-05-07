@@ -38,7 +38,7 @@ public class SignupAttempt {
         this.country = userInfo.getCountry();
         this.organization = "";
         this.interests = userInfo.getInterests();//the signup works with the objects of its own package
-        this.savedEvents = userInfo.getSavedEvents();
+        this.savedEvents = new ArrayList<>();//userInfo.getSavedEvents();
     }
 
     // getters and setters

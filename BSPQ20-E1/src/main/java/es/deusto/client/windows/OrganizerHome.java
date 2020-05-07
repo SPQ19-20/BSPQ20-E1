@@ -72,8 +72,7 @@ public class OrganizerHome extends JFrame {
         // MAIN PANEL
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
         for (EventInfo e : this.controller.getOrganize().getCreatedEvents()) {
-            for (int i = 0; i < 20; i++) {
-                // e.setName(e.getName()+"kkk");
+            for (int i = 0; i < 1; i++) {
                 this.mainPanel.add(new EventListItem(controller, e));
             }
         }

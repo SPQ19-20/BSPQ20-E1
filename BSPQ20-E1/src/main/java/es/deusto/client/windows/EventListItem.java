@@ -18,6 +18,8 @@ public class EventListItem extends JPanel {
     private EventInfo event;
     private Controller controller;
 
+    private JLabel emptyThumbLabel, filledThumbLabel, detailsLabel;
+
     public EventListItem(Controller controller, EventInfo event) {
         super();
 
@@ -45,14 +47,28 @@ public class EventListItem extends JPanel {
         JPanel container = new JPanel(new BorderLayout());
         container.setBorder(new EmptyBorder(10,30,10,10));
         
-        JLabel iconLabel = new JLabel();
-        JLabel detailsLabel = new JLabel();
+        emptyThumbLabel = new JLabel();
+        filledThumbLabel = new JLabel();
+        detailsLabel = new JLabel();
+        JPanel detailsPanel = new JPanel(new BorderLayout());
         try {
+            String file = "images/thumbs-up-empty.png";
+            if (controller.getUser() != null) {
+                if (controller.getUser().getSavedEvents().contains(event)) {
+                    file = "images/thumbs-up.png";
+                }
+            }
             ImageIcon icon = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/thumbs-up-empty.png").getFile())));
             Image image = icon.getImage();
             image = image.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
-            iconLabel = new JLabel(icon);
+            emptyThumbLabel = new JLabel(icon);
+
+            ImageIcon icon2 = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/thumbs-up.png").getFile())));
+            Image image2 = icon2.getImage();
+            image2 = image2.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+            icon2 = new ImageIcon(image2);
+            filledThumbLabel = new JLabel(icon2);
 
             ImageIcon detailsIcon = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/details.png").getFile())));
             Image imageD = detailsIcon.getImage();
@@ -61,10 +77,45 @@ public class EventListItem extends JPanel {
             detailsLabel = new JLabel(detailsIcon);            
         } catch (Exception e) {}
 
+        detailsPanel.setBorder(new EmptyBorder(0,0,0,80));
+        detailsPanel.add(detailsLabel, BorderLayout.EAST);
+
         detailsLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new EventWindow(controller, event);
+            }
+        });
+
+        emptyThumbLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                controller.getUser().getSavedEvents().add(event);
+                container.removeAll();
+                container.add(filledThumbLabel, BorderLayout.EAST);
+                container.add(detailsPanel, BorderLayout.CENTER);
+                revalidate();
+                repaint();
+                controller.attemptNormalUpdate();
+            }
+        });
+
+        filledThumbLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //controller.getUser().getSavedEvents().remove(event);
+                for (int i = 0; i < controller.getUser().getSavedEvents().size(); i++) {
+                    if (controller.getUser().getSavedEvents().get(i).getName().equals(event.getName())) {
+                        controller.getUser().getSavedEvents().remove(i);
+                        break;
+                    }
+                }
+                container.removeAll();
+                container.add(emptyThumbLabel, BorderLayout.EAST);
+                container.add(detailsPanel, BorderLayout.CENTER);
+                revalidate();
+                repaint();
+                controller.attemptNormalUpdate();
             }
         });
 
@@ -76,11 +127,20 @@ public class EventListItem extends JPanel {
         interestedLabel.setFont(new Font("Arial", Font.PLAIN, 17));
 
         if (controller.getUser() != null && controller.getOrganize() == null) {
-            container.add(iconLabel, BorderLayout.EAST);
-            container.add(detailsLabel, BorderLayout.CENTER);
+            boolean isIncluded = false;
+            for (EventInfo saved: controller.getUser().getSavedEvents()) {
+                if (saved.getName().equals(event.getName())) {
+                    isIncluded = true;
+                    break;
+                }
+            }
+
+            JLabel thumbLabel = isIncluded ? filledThumbLabel : emptyThumbLabel;
+            container.add(thumbLabel, BorderLayout.EAST);
+            container.add(detailsPanel, BorderLayout.CENTER);
         } else {
             container.add(interestedPanel, BorderLayout.CENTER);
-            container.add(detailsLabel, BorderLayout.EAST);
+            container.add(detailsPanel, BorderLayout.EAST);
         }
 
         return container;

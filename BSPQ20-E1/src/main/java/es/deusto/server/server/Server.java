@@ -213,8 +213,10 @@ public class Server {
 		LOGGER.log(Level.INFO, "sending recommendations...");
 
 		ArrayList<EventInfo> resp = appService.getRecommendedEvents(signupAttempt);
+		SignupAttempt r = new SignupAttempt();
+		r.setSaveEvents(resp);
 
-		return Response.ok(resp).build();
+		return Response.ok(r).build();
 	}
 	
 	/**

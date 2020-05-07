@@ -267,7 +267,7 @@ public class EventWindow extends JFrame {
 		// add here the posts
 		for (PostInfo p: event.getPosts()) {
 			// generate post panel and add it to postsPanel
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 1; i++) {
 				postsPanel.add(new PostPanel(p));
 				postsPanel.add(Box.createHorizontalStrut(10));
 			}

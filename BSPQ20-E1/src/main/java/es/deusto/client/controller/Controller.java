@@ -455,7 +455,7 @@ public class Controller {
 
         SignupAttempt signupAttempt = new SignupAttempt(this.user);
         
-        WebTarget donationsWebTarget = webTarget.path("server/recomendation");
+        WebTarget donationsWebTarget = webTarget.path("server/recommendation");
         LOGGER.log(Level.INFO, "sending interests to get recomendations");
         Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);
 
@@ -466,9 +466,9 @@ public class Controller {
             return new ArrayList<EventInfo>();
         }
 
-       ArrayList<EventInfo> recomendations = response.readEntity(ArrayList.class); //WARNING: how to transform a response into a list
-
-        if (recomendations != null) {
+        SignupAttempt resp = response.readEntity(SignupAttempt.class); //WARNING: how to transform a response into a list
+        if (resp != null) {
+            ArrayList<EventInfo> recomendations = resp.getSavedEvents();
             LOGGER.log(Level.INFO, "the event has recommended something");
             return recomendations;
         }

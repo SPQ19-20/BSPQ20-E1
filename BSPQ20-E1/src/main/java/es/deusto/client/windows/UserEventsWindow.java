@@ -3,6 +3,7 @@ package es.deusto.client.windows;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -72,8 +73,9 @@ public class UserEventsWindow extends JFrame {
 
         // MAIN PANEL
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
-        for (EventInfo e : this.controller.getUser().getSavedEvents()) {
-            for (int i = 0; i < 20; i++) {
+        ArrayList<EventInfo> rec = controller.getRecommendations();
+        for (EventInfo e : rec) {
+            for (int i = 0; i < 1; i++) {
                 // e.setName(e.getName()+"kkk");
                 this.mainPanel.add(new EventListItem(controller, e));
             }
@@ -127,15 +129,25 @@ public class UserEventsWindow extends JFrame {
         
         // events menu
         JMenuItem yourEventsItem = new JMenuItem("Your events");
+        JMenuItem refreshItem = new JMenuItem("Refresh recommendations");
 
         yourEventsItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO create another list-based window with the events
-                // marked as interesting by the user   
+                dispose();
+                new SavedEventsWindow(controller);
+            }
+        });
+
+        refreshItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new UserEventsWindow(controller);
             }
         });
         
+        eventsMenu.add(refreshItem);
         eventsMenu.add(yourEventsItem);
 
         // settingsMenu
