@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 
 import junit.framework.JUnit4TestAdapter;
 import es.deusto.client.controller.Controller;
+import es.deusto.client.windows.CreateEvent;
 import es.deusto.serialization.EventInfo;
 import es.deusto.serialization.OrganizerInfo;
 import es.deusto.serialization.PostInfo;
@@ -43,6 +44,7 @@ public class ControllerTest extends JerseyTest {
     private String organizerEmail, organizerPassword;
     private EventInfo eventInfo;
     private PostInfo postInfo;
+    private TopicInfo topicInfo;
 
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(ControllerTest.class);
@@ -63,7 +65,8 @@ public class ControllerTest extends JerseyTest {
         userPassword = "myPassword";
         organizerEmail = "test---organizer@user.com";
         organizerPassword = "myPassword";
-        
+        topicInfo = new TopicInfo("testingEventTopic");
+
         // create normal user
         controller.attemptNormalSignup(
             userEmail, 
@@ -72,6 +75,7 @@ public class ControllerTest extends JerseyTest {
             "test---NYC", 
             "test---USA",
             new ArrayList<>()
+            
         );
 
         // create organizer
@@ -87,8 +91,9 @@ public class ControllerTest extends JerseyTest {
         eventInfo.setName("event Test");
         eventInfo.setDescription("description for this event");
         eventInfo.setOrganizerEmail("test---organizer@user.com");
-        eventInfo.setTopic(new TopicInfo("testingEventTopic"));
-
+        eventInfo.setTopic(topicInfo);
+        eventInfo.setCity("test---NYC");
+        eventInfo.setCountry("test---USA");
         //create a post for the event
         postInfo = new PostInfo();
         postInfo.setTitle("titlePost");
@@ -182,7 +187,29 @@ public class ControllerTest extends JerseyTest {
 
         controller.attemptUserDelete();
     }
+    
+/* //doesn't work
+    @Test
+   // @PerfTest(duration = 10000)
+   // @Required(median = 2000)
+    public void testEventRecomendation(){
+        controller.createEvent(eventInfo); //submit the event onto the DB
 
+        //create the topic that will be recomended
+        ArrayList<TopicInfo>interests = new ArrayList<>();
+        interests.add(topicInfo);
+
+        //set the interests and update the user in the DB
+        controller.getUser().setInterests(interests);
+        controller.attemptNormalUpdate();
+
+        //submit the recomendations, the returned list can't be empty
+        ArrayList<EventInfo> recomendations = controller.getRecommendations();
+        System.out.println(recomendations.size());
+        assertTrue(!recomendations.isEmpty());//Error here
+
+    }
+*/
     @After
     public void tearDownChild() {
         // delete user
