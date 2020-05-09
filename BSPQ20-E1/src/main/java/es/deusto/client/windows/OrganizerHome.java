@@ -55,7 +55,7 @@ public class OrganizerHome extends JFrame {
 
         JPanel welcomePanel = new JPanel(new BorderLayout());
         welcomePanel.setBorder(new EmptyBorder(10,10,0,10));
-        JLabel welcomeLabel = new JLabel("Welcome back, "+controller.getOrganize().getName());
+        JLabel welcomeLabel = new JLabel(langManager.getString("welcomeBack")+controller.getOrganize().getName());
         welcomeLabel.setFont(new Font("Arial", Font.ITALIC, 25));
 
         welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
@@ -96,12 +96,12 @@ public class OrganizerHome extends JFrame {
     private void setMenuBar() {
         JMenuBar bar = new JMenuBar();
         setJMenuBar(bar);
-        JMenu accountMenu = new JMenu("Account");
-        JMenu eventsMenu = new JMenu("Events");
-        JMenu settingsMenu = new JMenu("Settings");
+        JMenu accountMenu = new JMenu(langManager.getString("Account"));
+        JMenu eventsMenu = new JMenu(langManager.getString("Events"));
+        JMenu settingsMenu = new JMenu(langManager.getString("Settings"));
 
         // account menu
-        JMenuItem logoutItem = new JMenuItem("Logout");
+        JMenuItem logoutItem = new JMenuItem(langManager.getString("Logout"));
 
         logoutItem.addActionListener(new ActionListener() {
             @Override
@@ -115,7 +115,7 @@ public class OrganizerHome extends JFrame {
         accountMenu.add(logoutItem);
         
         // events menu
-        JMenuItem createEventItem = new JMenuItem("Create event");
+        JMenuItem createEventItem = new JMenuItem(langManager.getString("CreateEvent"));
 
         createEventItem.addActionListener(new ActionListener() {
             @Override
@@ -128,7 +128,7 @@ public class OrganizerHome extends JFrame {
         eventsMenu.add(createEventItem);
 
         // settingsMenu
-        JMenu languageMenu = new JMenu("Language");
+        JMenu languageMenu = new JMenu(langManager.getString("Language"));
         JMenuItem english = new JMenuItem("EN");
         JMenuItem spanish = new JMenuItem("ES");
         JMenuItem greek = new JMenuItem("EL");

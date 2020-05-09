@@ -30,7 +30,7 @@ public class Profile extends JFrame {
 
         initComponents();
 
-        setTitle("Profile");
+        setTitle(langManager.getString("Profile"));
 
         this.setSize(new Dimension(400, 655));
         this.setResizable(false);
@@ -180,7 +180,7 @@ public class Profile extends JFrame {
         // top panel
         topPanel = new JPanel(new BorderLayout());
         JTextField newInterestField = new JTextField(20);
-        JButton addInterestButton = new JButton("Add new");
+        JButton addInterestButton = new JButton(langManager.getString("AddNew"));
 
         JPanel fieldPanel, btnPanel;
         fieldPanel = new JPanel();
@@ -216,7 +216,7 @@ public class Profile extends JFrame {
 
         // bottomPanel
         bottomPanel = new JPanel(new BorderLayout());
-        JButton deleteButton = new JButton("Delete selected");
+        JButton deleteButton = new JButton(langManager.getString("DeleteSelected"));
         bottomPanel.setBorder(new EmptyBorder(10,10,10,10));
         bottomPanel.add(deleteButton, BorderLayout.CENTER);
 

@@ -139,7 +139,7 @@ public class LogInWindow extends JFrame {
 				if(cBoxOrganizer.isSelected()){
 					CreateOrganizerWindow d = new CreateOrganizerWindow(controller);
 					d.setVisible(true);
-					d.setSize(400, 600);
+					d.setSize(400, 350);
 					d.setLocation(posX, posY);
 					d.setResizable(false);
 					setVisible(false);

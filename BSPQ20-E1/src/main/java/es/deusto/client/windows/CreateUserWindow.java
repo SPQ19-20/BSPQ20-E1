@@ -118,6 +118,13 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 		backButton.setBounds(30, 494, 150, 25);
 		getContentPane().add(backButton);
 		backButton.addActionListener(this);
+
+		JLabel titleLabel = new JLabel(langManager.getString("titleSignUser"));
+		titleLabel.setBounds(110 ,12, 200, 16);
+		getContentPane().add(titleLabel);
+
+		
+		this.setTitle(langManager.getString("createUser"));
 	}
 	
 	@Override

@@ -51,7 +51,7 @@ public class EventWindow extends JFrame {
 			initMenuBar();
 		}
 
-		this.setTitle("Event page");
+		this.setTitle(langManager.getString("eventPage"));
 
 		JPanel topControlPanel, contentPanel;
 		topControlPanel = initTopControlPanel();
@@ -67,8 +67,8 @@ public class EventWindow extends JFrame {
 		JMenuBar bar = new JMenuBar();
 		setJMenuBar(bar);
 
-		JMenu postsMenu = new JMenu("Posts");
-		JMenuItem createPost = new JMenuItem("New post");
+		JMenu postsMenu = new JMenu(langManager.getString("Posts"));
+		JMenuItem createPost = new JMenuItem(langManager.getString("newPost"));
 
 		createPost.addActionListener(new ActionListener() { 
 			@Override
@@ -124,7 +124,7 @@ public class EventWindow extends JFrame {
 	private JPanel initLeftContentPanel() {
 		JPanel leftContentPanel = new JPanel(new BorderLayout());
 
-		JLabel eventNameLabel = new JLabel("Basic information");
+		JLabel eventNameLabel = new JLabel(langManager.getString("BasicInformation"));
 		eventNameLabel.setFont(new Font("Arial", Font.BOLD, 18));
 		JPanel eventNameLabelContainer = new JPanel(new BorderLayout());
 		eventNameLabelContainer.setBorder(new EmptyBorder(10,15,10,10));
@@ -161,7 +161,7 @@ public class EventWindow extends JFrame {
 		Font f = new Font("Arial", Font.PLAIN, 15);
 		Font fb = new Font("Arial", Font.BOLD, 15);
 
-		JLabel interestedLabel = new JLabel("Interested users: ");
+		JLabel interestedLabel = new JLabel(langManager.getString("interestedUsers"));
 		JLabel organizerLabel = new JLabel(langManager.getString("organizer")+": ");
 		JLabel topicLabel = new JLabel(langManager.getString("topic") + ": ");
 		JLabel locationLabel = new JLabel(langManager.getString("location") + ": ");
@@ -173,11 +173,11 @@ public class EventWindow extends JFrame {
 		locationLabel.setFont(fb);
 		dateLabel.setFont(fb);
 
-		JLabel interestedContentLabel = new JLabel(event.getInterested()+" users");
+		JLabel interestedContentLabel = new JLabel(event.getInterested()+ langManager.getString("users")); //number of interested users
 		JLabel organizerContentLabel = new JLabel(event.getOrganizerEmail());
 		JLabel topicContentLabel = new JLabel(event.getTopic().getName());
-		JLabel locationContentLabel = new JLabel("London");
-		JLabel dateContentLabel = new JLabel("17/05/21");
+		JLabel locationContentLabel = new JLabel(event.getCity() + ", " + event.getCountry());
+		JLabel dateContentLabel = new JLabel(event.getDate().toLocaleString());
 
 		interestedContentLabel.setFont(f);
 		organizerContentLabel.setFont(f);

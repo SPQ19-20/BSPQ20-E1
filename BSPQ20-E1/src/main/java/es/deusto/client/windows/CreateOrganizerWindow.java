@@ -70,14 +70,20 @@ public class CreateOrganizerWindow extends JFrame implements ActionListener{
         textField_organization.setColumns(10);
 
         bCreate = new JButton(langManager.getString("createUserButton"));
-		bCreate.setBounds(214, 494, 150, 25);
+		bCreate.setBounds(214, 254, 150, 25);
 		getContentPane().add(bCreate);
 		bCreate.addActionListener(this);
 
 		backButton = new JButton(langManager.getString("backToLogButton"));
-		backButton.setBounds(30, 494, 150, 25);
+		backButton.setBounds(30, 254, 150, 25);
 		getContentPane().add(backButton);
 		backButton.addActionListener(this);
+
+		JLabel titleLabel = new JLabel(langManager.getString("titleSignOrganizer"));
+		titleLabel.setBounds(110 ,12, 200, 16);
+		getContentPane().add(titleLabel);
+
+		this.setTitle(langManager.getString("createOrganizer"));
     }
 	
 	@Override
