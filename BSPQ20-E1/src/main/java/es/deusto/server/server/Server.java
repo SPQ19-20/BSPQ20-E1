@@ -85,6 +85,7 @@ public class Server {
 	 * for its log in (email and password).
 	 * @return {@link Response} object with the information of the organizer, in case of valid credentials. 
 	 * If not, an empty response is returned.
+	 * @since Sprint 2
 	 */
 	@POST
 	@Path("/loginOrganizer")
@@ -111,6 +112,7 @@ public class Server {
 	 * contained in a {@link SignupAttempt} object.
 	 * @return {@link Response} object with the information of the user, in case of correct user registration. 
 	 * If not, an empty response is returned
+	 * @since Sprint 1
 	 */
 	@POST
 	@Path("/signup")
@@ -135,6 +137,7 @@ public class Server {
 	 * registering for the first time (name, email, password and organization).
 	 * @return {@link Response} object with the information of the organizer, in case of correct registration. 
 	 * If not, an empty response is returned.
+	 * @since Sprint 2
 	 */
 	@POST
 	@Path("/signupOrganizer")
@@ -333,7 +336,12 @@ public class Server {
 
 	// --------------------------------------------------------------
 
-	// method used for manual testing 
+	
+	/**
+	 * method used for manual testing 
+	 * @return
+	 * @deprecated
+	 */
 	@GET
 	@Path("/hello")
 	@Produces(MediaType.TEXT_PLAIN)

@@ -53,6 +53,7 @@ public class AppService {
      * @param login {@link LoginAttempt} with the requester's email and password.
      * @return {@link User} object to which the login email corresponds. If the credentials are
      * invalid, null is returned.
+     * @since Sprint 1
      */
     public User attemptNormalLogin(LoginAttempt login) {
         UserDAO dao = DAOFactory.getInstance().createUserDAO();
@@ -81,6 +82,7 @@ public class AppService {
      * @param login {@link LoginAttempt} with the requester's email and password.
      * @return {@link Organizer} object to which the login email corresponds. If the credentials are
      * invalid, null is returned.
+     * @since Sprint 2
      */
     public Organizer attemptOrganizerLogin(LoginAttempt login) {
         OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
@@ -110,6 +112,7 @@ public class AppService {
      * @param signup {@link SignupAttempt} with the user's signup data (name, email, password and city).
      * @return {@link User} object that has been created as a result of the request. If the email is already in
      * use, null is returned.
+     * @since Sprint 1
      */
     public User attemptNormalSignup(SignupAttempt signup) {
         UserDAO dao = DAOFactory.getInstance().createUserDAO();
@@ -138,6 +141,7 @@ public class AppService {
      * and organization
      * @return {@link Organizer} object that has been created as a result of the request. 
      * If the email is already in use, null is returned.
+     * @since Sprint 2
      */
     public Organizer attemptOrganizerSignup(SignupAttempt signup) {
         OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
@@ -241,13 +245,14 @@ public class AppService {
         return user;
     }
 
- /**
-     * Receives a SignupAttempt (name, email, password, etc.) and tries to UPDATE an existing organizer.
-     * This method is used for the updating process of organizers (not regular users).
+    /**
+     * This method is used for the updating process of organizers.
+     * Receives a {@link SignupAttempt} object and tries to update an existing organizer in the database.
      * 
-     * @param signup SignupAttempt with the requester's data - name, email, password (empty) and organization
+     * @param signup {@link SignupAttempt} object with the requester's data (name, email, empty password, 
+     * organization).
      * @since Sprint 2
-     * @return Organizer the organizer that has been updated as a result of the request.
+     * @return {@link Organizer} object that has been updated as a result of the request.
      * If the email doesn't exist null is returned.
      */
     public Organizer attemptOrganizerUpdate(SignupAttempt signup) {
@@ -276,10 +281,10 @@ public class AppService {
     //--------------------------DELETE USER-----------------------------------------------------------------------
 
     /**
-     * Receives an user's email and tries to delete the user from the database.
-     * This method is used for the delete process of all type of users.
-     *
-     * @param email - user's email
+     * This method is used for the delete process of users.
+     * Receives an String with the email and tries to delete the account related to it from the database.
+     * 
+     * @param email of the account to be deleted.
      * @since Sprint 2
      * @return boolean True if the email belongs to a user and the delete is complete successfully, false otherwise.
      */
@@ -297,6 +302,14 @@ public class AppService {
         return true;
     }
 
+     /**
+     * This method is used for the delete process of organizers.
+     * Receives an String with the email and tries to delete the organizer account related to it from the database.
+     * 
+     * @param email of the organizer account to be deleted.
+     * @since Sprint 2
+     * @return boolean True if the email belongs to a organizer and the delete is complete successfully, false otherwise.
+     */
 	public boolean deleteOrganizer(String email) {
         OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
 
@@ -312,6 +325,14 @@ public class AppService {
 	}
 
     //-------------------------------------------EVENT MANAGEMENT---------------------------------------------
+    /**
+     * Method used for storing new {@link Event}s in the database, used only by the organizers.
+     * Receives an {@link EventInfo}, transforms it into a {@link Event} and stores it in the database.
+     * 
+     * @param eventInfo
+     * @return {@link Event} object of the newly stored event.
+     * @since sprint 2
+     */
     public Event createEvent(EventInfo eventInfo) {
         Event e = new Event(eventInfo); 
         EventDAO dao = DAOFactory.getInstance().createEventDAO();
@@ -320,6 +341,16 @@ public class AppService {
         return e;
     }
 
+    /**
+     * Creates a list of events that coincide with the interests ({@link Topic}) of a user.
+     * This method reads the interests of a User, and returns the adecuate {@link Event}s from the database.
+     * It is used for making automatic recomendations, a user should be able to see a list of events that 
+     * he/she should be interested.
+     * 
+     * @param signupAttempt {@link SignupAttempt} object containing the interests of the user.
+     * @return {@link ArrayList}<{@link EventInfo}> list of events that coincide with the interests of a user.
+     * @since Sprint 3
+     */
     public ArrayList<EventInfo> getRecommendedEvents(SignupAttempt signupAttempt){
         User user = signupAttempt.buildUser();
         EventDAO dao = DAOFactory.getInstance().createEventDAO();
@@ -338,13 +369,14 @@ public class AppService {
     }
 
     /**
-     * This method is used for new password generation. It receives a LoginAttempt
-     * with the email of the user that wants to recover his/her password, generates a new password 
-     * for that user and updates the data in the database. It also sends an email to the received
-     * email with the new password so that the user can log in. If there is no account in the database
-     * with that same email linked to it, the method does nothing.
+     * This method is used for new password generation. 
+     * It receives a {@ling LoginAttempt} with the email of the user that wants to recover his/her password, 
+     * generates a new password for that user and updates the data in the database. 
+     * It also sends an email to the received email with the new password so that the user can log in. 
+     * If there is no account in the database with that same email linked to it, the method does nothing.
      * 
      * @param login LoginAttempt with the user's email
+     * @since Sprint 1
      */
     public void recoverPassword(LoginAttempt login) {
         String email = login.getEmail();
@@ -352,6 +384,13 @@ public class AppService {
         sendEmail(email, newPassword);
     }
 
+    /**
+	 * This method is used for the creation of new {@link Posts} from a given Event.
+	 * It is envoked whenever a POST request is made to the following path: /createEvent.
+	 * @param info {@link PostInfo} object with the data of the event that will be created.
+	 * @return {@link Post} object containing the information of the stored result.
+	 * @since Sprint 2 
+	 */
     public Post createPost(PostInfo info) {
         Post post = new Post(info);
         PostDAO pdao = DAOFactory.getInstance().createPostDAO();
@@ -360,21 +399,17 @@ public class AppService {
         return post;
     }
     
-    public void updateUser() {
-        UserDAO udao = DAOFactory.getInstance().createUserDAO();
-        EventDAO edao = DAOFactory.getInstance().createEventDAO();
-        // TODO what's this??
-        User user = udao.getUser("john@money.com");
-        Event event = edao.getEvents("Popcorn Party - second edition (PP2)").get(0);
-        user.addEvent(event);
-        udao.updateUser(user);
-        DAOFactory.getInstance().closeDAO(udao);
-        DAOFactory.getInstance().closeDAO(edao);
-    }
+  
 
-    // -----------------------------------------------------------------------
-    // UTILITY METHODS
+    // ------------------------------UTILITY METHODS----------------------------------------
 
+    /**
+     * Method for creating randomized Strings.
+     * Used for generation of randomized passwords.
+     * 
+     * @return String containing the password created.
+     * @since Sprint 1
+     */
     private static String generatePassword() {
         String SALTCHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         StringBuilder salt = new StringBuilder();
@@ -386,6 +421,12 @@ public class AppService {
         return salt.toString();
     }
 
+    /**
+     * Method for sending an email with the password to a email account.
+     * @param to String email address.
+     * @param password text to be sended, in this case a password.
+     * @since Sprint 1
+     */
     private static void sendEmail(String to, String password) {
         String from = "bspq20e1@gmail.com";
 
@@ -416,6 +457,13 @@ public class AppService {
         }
     }
 
+    /**
+     * Method to update the pasword of a account in the database.
+     * It is part of the password management functionality.
+     * @param email String with the email of the account.
+     * @param password String with the new password.
+     * @since Sprint 1
+     */
     private static void changePassword(String email, String password) {
         UserDAO dao = DAOFactory.getInstance().createUserDAO();
         User user = dao.getUser(email);
@@ -429,9 +477,28 @@ public class AppService {
     }
 
 
-    // --------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------
 
     // method used for manual testing 
+
+    /**Used for testing, creates an instance of a user and updates it in the database.
+     * @deprecated no useful for normal use.
+     */
+    public void updateUser() {
+        UserDAO udao = DAOFactory.getInstance().createUserDAO();
+        EventDAO edao = DAOFactory.getInstance().createEventDAO();
+        // TODO what's this??
+        User user = udao.getUser("john@money.com");
+        Event event = edao.getEvents("Popcorn Party - second edition (PP2)").get(0);
+        user.addEvent(event);
+        udao.updateUser(user);
+        DAOFactory.getInstance().closeDAO(udao);
+        DAOFactory.getInstance().closeDAO(edao);
+    }
+
+    /**Used for testing
+     * @deprecated
+     */
     public void hello() {
         OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
         EventDAO edao = DAOFactory.getInstance().createEventDAO();
