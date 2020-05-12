@@ -26,13 +26,37 @@ import es.deusto.server.server.Server;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
 import org.databene.contiperf.*;
 import org.databene.contiperf.junit.ContiPerfRule;
 
+import java.util.logging.*;
+
 public class ControllerTest extends JerseyTest {
+
+    private final static Logger LOGGER = Logger.getLogger(ControllerTest.class.getName());
+	private static Handler fileHandler;  
+    private static Handler consoleHandler;
+    
+    @BeforeClass
+    public static void startUp() {
+        try {
+            consoleHandler = new ConsoleHandler();
+            fileHandler = new FileHandler("./log/logTests.log", true); 
+            
+            fileHandler.setFormatter(new SimpleFormatter());
+
+            LOGGER.addHandler(consoleHandler);  
+            LOGGER.addHandler(fileHandler);
+
+            LOGGER.log(Level.INFO, "Launching ControllerTest suite...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Rule
     public ContiPerfRule rule = new ContiPerfRule();
@@ -100,6 +124,8 @@ public class ControllerTest extends JerseyTest {
     @Required(throughput = 4)
     @PerfTest(invocations = 100)
     public void testNormalLogin() {
+        LOGGER.log(Level.INFO, "Launching testNormalLogin test...");
+
         boolean success = controller.attemptNormalLogin(userEmail, userPassword);
         assertTrue(success);
     }
@@ -122,6 +148,8 @@ public class ControllerTest extends JerseyTest {
     @PerfTest(duration = 10000, threads = 10) // test for at least 10 seconds with 10 threads
     @Required(average = 2000) // average <= 100ms/exec
     public void testOrganizerLogin() {
+        LOGGER.log(Level.INFO, "Launching testOrganizerLogin test...");
+
         boolean success = controller.attemptNormalLoginOrganizer(organizerEmail, organizerPassword);
         assertTrue(success);
     }
@@ -130,6 +158,8 @@ public class ControllerTest extends JerseyTest {
     @PerfTest(invocations = 100)
     @Required(max = 1000)
     public void testNormalSignupAndDelete() {
+        LOGGER.log(Level.INFO, "Launching testNormalSignupAndDelete test...");
+
         boolean success = controller.attemptNormalSignup(
             "test---signup.test@test.com",
             "myPassword",
@@ -148,6 +178,8 @@ public class ControllerTest extends JerseyTest {
     @PerfTest(invocations = 100)
     @Required(max = 1000)
     public void testOrganizerSignupAndDelete() {
+        LOGGER.log(Level.INFO, "Launching testOrganizerSignupAndDelete test...");
+
         boolean success = controller.attemptOrganizerSignup(
             "test---organizer.signup.test@test.com",
             "myPassword",
@@ -164,6 +196,8 @@ public class ControllerTest extends JerseyTest {
     @PerfTest(duration = 10000)
     @Required(median = 2000)
     public void testUserUpdate() {
+        LOGGER.log(Level.INFO, "Launching testUserUpdate test...");
+
         controller.attemptNormalSignup(
             "test---signup.test@test.com",
             "myPassword",

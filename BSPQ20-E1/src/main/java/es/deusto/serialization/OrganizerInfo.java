@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
 
+/**
+ * DTO equivalent class of the {@link Organizer} class from the server.
+ * This class is used to transport all the relevant information of an
+ * organizer through the network.
+ * 
+ * @since Sprint 1
+ */
 public class OrganizerInfo extends GenericUserInfo{
 
     private String name, email;
