@@ -32,12 +32,35 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.logging.*;
+
 public class ServerTest {
 
     private static Server server;
 
     private static SignupAttempt signup;
     private static SignupAttempt organizerSignup;
+
+    private final static Logger LOGGER = Logger.getLogger(ServerTest.class.getName());
+	private static Handler fileHandler;  
+    private static Handler consoleHandler;
+    
+    @BeforeClass
+    public static void startUp() {
+        try {
+            consoleHandler = new ConsoleHandler();
+            fileHandler = new FileHandler("./log/logTests.log", true); 
+            
+            fileHandler.setFormatter(new SimpleFormatter());
+
+            LOGGER.addHandler(consoleHandler);  
+            LOGGER.addHandler(fileHandler);
+
+            LOGGER.log(Level.INFO, "Launching ServerTest suite...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(ServerTest.class);
@@ -68,6 +91,8 @@ public class ServerTest {
 
     @Test
     public void testNormalSignup() {
+        LOGGER.log(Level.INFO, "Launching testNormalSignup test...");
+
         SignupAttempt signup2 = new SignupAttempt();
         signup2.setName("test---John Doe");
         signup2.setEmail("test---john.doe2@doe.com");
@@ -89,6 +114,7 @@ public class ServerTest {
 
     @Test
     public void testNormalUpdate() {
+        LOGGER.log(Level.INFO, "Launching testNormalUpdate test...");
         SignupAttempt signup2 = new SignupAttempt();
         signup2.setName("test---John Smith");
         signup2.setEmail("test---john.smith@smith.com");
@@ -110,6 +136,8 @@ public class ServerTest {
 
     @Test
     public void testOrganizerSignup() {
+        LOGGER.log(Level.INFO, "Launching testOrganizerSignup test...");
+
         SignupAttempt organizerSignup2 = new SignupAttempt();
         organizerSignup2.setName("test---Jack Ryan");
         organizerSignup2.setEmail("test---jack.ryan2@ryan.com");
@@ -127,6 +155,8 @@ public class ServerTest {
 
     @Test
     public void testOrganizerLogin() {
+        LOGGER.log(Level.INFO, "Launching testOrganizerLogin test...");
+
         LoginAttempt login = new LoginAttempt(organizerSignup.getEmail(), organizerSignup.getPassword(), true);
         OrganizerInfo organizer = (OrganizerInfo) server.attemptOrganizerLogin(login).getEntity();
         assertTrue(
@@ -138,6 +168,8 @@ public class ServerTest {
 
     @Test
     public void testOrganizerUpdate() {
+        LOGGER.log(Level.INFO, "Launching testOrganizerUpdate test...");
+
         SignupAttempt organizerSignup2 = new SignupAttempt();
         organizerSignup2.setName("test---Jack Ryan");
         organizerSignup2.setEmail("test---jack.ryan2@ryan.com");
@@ -159,6 +191,8 @@ public class ServerTest {
 
     @Test
     public void testCreateEvent() {
+        LOGGER.log(Level.INFO, "Launching testCreateEvent test...");
+
         EventInfo eventInfo = new EventInfo();
         eventInfo.setName("test---My event");
         eventInfo.setDescription("test---My event description");
@@ -184,6 +218,8 @@ public class ServerTest {
 
     @Test 
     public void testCreatePost() {
+        LOGGER.log(Level.INFO, "Launching testCreatePost test...");
+
         EventInfo eventInfo = new EventInfo();
         eventInfo.setName("test---My event");
         eventInfo.setDescription("test---My event description");

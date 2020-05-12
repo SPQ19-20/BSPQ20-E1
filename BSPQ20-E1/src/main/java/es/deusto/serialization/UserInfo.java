@@ -1,3 +1,11 @@
+/**
+ * @package es.deusto.serialization
+ * All the ...Info classes work as a middleman for the client and server bussines objects.
+ * Due to the functionality of this classes their structure is similar to the 'original' ones in the server
+ * Examples: UserInfo: User
+ *           EventInfo: Event
+ * Also the ...Info clases are the ones shown in the GUI.
+ */
 package es.deusto.serialization;
 
 import java.util.ArrayList;
@@ -5,13 +13,14 @@ import java.util.ArrayList;
 import es.deusto.server.data.Event;
 import es.deusto.server.data.Topic;
 import es.deusto.server.data.User;
-    /**
-     * All the ...Info classes work as a middleman for the client and server bussines objects.
-     * Due to the functionality of this classes their structure is similar to the 'original' ones in the server
-     * Examples: UserInfo: User
-     *           EventInfo: Event
-     * Also the ...Info clases are the ones shown in the GUI.
-     */
+
+/**
+ * DTO equivalent class of the {@link User} class from the server.
+ * This class is used to transport all the relevant information of a
+ * user through the network.
+ * 
+ * @since Sprint 1
+ */
 public class UserInfo extends GenericUserInfo{
 
     private String name, email, city, country;

@@ -2,7 +2,6 @@ package es.deusto.client.controller;
 
 import es.deusto.client.windows.LanguageManager;
 import es.deusto.serialization.*;
-import javassist.bytecode.stackmap.TypeData.ClassName;
 
 import java.util.ArrayList;
 import java.util.logging.ConsoleHandler;
@@ -21,17 +20,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+/**
+ * This class is the one carrying out all the communication with
+ * the server. The GUI components use it as a middle-man in order to
+ * retrieve or update information of the server.
+ * 
+ * This class will contain the UserInfo property containing the
+ * information of the user who has logged in, and will offer it
+ * to the components of the GUI.
+ */
 public class Controller {
-    
-    /**
-     * This class is the one carrying out all the communication with
-     * the server. The GUI components use it as a middle-man in order to
-     * retrieve or update information of the server.
-     * 
-     * This class will contain the UserInfo property containing the
-     * information of the user who has logged in, and will offer it
-     * to the components of the GUI.
-     */
 
     private UserInfo user; //Controller's user
     private OrganizerInfo organizer; //in case it's a organizer, it necesary for the progeam to be able to retrieve a Organizer.
@@ -41,7 +39,7 @@ public class Controller {
     private final static Logger LOGGER = Logger.getLogger(Controller.class.getName());
     
     /**
-     * Constructor
+     * Constructor. 
      * @param hostname A String object with the path of the server
      * @param port A String object with the port number of the server
      */
@@ -67,6 +65,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Constructor.
+     * @param target WebTarget instance pointing to the server (used for testing)
+     * 
+     * @since Sprint 2
+     */
     public Controller(WebTarget target) {
         this.webTarget = target;
         langManager = new LanguageManager();
@@ -88,14 +92,16 @@ public class Controller {
         this.user = u;
     }
 
-    //--------------------------LOG IN----------------------------------------------------------------------------
     /**
-     * This method is invoked by the login button in the GUI, and it makes
+     * Invokes a normal login attempt call to the server. This method is invoked 
+     * by the login button in the GUI, and it makes
      * a login request to the server with the specified email and password.
      * It is used only for regular users, not organizers.
      * @param email Email of the user taken from the GUI
      * @param password Password taken from the GUI
      * @return true if the login was successful, otherwise it returns false
+     * 
+     * @since Sprint 1
      */
     public boolean attemptNormalLogin(String email, String password) { 
         LoginAttempt login = new LoginAttempt(email, password, false);//The boolean is never used!
@@ -121,7 +127,8 @@ public class Controller {
 
 
     /**
-     *    * This method is invoked by the login button in the GUI, and it makes
+     * Invokes an organizer login attempt call to the server.
+     * This method is invoked by the login button in the GUI, and it makes
      * a login request to the server with the specified email and password.
      * It is used only for organizers.
      * @param email email of the Organizer
@@ -152,13 +159,14 @@ public class Controller {
         return organizer != null;
     }
 
-    /***
-     *  This method is invoked by the login button in the GUI, and it makes
+    /**
+     * Invokes a normal login attempt call to the server.
+     * This method is invoked by the login button in the GUI, and it makes
      * a login request to the server with the specified email and password.
      * The class of object must be indicated in the boolean input.
      * This method works as a solution for both organizers and logins
      * @param email email of the User or Organizer
-     * @param password password of the of the User or Organizer
+     * @param password password of the of the {@link UserInfo} or {@link OrganizerInfo}
      * @param organizer boolean that indicates whether it's a User or Organizer
      * @deprecated beeter to use attemptNormalLogin(email, password) and attemptNormalLoginOrganizer !
      * @since Sprint 2
@@ -190,8 +198,9 @@ public class Controller {
        
 
     }
-    //-----------------------------------SIGN UP--------------------------------------------------------------
+    
     /** 
+     * Invokes a normal signup attempt call to the server.
      * This method is invoked by the signup button in the GUI, and makes
      * a signup request to the server with the specified fields (email, password, name and city).
      * It is used only for regular users, not organizers.
@@ -199,7 +208,11 @@ public class Controller {
      * @param password Password String taken from the GUI
      * @param name Name String taken from the GUI
      * @param city City String taken from the GUI
+     * @param country Country String taken from the GUI
+     * @param interests List of {@link TopicInfo}
      * @return true if the signup process was successful, otherwise it returns false
+     * 
+     * @since Sprint 1
     */
     public boolean attemptNormalSignup(String email, String password, String name, String city, String country, ArrayList<TopicInfo>interests) {
         
@@ -232,6 +245,7 @@ public class Controller {
     }
 
     /** 
+     * Invokes an organizer signup attempt call to the server.
      * This method is invoked by the signup button in the GUI, and makes
      * a signup request to the server with the specified fields (email, password, name and organization).
      * It is used only for organizers.
@@ -271,9 +285,8 @@ public class Controller {
         return false;
     }
 
-    //--------------------------------------UPDATE USER-----------------------------------------------------------
-
     /**
+     * Invokes a normal user update call to the server.
      * Updates the user stored in the Controller, in order to use this function a user must log in before.
      * @return true if the process is successful
      * @since Sprint 2
@@ -308,6 +321,7 @@ public class Controller {
     }
 
     /**
+     * Invokes an organizer update call to the server.
      * Updates the Organizer stored in the Controller, in order to use this function a Organizer must log in before.
     *  @return true if the process is successful
     *  @since Sprint 2
@@ -340,9 +354,8 @@ public class Controller {
         return false;
     }
 
-    //--------------------------------------DELETE USER-----------------------------------------------------------
-
     /**
+     * Invokes a user delete call to the server.
      * Deletes the user stored in the Controller.
      * @return true if the process is successful, false if not
      * @since Sprint 2
@@ -364,6 +377,13 @@ public class Controller {
         return true;
     }
 
+    /**
+     * Invokes an organizer delete call to the server.
+     * Deletes the organizer stored in the Controller.
+     * @return true if the process is successful, false if not
+     * @since Sprint 2
+     * @return
+     */
     public boolean attemptOrganizerDelete() {
         WebTarget donationsWebTarget = webTarget.path("server/deleteOrganizer");
         LOGGER.log(Level.INFO, "Deleting organizer " + this.organizer.getEmail());
@@ -381,12 +401,11 @@ public class Controller {
         return true;
     }
 
-//-------------------------------------EVENT & POST-----------------------------------------------------
-
     /**
-     * sends EventInfo to the server, to use this method the organizer must be logged in.
-     * @param eventInfo event to be sent to the server
-     * @return true if succesful
+     * Invokes an event creation call to the server.
+     * Sends EventInfo to the server, to use this method the organizer must be logged in.
+     * @param eventInfo {@link EventInfo} to be sent to the server
+     * @return true if succesful, false otherwise
      * @since sprint 2
      */
     public boolean createEvent(EventInfo eventInfo){
@@ -414,9 +433,10 @@ public class Controller {
     }
 
     /**
+     * Invokes a post creation call to the server.
      * Adds a post on the indicated Event and notifies the server.
-     * @param eventInfo Event where the post is going to be held.
-     * @param postInfo Post to be added.
+     * @param eventInfo {@link EventInfo} where the post is going to be held.
+     * @param postInfo {@link PostInfo} to be added.
      * @return true if succesful
      * @since sprint 2
      */
@@ -442,11 +462,13 @@ public class Controller {
         LOGGER.log(Level.SEVERE, "Error when creating Post : Response was empty");
         return false;
     }
+
     public LanguageManager getLanguageManager() {
         return this.langManager;
     }
 
     /**
+     * Invokes a recommendations request call to the server.
      * Sends to the server the information of the logged User in order to get event recomendations
      * @return a list of recommended events
      * @since Sprint 3
