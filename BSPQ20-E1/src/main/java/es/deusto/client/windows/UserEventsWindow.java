@@ -23,10 +23,13 @@ public class UserEventsWindow extends JFrame {
     private Controller controller;
     private LanguageManager langManager;
 
+    JFrame me;
+
     public UserEventsWindow(Controller controller) {
         super();
         this.controller = controller;
         this.langManager = controller.getLanguageManager();
+        this.me = this;
 
         initComponents();
         
@@ -120,7 +123,7 @@ public class UserEventsWindow extends JFrame {
         customItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Profile(controller);
+                new Profile(controller, me);
             }
         });
         

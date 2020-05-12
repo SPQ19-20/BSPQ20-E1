@@ -22,9 +22,12 @@ public class Profile extends JFrame {
 
     private JTextField cityField, countryField;
 
-    public Profile(Controller controller) {
+    JFrame mainWindow;
+
+    public Profile(Controller controller, JFrame mainWindow) {
         super();
         
+        this.mainWindow = mainWindow;
         this.controller = controller;
         this.langManager = controller.getLanguageManager();
 
@@ -200,7 +203,7 @@ public class Profile extends JFrame {
         listPanel = new JPanel();
         interestsListModel = new DefaultListModel<>();
         for (TopicInfo topic: controller.getUser().getInterests()) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 1; i++) {
                 topic.setName(topic.getName()+"k");
                 interestsListModel.addElement(new TopicInfo(topic.getName()));
             }
@@ -208,10 +211,12 @@ public class Profile extends JFrame {
 
         JList<TopicInfo> list = new JList<>(interestsListModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setPreferredSize(new Dimension(335, 200));
+        list.setPreferredSize(new Dimension(335, 150));
         DefaultListCellRenderer renderer =  (DefaultListCellRenderer)list.getCellRenderer();  
         renderer.setHorizontalAlignment(JLabel.CENTER);
-        JScrollPane scroll = new JScrollPane(list);
+        JScrollPane scroll = new JScrollPane(list,
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         listPanel.add(scroll);
 
         // bottomPanel
@@ -300,6 +305,7 @@ public class Profile extends JFrame {
                         JOptionPane.showMessageDialog(null, langManager.getString("deleteConf"), langManager.getString("deleteTitle"), JOptionPane.INFORMATION_MESSAGE);
                         LogInWindow logIn = new LogInWindow(controller);
                         dispose();
+                        mainWindow.dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, langManager.getString("deleteConf1"), langManager.getString("deleteTitle"), JOptionPane.INFORMATION_MESSAGE);
                     }

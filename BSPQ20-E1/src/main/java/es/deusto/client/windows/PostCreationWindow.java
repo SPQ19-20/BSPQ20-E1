@@ -86,6 +86,7 @@ public class PostCreationWindow extends JFrame {
         eventField = new JTextField(30);
         titleField = new JTextField(30);
         descArea = new JTextArea();
+        descArea.setLineWrap(true);
 
         eventField.setText(event.getName());
         eventField.setEditable(false);

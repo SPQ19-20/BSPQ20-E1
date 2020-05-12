@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 
@@ -20,7 +21,8 @@ public class CreateOrganizerWindow extends JFrame implements ActionListener{
 
     //elements for registering username, email, password and organization.
 	private static final long serialVersionUID = 1L;
-	private JTextField textField_username, textField_password, textField_email, textField_organization;
+	private JTextField textField_username, textField_email, textField_organization;
+	private JPasswordField textField_password;
 	private JButton bCreate, backButton;
 	private Controller controller;
 	private LanguageManager langManager;
@@ -45,7 +47,7 @@ public class CreateOrganizerWindow extends JFrame implements ActionListener{
 		lblPassword.setBounds(54, 110, 119, 16);
 		getContentPane().add(lblPassword);
 
-		textField_password = new JTextField();
+		textField_password = new JPasswordField();
 		textField_password.setBounds(133, 107, 175, 22);
 		getContentPane().add(textField_password);
 		textField_password.setColumns(10);
@@ -92,12 +94,12 @@ public class CreateOrganizerWindow extends JFrame implements ActionListener{
 		Object boton = e.getSource();
 		if (boton == bCreate) {
 			String email = this.textField_email.getText();
-			String password = this.textField_password.getText();
+			String password = String.valueOf(textField_password.getPassword());
 			String name = this.textField_username.getText();
 			String organization = this.textField_organization.getText();
 			
 			if (this.controller.attemptOrganizerSignup(email, password, name, organization)) {
-				new EventOrganizerWindow(this.controller);
+				new OrganizerHome(this.controller);
 				this.dispose();
 			} else {
 				String message = langManager.getString("error1Text");

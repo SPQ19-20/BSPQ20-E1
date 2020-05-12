@@ -2,6 +2,7 @@ package es.deusto.client.windows;
 
 import javax.swing.JFrame;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 
@@ -19,7 +21,8 @@ import es.deusto.server.data.Topic;
 public class CreateUserWindow extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField_username, textField_password, textField_email, textField_city;
+	private JTextField textField_username, textField_email, textField_city, textField_country;
+	private JPasswordField textField_password;
 	private JButton bCreate, backButton;
 	private JCheckBox musicBox, theaterBox, cinemaBox, sportsBox, artBox, cultureBox, foodBox, festivalsBox, moreBox;
 
@@ -46,7 +49,7 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 		lblPassword.setBounds(54, 110, 119, 16);
 		getContentPane().add(lblPassword);
 
-		textField_password = new JTextField();
+		textField_password = new JPasswordField();
 		textField_password.setBounds(133, 107, 175, 22);
 		getContentPane().add(textField_password);
 		textField_password.setColumns(10);
@@ -69,53 +72,64 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 		getContentPane().add(textField_city);
 		textField_city.setColumns(10);
 
+		JLabel lblCountry = new JLabel(langManager.getString("countryLabel"));
+		lblCountry.setBounds(54, 247, 119, 16);
+		getContentPane().add(lblCountry);
+
+		textField_country = new JTextField();
+		textField_country.setBounds(133, 244, 175, 22);
+		getContentPane().add(textField_country);
+		textField_country.setColumns(10);
+
+		int off = 49;
+
 		JLabel interests = new JLabel(langManager.getString("interestsLabel"));
-		interests.setBounds(54, 254, 80, 20);
+		interests.setBounds(54, 254+off, 80, 20);
 		getContentPane().add(interests);
 
 		musicBox = new JCheckBox(langManager.getString("musicCheck"));
-		musicBox.setBounds(54, 274, 150, 20);
+		musicBox.setBounds(54, 274+off, 150, 20);
 		getContentPane().add(musicBox);
 
 		cinemaBox = new JCheckBox(langManager.getString("cinemaCheck"));
-		cinemaBox.setBounds(54, 294, 150, 20);
+		cinemaBox.setBounds(54, 294+off, 150, 20);
 		getContentPane().add(cinemaBox);
 
 		theaterBox = new JCheckBox(langManager.getString("theaterCheck"));
-		theaterBox.setBounds(54, 314, 150, 20);
+		theaterBox.setBounds(54, 314+off, 150, 20);
 		getContentPane().add(theaterBox);
 
 		sportsBox = new JCheckBox(langManager.getString("sportsCheck"));
-		sportsBox.setBounds(54, 334, 150, 20);
+		sportsBox.setBounds(54, 334+off, 150, 20);
 		getContentPane().add(sportsBox);
 
 		cultureBox = new JCheckBox(langManager.getString("cultureCheck"));
-		cultureBox.setBounds(54, 354, 150, 20);
+		cultureBox.setBounds(54, 354+off, 150, 20);
 		getContentPane().add(cultureBox);
 
 		artBox = new JCheckBox(langManager.getString("artsCheck"));
-		artBox.setBounds(54, 374, 150, 20);
+		artBox.setBounds(54, 374+off, 150, 20);
 		getContentPane().add(artBox);
 
 		foodBox = new JCheckBox(langManager.getString("foodCheck"));
-		foodBox.setBounds(54, 394, 150, 20);
+		foodBox.setBounds(54, 394+off, 150, 20);
 		getContentPane().add(foodBox);
 
 		festivalsBox = new JCheckBox(langManager.getString("festivalsCheck"));
-		festivalsBox.setBounds(54, 414, 150, 20);
+		festivalsBox.setBounds(54, 414+off, 150, 20);
 		getContentPane().add(festivalsBox);
 
 		moreBox = new JCheckBox(langManager.getString("moreCheck"));
-		moreBox.setBounds(54, 434, 150, 20);
+		moreBox.setBounds(54, 434+off, 150, 20);
 		getContentPane().add(moreBox);
 
 		bCreate = new JButton(langManager.getString("createUserButton"));
-		bCreate.setBounds(214, 494, 150, 25);
+		bCreate.setBounds(214, 494+off, 150, 25);
 		getContentPane().add(bCreate);
 		bCreate.addActionListener(this);
 
 		backButton = new JButton(langManager.getString("backToLogButton"));
-		backButton.setBounds(30, 494, 150, 25);
+		backButton.setBounds(30, 494+off, 150, 25);
 		getContentPane().add(backButton);
 		backButton.addActionListener(this);
 
@@ -123,7 +137,6 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 		titleLabel.setBounds(110 ,12, 200, 16);
 		getContentPane().add(titleLabel);
 
-		
 		this.setTitle(langManager.getString("createUser"));
 	}
 	
@@ -133,10 +146,10 @@ public class CreateUserWindow extends JFrame implements ActionListener{
 		Object boton = e.getSource();
 		if (boton == bCreate) {
 			String email = this.textField_email.getText();
-			String password = this.textField_password.getText();
+			String password = String.valueOf(textField_password.getPassword());
 			String name = this.textField_username.getText();
 			String city = this.textField_city.getText();
-			String country = ""; // TODO add country field in GUI
+			String country = this.textField_country.getText();
 			ArrayList<TopicInfo> interests = new ArrayList<>();
 			if (musicBox.isSelected()) interests.add(new TopicInfo("Music"));
 			if (theaterBox.isSelected()) interests.add(new TopicInfo("Theater"));

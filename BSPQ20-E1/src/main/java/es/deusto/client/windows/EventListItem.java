@@ -139,7 +139,7 @@ public class EventListItem extends JPanel {
             container.add(thumbLabel, BorderLayout.EAST);
             container.add(detailsPanel, BorderLayout.CENTER);
         } else {
-            container.add(interestedPanel, BorderLayout.CENTER);
+            container.add(interestedPanel, BorderLayout.WEST);
             container.add(detailsPanel, BorderLayout.EAST);
         }
 

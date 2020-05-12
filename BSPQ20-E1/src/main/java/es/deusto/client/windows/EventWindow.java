@@ -173,7 +173,7 @@ public class EventWindow extends JFrame {
 		locationLabel.setFont(fb);
 		dateLabel.setFont(fb);
 
-		JLabel interestedContentLabel = new JLabel(event.getInterested()+ langManager.getString("users")); //number of interested users
+		JLabel interestedContentLabel = new JLabel(event.getInterested()+" "+ langManager.getString("users")); //number of interested users
 		JLabel organizerContentLabel = new JLabel(event.getOrganizerEmail());
 		JLabel topicContentLabel = new JLabel(event.getTopic().getName());
 		JLabel locationContentLabel = new JLabel(event.getCity() + ", " + event.getCountry());
@@ -267,10 +267,8 @@ public class EventWindow extends JFrame {
 		// add here the posts
 		for (PostInfo p: event.getPosts()) {
 			// generate post panel and add it to postsPanel
-			for (int i = 0; i < 1; i++) {
-				postsPanel.add(new PostPanel(p));
-				postsPanel.add(Box.createHorizontalStrut(10));
-			}
+			postsPanel.add(new PostPanel(p));
+			postsPanel.add(Box.createHorizontalStrut(10));
 		}
 
 		JScrollPane scroll = new JScrollPane(
@@ -309,6 +307,8 @@ public class EventWindow extends JFrame {
 
 		private void initComponents() {
 			setLayout(new BorderLayout());
+			setMaximumSize(new Dimension(Integer.MAX_VALUE, 300));
+
 
 			JPanel topPanel, bottomPanel;
 			topPanel = new JPanel();

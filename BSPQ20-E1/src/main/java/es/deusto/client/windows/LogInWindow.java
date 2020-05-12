@@ -147,7 +147,7 @@ public class LogInWindow extends JFrame {
 				}else{
 					CreateUserWindow p = new CreateUserWindow(controller);
 					p.setVisible(true);
-					p.setSize(400, 600);
+					p.setSize(400, 650);
 					p.setLocation(posX, posY);
 					p.setResizable(false);
 					setVisible(false);
