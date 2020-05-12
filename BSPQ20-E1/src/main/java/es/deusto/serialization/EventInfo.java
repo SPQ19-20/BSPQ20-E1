@@ -6,6 +6,13 @@ import java.util.Date;
 import es.deusto.server.data.Event;
 import es.deusto.server.data.Post;
 
+/**
+ * DTO equivalent class of the {@link Event} class from the server.
+ * This class is used to transport all the relevant information of an
+ * event through the network.
+ * 
+ * @since Sprint 1
+ */
 public class EventInfo {
 
     private String name;

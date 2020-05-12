@@ -1,9 +1,13 @@
 package es.deusto.serialization;
 
+/**
+ * This class encapsulates all the information required when a user 
+ * (Either normal User or Organizer) logs in.
+ * 
+ * @since Sprint 1
+ */
 public class LoginAttempt {
-    /**
-     * This class encapsulates all the information required when a user (Either normal User or Organizer) Logs in.
-     */
+
     private String email;
     private String password;
     private boolean organizer;

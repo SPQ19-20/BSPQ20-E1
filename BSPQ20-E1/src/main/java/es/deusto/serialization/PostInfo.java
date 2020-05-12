@@ -4,6 +4,13 @@ import java.util.Date;
 
 import es.deusto.server.data.Post;
 
+/**
+ * DTO equivalent class of the {@link Post} class from the server.
+ * This class is used to transport all the relevant information of a
+ * post through the network.
+ * 
+ * @since Sprint 2
+ */
 public class PostInfo {
 
     private String title;

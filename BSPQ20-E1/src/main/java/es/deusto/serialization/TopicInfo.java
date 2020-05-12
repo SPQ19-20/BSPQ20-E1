@@ -2,6 +2,13 @@ package es.deusto.serialization;
 
 import es.deusto.server.data.Topic;
 
+/**
+ * DTO equivalent class of the {@link Topic} class from the server.
+ * This class is used to transport all the relevant information of a
+ * topic through the network.
+ * 
+ * @since Sprint 1
+ */
 public class TopicInfo {
 
     private String name;

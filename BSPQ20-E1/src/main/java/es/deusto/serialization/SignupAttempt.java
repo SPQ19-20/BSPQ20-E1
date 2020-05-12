@@ -6,6 +6,12 @@ import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
 import es.deusto.server.data.User;
 
+/**
+ * This class encapsulates all the information required when a user 
+ * (Either normal User or Organizer) signs up.
+ * 
+ * @since Sprint 1
+ */
 public class SignupAttempt {
 
     // Common atributes (Both normal Users and Organizers have them)
@@ -122,6 +128,7 @@ public class SignupAttempt {
         }
         return user;
     }
+    
     /**
      * Builds an instance of the business object {@link Organizer}. 
      * The main purpose of this function is prevent object repetition. It's only used in the server.

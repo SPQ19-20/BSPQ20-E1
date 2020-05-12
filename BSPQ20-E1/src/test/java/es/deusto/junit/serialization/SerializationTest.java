@@ -26,6 +26,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.logging.*;
+
 public class SerializationTest {
 
     private Event event1, event2;
@@ -33,6 +35,27 @@ public class SerializationTest {
     private Topic topic;
     private Post post1, post2;
     private User user;
+
+    private final static Logger LOGGER = Logger.getLogger(SerializationTest.class.getName());
+	private static Handler fileHandler;  
+    private static Handler consoleHandler;
+    
+    @BeforeClass
+    public static void startUp() {
+        try {
+            consoleHandler = new ConsoleHandler();
+            fileHandler = new FileHandler("./log/logTests.log", true); 
+            
+            fileHandler.setFormatter(new SimpleFormatter());
+
+            LOGGER.addHandler(consoleHandler);  
+            LOGGER.addHandler(fileHandler);
+
+            LOGGER.log(Level.INFO, "Launching SerializationTest suite...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static junit.framework.Test suite() {
         return new JUnit4TestAdapter(SerializationTest.class);
@@ -102,6 +125,7 @@ public class SerializationTest {
 
     @Test
     public void testEventInfoFromEvent() {
+        LOGGER.log(Level.INFO, "Launching testEventInfoFromEvent test...");
         EventInfo info = new EventInfo(event1);
         boolean ok = info.getName().equals(event1.getName());
         ok = ok && info.getDescription().equals(event1.getDescription());
@@ -113,6 +137,7 @@ public class SerializationTest {
 
     @Test
     public void testEventInfoSetters() {
+        LOGGER.log(Level.INFO, "Launching testEventInfoSetters test...");
         EventInfo info = new EventInfo();
         info.setName("My inner event");
         info.setDescription("My inner description");
@@ -131,6 +156,7 @@ public class SerializationTest {
 
     @Test
     public void testOrganizerInfoFromOrganizer() {
+        LOGGER.log(Level.INFO, "Launching testOrganizerInfoFromOrganizer test...");
         OrganizerInfo info = new OrganizerInfo(organizer);
         assertTrue(
             info.getName().equals(organizer.getName()) &&
@@ -142,6 +168,7 @@ public class SerializationTest {
 
     @Test
     public void testOrganizerInfoSetters() {
+        LOGGER.log(Level.INFO, "Launching testOrganizerInfoSetters test...");
         OrganizerInfo info = new OrganizerInfo(organizer);
         info.setName("John Smith");
         info.setEmail("john.smith@gmail.com");
@@ -158,6 +185,7 @@ public class SerializationTest {
 
     @Test
     public void testPostInfoFromPost() {
+        LOGGER.log(Level.INFO, "Launching testPostInfoFromPost test...");
         PostInfo info = new PostInfo(post1);
         assertTrue(
             info.getTitle().equals(post1.getTitle()) &&
@@ -170,6 +198,7 @@ public class SerializationTest {
 
     @Test
     public void testPostInfoSetters() {
+        LOGGER.log(Level.INFO, "Launching testPostInfoSetters test...");
         PostInfo info = new PostInfo();
         Date date = new Date();
         info.setTitle("Post title");
@@ -189,6 +218,7 @@ public class SerializationTest {
 
     @Test
     public void testUserInfoFromUser() {
+        LOGGER.log(Level.INFO, "Launching testUserInfoFromUser test...");
         UserInfo info = new UserInfo(user);
         assertTrue(
             info.getName().equals(user.getName()) &&
@@ -201,6 +231,7 @@ public class SerializationTest {
 
     @Test
     public void testUserInfoSetters() {
+        LOGGER.log(Level.INFO, "Launching testUserInfoSetters test...");
         UserInfo info = new UserInfo();
         info.setName("John Doe");
         info.setEmail("john.doe@doe.com");
@@ -220,6 +251,7 @@ public class SerializationTest {
 
     @Test
     public void testUserInfoStringConstructor() {
+        LOGGER.log(Level.INFO, "Launching testUserInfoStringConstructor test...");
         UserInfo info = new UserInfo("John Doe", "john.doe@doe.com", "NYC", "USA");
         assertTrue(
             info.getName().equals("John Doe") &&
@@ -231,6 +263,7 @@ public class SerializationTest {
 
     @Test
     public void testSignupAttemptUser() {
+        LOGGER.log(Level.INFO, "Launching testSignupAttemptUser test...");
         SignupAttempt s = new SignupAttempt();
         s.setName("John Doe");
         s.setEmail("john.doe@doe.com");
@@ -259,6 +292,7 @@ public class SerializationTest {
 
     @Test
     public void testSignupAttemptOrganizer() {
+        LOGGER.log(Level.INFO, "Launching testSignupAttemptOrganizer test...");
         SignupAttempt s = new SignupAttempt();
         s.setOrganization("Save the cows");
         

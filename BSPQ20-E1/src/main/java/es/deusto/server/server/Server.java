@@ -28,7 +28,7 @@ import es.deusto.server.data.*;
 public class Server {
 	//initialise the logger for the server
 	private final static Logger LOGGER = Logger.getLogger(Server.class.getName());
-	private static Handler fileHandler;
+	private static Handler fileHandler;  
 	private static Handler consoleHandler;
 	private AppService appService;
 
