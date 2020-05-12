@@ -16,6 +16,13 @@ import es.deusto.serialization.*;
 import es.deusto.server.dao.DAOFactory;
 import es.deusto.server.data.*;
 
+/**
+ * This class is the one that receives the requests from the client.
+ * There is no functionality implemented in this class, all the possible
+ * requests have a corresponding method inside the {@link AppService} class
+ * in which all the functionality is implemented. That way, the Server
+ * class is abstracted from the business objects.
+ */
 @Path("/server")
 @Produces(MediaType.APPLICATION_JSON)
 public class Server {
@@ -23,14 +30,6 @@ public class Server {
 	private final static Logger LOGGER = Logger.getLogger(Server.class.getName());
 	private static Handler fileHandler;
 	private static Handler consoleHandler;
-	/**
-	 * This class is the one that receives the requests from the client.
-	 * There is no functionality implemented in this class, all the possible
-	 * requests have a corresponding method inside the AppService class
-	 * in which all the functionality is implemented. That way, the Server
-	 * class is abstracted from the business objects.
-	 */
-
 	private AppService appService;
 
 	static {
@@ -51,14 +50,17 @@ public class Server {
 		this.appService = new AppService();
 	}
 
-	//--------------------------LOG IN -------------------------------------------------------------------------------
+	//-------------------------- LOG IN Methods -------------------------------------------------------------------------------
 
 	/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /login . It is used for the login process of regular users.
-	 * @param login Login information of the user (email and password)
-	 * @return Response object with the information of the user, in case of valid credentials. 
-	 * If not, an empty response is returned
+	 * This is used for the login process of regular users.
+	 * It is invoked whenever a POST request is made to the following path: /login.
+	 * It is used for the login process of regular users.
+	 * @param login {@link LoginAttempt} class containing the information of the user needed
+	 * for its log in (email and password).
+	 * @since Sprint 1.
+	 * @return {@link Response} object with the information of the user, in case of valid credentials. 
+	 * If not, an empty response is returned.
 	 */
 	@POST
 	@Path("/login")
@@ -77,11 +79,12 @@ public class Server {
 	}
 
 	/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /loginOrganizer . It is used for the login process of organizers.
-	 * @param login Login information of the organizer (email and password)
-	 * @return Response object with the information of the organizer, in case of valid credentials. 
-	 * If not, an empty response is returned
+	 * This method is used for the login process of organizers.
+	 * It is invoked whenever a POST request is made to the following path: /loginOrganizer.
+	 * @param login {@link LoginAttempt} class containing the information of the organizer needed
+	 * for its log in (email and password).
+	 * @return {@link Response} object with the information of the organizer, in case of valid credentials. 
+	 * If not, an empty response is returned.
 	 */
 	@POST
 	@Path("/loginOrganizer")
@@ -105,7 +108,8 @@ public class Server {
 	 * This method is invoked whenever a POST request is made to the following path:
 	 * /signup . It is used of the signup method of regular users.
 	 * @param signup Signup information of the user (name, email, password, city and interests)
-	 * @return Response object with the information of the user, in case of correct user registration. 
+	 * contained in a {@link SignupAttempt} object.
+	 * @return {@link Response} object with the information of the user, in case of correct user registration. 
 	 * If not, an empty response is returned
 	 */
 	@POST
@@ -125,11 +129,12 @@ public class Server {
 	}
 
 	/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /signupOrganizer . It is used of the signup method of organizers.
-	 * @param signup Signup information of the organizer (name, email, password and organization)
-	 * @return Response object with the information of the organizer, in case of correct registration. 
-	 * If not, an empty response is returned
+	 * This method is used of the signup method of Organizers. 
+	 * It is invoked whenever a POST request is made to the following path: /signupOrganizer.
+	 * @param signup {@link SignupAttempt} object containing the information of the organizer requested when 
+	 * registering for the first time (name, email, password and organization).
+	 * @return {@link Response} object with the information of the organizer, in case of correct registration. 
+	 * If not, an empty response is returned.
 	 */
 	@POST
 	@Path("/signupOrganizer")
@@ -150,11 +155,13 @@ public class Server {
 	//------------------------------------UPDATE USERS-----------------------------------------------------
 
 /**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /update . It is used of the signup method of regular users.
-	 * @param signup Signup information of the user (name, email, password, city and interests)
+	 * This method is used to update the information of regular users' account. 
+	 * It is invoked whenever a POST request is made to the following path: /update .
+	 * @param signup {@link SignupAttempt} object containing the information of the User
+	 * (name, email, password, city and interests).
+	 * In this case it is also used for updating their information since its basic structure doesn't change.
 	 * @since Sprint 2
-	 * @return Response object with the information of the user, in case of correct user registration. 
+	 * @return {@link Response} object with the information of the user, in case of correct user registration. 
 	 * If not, an empty response is returned
 	 */
 	@POST
@@ -174,11 +181,13 @@ public class Server {
 	}
 
 		/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /signupOrganizer . It is used of the signup method of organizers.
-	 * @param signup Signup information of the organizer (name, email, password and organization)
+	 * This method is used to update the information of an Organizer account. 
+	 * It is invoked whenever a POST request is made to the following path: /updateOrganizer .
+	 * @param signup {@link SignupAttempt} object containing the information of the Organizers
+	 * (name, email, password and organization).
+	 * In this case it is also used for updating their information since its basic structure doesn't change. 
 	 * @since Sprint 2
-	 * @return Response object with the information of the organizer, in case of correct registration. 
+	 * @return {@link Response} object with the information of the organizer, in case of correct registration. 
 	 * If not, an empty response is returned
 	 */
 	@POST
@@ -200,10 +209,11 @@ public class Server {
 	//-----------------------------Password and event management------------------------------------------
 
 	/**
- 	 * This method is invoked whenever a POST request is made to the following path:
-	 * /recomendation . It is used for recommend events to users.
-	 * @param signupAttempt Signupattempt with the interests and locations of the user 
-	 * @return Response object with the events information
+	 * This method is used for recommend {@link Event} to users.
+	 * It is invoked whenever a POST request is made to the following path: /recomendation .
+	 * @param signupAttempt {@link SignupAttempt} object containing the interests and locations of the User. 
+	 * @return {@link Response} object with the events information
+	 * @since Sprint 3
 	 */
 	@POST
 	@Path("/recommendation")
@@ -220,10 +230,11 @@ public class Server {
 	}
 	
 	/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /passwordRecovery . It is used for password recovery for users who can't remember their passwords.
-	 * @param userInfo LoginAttempt with the email of the user who needs a new password
-	 * @return Response object with the following message: "OK"
+	 * This method is used for password recovery for users who can't remember their passwords.
+	 * It is invoked whenever a POST request is made to the following path: /passwordRecovery .
+	 * @param userInfo {@link LoginAttempt} object with the email of the user who needs a new password.
+	 * @return {@link Response} object with the following message: "OK".
+	 * @since Sprint 1
 	 */
 	@POST
 	@Path("/passwordRecovery")
@@ -236,10 +247,11 @@ public class Server {
 	}
 
 	/**
-	 * This method is envoked whenever a POST request is made to the following path:
-	 * /createEvent . It is used for the creation of new events from a given organizer.
-	 * @param eventInfo EventInfo with the data of the event that will be created
-	 * @return Response an empty response
+	 * This method is used for the creation of new events from a given organizer.
+	 * It is envoked whenever a POST request is made to the following path: /createEvent.
+	 * @param eventInfo {@link EventInfo} object with the data of the event that will be created.
+	 * @return {@link Response} object containing the information of a {@link EventInfo}.
+	 * @since Sprint 2 
 	 */
 	@POST
 	@Path("/createEvent")
@@ -251,6 +263,13 @@ public class Server {
 		return Response.ok(new EventInfo(e)).build();
 	}
 
+	/**
+	 * This method is used for the creation of new {@link Posts} from a given Event.
+	 * It is envoked whenever a POST request is made to the following path: /createEvent.
+	 * @param postInfo {@link PostInfo} object with the data of the event that will be created.
+	 * @return {@link Response} object containing the information of a {@link PostInfo}.
+	 * @since Sprint 2 
+	 */
 	@POST
 	@Path("/createPost")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -264,12 +283,12 @@ public class Server {
 	//------------------------------------DELETE USER-----------------------------------------------------
 
 	/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /delete . It is used of the delete method of users.
-	 * @param userInfo - UserInfo object containing user's email
+	 * This method is used of the delete method of regular Users.
+	 * It is invoked whenever a POST request is made to the following path: /delete . 
+	 * @param userInfo {@link UserInfo} object containing user's email.
 	 * @since Sprint 2
-	 * @return Response string with the user's email, in case of user delete was successful.
-	 * If not, an empty response is returned
+	 * @return {@link Response} string with the user's email, in case of user delete was successful.
+	 * If not, an empty response is returned.
 	 */
 	@POST
 	@Path("/delete")
@@ -286,6 +305,14 @@ public class Server {
 		return Response.ok(resp).build();
 	}
 
+	/**
+	 * This method is used of the delete method of Organizers.
+	 * It is invoked whenever a POST request is made to the following path: /delete . 
+	 * @param organizerInfo {@link OrganizerInfo} object containing Organizer's email.
+	 * @since Sprint 2
+	 * @return {@link Response} string with the Organizer's email, in case the delete was successful.
+	 * If not, an empty response is returned.
+	 */
 	@POST
 	@Path("/deleteOrganizer")
 	@Produces(MediaType.APPLICATION_JSON)

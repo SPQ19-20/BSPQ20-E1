@@ -35,15 +35,10 @@ import javax.mail.internet.MimeMessage;
 public class AppService {
 
     /**
-     * This class will include methods representing
-     * the different functionalities of the server. 
-     * 
-     * This class should be called by the Server class,
-     * so that the Server is abstracted from the
+     * This class will include methods representing the different functionalities of the server. 
+     * This class should be called by the {@link Server} class, so that the Server is abstracted from the
      * business logic of the project.
-     * 
-     * In order to access to the database, use the
-     * DAO objects (create them using DAOFactory class).
+     * In order to access to the database, use the DAO objects (create them using {@link DAOFactory} class).
     */
 
     public AppService() {}
@@ -51,12 +46,13 @@ public class AppService {
     //--------------------------------------LOGIN USERS-----------------------------------------------------
 
     /**
-     * Receives a LoginAttempt (email and password string) and tries to log in.
-     * This method is used for the login process of regular users (not organizers).
+     * This method is used for the login process of regular users.
+     * Receives a {@link LoginAttempt} object with the email and password and compares it with the copy
+     * stored in the database.
      * 
-     * @param login LoginAttempt with the requester's email and password
-     * @return User The user to which the login email corresponds. If the credentials are
-     * invalid, null is returned
+     * @param login {@link LoginAttempt} with the requester's email and password.
+     * @return {@link User} object to which the login email corresponds. If the credentials are
+     * invalid, null is returned.
      */
     public User attemptNormalLogin(LoginAttempt login) {
         UserDAO dao = DAOFactory.getInstance().createUserDAO();
@@ -78,12 +74,13 @@ public class AppService {
     }
 
     /**
-     * Receives a LoginAttempt (email and password string) and tries to log in.
-     * This method is used for the login process of organizers (not regular users).
+     * This method is used for the login process of organizers.
+     * Receives a {@link LoginAttempt}  object with the email and password and compares it with the copy
+     * stored in the database.
      * 
-     * @param login LoginAttempt with the requester's email and password
-     * @return Organizer The organizer to which the login email corresponds. If the credentials are
-     * invalid, null is returned
+     * @param login {@link LoginAttempt} with the requester's email and password.
+     * @return {@link Organizer} object to which the login email corresponds. If the credentials are
+     * invalid, null is returned.
      */
     public Organizer attemptOrganizerLogin(LoginAttempt login) {
         OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
@@ -106,12 +103,13 @@ public class AppService {
     //----------------------------------------SIGNUP USERS-----------------------------------------------------------------
 
     /**
-     * Receives a SignupAttempt (name, email, password, etc.) and tries to create a new user.
-     * This method is used for the signup process of regular users (not organizers).
+     * This method is used for the signup process of regular users.
+     * Receives a {@link SignupAttempt} object with the information of the user and tries to submit
+     * it to the database.
      * 
-     * @param signup SignupAttempt with the requester's signup data - name, email, password and city
-     * @return User The user that has been created as a result of the request. If the email is already in
-     * use, null is returned
+     * @param signup {@link SignupAttempt} with the user's signup data (name, email, password and city).
+     * @return {@link User} object that has been created as a result of the request. If the email is already in
+     * use, null is returned.
      */
     public User attemptNormalSignup(SignupAttempt signup) {
         UserDAO dao = DAOFactory.getInstance().createUserDAO();
@@ -132,12 +130,14 @@ public class AppService {
     }
 
     /**
-     * Receives a SignupAttempt (name, email, password, etc.) and tries to create a new organizer.
-     * This method is used for the signup process of organizers (not regular users).
+     * This method is used for the signup process of organizers.
+     * Receives a {@link SignupAttempt} object with the information of the user and tries to submit
+     * it to the database.
      * 
-     * @param signup SignupAttempt with the requester's signup data - name, email, password and organization
-     * @return Organizer the organizer that has been created as a result of the request. If the email is already in
-     * use, null is returned
+     * @param signup {@link SignupAttempt} with the organizer's signup data - name, email, password
+     * and organization
+     * @return {@link Organizer} object that has been created as a result of the request. 
+     * If the email is already in use, null is returned.
      */
     public Organizer attemptOrganizerSignup(SignupAttempt signup) {
         OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
@@ -160,12 +160,12 @@ public class AppService {
     //--------------------------UPDATE USERS-----------------------------------------------------------------------
 
      /**
-     * Receives a SignupAttempt (name, email, etc.) and tries to update an existing user.
      * This method is used for the update process of regular users (not organizers).
-     *
-     * @param signup SignupAttempt with the requester's data - name, email, password(empty) and city
+     * Receives a {@link SignupAttempt} object and tries to update an existing user in the database.
+     * 
+     * @param signup {@link SignupAttempt} with the user's data  (name, email, an empty password, city).
      * @since Sprint 2
-     * @return User The user that has been created as a result of the request. If the email doesn't exist
+     * @return {@link User} object that has been created as a result of the request. If the email doesn't exist
      * null is returned
      */
     public User attemptNormalUpdate(SignupAttempt signup) {
@@ -247,8 +247,8 @@ public class AppService {
      * 
      * @param signup SignupAttempt with the requester's data - name, email, password (empty) and organization
      * @since Sprint 2
-     * @return Organizer the organizer that has been updated as a result of the request. If the email doesn't exist
-     * null is returned
+     * @return Organizer the organizer that has been updated as a result of the request.
+     * If the email doesn't exist null is returned.
      */
     public Organizer attemptOrganizerUpdate(SignupAttempt signup) {
         OrganizerDAO dao = DAOFactory.getInstance().createOrganizerDAO();
