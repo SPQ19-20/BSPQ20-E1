@@ -17,7 +17,7 @@ import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 
 import es.deusto.client.controller.Controller;
-
+import es.deusto.client.windows.CreateOrganizerWindow;
 import javax.imageio.ImageIO;
 
 import java.io.File;
@@ -136,13 +136,23 @@ public class LogInWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int posY = getY();
 				int posX = getX();
-				CreateUserWindow p = new CreateUserWindow(controller);
-				p.setVisible(true);
-				p.setSize(400, 600);
-				p.setLocation(posX, posY);
-				p.setResizable(false);
-				setVisible(false);
-				dispose();
+				if(cBoxOrganizer.isSelected()){
+					CreateOrganizerWindow d = new CreateOrganizerWindow(controller);
+					d.setVisible(true);
+					d.setSize(400, 350);
+					d.setLocation(posX, posY);
+					d.setResizable(false);
+					setVisible(false);
+					dispose();
+				}else{
+					CreateUserWindow p = new CreateUserWindow(controller);
+					p.setVisible(true);
+					p.setSize(400, 600);
+					p.setLocation(posX, posY);
+					p.setResizable(false);
+					setVisible(false);
+					dispose();
+				}
 			}
 		});
 

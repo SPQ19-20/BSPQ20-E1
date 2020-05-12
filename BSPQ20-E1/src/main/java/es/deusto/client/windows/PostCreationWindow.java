@@ -55,7 +55,7 @@ public class PostCreationWindow extends JFrame {
         buttonPanel.setBorder(new EmptyBorder(20,20,20,20));
         buttonPanel.add(backButton, BorderLayout.WEST);
 
-        JLabel titleLabel = new JLabel("New post");
+        JLabel titleLabel = new JLabel(langManager.getString("newPost"));
         titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
         titlePanel.setBorder(new EmptyBorder(20,20,20,20));
         titlePanel.add(titleLabel, BorderLayout.WEST);
@@ -79,9 +79,9 @@ public class PostCreationWindow extends JFrame {
         JLabel eventLabel, titleLabel, descLabel;
         JTextField eventField;
 
-        eventLabel = new JLabel("Event: ");
-        titleLabel = new JLabel("Title: ");
-        descLabel = new JLabel("Description: ");
+        eventLabel = new JLabel(langManager.getString("Event"));
+        titleLabel = new JLabel(langManager.getString("Title"));
+        descLabel = new JLabel(langManager.getString("Description"));
 
         eventField = new JTextField(30);
         titleField = new JTextField(30);
@@ -112,7 +112,7 @@ public class PostCreationWindow extends JFrame {
     private JPanel initBottomPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         
-        JButton createButton = new JButton("Create");
+        JButton createButton = new JButton(langManager.getString("Create"));
         panel.setBorder(new EmptyBorder(20,20,20,20));
         panel.add(createButton, BorderLayout.EAST);
 
