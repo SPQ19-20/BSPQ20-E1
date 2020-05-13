@@ -11,6 +11,11 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+/**
+ * This class is the one used to create a window that allows
+ * a user/organizer to have a profile with all of his information.
+ */
+
 public class Profile extends JFrame {
     
     private static final long serialVersionUID = 1L;

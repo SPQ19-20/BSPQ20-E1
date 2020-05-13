@@ -13,6 +13,11 @@ import es.deusto.client.windows.*;
 import es.deusto.serialization.EventInfo;
 import es.deusto.serialization.PostInfo;
 
+/**
+ * This class is the one used to create a window that allows
+ * an organizer to have all of his events.
+ */
+
 public class OrganizerEvents extends JFrame {
 
     private static final long serialVersionUID = 1L;

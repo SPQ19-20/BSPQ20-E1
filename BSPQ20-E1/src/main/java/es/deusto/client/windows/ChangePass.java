@@ -25,6 +25,11 @@ import java.io.File;
 import es.deusto.client.controller.Controller;
 import es.deusto.client.windows.*;
 
+/**
+ * This class is the one used to create a window to change the
+ * user password.
+ */
+
 public class ChangePass extends JFrame {
 
 	/**

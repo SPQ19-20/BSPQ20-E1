@@ -12,6 +12,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Date;
 
+/**
+ * This class is the one used to create a window that allows
+ * an organizer to have like a double check of the event he
+ * has just created.
+ */
+
 public class PostCreationWindow extends JFrame {
     
     private Controller controller;

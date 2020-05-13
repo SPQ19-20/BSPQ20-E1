@@ -17,6 +17,14 @@ import es.deusto.serialization.OrganizerInfo;
 import es.deusto.serialization.PostInfo;
 import es.deusto.serialization.TopicInfo;
 
+/**
+ * This class is the one that starts the aplication.
+ * 
+ * It creates a new controller for the user to connect to the
+ * server and opens a new LogInWindow where the user can start
+ * using the application by login in or creating a new user.
+ */
+
 public class Main {
 
 	public static void main(String[] args) throws ClassNotFoundException {

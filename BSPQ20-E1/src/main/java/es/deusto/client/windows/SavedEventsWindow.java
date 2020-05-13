@@ -12,6 +12,12 @@ import javax.swing.border.EmptyBorder;
 import es.deusto.client.controller.Controller;
 import es.deusto.serialization.EventInfo;
 
+/**
+ * This class is the one used to create a window that allows
+ * to scroll, search and choose from all of the events stored 
+ * in the database.
+ */
+
 public class SavedEventsWindow extends JFrame {
     
     private static final long serialVersionUID = 1L;

@@ -12,6 +12,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 
+/**
+ * This class is the one used to create a window that allows
+ * the user to have an event list.
+ */
+
 public class EventListItem extends JPanel {
     private static final long serialVersionUID = 1L;
 

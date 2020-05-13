@@ -18,6 +18,11 @@ import es.deusto.client.controller.Controller;
 import es.deusto.serialization.TopicInfo;
 import es.deusto.server.data.Topic;
 
+/**
+ * This class is the one used to create a window that allows
+ * to create a new user.
+ */
+
 public class CreateUserWindow extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;

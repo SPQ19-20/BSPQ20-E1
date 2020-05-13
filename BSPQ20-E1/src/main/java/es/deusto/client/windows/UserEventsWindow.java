@@ -12,6 +12,12 @@ import javax.swing.border.EmptyBorder;
 import es.deusto.client.controller.Controller;
 import es.deusto.serialization.EventInfo;
 
+/**
+ * This class is the one used to create a window that allows
+ * a user to scroll, search and select from a list of events
+ * he previously has chosen from. A personal event list.
+ */
+
 public class UserEventsWindow extends JFrame {
     
     private static final long serialVersionUID = 1L;

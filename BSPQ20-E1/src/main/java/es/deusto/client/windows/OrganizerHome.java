@@ -11,6 +11,12 @@ import javax.swing.border.EmptyBorder;
 import es.deusto.client.controller.Controller;
 import es.deusto.serialization.EventInfo;
 
+/**
+ * This class is the one used to create a window that allows
+ * an organizer to have a home window where he can access to 
+ * all of the functionalities of the application.
+ */
+
 public class OrganizerHome extends JFrame {
     
     private static final long serialVersionUID = 1L;

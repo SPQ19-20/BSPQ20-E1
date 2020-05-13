@@ -14,6 +14,10 @@ import es.deusto.client.windows.*;
 import es.deusto.serialization.EventInfo;
 import es.deusto.serialization.PostInfo;
 
+/**
+ * This class is the one used to create a window that allows
+ * to dsiplay all the information of one event.
+ */
 
 public class EventWindow extends JFrame {
 	

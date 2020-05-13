@@ -17,6 +17,11 @@ import es.deusto.client.controller.Controller;
 import es.deusto.serialization.TopicInfo;
 import es.deusto.server.data.Topic;
 
+/**
+ * This class is the one used to create a window that allows
+ * to create a new organizer.
+ */
+
 public class CreateOrganizerWindow extends JFrame implements ActionListener{
 
     //elements for registering username, email, password and organization.

@@ -23,6 +23,11 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * This class is the one used to create a window that allows
+ * a user/organizer to log in to the application.
+ */
+
 public class LogInWindow extends JFrame {
 
 	private static final long serialVersionUID = 1L;

@@ -16,6 +16,11 @@ import es.deusto.client.controller.Controller;
 import es.deusto.serialization.EventInfo;
 import es.deusto.serialization.TopicInfo;
 
+/**
+ * This class is the one used to create a window that it allows the
+ * user to create a new event.
+ */
+
 public class CreateEvent extends JFrame implements ActionListener{
 		
 	private static final long serialVersionUID = 1L;

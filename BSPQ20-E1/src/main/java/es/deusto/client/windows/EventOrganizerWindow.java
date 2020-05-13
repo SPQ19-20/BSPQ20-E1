@@ -9,6 +9,11 @@ import javax.swing.*;
 import es.deusto.client.controller.Controller;
 import es.deusto.serialization.EventInfo;
 
+/**
+ * This class is the one used to create a window that allows
+ * to an organizer to change or administrate one of his events.
+ */
+
 public class EventOrganizerWindow extends JFrame {
     
     private static final long serialVersionUID = 1L;

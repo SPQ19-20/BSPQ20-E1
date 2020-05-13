@@ -12,6 +12,11 @@ import javax.swing.JTextField;
 
 import es.deusto.client.controller.Controller;
 
+/**
+ * This class is the one used to create a window that allows
+ * a user to log in when he forgets the password.
+ */
+
 public class ForgottenPassword extends JFrame {
 
 	/**
