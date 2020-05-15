@@ -1,0 +1,25 @@
+var classes_1_1deusto_1_1serialization_1_1_event_info =
+[
+    [ "EventInfo", "classes_1_1deusto_1_1serialization_1_1_event_info.html#ae27d105c34d1dddfab6b99dc324f6045", null ],
+    [ "EventInfo", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a23451465f77562b397af56b0ca42c9c1", null ],
+    [ "addInterested", "classes_1_1deusto_1_1serialization_1_1_event_info.html#ac8e0bf9e4532b5748af205cf31a8c2b3", null ],
+    [ "getCity", "classes_1_1deusto_1_1serialization_1_1_event_info.html#af60efd48a78b669ee105938da3b706fa", null ],
+    [ "getCountry", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a0391b80e9a15bafb8e644177c4ffd3a7", null ],
+    [ "getDate", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a0c52201c30896ad9669ff21fd86b7b84", null ],
+    [ "getDescription", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a69799f4a36a2c1367b8e60793b68b9b9", null ],
+    [ "getInterested", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a48593041bf244fef18466c923347c289", null ],
+    [ "getName", "classes_1_1deusto_1_1serialization_1_1_event_info.html#ae8a073f4ff1cf655fb8eb0b71c149e06", null ],
+    [ "getOrganizerEmail", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a47272c4bbe9f25ffd8f73b8658874948", null ],
+    [ "getPosts", "classes_1_1deusto_1_1serialization_1_1_event_info.html#af1f0fe736f484fad10567a3e9777015a", null ],
+    [ "getTopic", "classes_1_1deusto_1_1serialization_1_1_event_info.html#aa3b6b945f14f6be5bee3f3e5e1b23e7f", null ],
+    [ "reduceInterested", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a3cda53af22a889cbcef45a89791b4e7f", null ],
+    [ "setCity", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a229af0a0ac5af892a935a3ea84501b3b", null ],
+    [ "setCountry", "classes_1_1deusto_1_1serialization_1_1_event_info.html#ad381cddd7f8de9a249286d102f7064a0", null ],
+    [ "setDate", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a1c028e1faedefb9403d36126e5067ae1", null ],
+    [ "setDescription", "classes_1_1deusto_1_1serialization_1_1_event_info.html#aed941f90002ab7aca9467445be7402d9", null ],
+    [ "setInterested", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a1e4f620fb4d4ada6ecd8d64c6bb89718", null ],
+    [ "setName", "classes_1_1deusto_1_1serialization_1_1_event_info.html#ae978132419a1f844c6d551831b96dfc2", null ],
+    [ "setOrganizerEmail", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a397e58c4b19ae3413050158470adfb52", null ],
+    [ "setPosts", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a01f13d76d6c3ccd3985e415f560286ec", null ],
+    [ "setTopic", "classes_1_1deusto_1_1serialization_1_1_event_info.html#a49fa8504b13a08015fbc474caff0acf9", null ]
+];

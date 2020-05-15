@@ -1,0 +1,26 @@
+var classes_1_1deusto_1_1server_1_1data_1_1_event =
+[
+    [ "Event", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a7622aed8a9280cc5e6b87b60ee7a1692", null ],
+    [ "Event", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a78005e6f8cab960c36e7bc749f470f38", null ],
+    [ "addInterested", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a10c328b57aacd780ec29cedf91c22f62", null ],
+    [ "getCity", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a274560e208d30d7f7ace63ab50f92fd8", null ],
+    [ "getCountry", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#aaa978deeed1b33ca5da31762ac4871ce", null ],
+    [ "getDate", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#aeeb00b1413cf861634c68df9ab8ef6d3", null ],
+    [ "getDescription", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#ab2313f333152ead36a833c31515deca5", null ],
+    [ "getInterested", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a3807905a553ddbda074ec233545dc34f", null ],
+    [ "getName", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a94b43369d61aea52634164151d4b40a8", null ],
+    [ "getOrganizer", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a7e44a0d1fb8c25867bfd09d435da153d", null ],
+    [ "getPosts", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a319c84586fe637d45b04774ff6f49273", null ],
+    [ "getTopic", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#ad4f3357d5685906594e00747d0f472bf", null ],
+    [ "reduceInterested", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#aaf8889842a6e9c6e79d2d047578817f9", null ],
+    [ "setCity", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a481d18abb4c5b3faac800040b590d71b", null ],
+    [ "setCountry", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a71e09d170ff2fd6c47d82d6c9d798948", null ],
+    [ "setDate", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a136728e15ed5ec1668fb522643b44d45", null ],
+    [ "setDescription", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a6eafc62b18f8217a216349627f98c38e", null ],
+    [ "setInterested", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a2f228097b22f92800b7068d27ff9b71d", null ],
+    [ "setName", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a51f922e97b8a1365b52b2104cb8eb0a6", null ],
+    [ "setOrganizer", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#ae71d27762511ce06c96a6b02462233ae", null ],
+    [ "setPosts", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a7e24a864e8eac736c256a42a131de48a", null ],
+    [ "setTopic", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#a3ec983075ebecce4f13f7df4f14d6b03", null ],
+    [ "toString", "classes_1_1deusto_1_1server_1_1data_1_1_event.html#ae34a8172311b0dd3c2658da5f2bf1295", null ]
+];
