@@ -8,6 +8,10 @@ import javax.jdo.Transaction;
 
 import es.deusto.server.data.Organizer;
 
+/**
+ * This classes is the one used to create an organizer DAO.	 
+ */
+
 public class OrganizerDAO {
 
     private PersistenceManager pm;

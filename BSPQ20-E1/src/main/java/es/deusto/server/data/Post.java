@@ -8,6 +8,12 @@ import javax.jdo.annotations.Persistent;
 import es.deusto.serialization.PostInfo;
 
 @PersistenceCapable(detachable="true")
+
+/**
+ * This classes is the one that defines a post and it is 
+ * used to create one.	 
+ */
+
 public class Post {
 
     @Persistent(defaultFetchGroup="true")

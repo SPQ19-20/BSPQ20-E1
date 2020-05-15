@@ -13,6 +13,10 @@ import es.deusto.server.data.Organizer;
 import es.deusto.server.data.Topic;
 import es.deusto.server.data.User;
 
+/**
+ * This classes is the one used to create an event DAO.	 
+ */
+
 public class EventDAO {
 	private PersistenceManager pm;
 	

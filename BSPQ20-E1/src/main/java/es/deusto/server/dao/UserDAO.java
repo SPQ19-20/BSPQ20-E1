@@ -8,6 +8,10 @@ import javax.jdo.Transaction;
 
 import es.deusto.server.data.User;
 
+/**
+ * This classes is the one used to create an user DAO.	 
+ */
+
 public class UserDAO {
 
     private PersistenceManager pm;

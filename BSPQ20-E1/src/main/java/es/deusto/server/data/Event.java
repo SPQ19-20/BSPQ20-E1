@@ -15,6 +15,12 @@ import es.deusto.server.dao.PostDAO;
 import es.deusto.server.dao.TopicDAO;
 
 @PersistenceCapable(detachable = "true")
+
+/**
+ * This classes is the one that defines an event and it is 
+ * used to create one.	 
+ */
+
 public class Event {
 
 	private String name;

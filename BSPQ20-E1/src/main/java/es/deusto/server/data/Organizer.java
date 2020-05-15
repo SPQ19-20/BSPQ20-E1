@@ -16,6 +16,12 @@ import es.deusto.server.dao.EventDAO;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
+
+/**
+ * This classes is the one that defines an organizer and it is 
+ * used to create one.	 
+ */
+
 public class Organizer extends GenericUser {
 	
 	private String organization;

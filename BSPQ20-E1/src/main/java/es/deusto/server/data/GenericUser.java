@@ -7,6 +7,12 @@ import javax.jdo.annotations.PersistenceCapable;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
+
+/**
+ * This classes is the father class for normal user and organizer.
+ * Both of them are users so they inherit from this class.	 
+ */
+
 public abstract class GenericUser {
 
 	long id;

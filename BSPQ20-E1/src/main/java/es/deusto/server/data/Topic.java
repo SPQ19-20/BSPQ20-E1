@@ -11,6 +11,12 @@ import javax.jdo.annotations.PrimaryKey;
 import es.deusto.serialization.TopicInfo;
 
 @PersistenceCapable(detachable="true")
+
+/**
+ * This classes is the one that defines a topic and it is 
+ * used to create one.	 
+ */
+
 public class Topic {
 
 	//a ID is created automatically

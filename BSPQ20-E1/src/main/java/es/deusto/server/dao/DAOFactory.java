@@ -6,6 +6,11 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 
+/**
+ * This class is used to create a DAO factory that is used by
+ * all of the other DAO classes, to create them or to close them.
+ */
+
 public class DAOFactory {
 
     private static final int POOL_SIZE = 20;

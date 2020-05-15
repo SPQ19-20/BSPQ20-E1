@@ -8,6 +8,10 @@ import javax.jdo.Transaction;
 
 import es.deusto.server.data.Topic;
 
+/**
+ * This classes is the one used to create a DAO a topic.	 
+ */
+
 public class TopicDAO {
 
     private PersistenceManager pm;

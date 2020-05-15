@@ -11,6 +11,10 @@ import javax.jdo.Transaction;
 import es.deusto.server.data.Event;
 import es.deusto.server.data.Post;
 
+/**
+ * This classes is the one used to create a DAO for a post.	 
+ */
+
 public class PostDAO {
     private PersistenceManager pm;
 	

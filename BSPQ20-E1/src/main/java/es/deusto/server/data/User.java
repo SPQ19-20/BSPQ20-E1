@@ -11,6 +11,12 @@ import java.util.ArrayList;
 
 @PersistenceCapable(detachable = "true")
 @Inheritance(strategy = InheritanceStrategy.COMPLETE_TABLE)
+
+/**
+ * This classes is the one that defines a normal user and it is 
+ * used to create one.	 
+ */
+
 public class User extends GenericUser {
 	// atributes
 	private String city, country;
