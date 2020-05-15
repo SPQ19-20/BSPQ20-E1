@@ -34,6 +34,11 @@ import org.junit.Test;
 
 import java.util.logging.*;
 
+/**
+ * This classes is used to create several tests to see
+ * if the server is working as intended.
+ */
+
 public class ServerTest {
 
     private static Server server;

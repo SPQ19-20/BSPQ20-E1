@@ -28,6 +28,12 @@ import org.junit.Test;
 
 import java.util.logging.*;
 
+/**
+ * This classes is the one that tests funcionalities such as creating
+ * an event, creating a user, orginzer, crea ting posts and topics.
+ * Is the class that checks that all the functionalities work as intended.	 
+ */
+
 public class SerializationTest {
 
     private Event event1, event2;

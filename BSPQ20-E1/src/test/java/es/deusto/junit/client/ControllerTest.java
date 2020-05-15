@@ -36,6 +36,11 @@ import org.databene.contiperf.junit.ContiPerfRule;
 
 import java.util.logging.*;
 
+/**
+ * This classes is the one that tests the controller component 
+ * to see if it is working as intended.	 
+ */
+
 public class ControllerTest extends JerseyTest {
 
     private final static Logger LOGGER = Logger.getLogger(ControllerTest.class.getName());
