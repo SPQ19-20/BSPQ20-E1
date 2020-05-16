@@ -8,3 +8,4 @@ datanucleus.log
 .settings/
 /log/
 log/
+.vscode/

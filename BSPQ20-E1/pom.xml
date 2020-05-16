@@ -137,7 +137,8 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${basedir}/docs</outputDirectory>
+							<!-- <outputDirectory>${basedir}/docs</outputDirectory> -->
+							<outputDirectory>${basedir}/../docs</outputDirectory> <!--Parent directory so that GH can find it-->
 								<resources>          
 									<resource>
 									<directory>${basedir}/target/doxygen/html</directory>

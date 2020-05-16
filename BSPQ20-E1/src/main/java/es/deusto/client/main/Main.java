@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import es.deusto.client.controller.Controller;
 import es.deusto.client.windows.CreateEvent;
@@ -29,6 +31,18 @@ public class Main {
 
 	public static void main(String[] args) throws ClassNotFoundException {
 		Controller c = new Controller("localhost", "8080");
+
+		try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		new LogInWindow(c);
 
 		// OrganizerInfo organizer = new OrganizerInfo();
