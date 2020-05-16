@@ -30,7 +30,11 @@ import es.deusto.serialization.TopicInfo;
 public class Main {
 
 	public static void main(String[] args) throws ClassNotFoundException {
-		Controller c = new Controller("localhost", "8080");
+		String host, port;
+		host = args[0];
+		port = args[1];
+		System.err.println(host);
+		Controller c = new Controller(host, port); 
 
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -44,52 +48,6 @@ public class Main {
 		}
 
 		new LogInWindow(c);
-
-		// OrganizerInfo organizer = new OrganizerInfo();
-		// organizer.setName("Organizer name");
-		// organizer.setEmail("this.is@somemail.com");
-		// organizer.setOrganization("Save the organizers");
-
-		// ArrayList<EventInfo> events = new ArrayList<>();
-
-		// EventInfo event = new EventInfo();
-		// event.setName("My testing event");
-		// event.setDescription("This is the description of the event. This text should consist of a couple of sentendes.");
-		// event.setOrganizerEmail("this.is@somemail.org");
-		// event.setTopic(new TopicInfo("ToToTopic"));
-		// ArrayList<PostInfo> posts = new ArrayList<>();
-		// PostInfo p1 = new PostInfo();
-		// p1.setDate(new Date());
-		// p1.setTitle("This is the title of the first post");
-		// p1.setDescription("This is the description (or body) of the post inside the event");
-		// p1.setEventName("This should be the same as the name of the event");
-		// p1.setOrganizerEmail("This should be the email of the organizer");
-		
-		// PostInfo p2 = new PostInfo();
-		// p2.setDate(new Date());
-		// p2.setTitle("This is the title of the second post");
-		// p2.setDescription("This is the description (or body) of the second post inside the event");
-		// p2.setEventName("This should be the same as the name of the event");
-		// p2.setOrganizerEmail("This should be the email of the organizer");
-
-		// event.getPosts().add(p1);
-		// event.getPosts().add(p2);
-
-		// EventInfo event2 = new EventInfo();
-		// event2.setName("My second testing event");
-		// event2.setDescription("This is the description of the second event. This text should consist of a couple of sentendes.");
-		// event2.setOrganizerEmail("this.is@somemail.org");
-		// event2.setTopic(new TopicInfo("ToToTopic"));
-		// event2.setPosts(new ArrayList<>());
-
-		// events.add(event);
-		// events.add(event2);
-		// organizer.setCreatedEvents(events);
-
-		// c.setOrganizer(organizer);
-
-		// new CreateEvent(c);
-		// new OrganizerHome(c);
 	}
 
 }
