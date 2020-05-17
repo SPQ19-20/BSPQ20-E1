@@ -48,13 +48,13 @@ These are the commands that need to be introduced in order to run the project te
 ###  Tests without performance:
 1. Open a new CMD window and run the following command:
 ```
-mvn clean test
+mvn clean test –DargLine=”-Dcontiperf.active=false”
 ```
 
 ###  Tests with performance (takes longer time):
 1. Open a new CMD window and run the following command:
 ```
-mvn clean test –DargLine=”-Dcontiperf.active=false”
+mvn clean test
 ```
 
 ###  Run the client

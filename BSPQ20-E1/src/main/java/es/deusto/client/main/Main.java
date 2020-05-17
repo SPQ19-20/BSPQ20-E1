@@ -36,17 +36,6 @@ public class Main {
 		System.err.println(host);
 		Controller c = new Controller(host, port); 
 
-		try {
-			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		new LogInWindow(c);
 	}
 

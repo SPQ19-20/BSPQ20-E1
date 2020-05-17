@@ -86,7 +86,7 @@ public class UserEventsWindow extends JFrame {
         for (EventInfo e : rec) {
             for (int i = 0; i < 1; i++) {
                 // e.setName(e.getName()+"kkk");
-                this.mainPanel.add(new EventListItem(controller, e));
+                this.mainPanel.add(new EventListItem(controller, e, this));
             }
         }
         

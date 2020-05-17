@@ -209,7 +209,7 @@ public class Profile extends JFrame {
         interestsListModel = new DefaultListModel<>();
         for (TopicInfo topic: controller.getUser().getInterests()) {
             for (int i = 0; i < 1; i++) {
-                topic.setName(topic.getName()+"k");
+                topic.setName(topic.getName());
                 interestsListModel.addElement(new TopicInfo(topic.getName()));
             }
         }

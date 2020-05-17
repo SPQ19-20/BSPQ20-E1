@@ -87,7 +87,7 @@ public class SavedEventsWindow extends JFrame {
         ArrayList<EventInfo> rec = controller.getUser().getSavedEvents();
         for (EventInfo e : rec) {
             for (int i = 0; i < 1; i++) {
-                this.mainPanel.add(new EventListItem(controller, e));
+                this.mainPanel.add(new EventListItem(controller, e, this));
             }
         }
         

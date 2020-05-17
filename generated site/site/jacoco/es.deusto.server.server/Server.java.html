@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Server.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EventFinder</a> &gt; <a href="index.source.html" class="el_package">es.deusto.server.server</a> &gt; <span class="el_source">Server.java</span></div><h1>Server.java</h1><pre class="source lang-java linenums">package es.deusto.server.server;
 
+import java.util.ArrayList;
 import java.util.logging.*;
 
 import javax.print.attribute.standard.Media;
@@ -15,21 +16,20 @@ import es.deusto.serialization.*;
 import es.deusto.server.dao.DAOFactory;
 import es.deusto.server.data.*;
 
+/**
+ * This class is the one that receives the requests from the client.
+ * There is no functionality implemented in this class, all the possible
+ * requests have a corresponding method inside the {@link AppService} class
+ * in which all the functionality is implemented. That way, the Server
+ * class is abstracted from the business objects.
+ */
 @Path(&quot;/server&quot;)
 @Produces(MediaType.APPLICATION_JSON)
 public class Server {
 	//initialise the logger for the server
-<span class="fc" id="L22">	private final static Logger LOGGER = Logger.getLogger(Server.class.getName());</span>
-	private static Handler fileHandler;
+<span class="fc" id="L30">	private final static Logger LOGGER = Logger.getLogger(Server.class.getName());</span>
+	private static Handler fileHandler;  
 	private static Handler consoleHandler;
-	/**
-	 * This class is the one that receives the requests from the client.
-	 * There is no functionality implemented in this class, all the possible
-	 * requests have a corresponding method inside the AppService class
-	 * in which all the functionality is implemented. That way, the Server
-	 * class is abstracted from the business objects.
-	 */
-
 	private AppService appService;
 
 	static {
@@ -50,52 +50,57 @@ public class Server {
 <span class="fc" id="L50">		this.appService = new AppService();</span>
 <span class="fc" id="L51">	}</span>
 
-	//--------------------------LOG IN -------------------------------------------------------------------------------
+	//-------------------------- LOG IN Methods -------------------------------------------------------------------------------
 
 	/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /login . It is used for the login process of regular users.
-	 * @param login Login information of the user (email and password)
-	 * @return Response object with the information of the user, in case of valid credentials. 
-	 * If not, an empty response is returned
+	 * This is used for the login process of regular users.
+	 * It is invoked whenever a POST request is made to the following path: /login.
+	 * It is used for the login process of regular users.
+	 * @param login {@link LoginAttempt} class containing the information of the user needed
+	 * for its log in (email and password).
+	 * @since Sprint 1.
+	 * @return {@link Response} object with the information of the user, in case of valid credentials. 
+	 * If not, an empty response is returned.
 	 */
 	@POST
 	@Path(&quot;/login&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalLogin(LoginAttempt login) {
-<span class="fc" id="L66">		LOGGER.log(Level.INFO, &quot;Login attempt received: &quot;, login);</span>
+<span class="fc" id="L69">		LOGGER.log(Level.INFO, &quot;Login attempt received: &quot;, login);</span>
 
-<span class="fc" id="L68">		User user = appService.attemptNormalLogin(login);</span>
+<span class="fc" id="L71">		User user = appService.attemptNormalLogin(login);</span>
 
-<span class="fc" id="L70">		Object resp = null;</span>
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">		if (user != null) {</span>
-<span class="fc" id="L72">			resp = new UserInfo(user);</span>
+<span class="fc" id="L73">		Object resp = null;</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">		if (user != null) {</span>
+<span class="fc" id="L75">			resp = new UserInfo(user);</span>
 		}
 
-<span class="fc" id="L75">		return Response.ok(resp).build();</span>
+<span class="fc" id="L78">		return Response.ok(resp).build();</span>
 	}
 
 	/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /loginOrganizer . It is used for the login process of organizers.
-	 * @param login Login information of the organizer (email and password)
-	 * @return Response object with the information of the organizer, in case of valid credentials. 
-	 * If not, an empty response is returned
+	 * This method is used for the login process of organizers.
+	 * It is invoked whenever a POST request is made to the following path: /loginOrganizer.
+	 * @param login {@link LoginAttempt} class containing the information of the organizer needed
+	 * for its log in (email and password).
+	 * @return {@link Response} object with the information of the organizer, in case of valid credentials. 
+	 * If not, an empty response is returned.
+	 * @since Sprint 2
 	 */
 	@POST
 	@Path(&quot;/loginOrganizer&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerLogin(LoginAttempt login) {
-<span class="fc" id="L89">		LOGGER.log(Level.INFO, &quot;Organizer login attempt received: &quot;, login);</span>
+<span class="fc" id="L94">		LOGGER.log(Level.INFO, &quot;Organizer login attempt received: &quot;, login);</span>
 
-<span class="fc" id="L91">		Organizer organizer = appService.attemptOrganizerLogin(login);</span>
+<span class="fc" id="L96">		Organizer organizer = appService.attemptOrganizerLogin(login);</span>
 
-<span class="fc" id="L93">		Object resp = null;</span>
-<span class="pc bpc" id="L94" title="1 of 2 branches missed.">		if (organizer != null) {</span>
-<span class="fc" id="L95">			resp = new OrganizerInfo(organizer);</span>
+<span class="fc" id="L98">		Object resp = null;</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">		if (organizer != null) {</span>
+<span class="fc" id="L100">			resp = new OrganizerInfo(organizer);</span>
 		}
 
-<span class="fc" id="L98">		return Response.ok(resp).build();</span>
+<span class="fc" id="L103">		return Response.ok(resp).build();</span>
 	}
 
 	//--------------------SIGN UP -----------------------------------------------------------------------------------------
@@ -104,193 +109,262 @@ public class Server {
 	 * This method is invoked whenever a POST request is made to the following path:
 	 * /signup . It is used of the signup method of regular users.
 	 * @param signup Signup information of the user (name, email, password, city and interests)
-	 * @return Response object with the information of the user, in case of correct user registration. 
+	 * contained in a {@link SignupAttempt} object.
+	 * @return {@link Response} object with the information of the user, in case of correct user registration. 
 	 * If not, an empty response is returned
+	 * @since Sprint 1
 	 */
 	@POST
 	@Path(&quot;/signup&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalSignup(SignupAttempt signup) {
-<span class="fc" id="L114">		LOGGER.log(Level.INFO, &quot;Signup attempt received: &quot;, signup);</span>
+<span class="fc" id="L121">		LOGGER.log(Level.INFO, &quot;Signup attempt received: &quot;, signup);</span>
 
-<span class="fc" id="L116">		User user = appService.attemptNormalSignup(signup);</span>
+<span class="fc" id="L123">		User user = appService.attemptNormalSignup(signup);</span>
 
-<span class="fc" id="L118">		Object resp = null;</span>
-<span class="pc bpc" id="L119" title="1 of 2 branches missed.">		if (user != null) {</span>
-<span class="fc" id="L120">			resp = new UserInfo(user);</span>
+<span class="fc" id="L125">		Object resp = null;</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">		if (user != null) {</span>
+<span class="fc" id="L127">			resp = new UserInfo(user);</span>
 		}
 
-<span class="fc" id="L123">		return Response.ok(resp).build();</span>
+<span class="fc" id="L130">		return Response.ok(resp).build();</span>
 	}
 
 	/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /signupOrganizer . It is used of the signup method of organizers.
-	 * @param signup Signup information of the organizer (name, email, password and organization)
-	 * @return Response object with the information of the organizer, in case of correct registration. 
-	 * If not, an empty response is returned
+	 * This method is used of the signup method of Organizers. 
+	 * It is invoked whenever a POST request is made to the following path: /signupOrganizer.
+	 * @param signup {@link SignupAttempt} object containing the information of the organizer requested when 
+	 * registering for the first time (name, email, password and organization).
+	 * @return {@link Response} object with the information of the organizer, in case of correct registration. 
+	 * If not, an empty response is returned.
+	 * @since Sprint 2
 	 */
 	@POST
 	@Path(&quot;/signupOrganizer&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerSignup(SignupAttempt signup) {
-<span class="fc" id="L137">		LOGGER.log(Level.INFO, &quot; Organizer Signup attempt received: &quot;, signup);</span>
+<span class="fc" id="L146">		LOGGER.log(Level.INFO, &quot; Organizer Signup attempt received: &quot;, signup);</span>
 
-<span class="fc" id="L139">		Organizer organizer = appService.attemptOrganizerSignup(signup);</span>
+<span class="fc" id="L148">		Organizer organizer = appService.attemptOrganizerSignup(signup);</span>
 
-<span class="fc" id="L141">		Object resp = null;</span>
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		if (organizer != null) {</span>
-<span class="fc" id="L143">			resp = new OrganizerInfo(organizer);</span>
+<span class="fc" id="L150">		Object resp = null;</span>
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">		if (organizer != null) {</span>
+<span class="fc" id="L152">			resp = new OrganizerInfo(organizer);</span>
 		}
 
-<span class="fc" id="L146">		return Response.ok(resp).build();</span>
+<span class="fc" id="L155">		return Response.ok(resp).build();</span>
 	}
 
 	//------------------------------------UPDATE USERS-----------------------------------------------------
 
 /**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /update . It is used of the signup method of regular users.
-	 * @param signup Signup information of the user (name, email, password, city and interests)
+	 * This method is used to update the information of regular users' account. 
+	 * It is invoked whenever a POST request is made to the following path: /update .
+	 * @param signup {@link SignupAttempt} object containing the information of the User
+	 * (name, email, password, city and interests).
+	 * In this case it is also used for updating their information since its basic structure doesn't change.
 	 * @since Sprint 2
-	 * @return Response object with the information of the user, in case of correct user registration. 
+	 * @return {@link Response} object with the information of the user, in case of correct user registration. 
 	 * If not, an empty response is returned
 	 */
 	@POST
 	@Path(&quot;/update&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptNormalUpdate(SignupAttempt signup) {
-<span class="fc" id="L163">		LOGGER.log(Level.INFO, &quot;Update attempt received: &quot;, signup);</span>
+<span class="fc" id="L174">		LOGGER.log(Level.INFO, &quot;Update attempt received: &quot;, signup);</span>
 
-<span class="fc" id="L165">		User user = appService.attemptNormalUpdate(signup); //returns the updated user</span>
+<span class="fc" id="L176">		User user = appService.attemptNormalUpdate(signup); //returns the updated user</span>
 
-<span class="fc" id="L167">		Object resp = null;</span>
-<span class="pc bpc" id="L168" title="1 of 2 branches missed.">		if (user != null) {</span>
-<span class="fc" id="L169">			resp = new UserInfo(user); //the response (UserInfo) doesn't need a password</span>
+<span class="fc" id="L178">		Object resp = null;</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">		if (user != null) {</span>
+<span class="fc" id="L180">			resp = new UserInfo(user); //the response (UserInfo) doesn't need a password</span>
 		}
 
-<span class="fc" id="L172">		return Response.ok(resp).build();</span>
+<span class="fc" id="L183">		return Response.ok(resp).build();</span>
 	}
 
 		/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /signupOrganizer . It is used of the signup method of organizers.
-	 * @param signup Signup information of the organizer (name, email, password and organization)
+	 * This method is used to update the information of an Organizer account. 
+	 * It is invoked whenever a POST request is made to the following path: /updateOrganizer .
+	 * @param signup {@link SignupAttempt} object containing the information of the Organizers
+	 * (name, email, password and organization).
+	 * In this case it is also used for updating their information since its basic structure doesn't change. 
 	 * @since Sprint 2
-	 * @return Response object with the information of the organizer, in case of correct registration. 
+	 * @return {@link Response} object with the information of the organizer, in case of correct registration. 
 	 * If not, an empty response is returned
 	 */
 	@POST
 	@Path(&quot;/updateOrganizer&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerUpdate(SignupAttempt signup) {
-<span class="fc" id="L187">		LOGGER.log(Level.INFO, &quot;Organizer Update attempt received: &quot;, signup);</span>
+<span class="fc" id="L200">		LOGGER.log(Level.INFO, &quot;Organizer Update attempt received: &quot;, signup);</span>
 
-<span class="fc" id="L189">		Organizer organizer = appService.attemptOrganizerUpdate(signup);</span>
+<span class="fc" id="L202">		Organizer organizer = appService.attemptOrganizerUpdate(signup);</span>
 
-<span class="fc" id="L191">		Object resp = null;</span>
-<span class="pc bpc" id="L192" title="1 of 2 branches missed.">		if (organizer != null) {</span>
-<span class="fc" id="L193">			resp = new OrganizerInfo(organizer); //the response (OrganizerInfo) doesn't need a password</span>
+<span class="fc" id="L204">		Object resp = null;</span>
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">		if (organizer != null) {</span>
+<span class="fc" id="L206">			resp = new OrganizerInfo(organizer); //the response (OrganizerInfo) doesn't need a password</span>
 		}
 
-<span class="fc" id="L196">		return Response.ok(resp).build();</span>
+<span class="fc" id="L209">		return Response.ok(resp).build();</span>
 	}
 	
 	//-----------------------------Password and event management------------------------------------------
 
 	/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /passwordRecovery . It is used for password recovery for users who can't remember their passwords.
-	 * @param userInfo LoginAttempt with the email of the user who needs a new password
-	 * @return Response object with the following message: &quot;OK&quot;
+	 * This method is used for recommend {@link Event} to users.
+	 * It is invoked whenever a POST request is made to the following path: /recomendation .
+	 * @param signupAttempt {@link SignupAttempt} object containing the interests and locations of the User. 
+	 * @return {@link Response} object with the events information
+	 * @since Sprint 3
+	 */
+	@POST
+	@Path(&quot;/recommendation&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getRecommendedEvents(SignupAttempt signupAttempt) {
+		
+<span class="nc" id="L226">		LOGGER.log(Level.INFO, &quot;sending recommendations...&quot;);</span>
+
+<span class="nc" id="L228">		ArrayList&lt;EventInfo&gt; resp = appService.getRecommendedEvents(signupAttempt);</span>
+<span class="nc" id="L229">		SignupAttempt r = new SignupAttempt();</span>
+<span class="nc" id="L230">		r.setSaveEvents(resp);</span>
+
+<span class="nc" id="L232">		return Response.ok(r).build();</span>
+	}
+	
+	/**
+	 * This method is used for password recovery for users who can't remember their passwords.
+	 * It is invoked whenever a POST request is made to the following path: /passwordRecovery .
+	 * @param userInfo {@link LoginAttempt} object with the email of the user who needs a new password.
+	 * @return {@link Response} object with the following message: &quot;OK&quot;.
+	 * @since Sprint 1
 	 */
 	@POST
 	@Path(&quot;/passwordRecovery&quot;)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response recoverPassword(LoginAttempt userInfo){
-<span class="fc" id="L211">		LOGGER.log(Level.INFO, &quot;Password Recovery attempt received: &quot;+ userInfo.getEmail());</span>
+<span class="nc" id="L246">		LOGGER.log(Level.INFO, &quot;Password Recovery attempt received: &quot;+ userInfo.getEmail());</span>
 
-<span class="fc" id="L213">		appService.recoverPassword(userInfo);</span>
-<span class="fc" id="L214">		return Response.ok(&quot;OK&quot;).build();</span>
+<span class="nc" id="L248">		appService.recoverPassword(userInfo);</span>
+<span class="nc" id="L249">		return Response.ok(&quot;OK&quot;).build();</span>
 	}
 
 	/**
-	 * This method is envoked whenever a POST request is made to the following path:
-	 * /createEvent . It is used for the creation of new events from a given organizer.
-	 * @param eventInfo EventInfo with the data of the event that will be created
-	 * @return Response an empty response
+	 * This method is used for the removal of events.
+	 * It is invoked whenever a POST request is made to the following path: /deleteEvent .
+	 * @param eventInfo information of the event to be deleted
+	 * @return Response object
+	 */
+	@POST
+	@Path(&quot;/deleteEvent&quot;)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response deleteEvent(EventInfo eventInfo){
+<span class="fc" id="L262">		LOGGER.log(Level.INFO, &quot;Delete event attempt received: &quot;+ eventInfo.getName());</span>
+
+<span class="fc" id="L264">		appService.deleteEvent(eventInfo);</span>
+<span class="fc" id="L265">		return Response.ok(&quot;OK&quot;).build();</span>
+	}
+
+	/**
+	 * This method is used for the creation of new events from a given organizer.
+	 * It is envoked whenever a POST request is made to the following path: /createEvent.
+	 * @param eventInfo {@link EventInfo} object with the data of the event that will be created.
+	 * @return {@link Response} object containing the information of a {@link EventInfo}.
+	 * @since Sprint 2 
 	 */
 	@POST
 	@Path(&quot;/createEvent&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createEvent(EventInfo eventInfo) {
-<span class="fc" id="L227">		LOGGER.log(Level.INFO, &quot;Event creation attempt received: &quot;, eventInfo);</span>
+<span class="fc" id="L279">		LOGGER.log(Level.INFO, &quot;Event creation attempt received: &quot;, eventInfo);</span>
 
-<span class="fc" id="L229">		Event e = appService.createEvent(eventInfo);</span>
-<span class="fc" id="L230">		return Response.ok(new EventInfo(e)).build();</span>
+<span class="fc" id="L281">		Event e = appService.createEvent(eventInfo);</span>
+<span class="fc" id="L282">		return Response.ok(new EventInfo(e)).build();</span>
 	}
 
+	/**
+	 * This method is used for the creation of new {@link Post} from a given Event.
+	 * It is envoked whenever a POST request is made to the following path: /createEvent.
+	 * @param postInfo {@link PostInfo} object with the data of the event that will be created.
+	 * @return {@link Response} object containing the information of a {@link PostInfo}.
+	 * @since Sprint 2 
+	 */
 	@POST
 	@Path(&quot;/createPost&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createPost(PostInfo postInfo) {
-<span class="fc" id="L237">		LOGGER.log(Level.INFO, &quot;POST creation attempt received: &quot;, postInfo);</span>
+<span class="fc" id="L296">		LOGGER.log(Level.INFO, &quot;POST creation attempt received: &quot;, postInfo);</span>
 
-<span class="fc" id="L239">		Post p = appService.createPost(postInfo);</span>
-<span class="fc" id="L240">		return Response.ok(new PostInfo(p)).build();</span>
+<span class="fc" id="L298">		Post p = appService.createPost(postInfo);</span>
+<span class="fc" id="L299">		return Response.ok(new PostInfo(p)).build();</span>
 	}
 
 	//------------------------------------DELETE USER-----------------------------------------------------
 
 	/**
-	 * This method is invoked whenever a POST request is made to the following path:
-	 * /delete . It is used of the delete method of users.
-	 * @param userInfo - UserInfo object containing user's email
+	 * This method is used of the delete method of regular Users.
+	 * It is invoked whenever a POST request is made to the following path: /delete . 
+	 * @param userInfo {@link UserInfo} object containing user's email.
 	 * @since Sprint 2
-	 * @return Response string with the user's email, in case of user delete was successful.
-	 * If not, an empty response is returned
+	 * @return {@link Response} string with the user's email, in case of user delete was successful.
+	 * If not, an empty response is returned.
 	 */
 	@POST
 	@Path(&quot;/delete&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptUserDelete(UserInfo userInfo) {
-<span class="fc" id="L257">		String email = userInfo.getEmail();</span>
-<span class="fc" id="L258">		LOGGER.log(Level.INFO, &quot;Delete attempt received:  &quot; + email);</span>
+<span class="fc" id="L316">		String email = userInfo.getEmail();</span>
+<span class="fc" id="L317">		LOGGER.log(Level.INFO, &quot;Delete attempt received:  &quot; + email);</span>
 
-<span class="fc" id="L260">		boolean check = appService.deleteUser(email); //returns true if user was deleted successfully</span>
+<span class="fc" id="L319">		boolean check = appService.deleteUser(email); //returns true if user was deleted successfully</span>
 
-<span class="fc" id="L262">		String resp = null;</span>
-<span class="pc bpc" id="L263" title="1 of 2 branches missed.">		if (check) resp = &quot;Delete: &quot; + email;</span>
+<span class="fc" id="L321">		String resp = null;</span>
+<span class="pc bpc" id="L322" title="1 of 2 branches missed.">		if (check) resp = &quot;Delete: &quot; + email;</span>
 
-<span class="fc" id="L265">		return Response.ok(resp).build();</span>
+<span class="fc" id="L324">		return Response.ok(resp).build();</span>
 	}
 
+	/**
+	 * This method is used of the delete method of Organizers.
+	 * It is invoked whenever a POST request is made to the following path: /delete . 
+	 * @param organizerInfo {@link OrganizerInfo} object containing Organizer's email.
+	 * @since Sprint 2
+	 * @return {@link Response} string with the Organizer's email, in case the delete was successful.
+	 * If not, an empty response is returned.
+	 */
 	@POST
 	@Path(&quot;/deleteOrganizer&quot;)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response attemptOrganizerDelete(OrganizerInfo organizerInfo) {
 		
-<span class="fc" id="L273">		String email = organizerInfo.getEmail();</span>
-<span class="fc" id="L274">		LOGGER.log(Level.INFO, &quot;Organizer delete attempt received:  &quot; + email);</span>
+<span class="fc" id="L340">		String email = organizerInfo.getEmail();</span>
+<span class="fc" id="L341">		LOGGER.log(Level.INFO, &quot;Organizer delete attempt received:  &quot; + email);</span>
 
-<span class="fc" id="L276">		boolean check = appService.deleteOrganizer(email); //returns true if organizer was deleted successfully</span>
+<span class="fc" id="L343">		boolean check = appService.deleteOrganizer(email); //returns true if organizer was deleted successfully</span>
 
-<span class="fc" id="L278">		String resp = null;</span>
-<span class="pc bpc" id="L279" title="1 of 2 branches missed.">		if (check) resp = &quot;Delete: &quot; + email;</span>
+<span class="fc" id="L345">		String resp = null;</span>
+<span class="pc bpc" id="L346" title="1 of 2 branches missed.">		if (check) resp = &quot;Delete: &quot; + email;</span>
 
-<span class="fc" id="L281">		return Response.ok(resp).build();</span>
+<span class="fc" id="L348">		return Response.ok(resp).build();</span>
 	}
+
+
 
 	// --------------------------------------------------------------
 
-	// method used for manual testing 
+	
+	/**
+	 * method used for manual testing 
+	 * @return
+	 * @deprecated
+	 */
 	@GET
 	@Path(&quot;/hello&quot;)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response sayHello() {
         // Persistence of a set of Accounts and a User
-<span class="nc" id="L292">		appService.hello();</span>
-<span class="nc" id="L293">		return Response.ok(&quot;Hello world!&quot;).build();</span>
+<span class="nc" id="L366">		appService.hello();</span>
+<span class="nc" id="L367">		return Response.ok(&quot;Hello world!&quot;).build();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

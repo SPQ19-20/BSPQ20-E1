@@ -84,6 +84,29 @@ public class EventWindow extends JFrame {
 
 		postsMenu.add(createPost);
 		bar.add(postsMenu);
+
+		if (controller.getUser() == null && controller.getOrganize() != null) {
+			JMenu optionsMenu = new JMenu(langManager.getString("deleteEvent"));
+			JMenuItem deleteEvent = new JMenuItem(langManager.getString("deleteEvent"));
+
+			deleteEvent.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int conf = JOptionPane.showConfirmDialog(null, "Are you sure?", "", JOptionPane.YES_NO_OPTION);
+					if (conf == JOptionPane.YES_OPTION) {
+						boolean res = controller.attemptEventDelete(event);
+						if (res) {
+							JOptionPane.showMessageDialog(null, "Event deleted successfully");
+							dispose();
+							new OrganizerHome(controller);
+						}
+					}
+				}
+			});
+
+			optionsMenu.add(deleteEvent);
+			bar.add(optionsMenu);
+		}
 	}
 
 	private JPanel initTopControlPanel() {
@@ -272,7 +295,7 @@ public class EventWindow extends JFrame {
 		for (PostInfo p: event.getPosts()) {
 			// generate post panel and add it to postsPanel
 			postsPanel.add(new PostPanel(p));
-			postsPanel.add(Box.createHorizontalStrut(10));
+			postsPanel.add(Box.createVerticalStrut(10));
 		}
 
 		JScrollPane scroll = new JScrollPane(
@@ -292,6 +315,9 @@ public class EventWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+				if (controller.getUser() == null && controller.getOrganize() != null) {
+					new OrganizerHome(controller);
+				}
 			}
 		});
 	}
@@ -311,7 +337,7 @@ public class EventWindow extends JFrame {
 
 		private void initComponents() {
 			setLayout(new BorderLayout());
-			setMaximumSize(new Dimension(Integer.MAX_VALUE, 300));
+			setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
 
 
 			JPanel topPanel, bottomPanel;

@@ -22,7 +22,7 @@ public class User extends GenericUser {
 	private String city, country;
 
 	@Join
-	@Element(dependent = "false")
+	@Element(dependent = "true")
 	@Persistent(defaultFetchGroup = "true")
 	private ArrayList<Event> savedEvents = new ArrayList<Event>();
 

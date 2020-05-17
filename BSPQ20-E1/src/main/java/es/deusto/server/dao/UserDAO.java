@@ -1,5 +1,7 @@
 package es.deusto.server.dao;
 
+import java.util.ArrayList;
+
 import javax.jdo.Extent;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
@@ -19,7 +21,35 @@ public class UserDAO {
 	protected UserDAO(PersistenceManager pm) {
 		this.pm = pm;
     }
-    
+	
+	public ArrayList<User> getAllUsers() {
+		pm.getFetchPlan().setMaxFetchDepth(4);
+		pm.setDetachAllOnCommit(true);
+		
+		Transaction tx = pm.currentTransaction();
+		
+		ArrayList<User> ret = new ArrayList<>();
+		
+		try {
+			tx.begin();
+			
+			Extent<User> extent = pm.getExtent(User.class, true);
+			for (User u : extent) {
+				ret.add(u);
+			}
+			
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (tx != null && tx.isActive()) {
+	    		tx.rollback();
+	    	}
+		}
+		
+		return ret;
+    }
+
     public User getUser(String email) {
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		pm.setDetachAllOnCommit(true);

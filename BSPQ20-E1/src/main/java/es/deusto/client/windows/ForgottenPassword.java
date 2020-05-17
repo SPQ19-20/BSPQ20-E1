@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 
@@ -77,17 +79,8 @@ public class ForgottenPassword extends JFrame {
 		btnConfirm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*if(email exists in db){
-				 * for(int i =0;i<4;i++){
-				 * 	code = ""+ ((int)(Math.random()*9))
-				 * }
-				 * send code to mail
-				 * String mail = txtmail.getText();
-				 * new CodeVerification(code, controller);
-				 * }else{
-				 * JOptionPane.showMessageDialog(null, "Email Does Not Exist")
-				 * }
-				*/
+				controller.attemptPasswordRecovery(txtxmail.getText());
+				JOptionPane.showMessageDialog(null, "We have changed your password. Check your email.");
 			}
 		});
 		

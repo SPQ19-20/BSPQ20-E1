@@ -8,50 +8,50 @@ import javax.jdo.Transaction;
 
 import es.deusto.server.data.Topic;
 
+/**
+ * This classes is the one used to create a DAO a topic.	 
+ */
+
 public class TopicDAO {
 
-    private PersistenceManagerFactory pmf;
+    private PersistenceManager pm;
 	
-<span class="fc" id="L15">	protected TopicDAO() {</span>
-<span class="fc" id="L16">		pmf = JDOHelper.getPersistenceManagerFactory(&quot;datanucleus.properties&quot;);</span>
-<span class="fc" id="L17">    }</span>
+<span class="fc" id="L19">	protected TopicDAO(PersistenceManager pm) {</span>
+<span class="fc" id="L20">		this.pm = pm;</span>
+<span class="fc" id="L21">    }</span>
     
     public Topic getTopic(String name) {
-<span class="fc" id="L20">        PersistenceManager pm = pmf.getPersistenceManager();</span>
-<span class="fc" id="L21">		pm.getFetchPlan().setMaxFetchDepth(4);</span>
-<span class="fc" id="L22">		pm.setDetachAllOnCommit(true);</span>
+<span class="fc" id="L24">		pm.getFetchPlan().setMaxFetchDepth(4);</span>
+<span class="fc" id="L25">		pm.setDetachAllOnCommit(true);</span>
 		
-<span class="fc" id="L24">		Transaction tx = pm.currentTransaction();</span>
+<span class="fc" id="L27">		Transaction tx = pm.currentTransaction();</span>
 		
-<span class="fc" id="L26">		Topic topic = null;</span>
+<span class="fc" id="L29">		Topic topic = null;</span>
 		
 		try {
-<span class="fc" id="L29">			tx.begin();</span>
+<span class="fc" id="L32">			tx.begin();</span>
 			
-<span class="fc" id="L31">			Extent&lt;Topic&gt; extent = pm.getExtent(Topic.class, true);</span>
-<span class="fc bfc" id="L32" title="All 2 branches covered.">			for (Topic u : extent) {</span>
-<span class="fc bfc" id="L33" title="All 2 branches covered.">				if (u.getName().equals(name)) {</span>
-<span class="fc" id="L34">					topic = u;</span>
-<span class="fc" id="L35">					break;</span>
+<span class="fc" id="L34">			Extent&lt;Topic&gt; extent = pm.getExtent(Topic.class, true);</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">			for (Topic u : extent) {</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">				if (u.getName().equals(name)) {</span>
+<span class="fc" id="L37">					topic = u;</span>
+<span class="fc" id="L38">					break;</span>
 				}
-<span class="fc" id="L37">			}</span>
+<span class="fc" id="L40">			}</span>
 			
-<span class="fc" id="L39">			tx.commit();</span>
-<span class="nc" id="L40">		} catch (Exception e) {</span>
-<span class="nc" id="L41">			e.printStackTrace();</span>
+<span class="fc" id="L42">			tx.commit();</span>
+<span class="nc" id="L43">		} catch (Exception e) {</span>
+<span class="nc" id="L44">			e.printStackTrace();</span>
 		} finally {
-<span class="pc bpc" id="L43" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
-<span class="nc" id="L44">	    		tx.rollback();</span>
+<span class="pc bpc" id="L46" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L47">	    		tx.rollback();</span>
 	    	}
-			
-<span class="fc" id="L47">			pm.close();</span>
 		}
 		
-<span class="fc" id="L50">		return topic;</span>
+<span class="fc" id="L51">		return topic;</span>
     }
 
 	public void storeTopic(Topic topic) {
-<span class="nc" id="L54">		PersistenceManager pm = pmf.getPersistenceManager();</span>
 <span class="nc" id="L55">		pm.setDetachAllOnCommit(true);</span>
 <span class="nc" id="L56">		Transaction tx = pm.currentTransaction();</span>
 		
@@ -67,37 +67,41 @@ public class TopicDAO {
 <span class="nc bnc" id="L67" title="All 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
 <span class="nc" id="L68">	    		tx.rollback();</span>
 	    	}
-			
-<span class="nc" id="L71">			pm.close();</span>
 		}
-<span class="nc" id="L73">    }</span>
+<span class="nc" id="L71">    }</span>
     
     public void updateTopic(Topic topic) {
-<span class="nc" id="L76">		storeTopic(topic);</span>
-<span class="nc" id="L77">	}</span>
+<span class="nc" id="L74">		storeTopic(topic);</span>
+<span class="nc" id="L75">	}</span>
 
 	public void deleteTopic(String name) {
-<span class="fc" id="L80">		PersistenceManager pm = pmf.getPersistenceManager();</span>
-<span class="fc" id="L81">		pm.setDetachAllOnCommit(true);</span>
-<span class="fc" id="L82">		Transaction tx = pm.currentTransaction();</span>
+<span class="fc" id="L78">		pm.setDetachAllOnCommit(true);</span>
+<span class="fc" id="L79">		Transaction tx = pm.currentTransaction();</span>
 		
-<span class="fc" id="L84">		Topic topic = getTopic(name);</span>
+<span class="fc" id="L81">		Topic topic = getTopic(name);</span>
 
 		try {
-<span class="fc" id="L87">			tx.begin();</span>
+<span class="fc" id="L84">			tx.begin();</span>
 
-<span class="fc" id="L89">			pm.deletePersistent(topic);</span>
+<span class="fc" id="L86">			pm.deletePersistent(topic);</span>
 
-<span class="fc" id="L91">			tx.commit();</span>
-<span class="nc" id="L92">		} catch (Exception e) {</span>
-<span class="nc" id="L93">			e.printStackTrace();</span>
+<span class="fc" id="L88">			tx.commit();</span>
+<span class="nc" id="L89">		} catch (Exception e) {</span>
+<span class="nc" id="L90">			e.printStackTrace();</span>
 		} finally {
-<span class="pc bpc" id="L95" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
-<span class="nc" id="L96">	    		tx.rollback();</span>
+<span class="pc bpc" id="L92" title="2 of 4 branches missed.">			if (tx != null &amp;&amp; tx.isActive()) {</span>
+<span class="nc" id="L93">	    		tx.rollback();</span>
 	    	}
-<span class="fc" id="L98">			pm.close();</span>
 		}
-<span class="fc" id="L100">	}</span>
+<span class="fc" id="L96">	}</span>
+
+	protected PersistenceManager getPersistenceManager() {
+<span class="fc" id="L99">		return this.pm;</span>
+	}
+
+	protected void close() {
+<span class="fc" id="L103">		this.pm = null;</span>
+<span class="fc" id="L104">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -25,11 +25,14 @@ public class EventListItem extends JPanel {
 
     private JLabel emptyThumbLabel, filledThumbLabel, detailsLabel;
 
-    public EventListItem(Controller controller, EventInfo event) {
+    private JFrame parent;
+
+    public EventListItem(Controller controller, EventInfo event, JFrame parent) {
         super();
 
         this.controller = controller;
         this.event = event;
+        this.parent = parent;
 
         this.initComponents();
     }
@@ -89,6 +92,9 @@ public class EventListItem extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new EventWindow(controller, event);
+                if (controller.getUser() == null && controller.getOrganize() != null) {
+                    parent.dispose();
+                }
             }
         });
 
@@ -144,7 +150,7 @@ public class EventListItem extends JPanel {
             container.add(thumbLabel, BorderLayout.EAST);
             container.add(detailsPanel, BorderLayout.CENTER);
         } else {
-            container.add(interestedPanel, BorderLayout.WEST);
+            //container.add(interestedPanel, BorderLayout.WEST);
             container.add(detailsPanel, BorderLayout.EAST);
         }
 

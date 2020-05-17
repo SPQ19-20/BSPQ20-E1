@@ -147,6 +147,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aabb64706e0aed7ddc408a7c96b4bf90d"><td class="memItemLeft" align="right" valign="top">ArrayList&lt; <a class="el" href="classes_1_1deusto_1_1serialization_1_1_event_info.html">EventInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#aabb64706e0aed7ddc408a7c96b4bf90d">getRecommendations</a> ()</td></tr>
 <tr class="memdesc:aabb64706e0aed7ddc408a7c96b4bf90d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a recommendations request call to the server.  <a href="classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#aabb64706e0aed7ddc408a7c96b4bf90d">More...</a><br /></td></tr>
 <tr class="separator:aabb64706e0aed7ddc408a7c96b4bf90d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab59dc5628bc937e5df752e0b5c45cdbb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#ab59dc5628bc937e5df752e0b5c45cdbb">attemptPasswordRecovery</a> (String email)</td></tr>
+<tr class="memdesc:ab59dc5628bc937e5df752e0b5c45cdbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a password recovery call to the server.  <a href="classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#ab59dc5628bc937e5df752e0b5c45cdbb">More...</a><br /></td></tr>
+<tr class="separator:ab59dc5628bc937e5df752e0b5c45cdbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0d92b1a425a8692391141bed632651c"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#ab0d92b1a425a8692391141bed632651c">attemptEventDelete</a> (<a class="el" href="classes_1_1deusto_1_1serialization_1_1_event_info.html">EventInfo</a> info)</td></tr>
+<tr class="memdesc:ab0d92b1a425a8692391141bed632651c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a event removal call to the server.  <a href="classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#ab0d92b1a425a8692391141bed632651c">More...</a><br /></td></tr>
+<tr class="separator:ab0d92b1a425a8692391141bed632651c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class is the one carrying out all the communication with the server. </p>
@@ -218,6 +224,35 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab0d92b1a425a8692391141bed632651c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0d92b1a425a8692391141bed632651c">&#9670;&nbsp;</a></span>attemptEventDelete()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean es.deusto.client.controller.Controller.attemptEventDelete </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classes_1_1deusto_1_1serialization_1_1_event_info.html">EventInfo</a>&#160;</td>
+          <td class="paramname"><em>info</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Invokes a event removal call to the server. </p>
+<p>Sends to the server the information of the event, and the server deletes it from the database.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">info</td><td>event info object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section since"><dt>Since</dt><dd>Sprint 3 </dd></dl>
+
+</div>
+</div>
 <a id="ad898c1e4e5ddadad83913e39acea58a9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad898c1e4e5ddadad83913e39acea58a9">&#9670;&nbsp;</a></span>attemptNormalLogin() <span class="overload">[1/2]</span></h2>
 
@@ -524,6 +559,34 @@ Public Member Functions</h2></td></tr>
 <p>Invokes an organizer update call to the server. </p>
 <p>Updates the Organizer stored in the <a class="el" href="classes_1_1deusto_1_1client_1_1controller_1_1_controller.html" title="This class is the one carrying out all the communication with the server.">Controller</a>, in order to use this function a Organizer must log in before. </p><dl class="section return"><dt>Returns</dt><dd>true if the process is successful </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>Sprint 2 </dd></dl>
+
+</div>
+</div>
+<a id="ab59dc5628bc937e5df752e0b5c45cdbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab59dc5628bc937e5df752e0b5c45cdbb">&#9670;&nbsp;</a></span>attemptPasswordRecovery()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void es.deusto.client.controller.Controller.attemptPasswordRecovery </td>
+          <td>(</td>
+          <td class="paramtype">String&#160;</td>
+          <td class="paramname"><em>email</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Invokes a password recovery call to the server. </p>
+<p>Sends to the server the email of the user, and the server changes its password and sends it to the email account of the user.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">email</td><td>String containing the user's email </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section since"><dt>Since</dt><dd>Sprint 3 </dd></dl>
 
 </div>
 </div>

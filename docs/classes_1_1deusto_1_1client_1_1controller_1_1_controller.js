@@ -2,6 +2,7 @@ var classes_1_1deusto_1_1client_1_1controller_1_1_controller =
 [
     [ "Controller", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#a7102dbf537443c1b204d4ced7c1eba03", null ],
     [ "Controller", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#a9c926b9044b3023783c93cce95759b52", null ],
+    [ "attemptEventDelete", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#ab0d92b1a425a8692391141bed632651c", null ],
     [ "attemptNormalLogin", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#ad898c1e4e5ddadad83913e39acea58a9", null ],
     [ "attemptNormalLogin", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#a05a4c06d59b036214d424aeefe528a3c", null ],
     [ "attemptNormalLoginOrganizer", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#a3c186f481e805bb4f11fa40863251021", null ],
@@ -10,6 +11,7 @@ var classes_1_1deusto_1_1client_1_1controller_1_1_controller =
     [ "attemptOrganizerDelete", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#a87f5a78a01a8305558579d77b45784d4", null ],
     [ "attemptOrganizerSignup", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#aadefe1ab32a59a16737150d748f36336", null ],
     [ "attemptOrganizerUpdate", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#aaed395867e8db0d543eb6b30adacafc8", null ],
+    [ "attemptPasswordRecovery", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#ab59dc5628bc937e5df752e0b5c45cdbb", null ],
     [ "attemptUserDelete", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#a858a63ff0e254efdba4756e10258ae20", null ],
     [ "createEvent", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#a6c8d5e921c41edbc6abfd7e952e86b0a", null ],
     [ "createPost", "classes_1_1deusto_1_1client_1_1controller_1_1_controller.html#a52950e6884c4db2a83bcf57e26f2695b", null ],

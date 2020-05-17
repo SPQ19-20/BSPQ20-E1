@@ -2,80 +2,107 @@
 
 import java.util.ArrayList;
 
+import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
 import es.deusto.server.data.User;
 
+/**
+ * This class encapsulates all the information required when a user 
+ * (Either normal User or Organizer) signs up.
+ * 
+ * @since Sprint 1
+ */
 public class SignupAttempt {
 
     // Common atributes (Both normal Users and Organizers have them)
     private String email, password, name;
     private ArrayList&lt;TopicInfo&gt; interests;
-
+    private ArrayList&lt;EventInfo&gt; savedEvents;//information about the saved events.
     
     // Normal user
-    private String city;
+    private String city, country;
     
     // Organizer
     private String organization;
     
-<span class="fc" id="L21">    public SignupAttempt() {</span>
-<span class="fc" id="L22">        this.email = &quot;&quot;;</span>
-<span class="fc" id="L23">        this.password = &quot;&quot;;</span>
-<span class="fc" id="L24">        this.name = &quot;&quot;;</span>
-<span class="fc" id="L25">        this.city = &quot;&quot;;</span>
-<span class="fc" id="L26">        this.organization = &quot;&quot;;</span>
-<span class="fc" id="L27">        this.interests = new ArrayList&lt;TopicInfo&gt;(); //the signup works with the objects of its own package</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L28">    public SignupAttempt() {</span>
+<span class="fc" id="L29">        this.email = &quot;&quot;;</span>
+<span class="fc" id="L30">        this.password = &quot;&quot;;</span>
+<span class="fc" id="L31">        this.name = &quot;&quot;;</span>
+<span class="fc" id="L32">        this.city = &quot;&quot;;</span>
+<span class="fc" id="L33">        this.country = &quot;&quot;;</span>
+<span class="fc" id="L34">        this.organization = &quot;&quot;;</span>
+<span class="fc" id="L35">        this.interests = new ArrayList&lt;TopicInfo&gt;(); //the signup works with the objects of its own package</span>
+<span class="fc" id="L36">        this.savedEvents = new ArrayList&lt;EventInfo&gt;();</span>
+<span class="fc" id="L37">    }</span>
+
+<span class="nc" id="L39">    public SignupAttempt(UserInfo userInfo) {</span>
+<span class="nc" id="L40">        this.email = userInfo.getEmail();</span>
+<span class="nc" id="L41">        this.password = &quot;&quot;;</span>
+<span class="nc" id="L42">        this.name = userInfo.getName();</span>
+<span class="nc" id="L43">        this.city = userInfo.getCity();</span>
+<span class="nc" id="L44">        this.country = userInfo.getCountry();</span>
+<span class="nc" id="L45">        this.organization = &quot;&quot;;</span>
+<span class="nc" id="L46">        this.interests = userInfo.getInterests();//the signup works with the objects of its own package</span>
+<span class="nc" id="L47">        this.savedEvents = new ArrayList&lt;&gt;();//userInfo.getSavedEvents();</span>
+<span class="nc" id="L48">    }</span>
 
     // getters and setters
     public String getEmail() {
-<span class="fc" id="L32">        return this.email;</span>
+<span class="fc" id="L52">        return this.email;</span>
     }
 
     public void setEmail(String email) {
-<span class="fc" id="L36">        this.email = email;</span>
-<span class="fc" id="L37">    }</span>
+<span class="fc" id="L56">        this.email = email;</span>
+<span class="fc" id="L57">    }</span>
 
     public String getPassword() {
-<span class="fc" id="L40">        return this.password;</span>
+<span class="fc" id="L60">        return this.password;</span>
     }
 
     public void setPassword(String password) {
-<span class="fc" id="L44">        this.password = password;</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L64">        this.password = password;</span>
+<span class="fc" id="L65">    }</span>
 
     public String getName() {
-<span class="fc" id="L48">        return this.name;</span>
+<span class="fc" id="L68">        return this.name;</span>
     }
 
     public void setName(String name) {
-<span class="fc" id="L52">        this.name = name;</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L72">        this.name = name;</span>
+<span class="fc" id="L73">    }</span>
 
     public String getCity() {
-<span class="fc" id="L56">        return this.city;</span>
+<span class="fc" id="L76">        return this.city;</span>
     }
 
     public void setCity(String city) {
-<span class="fc" id="L60">        this.city = city;</span>
-<span class="fc" id="L61">    }</span>
+<span class="fc" id="L80">        this.city = city;</span>
+<span class="fc" id="L81">    }</span>
 
     public String getOrganization() {
-<span class="fc" id="L64">        return this.organization;</span>
+<span class="fc" id="L84">        return this.organization;</span>
     }
 
     public void setOrganization(String organization) {
-<span class="fc" id="L68">        this.organization = organization;</span>
-<span class="fc" id="L69">    }</span>
+<span class="fc" id="L88">        this.organization = organization;</span>
+<span class="fc" id="L89">    }</span>
 
     public ArrayList&lt;TopicInfo&gt; getInterests() { 
-<span class="fc" id="L72">        return this.interests; </span>
+<span class="fc" id="L92">        return this.interests; </span>
     }
 
     public void setInterests(ArrayList&lt;TopicInfo&gt; interests) {
-<span class="fc" id="L76">         this.interests = interests; </span>
-<span class="fc" id="L77">    }</span>
+<span class="fc" id="L96">         this.interests = interests; </span>
+<span class="fc" id="L97">    }</span>
 
+    public ArrayList&lt;EventInfo&gt; getSavedEvents() { 
+<span class="fc" id="L100">        return this.savedEvents; </span>
+    }
+
+    public void setSaveEvents(ArrayList&lt;EventInfo&gt; savedEvents) {
+<span class="fc" id="L104">         this.savedEvents = savedEvents; </span>
+<span class="fc" id="L105">    }</span>
 
     /**
      * Builds an instance of the business object {@link User}.
@@ -83,39 +110,52 @@ public class SignupAttempt {
      * @return instance of es.deusto.server.data.User.java
      */
     public User buildUser() {
-<span class="fc" id="L86">        User user = new User();</span>
+<span class="fc" id="L113">        User user = new User();</span>
         
-<span class="fc" id="L88">        user.setEmail(this.email);</span>
-<span class="fc" id="L89">        user.setName(this.name);</span>
-<span class="fc" id="L90">        user.setPassword(this.password);</span>
-<span class="fc" id="L91">        user.setCity(this.city);</span>
-        // DOUBT!! maybe we need to create the Arraylist&lt;Topic&gt; first
+<span class="fc" id="L115">        user.setEmail(this.email);</span>
+<span class="fc" id="L116">        user.setName(this.name);</span>
+<span class="fc" id="L117">        user.setPassword(this.password);</span>
+<span class="fc" id="L118">        user.setCity(this.city);</span>
+<span class="fc" id="L119">        user.setCountry(this.country);</span>
+        // TODO DOUBT!! maybe we need to create the Arraylist&lt;Topic&gt; first
         //if the following line of code is uncommented please add the import for TOPIC !
         //user.setInterests(new ArrayList&lt;&gt;());
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        for (TopicInfo interest : interests) {</span>
-<span class="nc" id="L96">            user.addInterest(TopicInfo.parseTopic(interest));</span>
-<span class="nc" id="L97">        }</span>
-<span class="fc" id="L98">        return user;</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        for (TopicInfo interest : interests) {</span>
+<span class="nc" id="L124">            user.addInterest(TopicInfo.parseTopic(interest));</span>
+<span class="nc" id="L125">        }</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">        for (EventInfo eventInfo : savedEvents) {</span>
+<span class="nc" id="L127">            user.addEvent(new Event(eventInfo));</span>
+<span class="nc" id="L128">        }</span>
+<span class="fc" id="L129">        return user;</span>
     }
+    
     /**
      * Builds an instance of the business object {@link Organizer}. 
      * The main purpose of this function is prevent object repetition. It's only used in the server.
      * @return instance of {@link Organizer}.
      */
     public Organizer buildOrganizer() {
-<span class="fc" id="L106">        Organizer organizer = new Organizer();</span>
+<span class="fc" id="L138">        Organizer organizer = new Organizer();</span>
         
-<span class="fc" id="L108">        organizer.setEmail(this.email);</span>
-<span class="fc" id="L109">        organizer.setName(this.name);</span>
-<span class="fc" id="L110">        organizer.setPassword(this.password);</span>
-<span class="fc" id="L111">        organizer.setOrganization(this.organization);</span>
+<span class="fc" id="L140">        organizer.setEmail(this.email);</span>
+<span class="fc" id="L141">        organizer.setName(this.name);</span>
+<span class="fc" id="L142">        organizer.setPassword(this.password);</span>
+<span class="fc" id="L143">        organizer.setOrganization(this.organization);</span>
        // organizer.setInterests(this.interests);
 
-<span class="fc" id="L114">        return organizer;</span>
+<span class="fc" id="L146">        return organizer;</span>
     }
 
+    public String getCountry() {
+<span class="fc" id="L150">        return country;</span>
+    }
+
+    public void setCountry(String country) {
+<span class="fc" id="L154">        this.country = country;</span>
+<span class="fc" id="L155">    }</span>
+    
     public String toString() {
-<span class="fc" id="L118">        return &quot;SignupAttempt[email=&quot; + email + &quot;, password=&quot; + password + &quot;]&quot;;</span>
+<span class="fc" id="L158">        return &quot;SignupAttempt[email=&quot; + email + &quot;, password=&quot; + password + &quot;]&quot;;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

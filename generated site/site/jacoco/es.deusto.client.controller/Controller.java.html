@@ -2,7 +2,7 @@
 
 import es.deusto.client.windows.LanguageManager;
 import es.deusto.serialization.*;
-import javassist.bytecode.stackmap.TypeData.ClassName;
+import es.deusto.server.data.Event;
 
 import java.util.ArrayList;
 import java.util.logging.ConsoleHandler;
@@ -21,104 +21,115 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+/**
+ * This class is the one carrying out all the communication with
+ * the server. The GUI components use it as a middle-man in order to
+ * retrieve or update information of the server.
+ * 
+ * This class will contain the UserInfo property containing the
+ * information of the user who has logged in, and will offer it
+ * to the components of the GUI.
+ */
 public class Controller {
-    
-    /**
-     * This class is the one carrying out all the communication with
-     * the server. The GUI components use it as a middle-man in order to
-     * retrieve or update information of the server.
-     * 
-     * This class will contain the UserInfo property containing the
-     * information of the user who has logged in, and will offer it
-     * to the components of the GUI.
-     */
 
     private UserInfo user; //Controller's user
     private OrganizerInfo organizer; //in case it's a organizer, it necesary for the progeam to be able to retrieve a Organizer.
     private Client client;
     private WebTarget webTarget;
     private LanguageManager langManager;
-<span class="fc" id="L41">    private final static Logger LOGGER = Logger.getLogger(Controller.class.getName());</span>
+<span class="fc" id="L40">    private final static Logger LOGGER = Logger.getLogger(Controller.class.getName());</span>
     
     /**
-     * Constructor
+     * Constructor. 
      * @param hostname A String object with the path of the server
      * @param port A String object with the port number of the server
      */
-<span class="nc" id="L48">    public Controller(String hostname, String port) {</span>
-<span class="nc" id="L49">        client = ClientBuilder.newClient();</span>
-<span class="nc" id="L50">        webTarget = client.target(String.format(&quot;http://%s:%s/rest&quot;, hostname, port));</span>
-<span class="nc" id="L51">        langManager = new LanguageManager();</span>
+<span class="nc" id="L47">    public Controller(String hostname, String port) {</span>
+<span class="nc" id="L48">        client = ClientBuilder.newClient();</span>
+<span class="nc" id="L49">        webTarget = client.target(String.format(&quot;http://%s:%s/rest&quot;, hostname, port));</span>
+<span class="nc" id="L50">        langManager = new LanguageManager();</span>
 
         //initialise the logger
         try {
-<span class="nc" id="L55">            Handler consoleHandler = new ConsoleHandler();</span>
+<span class="nc" id="L54">            Handler consoleHandler = new ConsoleHandler();</span>
             // Handler fileHandler = new FileHandler(&quot;./src/main/java/es/deusto/client/logClient.log&quot;, true); 
-<span class="nc" id="L57">            Handler fileHandler = new FileHandler(&quot;./log/logClient.log&quot;, true); </span>
+<span class="nc" id="L56">            Handler fileHandler = new FileHandler(&quot;./log/logClient.log&quot;, true); </span>
            
-<span class="nc" id="L59">            fileHandler.setFormatter(new SimpleFormatter());</span>
+<span class="nc" id="L58">            fileHandler.setFormatter(new SimpleFormatter());</span>
 
-<span class="nc" id="L61">            LOGGER.addHandler(consoleHandler);  </span>
-<span class="nc" id="L62">            LOGGER.addHandler(fileHandler);</span>
+<span class="nc" id="L60">            LOGGER.addHandler(consoleHandler);  </span>
+<span class="nc" id="L61">            LOGGER.addHandler(fileHandler);</span>
             
-<span class="nc" id="L64">        } catch (Exception e) {</span>
+<span class="nc" id="L63">        } catch (Exception e) {</span>
             //TODO: handle exception
-<span class="nc" id="L66">            e.printStackTrace();</span>
-<span class="nc" id="L67">        }</span>
-<span class="nc" id="L68">    }</span>
+<span class="nc" id="L65">            e.printStackTrace();</span>
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">    }</span>
 
-<span class="fc" id="L70">    public Controller(WebTarget target) {</span>
-<span class="fc" id="L71">        this.webTarget = target;</span>
-<span class="fc" id="L72">        langManager = new LanguageManager();</span>
-<span class="fc" id="L73">    }</span>
+    /**
+     * Constructor.
+     * @param target WebTarget instance pointing to the server (used for testing)
+     * 
+     * @since Sprint 2
+     */
+<span class="fc" id="L75">    public Controller(WebTarget target) {</span>
+<span class="fc" id="L76">        this.webTarget = target;</span>
+<span class="fc" id="L77">        langManager = new LanguageManager();</span>
+<span class="fc" id="L78">    }</span>
 
     public UserInfo getUser() {
-<span class="fc" id="L76">        return this.user;</span>
+<span class="fc" id="L81">        return this.user;</span>
     }
 
     public OrganizerInfo getOrganize(){
-<span class="nc" id="L80">        return this.organizer;</span>
+<span class="fc" id="L85">        return this.organizer;</span>
     }
 
     public void setOrganizer(OrganizerInfo org) {
-<span class="nc" id="L84">        this.organizer = org;</span>
-<span class="nc" id="L85">    }</span>
+<span class="nc" id="L89">        this.organizer = org;</span>
+<span class="nc" id="L90">    }</span>
         
+    public void setUser(UserInfo u) {
+<span class="nc" id="L93">        this.user = u;</span>
+<span class="nc" id="L94">    }</span>
 
-    //--------------------------LOG IN----------------------------------------------------------------------------
     /**
-     * This method is invoked by the login button in the GUI, and it makes
+     * Invokes a normal login attempt call to the server. This method is invoked 
+     * by the login button in the GUI, and it makes
      * a login request to the server with the specified email and password.
      * It is used only for regular users, not organizers.
      * @param email Email of the user taken from the GUI
      * @param password Password taken from the GUI
      * @return true if the login was successful, otherwise it returns false
+     * 
+     * @since Sprint 1
      */
     public boolean attemptNormalLogin(String email, String password) { 
-<span class="fc" id="L98">        LoginAttempt login = new LoginAttempt(email, password, false);//The boolean is never used!</span>
-<span class="fc" id="L99">        WebTarget donationsWebTarget = webTarget.path(&quot;server/login&quot;);</span>
-<span class="fc" id="L100">        LOGGER.log(Level.INFO, &quot;Loggin USER: &quot;+ email);</span>
-<span class="fc" id="L101">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L108">        LoginAttempt login = new LoginAttempt(email, password, false);//The boolean is never used!</span>
+<span class="fc" id="L109">        WebTarget donationsWebTarget = webTarget.path(&quot;server/login&quot;);</span>
+<span class="fc" id="L110">        LOGGER.log(Level.INFO, &quot;Loggin USER: &quot;+ email);</span>
+<span class="fc" id="L111">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
 		
-<span class="fc" id="L103">		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));</span>
-<span class="pc bpc" id="L104" title="1 of 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
-<span class="nc" id="L105">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: User Login failed&quot;);</span>
-<span class="nc" id="L106">            return false;</span>
+<span class="fc" id="L113">		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L115">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: User Login failed&quot;);</span>
+<span class="nc" id="L116">            return false;</span>
         }
         
-<span class="fc" id="L109">        user = response.readEntity(UserInfo.class);</span>
+<span class="fc" id="L119">        user = response.readEntity(UserInfo.class);</span>
 
-<span class="pc bpc" id="L111" title="1 of 2 branches missed.">        if (user != null) {</span>
-<span class="fc" id="L112">            LOGGER.log(Level.INFO, &quot;We got something, &quot; + user.getName());</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        if (user != null) {</span>
+<span class="fc" id="L122">            LOGGER.log(Level.INFO, &quot;We got something, &quot; + user.getName());</span>
         }
 
-<span class="pc bpc" id="L115" title="1 of 2 branches missed.">        return user != null;</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">        return user != null;</span>
     }
 
 
 
     /**
-     *    * This method is invoked by the login button in the GUI, and it makes
+     * Invokes an organizer login attempt call to the server.
+     * This method is invoked by the login button in the GUI, and it makes
      * a login request to the server with the specified email and password.
      * It is used only for organizers.
      * @param email email of the Organizer
@@ -127,68 +138,70 @@ public class Controller {
      * @since Sprint 2
      */
     public boolean attemptNormalLoginOrganizer(String email, String password) { 
-<span class="fc" id="L130">        LoginAttempt login = new LoginAttempt(email, password, true);//The boolean is never used!</span>
-<span class="fc" id="L131">        WebTarget donationsWebTarget = webTarget.path(&quot;server/loginOrganizer&quot;);</span>
-<span class="fc" id="L132">        LOGGER.log(Level.INFO, &quot;Loggin ORGANIZER: &quot;+ email);</span>
+<span class="fc" id="L141">        LoginAttempt login = new LoginAttempt(email, password, true);//The boolean is never used!</span>
+<span class="fc" id="L142">        WebTarget donationsWebTarget = webTarget.path(&quot;server/loginOrganizer&quot;);</span>
+<span class="fc" id="L143">        LOGGER.log(Level.INFO, &quot;Loggin ORGANIZER: &quot;+ email);</span>
 
-<span class="fc" id="L134">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L145">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
 		
-<span class="fc" id="L136">		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));</span>
-<span class="pc bpc" id="L137" title="1 of 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
-<span class="nc" id="L138">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: User Login failed&quot;);</span>
-<span class="nc" id="L139">            return false;</span>
+<span class="fc" id="L147">		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L149">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: User Login failed&quot;);</span>
+<span class="nc" id="L150">            return false;</span>
         }
         
-<span class="fc" id="L142">        organizer = response.readEntity(OrganizerInfo.class);</span>
+<span class="fc" id="L153">        organizer = response.readEntity(OrganizerInfo.class);</span>
 
-<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        if (organizer != null) {</span>
-<span class="fc" id="L145">            LOGGER.log(Level.INFO, &quot;We got something, &quot; + organizer.getName());</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">        if (organizer != null) {</span>
+<span class="fc" id="L156">            LOGGER.log(Level.INFO, &quot;We got something, &quot; + organizer.getName());</span>
 
         }
 
-<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        return organizer != null;</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        return organizer != null;</span>
     }
 
-    /***
-     *  This method is invoked by the login button in the GUI, and it makes
+    /**
+     * Invokes a normal login attempt call to the server.
+     * This method is invoked by the login button in the GUI, and it makes
      * a login request to the server with the specified email and password.
      * The class of object must be indicated in the boolean input.
      * This method works as a solution for both organizers and logins
      * @param email email of the User or Organizer
-     * @param password password of the of the User or Organizer
+     * @param password password of the of the {@link UserInfo} or {@link OrganizerInfo}
      * @param organizer boolean that indicates whether it's a User or Organizer
      * @deprecated beeter to use attemptNormalLogin(email, password) and attemptNormalLoginOrganizer !
      * @since Sprint 2
      * @return  boolean if succesful
      */
     public boolean attemptNormalLogin(String email, String password, boolean organizer) { //tal vez seria bueno que hubiese un combobox que envia un dato para saber si es Organizador o Usuario
-<span class="nc" id="L165">        LoginAttempt login = new LoginAttempt(email, password, organizer);</span>
+<span class="nc" id="L177">        LoginAttempt login = new LoginAttempt(email, password, organizer);</span>
         WebTarget donationsWebTarget;
-<span class="nc bnc" id="L167" title="All 2 branches missed.">        if(organizer == true){</span>
-<span class="nc" id="L168">             donationsWebTarget = webTarget.path(&quot;server/loginOrganizer&quot;);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        if(organizer == true){</span>
+<span class="nc" id="L180">             donationsWebTarget = webTarget.path(&quot;server/loginOrganizer&quot;);</span>
         }else{
-<span class="nc" id="L170">             donationsWebTarget = webTarget.path(&quot;server/login&quot;);</span>
+<span class="nc" id="L182">             donationsWebTarget = webTarget.path(&quot;server/login&quot;);</span>
         }
-<span class="nc" id="L172">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
+<span class="nc" id="L184">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
 		
-<span class="nc" id="L174">		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));</span>
-<span class="nc bnc" id="L175" title="All 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
-<span class="nc" id="L176">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: User Login failed&quot;);</span>
-<span class="nc" id="L177">            return false;</span>
+<span class="nc" id="L186">		Response response = invocationBuilder.post(Entity.entity(login, MediaType.APPLICATION_JSON));</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L188">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: User Login failed&quot;);</span>
+<span class="nc" id="L189">            return false;</span>
         }
 
-<span class="nc bnc" id="L180" title="All 2 branches missed.">        if (organizer== true) {</span>
-<span class="nc" id="L181">            this.organizer = response.readEntity(OrganizerInfo.class); //&lt;-- como puedo hacer que no me salga error</span>
-<span class="nc bnc" id="L182" title="All 2 branches missed.">            return this.organizer != null;</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        if (organizer== true) {</span>
+<span class="nc" id="L193">            this.organizer = response.readEntity(OrganizerInfo.class); //&lt;-- como puedo hacer que no me salga error</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">            return this.organizer != null;</span>
         } else {
-<span class="nc" id="L184">            user = response.readEntity(UserInfo.class); </span>
-<span class="nc bnc" id="L185" title="All 2 branches missed.">            return user != null;</span>
+<span class="nc" id="L196">            user = response.readEntity(UserInfo.class); </span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">            return user != null;</span>
         }
        
 
     }
-    //-----------------------------------SIGN UP--------------------------------------------------------------
+    
     /** 
+     * Invokes a normal signup attempt call to the server.
      * This method is invoked by the signup button in the GUI, and makes
      * a signup request to the server with the specified fields (email, password, name and city).
      * It is used only for regular users, not organizers.
@@ -196,38 +209,44 @@ public class Controller {
      * @param password Password String taken from the GUI
      * @param name Name String taken from the GUI
      * @param city City String taken from the GUI
+     * @param country Country String taken from the GUI
+     * @param interests List of {@link TopicInfo}
      * @return true if the signup process was successful, otherwise it returns false
+     * 
+     * @since Sprint 1
     */
-    public boolean attemptNormalSignup(String email, String password, String name, String city, ArrayList&lt;TopicInfo&gt;interests) {
+    public boolean attemptNormalSignup(String email, String password, String name, String city, String country, ArrayList&lt;TopicInfo&gt;interests) {
         
-<span class="fc" id="L203">        SignupAttempt signup = new SignupAttempt();</span>
-<span class="fc" id="L204">        signup.setEmail(email);</span>
-<span class="fc" id="L205">        signup.setName(name);</span>
-<span class="fc" id="L206">        signup.setPassword(password);</span>
-<span class="fc" id="L207">        signup.setCity(city);</span>
-<span class="fc" id="L208">        signup.setInterests(interests);</span>
-
-<span class="fc" id="L210">        WebTarget donationsWebTarget = webTarget.path(&quot;server/signup&quot;);</span>
-<span class="fc" id="L211">        LOGGER.log(Level.INFO, &quot;Signing up USER&quot;);</span>
-<span class="fc" id="L212">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L220">        SignupAttempt signup = new SignupAttempt();</span>
+<span class="fc" id="L221">        signup.setEmail(email);</span>
+<span class="fc" id="L222">        signup.setName(name);</span>
+<span class="fc" id="L223">        signup.setPassword(password);</span>
+<span class="fc" id="L224">        signup.setCity(city);</span>
+<span class="fc" id="L225">        signup.setCountry(country);</span>
+<span class="fc" id="L226">        signup.setInterests(interests);</span>
+<span class="fc" id="L227">        signup.setSaveEvents(new ArrayList&lt;EventInfo&gt;());//when signing up the user hasn't still saved any event. IS THIS LINE NECESSARY OR DOES MONGO CREATE A BLANC LIST IN THE DATABASE?</span>
+<span class="fc" id="L228">        WebTarget donationsWebTarget = webTarget.path(&quot;server/signup&quot;);</span>
+<span class="fc" id="L229">        LOGGER.log(Level.INFO, &quot;Signing up USER&quot;);</span>
+<span class="fc" id="L230">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
 		
-<span class="fc" id="L214">		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));</span>
-<span class="pc bpc" id="L215" title="1 of 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
-<span class="nc" id="L216">            LOGGER.log(Level.SEVERE, &quot;Not OK status code : error while singing up user&quot;);</span>
-<span class="nc" id="L217">            return false;</span>
+<span class="fc" id="L232">		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));</span>
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L234">            LOGGER.log(Level.SEVERE, &quot;Not OK status code : error while singing up user&quot;);</span>
+<span class="nc" id="L235">            return false;</span>
         }
 
-<span class="fc" id="L220">        this.user = response.readEntity(UserInfo.class);</span>
+<span class="fc" id="L238">        this.user = response.readEntity(UserInfo.class);</span>
 
-<span class="pc bpc" id="L222" title="1 of 2 branches missed.">        if (user != null) {</span>
-<span class="fc" id="L223">            LOGGER.log(Level.INFO, &quot;Signup for USER completed &quot; + email);</span>
-<span class="fc" id="L224">            return true;</span>
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">        if (user != null) {</span>
+<span class="fc" id="L241">            LOGGER.log(Level.INFO, &quot;Signup for USER completed &quot; + email);</span>
+<span class="fc" id="L242">            return true;</span>
         }
 
-<span class="nc" id="L227">        return false;</span>
+<span class="nc" id="L245">        return false;</span>
     }
 
     /** 
+     * Invokes an organizer signup attempt call to the server.
      * This method is invoked by the signup button in the GUI, and makes
      * a signup request to the server with the specified fields (email, password, name and organization).
      * It is used only for organizers.
@@ -240,208 +259,301 @@ public class Controller {
     */
     public boolean attemptOrganizerSignup(String email, String password, String name, String organization) {
         
-<span class="fc" id="L243">        SignupAttempt signup = new SignupAttempt();</span>
-<span class="fc" id="L244">        signup.setEmail(email);</span>
-<span class="fc" id="L245">        signup.setName(name);</span>
-<span class="fc" id="L246">        signup.setPassword(password);</span>
-<span class="fc" id="L247">        signup.setOrganization(organization);</span>
+<span class="fc" id="L262">        SignupAttempt signup = new SignupAttempt();</span>
+<span class="fc" id="L263">        signup.setEmail(email);</span>
+<span class="fc" id="L264">        signup.setName(name);</span>
+<span class="fc" id="L265">        signup.setPassword(password);</span>
+<span class="fc" id="L266">        signup.setOrganization(organization);</span>
 
-<span class="fc" id="L249">        WebTarget donationsWebTarget = webTarget.path(&quot;server/signupOrganizer&quot;);</span>
-<span class="fc" id="L250">        LOGGER.log(Level.INFO, &quot;Signing up organizer &quot; + email);</span>
-<span class="fc" id="L251">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L268">        WebTarget donationsWebTarget = webTarget.path(&quot;server/signupOrganizer&quot;);</span>
+<span class="fc" id="L269">        LOGGER.log(Level.INFO, &quot;Signing up organizer &quot; + email);</span>
+<span class="fc" id="L270">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
 		
-<span class="fc" id="L253">        Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));</span>
+<span class="fc" id="L272">        Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));</span>
         
-<span class="pc bpc" id="L255" title="1 of 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
-<span class="nc" id="L256">           LOGGER.log(Level.SEVERE, &quot;Not OK status code : error wile signing up Organizer&quot;);</span>
-<span class="nc" id="L257">            return false;</span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L275">           LOGGER.log(Level.SEVERE, &quot;Not OK status code : error wile signing up Organizer&quot;);</span>
+<span class="nc" id="L276">            return false;</span>
         }
 
-<span class="fc" id="L260">        this.organizer = response.readEntity(OrganizerInfo.class);</span>
+<span class="fc" id="L279">        this.organizer = response.readEntity(OrganizerInfo.class);</span>
 
-<span class="pc bpc" id="L262" title="1 of 2 branches missed.">        if (organizer != null) {</span>
-<span class="fc" id="L263">            LOGGER.log(Level.INFO, &quot;sIGNUP ORGANIZER COMPLETED&quot;);</span>
-<span class="fc" id="L264">            return true;</span>
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">        if (organizer != null) {</span>
+<span class="fc" id="L282">            LOGGER.log(Level.INFO, &quot;sIGNUP ORGANIZER COMPLETED&quot;);</span>
+<span class="fc" id="L283">            return true;</span>
         }
 
-<span class="nc" id="L267">        return false;</span>
+<span class="nc" id="L286">        return false;</span>
     }
 
-    //--------------------------------------UPDATE USER-----------------------------------------------------------
-
     /**
+     * Invokes a normal user update call to the server.
      * Updates the user stored in the Controller, in order to use this function a user must log in before.
      * @return true if the process is successful
      * @since Sprint 2
      */
     public boolean attemptNormalUpdate() {
-<span class="fc" id="L278">        SignupAttempt signup = new SignupAttempt();</span>
-<span class="fc" id="L279">        signup.setEmail(this.getUser().getEmail());</span>
-<span class="fc" id="L280">        signup.setName(this.getUser().getName());</span>
-<span class="fc" id="L281">        signup.setCity(this.getUser().getCity());</span>
-<span class="fc" id="L282">        signup.setInterests(this.getUser().getInterests());</span>
+<span class="fc" id="L296">        SignupAttempt signup = new SignupAttempt();</span>
+<span class="fc" id="L297">        signup.setEmail(this.getUser().getEmail());</span>
+<span class="fc" id="L298">        signup.setName(this.getUser().getName());</span>
+<span class="fc" id="L299">        signup.setCity(this.getUser().getCity());</span>
+<span class="fc" id="L300">        signup.setCountry(this.getUser().getCountry());</span>
+<span class="fc" id="L301">        signup.setInterests(this.getUser().getInterests());</span>
+<span class="fc" id="L302">        signup.setSaveEvents(this.getUser().getSavedEvents());//send the events this user has followed.</span>
+<span class="fc" id="L303">        WebTarget donationsWebTarget = webTarget.path(&quot;server/update&quot;);</span>
+<span class="fc" id="L304">        LOGGER.log(Level.INFO, &quot;Updating the user: &quot; + this.user.getEmail());</span>
+<span class="fc" id="L305">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
 
-<span class="fc" id="L284">        WebTarget donationsWebTarget = webTarget.path(&quot;server/update&quot;);</span>
-<span class="fc" id="L285">        LOGGER.log(Level.INFO, &quot;Updating the user: &quot; + this.user.getEmail());</span>
-<span class="fc" id="L286">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
-
-<span class="fc" id="L288">        Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));</span>
-<span class="pc bpc" id="L289" title="1 of 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="fc" id="L307">        Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));</span>
+<span class="pc bpc" id="L308" title="1 of 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
             // TODO handle this situation
-<span class="nc" id="L291">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: not possible to update USER &quot; + this.user.getEmail());</span>
-<span class="nc" id="L292">            return false;</span>
+<span class="nc" id="L310">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: not possible to update USER &quot; + this.user.getEmail());</span>
+<span class="nc" id="L311">            return false;</span>
         }
 
-<span class="fc" id="L295">        this.user = response.readEntity(UserInfo.class);</span>
+<span class="fc" id="L314">        this.user = response.readEntity(UserInfo.class);</span>
 
-<span class="pc bpc" id="L297" title="1 of 2 branches missed.">        if (user != null) {</span>
-<span class="fc" id="L298">            LOGGER.log(Level.INFO, &quot;User updated&quot;);</span>
-<span class="fc" id="L299">            return true;</span>
+<span class="pc bpc" id="L316" title="1 of 2 branches missed.">        if (user != null) {</span>
+<span class="fc" id="L317">            LOGGER.log(Level.INFO, &quot;User updated&quot;);</span>
+<span class="fc" id="L318">            return true;</span>
         }
-<span class="nc" id="L301">        LOGGER.log(Level.WARNING, &quot;Not possible to update&quot;);</span>
-<span class="nc" id="L302">        return false;</span>
+<span class="nc" id="L320">        LOGGER.log(Level.WARNING, &quot;Not possible to update&quot;);</span>
+<span class="nc" id="L321">        return false;</span>
     }
 
     /**
+     * Invokes an organizer update call to the server.
      * Updates the Organizer stored in the Controller, in order to use this function a Organizer must log in before.
     *  @return true if the process is successful
     *  @since Sprint 2
     */
     public boolean attemptOrganizerUpdate() {
         
-<span class="nc" id="L312">        SignupAttempt signup = new SignupAttempt();</span>
-<span class="nc" id="L313">        signup.setEmail(this.getOrganize().getEmail());</span>
-<span class="nc" id="L314">        signup.setName(this.getOrganize().getName());</span>
-<span class="nc" id="L315">        signup.setOrganization(this.getOrganize().getOrganization());</span>
+<span class="nc" id="L332">        SignupAttempt signup = new SignupAttempt();</span>
+<span class="nc" id="L333">        signup.setEmail(this.getOrganize().getEmail());</span>
+<span class="nc" id="L334">        signup.setName(this.getOrganize().getName());</span>
+<span class="nc" id="L335">        signup.setOrganization(this.getOrganize().getOrganization());</span>
 
-<span class="nc" id="L317">        WebTarget donationsWebTarget = webTarget.path(&quot;server/updateOrganizer&quot;);</span>
-<span class="nc" id="L318">        LOGGER.log(Level.INFO, &quot;Updating the organizer: &quot; + this.organizer.getEmail());</span>
-<span class="nc" id="L319">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
+<span class="nc" id="L337">        WebTarget donationsWebTarget = webTarget.path(&quot;server/updateOrganizer&quot;);</span>
+<span class="nc" id="L338">        LOGGER.log(Level.INFO, &quot;Updating the organizer: &quot; + this.organizer.getEmail());</span>
+<span class="nc" id="L339">		Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
 		
-<span class="nc" id="L321">		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));</span>
-<span class="nc bnc" id="L322" title="All 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L341">		Response response = invocationBuilder.post(Entity.entity(signup, MediaType.APPLICATION_JSON));</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">		if (response.getStatus() != Status.OK.getStatusCode()) {</span>
             // TODO handle this situation
-<span class="nc" id="L324">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: Error while updating Organizer &quot;);</span>
-<span class="nc" id="L325">            return false;</span>
+<span class="nc" id="L344">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: Error while updating Organizer &quot;);</span>
+<span class="nc" id="L345">            return false;</span>
         }
 
-<span class="nc" id="L328">        this.organizer = response.readEntity(OrganizerInfo.class);</span>
+<span class="nc" id="L348">        this.organizer = response.readEntity(OrganizerInfo.class);</span>
 
-<span class="nc bnc" id="L330" title="All 2 branches missed.">        if (organizer != null) {</span>
-<span class="nc" id="L331">            LOGGER.log(Level.INFO, &quot;Organizer Updated succesfully&quot;);</span>
-<span class="nc" id="L332">            return true;</span>
+<span class="nc bnc" id="L350" title="All 2 branches missed.">        if (organizer != null) {</span>
+<span class="nc" id="L351">            LOGGER.log(Level.INFO, &quot;Organizer Updated succesfully&quot;);</span>
+<span class="nc" id="L352">            return true;</span>
         }
 
-<span class="nc" id="L335">        return false;</span>
+<span class="nc" id="L355">        return false;</span>
     }
 
-    //--------------------------------------DELETE USER-----------------------------------------------------------
-
     /**
+     * Invokes a user delete call to the server.
      * Deletes the user stored in the Controller.
      * @return true if the process is successful, false if not
      * @since Sprint 2
      */
     public boolean attemptUserDelete() {
-<span class="fc" id="L346">        WebTarget donationsWebTarget = webTarget.path(&quot;server/delete&quot;);</span>
-<span class="fc" id="L347">        LOGGER.log(Level.INFO, &quot;deleting user: &quot;+ this.user.getEmail());</span>
-<span class="fc" id="L348">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L365">        WebTarget donationsWebTarget = webTarget.path(&quot;server/delete&quot;);</span>
+<span class="fc" id="L366">        LOGGER.log(Level.INFO, &quot;deleting user: &quot;+ this.user.getEmail());</span>
+<span class="fc" id="L367">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
 
-<span class="fc" id="L350">        Response response = invocationBuilder.post(Entity.entity(this.getUser(), MediaType.APPLICATION_JSON));</span>
+<span class="fc" id="L369">        Response response = invocationBuilder.post(Entity.entity(this.getUser(), MediaType.APPLICATION_JSON));</span>
 
-<span class="pc bpc" id="L352" title="1 of 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
-<span class="nc" id="L353">            LOGGER.log(Level.SEVERE, &quot;Not OK status code : error while DELETING user&quot;);</span>
-<span class="nc" id="L354">            return false;</span>
+<span class="pc bpc" id="L371" title="1 of 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L372">            LOGGER.log(Level.SEVERE, &quot;Not OK status code : error while DELETING user&quot;);</span>
+<span class="nc" id="L373">            return false;</span>
         }
 
-<span class="fc" id="L357">        this.user = null;</span>
+<span class="fc" id="L376">        this.user = null;</span>
         
-<span class="fc" id="L359">        return true;</span>
+<span class="fc" id="L378">        return true;</span>
     }
-
-    public boolean attemptOrganizerDelete() {
-<span class="fc" id="L363">        WebTarget donationsWebTarget = webTarget.path(&quot;server/deleteOrganizer&quot;);</span>
-<span class="fc" id="L364">        LOGGER.log(Level.INFO, &quot;Deleting organizer &quot; + this.organizer.getEmail());</span>
-<span class="fc" id="L365">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
-
-<span class="fc" id="L367">        Response response = invocationBuilder.post(Entity.entity(this.organizer, MediaType.APPLICATION_JSON));</span>
-
-<span class="pc bpc" id="L369" title="1 of 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
-<span class="nc" id="L370">            LOGGER.log(Level.SEVERE, &quot;Not OK status code&quot;);</span>
-<span class="nc" id="L371">            return false;</span>
-        }
-
-<span class="fc" id="L374">        this.organizer = null;</span>
-<span class="fc" id="L375">        LOGGER.log(Level.INFO, &quot;Organizer succesfully deleted&quot;);</span>
-<span class="fc" id="L376">        return true;</span>
-    }
-
-//-------------------------------------EVENT &amp; POST-----------------------------------------------------
 
     /**
-     * sends EventInfo to the server, to use this method the organizer must be logged in.
-     * @param eventInfo event to be sent to the server
-     * @return true if succesful
+     * Invokes an organizer delete call to the server.
+     * Deletes the organizer stored in the Controller.
+     * @return true if the process is successful, false if not
+     * @since Sprint 2
+     * @return
+     */
+    public boolean attemptOrganizerDelete() {
+<span class="fc" id="L389">        WebTarget donationsWebTarget = webTarget.path(&quot;server/deleteOrganizer&quot;);</span>
+<span class="fc" id="L390">        LOGGER.log(Level.INFO, &quot;Deleting organizer &quot; + this.organizer.getEmail());</span>
+<span class="fc" id="L391">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
+
+<span class="fc" id="L393">        Response response = invocationBuilder.post(Entity.entity(this.organizer, MediaType.APPLICATION_JSON));</span>
+
+<span class="pc bpc" id="L395" title="1 of 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L396">            LOGGER.log(Level.SEVERE, &quot;Not OK status code&quot;);</span>
+<span class="nc" id="L397">            return false;</span>
+        }
+
+<span class="fc" id="L400">        this.organizer = null;</span>
+<span class="fc" id="L401">        LOGGER.log(Level.INFO, &quot;Organizer succesfully deleted&quot;);</span>
+<span class="fc" id="L402">        return true;</span>
+    }
+
+    /**
+     * Invokes an event creation call to the server.
+     * Sends EventInfo to the server, to use this method the organizer must be logged in.
+     * @param eventInfo {@link EventInfo} to be sent to the server
+     * @return true if succesful, false otherwise
      * @since sprint 2
      */
     public boolean createEvent(EventInfo eventInfo){
-<span class="nc" id="L388">        eventInfo.setOrganizerEmail(this.organizer.getEmail());</span>
-<span class="nc" id="L389">        this.organizer.getCreatedEvents().add(eventInfo);</span>
+<span class="fc" id="L413">        eventInfo.setOrganizerEmail(this.organizer.getEmail());</span>
+<span class="fc" id="L414">        this.organizer.getCreatedEvents().add(eventInfo);</span>
 
-<span class="nc" id="L391">        WebTarget donationsWebTarget = webTarget.path(&quot;server/createEvent&quot;);</span>
-<span class="nc" id="L392">        LOGGER.log(Level.INFO, &quot;Creating the Event: &quot; + eventInfo.getName());</span>
-<span class="nc" id="L393">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L416">        WebTarget donationsWebTarget = webTarget.path(&quot;server/createEvent&quot;);</span>
+<span class="fc" id="L417">        LOGGER.log(Level.INFO, &quot;Creating the Event: &quot; + eventInfo.getName());</span>
+<span class="fc" id="L418">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
 
-<span class="nc" id="L395">        Response response = invocationBuilder.post(Entity.entity(eventInfo, MediaType.APPLICATION_JSON));</span>
-<span class="nc bnc" id="L396" title="All 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
-<span class="nc" id="L397">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: not possible create Event &quot; + eventInfo.getName());</span>
-<span class="nc" id="L398">            return false;</span>
+<span class="fc" id="L420">        Response response = invocationBuilder.post(Entity.entity(eventInfo, MediaType.APPLICATION_JSON));</span>
+<span class="pc bpc" id="L421" title="1 of 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L422">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: not possible create Event &quot; + eventInfo.getName());</span>
+<span class="nc" id="L423">            return false;</span>
         }
 
-<span class="nc" id="L401">        EventInfo event = response.readEntity(EventInfo.class);</span>
+<span class="fc" id="L426">        EventInfo event = response.readEntity(EventInfo.class);</span>
 
-<span class="nc bnc" id="L403" title="All 2 branches missed.">        if (event != null) {</span>
-<span class="nc" id="L404">            LOGGER.log(Level.INFO, &quot;Event Created&quot;);</span>
-<span class="nc" id="L405">            return true;</span>
+<span class="pc bpc" id="L428" title="1 of 2 branches missed.">        if (event != null) {</span>
+<span class="fc" id="L429">            LOGGER.log(Level.INFO, &quot;Event Created&quot;);</span>
+<span class="fc" id="L430">            return true;</span>
         }
-<span class="nc" id="L407">        LOGGER.log(Level.WARNING, &quot;Response was empty&quot;);</span>
-<span class="nc" id="L408">        return false;</span>
+<span class="nc" id="L432">        LOGGER.log(Level.WARNING, &quot;Response was empty&quot;);</span>
+<span class="nc" id="L433">        return false;</span>
     }
 
     /**
+     * Invokes a post creation call to the server.
      * Adds a post on the indicated Event and notifies the server.
-     * @param eventInfo Event where the post is going to be held.
-     * @param postInfo Post to be added.
+     * @param eventInfo {@link EventInfo} where the post is going to be held.
+     * @param postInfo {@link PostInfo} to be added.
      * @return true if succesful
      * @since sprint 2
      */
     public boolean createPost(EventInfo eventInfo, PostInfo postInfo){
-<span class="nc" id="L419">        postInfo.setEventName(eventInfo.getName());</span>
-<span class="nc" id="L420">        postInfo.setOrganizerEmail(eventInfo.getOrganizerEmail());</span>
-<span class="nc" id="L421">        eventInfo.getPosts().add(postInfo);</span>
-<span class="nc" id="L422">        WebTarget donationsWebTarget = webTarget.path(&quot;server/createPost&quot;);</span>
-<span class="nc" id="L423">        LOGGER.log(Level.INFO, &quot;Creating the Post for event: &quot; + eventInfo.getName());</span>
-<span class="nc" id="L424">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
+<span class="nc" id="L445">        postInfo.setEventName(eventInfo.getName());</span>
+<span class="nc" id="L446">        postInfo.setOrganizerEmail(eventInfo.getOrganizerEmail());</span>
+<span class="nc" id="L447">        eventInfo.getPosts().add(postInfo);</span>
+<span class="nc" id="L448">        WebTarget donationsWebTarget = webTarget.path(&quot;server/createPost&quot;);</span>
+<span class="nc" id="L449">        LOGGER.log(Level.INFO, &quot;Creating the Post for event: &quot; + eventInfo.getName());</span>
+<span class="nc" id="L450">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
 
-<span class="nc" id="L426">        Response response = invocationBuilder.post(Entity.entity(postInfo, MediaType.APPLICATION_JSON));</span>
-<span class="nc bnc" id="L427" title="All 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
-<span class="nc" id="L428">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: not possible to create post for Event &quot; + eventInfo.getName());</span>
-<span class="nc" id="L429">            return false;</span>
+<span class="nc" id="L452">        Response response = invocationBuilder.post(Entity.entity(postInfo, MediaType.APPLICATION_JSON));</span>
+<span class="nc bnc" id="L453" title="All 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L454">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: not possible to create post for Event &quot; + eventInfo.getName());</span>
+<span class="nc" id="L455">            return false;</span>
         }
 
-<span class="nc" id="L432">        PostInfo post = response.readEntity(PostInfo.class);</span>
-<span class="nc bnc" id="L433" title="All 2 branches missed.">        if (post != null) {</span>
-<span class="nc" id="L434">            LOGGER.log(Level.INFO, &quot;POST Created&quot;);</span>
-<span class="nc" id="L435">            return true;</span>
+<span class="nc" id="L458">        PostInfo post = response.readEntity(PostInfo.class);</span>
+<span class="nc bnc" id="L459" title="All 2 branches missed.">        if (post != null) {</span>
+<span class="nc" id="L460">            LOGGER.log(Level.INFO, &quot;POST Created&quot;);</span>
+<span class="nc" id="L461">            return true;</span>
         }
-<span class="nc" id="L437">        LOGGER.log(Level.SEVERE, &quot;Error when creating Post : Response was empty&quot;);</span>
-<span class="nc" id="L438">        return false;</span>
+<span class="nc" id="L463">        LOGGER.log(Level.SEVERE, &quot;Error when creating Post : Response was empty&quot;);</span>
+<span class="nc" id="L464">        return false;</span>
     }
+
     public LanguageManager getLanguageManager() {
-<span class="nc" id="L441">        return this.langManager;</span>
+<span class="nc" id="L468">        return this.langManager;</span>
     }
 
-    
+    /**
+     * Invokes a recommendations request call to the server.
+     * Sends to the server the information of the logged User in order to get event recomendations
+     * @return a list of recommended events
+     * @since Sprint 3
+     */
+    public ArrayList&lt;EventInfo&gt; getRecommendations(){
+
+<span class="nc" id="L479">        SignupAttempt signupAttempt = new SignupAttempt(this.user);</span>
+        
+<span class="nc" id="L481">        WebTarget donationsWebTarget = webTarget.path(&quot;server/recommendation&quot;);</span>
+<span class="nc" id="L482">        LOGGER.log(Level.INFO, &quot;sending interests to get recomendations&quot;);</span>
+<span class="nc" id="L483">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.APPLICATION_JSON);</span>
+
+<span class="nc" id="L485">        Response response = invocationBuilder.post(Entity.entity(signupAttempt, MediaType.APPLICATION_JSON));</span>
+      
+<span class="nc bnc" id="L487" title="All 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L488">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: not possible to get recomendations&quot;);</span>
+<span class="nc" id="L489">            return new ArrayList&lt;EventInfo&gt;();</span>
+        }
+
+<span class="nc" id="L492">        SignupAttempt resp = response.readEntity(SignupAttempt.class); //WARNING: how to transform a response into a list</span>
+<span class="nc bnc" id="L493" title="All 2 branches missed.">        if (resp != null) {</span>
+<span class="nc" id="L494">            ArrayList&lt;EventInfo&gt; recomendations = resp.getSavedEvents();</span>
+<span class="nc" id="L495">            LOGGER.log(Level.INFO, &quot;the event has recommended something&quot;);</span>
+<span class="nc" id="L496">            return recomendations;</span>
+        }
+<span class="nc" id="L498">        LOGGER.log(Level.WARNING, &quot;Response was empty&quot;);</span>
+<span class="nc" id="L499">        return new ArrayList&lt;EventInfo&gt;();</span>
+    }
+
+    /**
+     * Invokes a password recovery call to the server.
+     * Sends to the server the email of the user, and the server changes
+     * its password and sends it to the email account of the user.
+     * 
+     * @param email String containing the user's email
+     * @since Sprint 3
+     */
+    public void attemptPasswordRecovery(String email) {
+<span class="nc" id="L511">        LoginAttempt a = new LoginAttempt();</span>
+<span class="nc" id="L512">        a.setEmail(email);</span>
+<span class="nc" id="L513">        WebTarget donationsWebTarget = webTarget.path(&quot;server/passwordRecovery&quot;);</span>
+<span class="nc" id="L514">        LOGGER.log(Level.INFO, &quot;sending password recovery request&quot;);</span>
+<span class="nc" id="L515">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.TEXT_PLAIN);</span>
+
+<span class="nc" id="L517">        Response response = invocationBuilder.post(Entity.entity(a, MediaType.APPLICATION_JSON));</span>
+      
+<span class="nc bnc" id="L519" title="All 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L520">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: not possible to recover password&quot;);</span>
+        } else {
+<span class="nc" id="L522">            LOGGER.log(Level.INFO, &quot;OK status code: password recovered&quot;);</span>
+        }
+<span class="nc" id="L524">    }</span>
+
+    /**
+     * Invokes a event removal call to the server.
+     * Sends to the server the information of the event, and the server deletes
+     * it from the database.
+     * 
+     * @param info event info object
+     * @return
+     * 
+     * @since Sprint 3
+     */
+    public boolean attemptEventDelete(EventInfo info) {
+<span class="fc" id="L537">        WebTarget donationsWebTarget = webTarget.path(&quot;server/deleteEvent&quot;);</span>
+<span class="fc" id="L538">        LOGGER.log(Level.INFO, &quot;sending event delete request&quot;);</span>
+<span class="fc" id="L539">        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.TEXT_PLAIN);</span>
+
+<span class="fc" id="L541">        Response response = invocationBuilder.post(Entity.entity(info, MediaType.APPLICATION_JSON));</span>
+      
+<span class="pc bpc" id="L543" title="1 of 2 branches missed.">        if (response.getStatus() != Status.OK.getStatusCode()) {</span>
+<span class="nc" id="L544">            LOGGER.log(Level.SEVERE, &quot;Not OK status code: not possible to delete event&quot;);</span>
+<span class="nc" id="L545">            return false;</span>
+        } else {
+<span class="fc" id="L547">            LOGGER.log(Level.INFO, &quot;OK status code: event deleted&quot;);</span>
+<span class="pc bpc" id="L548" title="1 of 2 branches missed.">            for (EventInfo e: getOrganize().getCreatedEvents()) {</span>
+<span class="pc bpc" id="L549" title="1 of 2 branches missed.">                if (e.getName().equals(info.getName())) {</span>
+<span class="fc" id="L550">                    getOrganize().getCreatedEvents().remove(e);</span>
+<span class="fc" id="L551">                    break;</span>
+                }
+<span class="nc" id="L553">            }</span>
+<span class="fc" id="L554">            return true;</span>
+        }
+    }
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

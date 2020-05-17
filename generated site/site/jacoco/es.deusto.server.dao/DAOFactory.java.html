@@ -1,33 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DAOFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EventFinder</a> &gt; <a href="index.source.html" class="el_package">es.deusto.server.dao</a> &gt; <span class="el_source">DAOFactory.java</span></div><h1>DAOFactory.java</h1><pre class="source lang-java linenums">package es.deusto.server.dao;
 
+import java.util.LinkedList;
+
+import javax.jdo.JDOHelper;
+import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
+
+/**
+ * This class is used to create a DAO factory that is used by
+ * all of the other DAO classes, to create them or to close them.
+ */
+
 public class DAOFactory {
 
-    private DAOFactory() {}
+    private static final int POOL_SIZE = 20;
+    
+    private LinkedList&lt;PersistenceManager&gt; connectionPool;
 
-<span class="fc" id="L7">    private static DAOFactory instance = new DAOFactory();</span>
+<span class="fc" id="L20">    private DAOFactory() {</span>
+<span class="fc" id="L21">        connectionPool = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L22">        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory(&quot;datanucleus.properties&quot;);</span>
+
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        for (int i = 0; i &lt; POOL_SIZE; i++) {</span>
+<span class="fc" id="L25">            connectionPool.addLast(pmf.getPersistenceManager());</span>
+        }
+<span class="fc" id="L27">    }</span>
+
+<span class="fc" id="L29">    private static DAOFactory instance = new DAOFactory();</span>
+
+    private synchronized PersistenceManager useConnectionFromPool(PersistenceManager pm) {
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (pm == null) {</span>
+            // remove
+                PersistenceManager ret;
+            do {    
+<span class="fc" id="L36">                ret = connectionPool.removeFirst();</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">                if (ret == null) {</span>
+                    try {
+<span class="nc" id="L39">                        Thread.sleep(100);</span>
+<span class="nc" id="L40">                    } catch (Exception ex) {}</span>
+                } else {
+<span class="fc" id="L42">                    return ret;</span>
+                }
+<span class="nc bnc" id="L44" title="All 2 branches missed.">            } while (connectionPool.isEmpty());</span>
+<span class="nc" id="L45">        } else {</span>
+            // add
+<span class="fc" id="L47">            connectionPool.addLast(pm);</span>
+<span class="fc" id="L48">            return null;</span>
+        }
+
+<span class="nc" id="L51">        return null;</span>
+    }
 
     public static DAOFactory getInstance() {
-<span class="fc" id="L10">        return instance;</span>
+<span class="fc" id="L55">        return instance;</span>
     }
 
     public UserDAO createUserDAO() {
-<span class="fc" id="L14">        return new UserDAO();</span>
+<span class="fc" id="L59">        PersistenceManager pm = useConnectionFromPool(null);</span>
+<span class="fc" id="L60">        pm.refreshAll();</span>
+<span class="fc" id="L61">        return new UserDAO(pm);</span>
     }
 
     public OrganizerDAO createOrganizerDAO() {
-<span class="fc" id="L18">        return new OrganizerDAO();</span>
+<span class="fc" id="L65">        PersistenceManager pm = useConnectionFromPool(null);</span>
+<span class="fc" id="L66">        pm.refreshAll();</span>
+<span class="fc" id="L67">        return new OrganizerDAO(pm);</span>
     }
 
     public EventDAO createEventDAO(){
-<span class="fc" id="L22">        return new EventDAO();</span>
+<span class="fc" id="L71">        PersistenceManager pm = useConnectionFromPool(null);</span>
+<span class="fc" id="L72">        pm.refreshAll();</span>
+<span class="fc" id="L73">        return new EventDAO(pm);</span>
     }
 
     public TopicDAO createTopicDAO() {
-<span class="fc" id="L26">        return new TopicDAO();</span>
+<span class="fc" id="L77">        PersistenceManager pm = useConnectionFromPool(null);</span>
+<span class="fc" id="L78">        pm.refreshAll();</span>
+<span class="fc" id="L79">        return new TopicDAO(pm);</span>
     }
 
     public PostDAO createPostDAO() {
-<span class="fc" id="L30">        return new PostDAO();</span>
+<span class="fc" id="L83">        PersistenceManager pm = useConnectionFromPool(null);</span>
+<span class="fc" id="L84">        pm.refreshAll();</span>
+<span class="fc" id="L85">        return new PostDAO(pm);</span>
     }
+
+    public void closeDAO(PostDAO dao) {
+<span class="fc" id="L89">        PersistenceManager pm = dao.getPersistenceManager();</span>
+<span class="fc" id="L90">        useConnectionFromPool(pm);</span>
+<span class="fc" id="L91">        dao.close();</span>
+<span class="fc" id="L92">    }</span>
+
+    public void closeDAO(TopicDAO dao) {
+<span class="fc" id="L95">        PersistenceManager pm = dao.getPersistenceManager();</span>
+<span class="fc" id="L96">        useConnectionFromPool(pm);</span>
+<span class="fc" id="L97">        dao.close();</span>
+<span class="fc" id="L98">    }</span>
+
+    public void closeDAO(EventDAO dao) {
+<span class="fc" id="L101">        PersistenceManager pm = dao.getPersistenceManager();</span>
+<span class="fc" id="L102">        useConnectionFromPool(pm);</span>
+<span class="fc" id="L103">        dao.close();</span>
+<span class="fc" id="L104">    }</span>
+
+    public void closeDAO(OrganizerDAO dao) {
+<span class="fc" id="L107">        PersistenceManager pm = dao.getPersistenceManager();</span>
+<span class="fc" id="L108">        useConnectionFromPool(pm);</span>
+<span class="fc" id="L109">        dao.close();</span>
+<span class="fc" id="L110">    }</span>
+
+    public void closeDAO(UserDAO dao) {
+<span class="fc" id="L113">        PersistenceManager pm = dao.getPersistenceManager();</span>
+<span class="fc" id="L114">        useConnectionFromPool(pm);</span>
+<span class="fc" id="L115">        dao.close();</span>
+<span class="fc" id="L116">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

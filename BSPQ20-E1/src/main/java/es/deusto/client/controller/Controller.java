@@ -2,6 +2,7 @@ package es.deusto.client.controller;
 
 import es.deusto.client.windows.LanguageManager;
 import es.deusto.serialization.*;
+import es.deusto.server.data.Event;
 
 import java.util.ArrayList;
 import java.util.logging.ConsoleHandler;
@@ -496,6 +497,62 @@ public class Controller {
         }
         LOGGER.log(Level.WARNING, "Response was empty");
         return new ArrayList<EventInfo>();
+    }
+
+    /**
+     * Invokes a password recovery call to the server.
+     * Sends to the server the email of the user, and the server changes
+     * its password and sends it to the email account of the user.
+     * 
+     * @param email String containing the user's email
+     * @since Sprint 3
+     */
+    public void attemptPasswordRecovery(String email) {
+        LoginAttempt a = new LoginAttempt();
+        a.setEmail(email);
+        WebTarget donationsWebTarget = webTarget.path("server/passwordRecovery");
+        LOGGER.log(Level.INFO, "sending password recovery request");
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.TEXT_PLAIN);
+
+        Response response = invocationBuilder.post(Entity.entity(a, MediaType.APPLICATION_JSON));
+      
+        if (response.getStatus() != Status.OK.getStatusCode()) {
+            LOGGER.log(Level.SEVERE, "Not OK status code: not possible to recover password");
+        } else {
+            LOGGER.log(Level.INFO, "OK status code: password recovered");
+        }
+    }
+
+    /**
+     * Invokes a event removal call to the server.
+     * Sends to the server the information of the event, and the server deletes
+     * it from the database.
+     * 
+     * @param info event info object
+     * @return
+     * 
+     * @since Sprint 3
+     */
+    public boolean attemptEventDelete(EventInfo info) {
+        WebTarget donationsWebTarget = webTarget.path("server/deleteEvent");
+        LOGGER.log(Level.INFO, "sending event delete request");
+        Invocation.Builder invocationBuilder = donationsWebTarget.request(MediaType.TEXT_PLAIN);
+
+        Response response = invocationBuilder.post(Entity.entity(info, MediaType.APPLICATION_JSON));
+      
+        if (response.getStatus() != Status.OK.getStatusCode()) {
+            LOGGER.log(Level.SEVERE, "Not OK status code: not possible to delete event");
+            return false;
+        } else {
+            LOGGER.log(Level.INFO, "OK status code: event deleted");
+            for (EventInfo e: getOrganize().getCreatedEvents()) {
+                if (e.getName().equals(info.getName())) {
+                    getOrganize().getCreatedEvents().remove(e);
+                    break;
+                }
+            }
+            return true;
+        }
     }
 
 }

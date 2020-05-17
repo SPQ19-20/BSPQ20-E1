@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import es.deusto.client.controller.Controller;
 import es.deusto.client.windows.CreateEvent;
@@ -17,58 +19,25 @@ import es.deusto.serialization.OrganizerInfo;
 import es.deusto.serialization.PostInfo;
 import es.deusto.serialization.TopicInfo;
 
-<span class="nc" id="L20">public class Main {</span>
+/**
+ * This class is the one that starts the aplication.
+ * 
+ * It creates a new controller for the user to connect to the
+ * server and opens a new LogInWindow where the user can start
+ * using the application by login in or creating a new user.
+ */
+
+<span class="nc" id="L30">public class Main {</span>
 
 	public static void main(String[] args) throws ClassNotFoundException {
-<span class="nc" id="L23">		Controller c = new Controller(&quot;localhost&quot;, &quot;8080&quot;);</span>
-<span class="nc" id="L24">		new LogInWindow(c);</span>
+		String host, port;
+<span class="nc" id="L34">		host = args[0];</span>
+<span class="nc" id="L35">		port = args[1];</span>
+<span class="nc" id="L36">		System.err.println(host);</span>
+<span class="nc" id="L37">		Controller c = new Controller(host, port); </span>
 
-		// OrganizerInfo organizer = new OrganizerInfo();
-		// organizer.setName(&quot;Organizer name&quot;);
-		// organizer.setEmail(&quot;this.is@somemail.com&quot;);
-		// organizer.setOrganization(&quot;Save the organizers&quot;);
-
-		// ArrayList&lt;EventInfo&gt; events = new ArrayList&lt;&gt;();
-
-		// EventInfo event = new EventInfo();
-		// event.setName(&quot;My testing event&quot;);
-		// event.setDescription(&quot;This is the description of the event. This text should consist of a couple of sentendes.&quot;);
-		// event.setOrganizerEmail(&quot;this.is@somemail.org&quot;);
-		// event.setTopic(new TopicInfo(&quot;ToToTopic&quot;));
-		// ArrayList&lt;PostInfo&gt; posts = new ArrayList&lt;&gt;();
-		// PostInfo p1 = new PostInfo();
-		// p1.setDate(new Date());
-		// p1.setTitle(&quot;This is the title of the first post&quot;);
-		// p1.setDescription(&quot;This is the description (or body) of the post inside the event&quot;);
-		// p1.setEventName(&quot;This should be the same as the name of the event&quot;);
-		// p1.setOrganizerEmail(&quot;This should be the email of the organizer&quot;);
-		
-		// PostInfo p2 = new PostInfo();
-		// p2.setDate(new Date());
-		// p2.setTitle(&quot;This is the title of the second post&quot;);
-		// p2.setDescription(&quot;This is the description (or body) of the second post inside the event&quot;);
-		// p2.setEventName(&quot;This should be the same as the name of the event&quot;);
-		// p2.setOrganizerEmail(&quot;This should be the email of the organizer&quot;);
-
-		// event.getPosts().add(p1);
-		// event.getPosts().add(p2);
-
-		// EventInfo event2 = new EventInfo();
-		// event2.setName(&quot;My second testing event&quot;);
-		// event2.setDescription(&quot;This is the description of the second event. This text should consist of a couple of sentendes.&quot;);
-		// event2.setOrganizerEmail(&quot;this.is@somemail.org&quot;);
-		// event2.setTopic(new TopicInfo(&quot;ToToTopic&quot;));
-		// event2.setPosts(new ArrayList&lt;&gt;());
-
-		// events.add(event);
-		// events.add(event2);
-		// organizer.setCreatedEvents(events);
-
-		// c.setOrganizer(organizer);
-
-		// new CreateEvent(c);
-		// new OrganizerHome(c);
-<span class="nc" id="L71">	}</span>
+<span class="nc" id="L39">		new LogInWindow(c);</span>
+<span class="nc" id="L40">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

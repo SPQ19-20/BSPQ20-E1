@@ -25,8 +25,8 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2020</copyright>
     <item>
-      <title>File: 42,
-             Errors: 2112,
+      <title>File: 47,
+             Errors: 2968,
              Warnings: 0,
              Infos: 0
       </title>
@@ -55,7 +55,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  45
+                  85
                 </td>
               </tr>
                           <tr>
@@ -69,7 +69,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  56
+                  65
                 </td>
               </tr>
                           <tr>
@@ -83,7 +83,21 @@ under the License.
                   0
                 </td>
                 <td>
-                  6
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://maven.apache.org/checkstyle.html#es.deusto.client.windows.SavedEventsWindow.java">es/deusto/client/windows/SavedEventsWindow.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  51
                 </td>
               </tr>
                           <tr>
@@ -97,7 +111,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  98
+                  113
                 </td>
               </tr>
                           <tr>
@@ -111,7 +125,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  35
+                  40
                 </td>
               </tr>
                           <tr>
@@ -125,7 +139,21 @@ under the License.
                   0
                 </td>
                 <td>
-                  64
+                  97
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://maven.apache.org/checkstyle.html#es.deusto.client.windows.CreateOrganizerWindow.java">es/deusto/client/windows/CreateOrganizerWindow.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  89
                 </td>
               </tr>
                           <tr>
@@ -153,7 +181,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  40
+                  41
                 </td>
               </tr>
                           <tr>
@@ -167,7 +195,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  62
+                  84
                 </td>
               </tr>
                           <tr>
@@ -181,7 +209,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  34
+                  38
                 </td>
               </tr>
                           <tr>
@@ -195,7 +223,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  28
+                  30
                 </td>
               </tr>
                           <tr>
@@ -209,7 +237,21 @@ under the License.
                   0
                 </td>
                 <td>
-                  4
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://maven.apache.org/checkstyle.html#es.deusto.client.windows.PostCreationWindow.java">es/deusto/client/windows/PostCreationWindow.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  76
                 </td>
               </tr>
                           <tr>
@@ -223,7 +265,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  58
+                  86
                 </td>
               </tr>
                           <tr>
@@ -237,7 +279,21 @@ under the License.
                   0
                 </td>
                 <td>
-                  23
+                  26
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://maven.apache.org/checkstyle.html#es.deusto.client.windows.EventListItem.java">es/deusto/client/windows/EventListItem.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  99
                 </td>
               </tr>
                           <tr>
@@ -251,7 +307,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  20
+                  18
                 </td>
               </tr>
                           <tr>
@@ -265,7 +321,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  32
+                  34
                 </td>
               </tr>
                           <tr>
@@ -279,7 +335,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  59
+                  60
                 </td>
               </tr>
                           <tr>
@@ -293,7 +349,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  66
+                  73
                 </td>
               </tr>
                           <tr>
@@ -321,7 +377,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  141
+                  97
                 </td>
               </tr>
                           <tr>
@@ -335,7 +391,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  36
+                  37
                 </td>
               </tr>
                           <tr>
@@ -349,7 +405,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  26
+                  22
                 </td>
               </tr>
                           <tr>
@@ -363,7 +419,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  87
+                  122
                 </td>
               </tr>
                           <tr>
@@ -377,7 +433,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  104
+                  153
                 </td>
               </tr>
                           <tr>
@@ -391,7 +447,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  4
+                  10
                 </td>
               </tr>
                           <tr>
@@ -405,7 +461,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  33
+                  35
                 </td>
               </tr>
                           <tr>
@@ -419,7 +475,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  74
+                  69
                 </td>
               </tr>
                           <tr>
@@ -433,7 +489,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  119
+                  146
                 </td>
               </tr>
                           <tr>
@@ -447,7 +503,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  153
+                  182
                 </td>
               </tr>
                           <tr>
@@ -461,7 +517,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  53
+                  50
                 </td>
               </tr>
                           <tr>
@@ -475,7 +531,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  18
+                  20
                 </td>
               </tr>
                           <tr>
@@ -489,7 +545,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  33
+                  46
                 </td>
               </tr>
                           <tr>
@@ -517,7 +573,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  53
+                  57
                 </td>
               </tr>
                           <tr>
@@ -531,7 +587,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  70
+                  73
                 </td>
               </tr>
                           <tr>
@@ -573,7 +629,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  89
+                  209
                 </td>
               </tr>
                           <tr>
@@ -587,7 +643,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  140
+                  186
                 </td>
               </tr>
                           <tr>
@@ -601,7 +657,21 @@ under the License.
                   0
                 </td>
                 <td>
-                  32
+                  36
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://maven.apache.org/checkstyle.html#es.deusto.client.windows.OrganizerEvents.java">es/deusto/client/windows/OrganizerEvents.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  51
                 </td>
               </tr>
                           <tr>
@@ -615,7 +685,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  13
+                  31
                 </td>
               </tr>
                           <tr>
@@ -629,7 +699,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  4
+                  10
                 </td>
               </tr>
                       </tbody>

@@ -1,121 +1,240 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pmd-cpd>
-   <duplication lines="28" tokens="267">
-      <file line="62"
-            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\EventWindow.java"/>
-      <file line="52"
-            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\OrganizerHome.java"/>
-      <codefragment><![CDATA[		backButton = new JButton(langManager.getString("closeButton"));
-		JPanel languageButtonsPanel = new JPanel(new GridLayout(1, 3));
+   <duplication lines="32" tokens="255">
+      <file line="80"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\ChangePass.java"/>
+      <file line="160"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\UserEventsWindow.java"/>
+      <codefragment><![CDATA[		JPanel topControlPanel = new JPanel(new BorderLayout());
+
+		JMenu languageMenu = new JMenu("Language");
+		JMenuItem english = new JMenuItem("EN");
+		JMenuItem spanish = new JMenuItem("ES");
+		JMenuItem greek = new JMenuItem("EL");
+		JMenuItem italian = new JMenuItem("IT");
 
 		try {
-			ImageIcon iconEN, iconES, iconIT;
-			iconEN = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
-			iconES = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
-			iconIT = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
+			ImageIcon iconEN, iconES, iconIT, iconGR;
+			iconEN = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
+			iconES = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
+			iconIT = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
+			iconGR = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));
+			english.setIcon(iconEN);
+			spanish.setIcon(iconES);
+			greek.setIcon(iconGR);
+			italian.setIcon(iconIT);
+		} catch (Exception e) {
+		}
 
-			JPanel enPanel, esPanel, itPanel;
-			enPanel = new JPanel();
-			enPanel.add(new JLabel(iconEN));
-			esPanel = new JPanel();
-			esPanel.add(new JLabel(iconES));
-			itPanel = new JPanel();
-			itPanel.add(new JLabel(iconIT));
-
-			enPanel.setBorder(new EmptyBorder(2,2,2,2));
-			esPanel.setBorder(new EmptyBorder(2,2,2,2));
-			itPanel.setBorder(new EmptyBorder(2,2,2,2));
-
-			enPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("en")) {
-						controller.getLanguageManager().setLanguage("en");
-						dispose();
-						new EventWindow(controller, event);]]></codefragment>
+		english.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!langManager.getLanguage().equals("en")) {
+					controller.getLanguageManager().setLanguage("en");
+					dispose();
+					new ChangePass(controller);]]></codefragment>
    </duplication>
-   <duplication lines="27" tokens="252">
-      <file line="63"
-            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\EventWindow.java"/>
-      <file line="53"
+   <duplication lines="30" tokens="247">
+      <file line="82"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\ChangePass.java"/>
+      <file line="137"
             path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\OrganizerHome.java"/>
-      <file line="49"
+      <file line="163"
             path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\UserEventsWindow.java"/>
-      <codefragment><![CDATA[		JPanel languageButtonsPanel = new JPanel(new GridLayout(1, 3));
+      <codefragment><![CDATA[		JMenu languageMenu = new JMenu("Language");
+		JMenuItem english = new JMenuItem("EN");
+		JMenuItem spanish = new JMenuItem("ES");
+		JMenuItem greek = new JMenuItem("EL");
+		JMenuItem italian = new JMenuItem("IT");
 
 		try {
-			ImageIcon iconEN, iconES, iconIT;
-			iconEN = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
-			iconES = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
-			iconIT = new ImageIcon(ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
+			ImageIcon iconEN, iconES, iconIT, iconGR;
+			iconEN = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
+			iconES = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
+			iconIT = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
+			iconGR = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));
+			english.setIcon(iconEN);
+			spanish.setIcon(iconES);
+			greek.setIcon(iconGR);
+			italian.setIcon(iconIT);
+		} catch (Exception e) {
+		}
 
-			JPanel enPanel, esPanel, itPanel;
-			enPanel = new JPanel();
-			enPanel.add(new JLabel(iconEN));
-			esPanel = new JPanel();
-			esPanel.add(new JLabel(iconES));
-			itPanel = new JPanel();
-			itPanel.add(new JLabel(iconIT));
-
-			enPanel.setBorder(new EmptyBorder(2,2,2,2));
-			esPanel.setBorder(new EmptyBorder(2,2,2,2));
-			itPanel.setBorder(new EmptyBorder(2,2,2,2));
-
-			enPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (!langManager.getLanguage().equals("en")) {
-						controller.getLanguageManager().setLanguage("en");
-						dispose();
-						new EventWindow(controller, event);]]></codefragment>
+		english.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!langManager.getLanguage().equals("en")) {
+					controller.getLanguageManager().setLanguage("en");
+					dispose();
+					new ChangePass(controller);]]></codefragment>
    </duplication>
-   <duplication lines="37" tokens="206">
-      <file line="94"
-            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\EventOrganizerWindow.java"/>
-      <file line="166"
+   <duplication lines="36" tokens="229">
+      <file line="35"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\CreateOrganizerWindow.java"/>
+      <file line="37"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\CreateUserWindow.java"/>
+      <codefragment><![CDATA[	public CreateOrganizerWindow(Controller controller) {
+		this.controller = controller;
+		this.langManager = controller.getLanguageManager();
+
+		getContentPane().setLayout(null);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		JLabel lblUsername = new JLabel(langManager.getString("userLabel"));
+		lblUsername.setBounds(54, 61, 119, 16);
+		getContentPane().add(lblUsername);
+
+		textField_username = new JTextField();
+		textField_username.setBounds(133, 58, 175, 22);
+		getContentPane().add(textField_username);
+		textField_username.setColumns(10);
+
+		JLabel lblPassword = new JLabel(langManager.getString("passwordLabel"));
+		lblPassword.setBounds(54, 110, 119, 16);
+		getContentPane().add(lblPassword);
+
+		textField_password = new JPasswordField();
+		textField_password.setBounds(133, 107, 175, 22);
+		getContentPane().add(textField_password);
+		textField_password.setColumns(10);
+
+		JLabel lblMail = new JLabel(langManager.getString("emailLabel"));
+		lblMail.setBounds(54, 159, 119, 16);
+		getContentPane().add(lblMail);
+
+		textField_email = new JTextField();
+		textField_email.setBounds(133, 156, 175, 22);
+		getContentPane().add(textField_email);
+		textField_email.setColumns(10);
+
+        //aqui cambiamos los valores city -> organization
+		JLabel lblOrganization = new JLabel(langManager.getString("OrganizationLabel"));]]></codefragment>
+   </duplication>
+   <duplication lines="26" tokens="142">
+      <file line="80"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\OrganizerHome.java"/>
+      <file line="86"
             path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\UserEventsWindow.java"/>
-      <codefragment><![CDATA[        public EventListElement(EventOrganizerWindow window, EventInfo event) {
-            super();
-
-            this.window = window;
-            this.event = event;
-
-            this.initComponents();
-        }
-
-        private void initComponents() {
-            this.setLayout(new GridLayout(1, 3));
-            this.add(new JLabel(this.event.getName()));
-            this.add(new JLabel(this.event.getDescription()));
-            
-            JPanel detailsButtonPanel = new JPanel();
-            detailsButtonPanel.setLayout(new BoxLayout(detailsButtonPanel, BoxLayout.Y_AXIS));
-            detailsButton = new JButton(langManager.getString("detailsText"));
-            detailsButtonPanel.add(Box.createVerticalGlue());
-            detailsButtonPanel.add(detailsButton);
-            detailsButtonPanel.add(Box.createVerticalGlue());
-            this.add(detailsButtonPanel);
-
-            detailsButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    new EventWindow(window.controller, event);
-                    window.dispose();
-                }
-            });
-
-            this.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-            this.setPreferredSize(new Dimension(2000, 200));
+      <codefragment><![CDATA[        for (EventInfo e : this.controller.getOrganize().getCreatedEvents()) {
+            for (int i = 0; i < 1; i++) {
+                this.mainPanel.add(new EventListItem(controller, e, this));
+            }
         }
         
+        this.mainPanel.add(Box.createVerticalGlue());
+
+        JScrollPane scrollPane = new JScrollPane(this.mainPanel, 
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        scrollPane.setViewportBorder(new EmptyBorder(10,10,10,10));
+
+        bigMainPanel.add(this.titlePanel, BorderLayout.NORTH);
+        bigMainPanel.add(scrollPane, BorderLayout.CENTER);
+        
+        this.cp.add(bigMainPanel, BorderLayout.CENTER);
+
+        this.setListeners();
     }
 
-}]]></codefragment>
+    private void setMenuBar() {
+        JMenuBar bar = new JMenuBar();
+        setJMenuBar(bar);
+        JMenu accountMenu = new JMenu(langManager.getString("Account"));]]></codefragment>
+   </duplication>
+   <duplication lines="12" tokens="135">
+      <file line="86"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\ChangePass.java"/>
+      <file line="57"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\OrganizerEvents.java"/>
+      <file line="141"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\OrganizerHome.java"/>
+      <file line="167"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\UserEventsWindow.java"/>
+      <codefragment><![CDATA[		JMenuItem italian = new JMenuItem("IT");
+
+		try {
+			ImageIcon iconEN, iconES, iconIT, iconGR;
+			iconEN = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/gb.png").getFile())));
+			iconES = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/es.png").getFile())));
+			iconIT = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/it.png").getFile())));
+			iconGR = new ImageIcon(
+					ImageIO.read(new File(getClass().getClassLoader().getResource("images/gr.png").getFile())));]]></codefragment>
+   </duplication>
+   <duplication lines="24" tokens="129">
+      <file line="87"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\SavedEventsWindow.java"/>
+      <file line="85"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\UserEventsWindow.java"/>
+      <codefragment><![CDATA[        ArrayList<EventInfo> rec = controller.getUser().getSavedEvents();
+        for (EventInfo e : rec) {
+            for (int i = 0; i < 1; i++) {
+                this.mainPanel.add(new EventListItem(controller, e, this));
+            }
+        }
+        
+        this.mainPanel.add(Box.createVerticalGlue());
+
+        JScrollPane scrollPane = new JScrollPane(this.mainPanel, 
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        scrollPane.setViewportBorder(new EmptyBorder(10,10,10,10));
+
+        bigMainPanel.add(this.titlePanel, BorderLayout.NORTH);
+        bigMainPanel.add(scrollPane, BorderLayout.CENTER);
+        
+        this.cp.add(bigMainPanel, BorderLayout.CENTER);
+
+        this.setListeners();
+    }
+
+    private void setListeners() {]]></codefragment>
+   </duplication>
+   <duplication lines="23" tokens="121">
+      <file line="80"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\OrganizerHome.java"/>
+      <file line="88"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\SavedEventsWindow.java"/>
+      <codefragment><![CDATA[        for (EventInfo e : this.controller.getOrganize().getCreatedEvents()) {
+            for (int i = 0; i < 1; i++) {
+                this.mainPanel.add(new EventListItem(controller, e, this));
+            }
+        }
+        
+        this.mainPanel.add(Box.createVerticalGlue());
+
+        JScrollPane scrollPane = new JScrollPane(this.mainPanel, 
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        scrollPane.setViewportBorder(new EmptyBorder(10,10,10,10));
+
+        bigMainPanel.add(this.titlePanel, BorderLayout.NORTH);
+        bigMainPanel.add(scrollPane, BorderLayout.CENTER);
+        
+        this.cp.add(bigMainPanel, BorderLayout.CENTER);
+
+        this.setListeners();
+    }
+
+    private void setMenuBar() {]]></codefragment>
    </duplication>
    <duplication lines="45" tokens="121">
-      <file line="28"
+      <file line="35"
             path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\serialization\PostInfo.java"/>
-      <file line="41"
+      <file line="47"
             path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\data\Post.java"/>
       <codefragment><![CDATA[        this.organizerEmail = post.getOrganizerEmail();
     }
@@ -163,28 +282,31 @@
 
 }]]></codefragment>
    </duplication>
-   <duplication lines="18" tokens="105">
-      <file line="42"
-            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\EventOrganizerWindow.java"/>
-      <file line="111"
+   <duplication lines="21" tokens="106">
+      <file line="36"
+            path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\OrganizerHome.java"/>
+      <file line="40"
             path="C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\UserEventsWindow.java"/>
-      <codefragment><![CDATA[        this.mainPanel = new JPanel();
+      <codefragment><![CDATA[        initComponents();
+        
+        this.setResizable(false);
+        this.setSize(new Dimension(650, 750));
+        this.setVisible(true);
+
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    private void initComponents() {
+        this.setMenuBar();
+        this.cp = this.getContentPane();
+        this.cp.setLayout(new BorderLayout());
+
+        JPanel bigMainPanel = new JPanel(new BorderLayout());
+
+        this.titlePanel = new JPanel(new BorderLayout());
+        this.mainPanel = new JPanel();
 
         // TOP PANEL
-        JLabel pageTitle = new JLabel(langManager.getString("eventsText"));
-        JPanel title_panel = new JPanel();
-        title_panel.add(pageTitle);
-
-        this.titlePanel.add(title_panel, BorderLayout.CENTER);
-
-        this.profileCustomBtn = new JButton(langManager.getString("customizeText"));
-        JPanel profileCustom_panel = new JPanel();
-        profileCustom_panel.add(profileCustomBtn);
-
-        this.titlePanel.add(profileCustom_panel, BorderLayout.EAST);
-
-        // MAIN PANEL
-        this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
-        for (EventInfo e : this.controller.getOrganize().getCreatedEvents()){ //only the events created by the user are displayed originally]]></codefragment>
+        JLabel pageTitle = new JLabel(langManager.getString("eventsText"));]]></codefragment>
    </duplication>
 </pmd-cpd>

@@ -250,6 +250,22 @@ public class Server {
 	}
 
 	/**
+	 * This method is used for the removal of events.
+	 * It is invoked whenever a POST request is made to the following path: /deleteEvent .
+	 * @param eventInfo information of the event to be deleted
+	 * @return Response object
+	 */
+	@POST
+	@Path("/deleteEvent")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response deleteEvent(EventInfo eventInfo){
+		LOGGER.log(Level.INFO, "Delete event attempt received: "+ eventInfo.getName());
+
+		appService.deleteEvent(eventInfo);
+		return Response.ok("OK").build();
+	}
+
+	/**
 	 * This method is used for the creation of new events from a given organizer.
 	 * It is envoked whenever a POST request is made to the following path: /createEvent.
 	 * @param eventInfo {@link EventInfo} object with the data of the event that will be created.
@@ -267,7 +283,7 @@ public class Server {
 	}
 
 	/**
-	 * This method is used for the creation of new {@link Posts} from a given Event.
+	 * This method is used for the creation of new {@link Post} from a given Event.
 	 * It is envoked whenever a POST request is made to the following path: /createEvent.
 	 * @param postInfo {@link PostInfo} object with the data of the event that will be created.
 	 * @return {@link Response} object containing the information of a {@link PostInfo}.

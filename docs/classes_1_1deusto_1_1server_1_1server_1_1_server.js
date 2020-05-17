@@ -11,6 +11,7 @@ var classes_1_1deusto_1_1server_1_1server_1_1_server =
     [ "attemptUserDelete", "classes_1_1deusto_1_1server_1_1server_1_1_server.html#aed044bf7426b26b681b4c41e8fd69588", null ],
     [ "createEvent", "classes_1_1deusto_1_1server_1_1server_1_1_server.html#accdc0e446d473f9f22b4caaaca8d63c4", null ],
     [ "createPost", "classes_1_1deusto_1_1server_1_1server_1_1_server.html#a83a22375f68285595656e9ce883d1088", null ],
+    [ "deleteEvent", "classes_1_1deusto_1_1server_1_1server_1_1_server.html#ae4f05df4c08b157c8bea418cfff9e361", null ],
     [ "getRecommendedEvents", "classes_1_1deusto_1_1server_1_1server_1_1_server.html#ab4c6c2e5ac9ab321ae7315fbe06c2b3d", null ],
     [ "recoverPassword", "classes_1_1deusto_1_1server_1_1server_1_1_server.html#ac2c732e8c75a85df5f6bed1d34e98e83", null ],
     [ "sayHello", "classes_1_1deusto_1_1server_1_1server_1_1_server.html#ab1212646552a19d1ed71ba1a68f4f76b", null ]

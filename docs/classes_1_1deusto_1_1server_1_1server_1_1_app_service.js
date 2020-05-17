@@ -9,6 +9,7 @@ var classes_1_1deusto_1_1server_1_1server_1_1_app_service =
     [ "attemptOrganizerUpdate", "classes_1_1deusto_1_1server_1_1server_1_1_app_service.html#a3aee2afe907d0a62ac5da940e71c582f", null ],
     [ "createEvent", "classes_1_1deusto_1_1server_1_1server_1_1_app_service.html#a6bafb9d06cbc7c0070cd878c590fba28", null ],
     [ "createPost", "classes_1_1deusto_1_1server_1_1server_1_1_app_service.html#a064ce4778de5e35c9939c2ef5975dad6", null ],
+    [ "deleteEvent", "classes_1_1deusto_1_1server_1_1server_1_1_app_service.html#afe57799bb846d4a6eccfd9912d7c1091", null ],
     [ "deleteOrganizer", "classes_1_1deusto_1_1server_1_1server_1_1_app_service.html#ae5e4fc1beba8a4170facb8bad6c58b63", null ],
     [ "deleteUser", "classes_1_1deusto_1_1server_1_1server_1_1_app_service.html#a200bda793e32c0fc077debd505ff40e5", null ],
     [ "getRecommendedEvents", "classes_1_1deusto_1_1server_1_1server_1_1_app_service.html#ae4ecbb2d4d9c4f9b6620278f0ca6fd73", null ],

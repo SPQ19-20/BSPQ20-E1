@@ -2,37 +2,49 @@
 
 import es.deusto.server.data.Topic;
 
+/**
+ * DTO equivalent class of the {@link Topic} class from the server.
+ * This class is used to transport all the relevant information of a
+ * topic through the network.
+ * 
+ * @since Sprint 1
+ */
 public class TopicInfo {
 
     private String name;
     
-<span class="nc" id="L9">    public TopicInfo() {</span>
-<span class="nc" id="L10">        this.name = &quot;&quot;;</span>
-<span class="nc" id="L11">    }</span>
-<span class="fc" id="L12">    public TopicInfo(String name) {</span>
-<span class="fc" id="L13">        this.name = name;</span>
-<span class="fc" id="L14">    }</span>
-
-<span class="fc" id="L16">    public TopicInfo(Topic c) {</span>
-<span class="fc" id="L17">        this.name = c.getName();</span>
+<span class="fc" id="L16">    public TopicInfo() {</span>
+<span class="fc" id="L17">        this.name = &quot;&quot;;</span>
 <span class="fc" id="L18">    }</span>
+<span class="fc" id="L19">    public TopicInfo(String name) {</span>
+<span class="fc" id="L20">        this.name = name;</span>
+<span class="fc" id="L21">    }</span>
+
+<span class="fc" id="L23">    public TopicInfo(Topic c) {</span>
+<span class="fc" id="L24">        this.name = c.getName();</span>
+<span class="fc" id="L25">    }</span>
 
     public String getName() {
-<span class="fc" id="L21">        return this.name;</span>
+<span class="fc" id="L28">        return this.name;</span>
     }
 
     public void setName(String name) {
-<span class="nc" id="L25">        this.name = name;</span>
-<span class="nc" id="L26">    }</span>
+<span class="fc" id="L32">        this.name = name;</span>
+<span class="fc" id="L33">    }</span>
     /**
      * Creates a {@link Topic} object from a {@link TopicInfo} one
      * @param topicInfo the source of the information
      * @return an Object {@link Topic}
      */
     public static Topic parseTopic(TopicInfo topicInfo){
-<span class="nc" id="L33">        Topic t = new Topic();</span>
-<span class="nc" id="L34">        t.setName(topicInfo.getName());</span>
-<span class="nc" id="L35">        return t;</span>
+<span class="nc" id="L40">        Topic t = new Topic();</span>
+<span class="nc" id="L41">        t.setName(topicInfo.getName());</span>
+<span class="nc" id="L42">        return t;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L47">        return this.name;</span>
     }
 
 }

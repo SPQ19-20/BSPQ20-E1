@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,6 +31,7 @@ public class CreateEvent extends JFrame implements ActionListener{
 	private JTextField t2;
 	private JTextField t3;
 	private JTextField t4;
+	private JTextField tCountry;
 	private JTextField t6;
 	
 	private Controller controller;
@@ -77,20 +80,28 @@ public class CreateEvent extends JFrame implements ActionListener{
 		t3.setBounds(97+offset, 144, 160, 22);
 		getContentPane().add(t3);
 		
-		JLabel lblPlace = new JLabel(langManager.getString("location") + ":");
+		JLabel lblPlace = new JLabel(langManager.getString("cityLabel"));
 		lblPlace.setBounds(55, 188, 101, 16);
 		getContentPane().add(lblPlace);
 		
 		t4 = new JTextField();
 		t4.setBounds(97+offset, 185, 160, 22);
 		getContentPane().add(t4);
+
+		JLabel lblCountry = new JLabel(langManager.getString("countryLabel") + ":");
+		lblCountry.setBounds(65, 229, 101, 16);
+		getContentPane().add(lblCountry);
+		
+		tCountry = new JTextField();
+		tCountry.setBounds(97+offset, 226, 160, 22);
+		getContentPane().add(tCountry);
 		
 		JLabel lblDate = new JLabel(langManager.getString("date") + ":");
-		lblDate.setBounds(65, 229, 101, 16);
+		lblDate.setBounds(65, 270, 101, 16);
 		getContentPane().add(lblDate);
 		
 		t6 = new JTextField();
-		t6.setBounds(97+offset, 226, 160, 22);
+		t6.setBounds(97+offset, 267, 160, 22);
 		getContentPane().add(t6);
 			
 		setVisible(true);
@@ -116,15 +127,26 @@ public class CreateEvent extends JFrame implements ActionListener{
 			String title = this.t1.getText();
 			String description = this.t2.getText();
 			String topic = this.t3.getText();
-			//String place = this.t4.getText();
-			//String city = this.t5.getText();
-			//String date = this.t6.getText();
+			String city = this.t4.getText();
+			String country = this.tCountry.getText();
+			String date = this.t6.getText();
 			EventInfo newEvent = new EventInfo();
 			newEvent.setName(title);
 			newEvent.setDescription(description);
 			newEvent.setTopic(new TopicInfo(topic));
+			newEvent.setCity(city);
+			newEvent.setCountry(country);
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+			Date d;
+			try {
+				d = dateFormatter.parse(date);
+			} catch (Exception ex) {
+				d = new Date();
+			}
+			newEvent.setDate(d);
 			newEvent.setOrganizerEmail(controller.getOrganize().getEmail());
 			newEvent.setPosts(new ArrayList<>());
+			
 			controller.createEvent(newEvent);
 
 			dispose();

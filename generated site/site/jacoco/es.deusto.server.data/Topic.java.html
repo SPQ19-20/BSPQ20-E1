@@ -11,6 +11,12 @@ import javax.jdo.annotations.PrimaryKey;
 import es.deusto.serialization.TopicInfo;
 
 @PersistenceCapable(detachable=&quot;true&quot;)
+
+/**
+ * This classes is the one that defines a topic and it is 
+ * used to create one.	 
+ */
+
 public class Topic {
 
 	//a ID is created automatically
@@ -23,13 +29,13 @@ public class Topic {
 	// 	this.code = code;
 	// 	this.name = name;
 	// }
-<span class="fc" id="L26">	public Topic() {</span>
+<span class="fc" id="L32">	public Topic() {</span>
 		
-<span class="fc" id="L28">	}</span>
+<span class="fc" id="L34">	}</span>
 
-<span class="fc" id="L30">	public Topic(TopicInfo info) {</span>
-<span class="fc" id="L31">		this.name = info.getName();</span>
-<span class="fc" id="L32">	}</span>
+<span class="fc" id="L36">	public Topic(TopicInfo info) {</span>
+<span class="fc" id="L37">		this.name = info.getName();</span>
+<span class="fc" id="L38">	}</span>
 
 	// public long getID() {
 	// 	return _id;
@@ -40,16 +46,16 @@ public class Topic {
 	// }
 
 	public String getName() {
-<span class="fc" id="L43">		return name;</span>
+<span class="fc" id="L49">		return name;</span>
 	}
 
 	public void setName(String name) {
-<span class="fc" id="L47">		this.name = name;</span>
-<span class="fc" id="L48">	}</span>
+<span class="fc" id="L53">		this.name = name;</span>
+<span class="fc" id="L54">	}</span>
 
 	@Override
 	public String toString() {
-<span class="nc" id="L52">		return name;</span>
+<span class="nc" id="L58">		return name;</span>
 	}
 	
 }

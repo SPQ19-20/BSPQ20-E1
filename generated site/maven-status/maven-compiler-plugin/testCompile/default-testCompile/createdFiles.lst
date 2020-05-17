@@ -1,4 +1,3 @@
-es\deusto\junit\client\ControllerTest.class
 es\deusto\junit\serialization\SerializationTest.class
-es\deusto\junit\server\FirstTest.class
+es\deusto\junit\client\ControllerTest.class
 es\deusto\junit\server\ServerTest.class

@@ -8,6 +8,12 @@ import javax.jdo.annotations.Persistent;
 import es.deusto.serialization.PostInfo;
 
 @PersistenceCapable(detachable=&quot;true&quot;)
+
+/**
+ * This classes is the one that defines a post and it is 
+ * used to create one.	 
+ */
+
 public class Post {
 
     @Persistent(defaultFetchGroup=&quot;true&quot;)
@@ -25,61 +31,61 @@ public class Post {
     @Persistent(defaultFetchGroup=&quot;true&quot;)
     private String organizerEmail;
 
-<span class="fc" id="L28">    public Post() {</span>
-<span class="fc" id="L29">        this.title = &quot;&quot;;</span>
-<span class="fc" id="L30">        this.description = &quot;&quot;;</span>
-<span class="fc" id="L31">        this.date = null;</span>
-<span class="fc" id="L32">        this.eventName = &quot;&quot;;</span>
-<span class="fc" id="L33">        this.organizerEmail = &quot;&quot;;</span>
-<span class="fc" id="L34">    }</span>
+<span class="fc" id="L34">    public Post() {</span>
+<span class="fc" id="L35">        this.title = &quot;&quot;;</span>
+<span class="fc" id="L36">        this.description = &quot;&quot;;</span>
+<span class="fc" id="L37">        this.date = null;</span>
+<span class="fc" id="L38">        this.eventName = &quot;&quot;;</span>
+<span class="fc" id="L39">        this.organizerEmail = &quot;&quot;;</span>
+<span class="fc" id="L40">    }</span>
 
-<span class="fc" id="L36">    public Post(PostInfo info) {</span>
-<span class="fc" id="L37">        this.title = info.getTitle();</span>
-<span class="fc" id="L38">        this.description = info.getDescription();</span>
-<span class="fc" id="L39">        this.date = info.getDate();</span>
-<span class="fc" id="L40">        this.eventName = info.getEventName();</span>
-<span class="fc" id="L41">        this.organizerEmail = info.getOrganizerEmail();</span>
-<span class="fc" id="L42">    }</span>
+<span class="fc" id="L42">    public Post(PostInfo info) {</span>
+<span class="fc" id="L43">        this.title = info.getTitle();</span>
+<span class="fc" id="L44">        this.description = info.getDescription();</span>
+<span class="fc" id="L45">        this.date = info.getDate();</span>
+<span class="fc" id="L46">        this.eventName = info.getEventName();</span>
+<span class="fc" id="L47">        this.organizerEmail = info.getOrganizerEmail();</span>
+<span class="fc" id="L48">    }</span>
 
     public String getTitle() {
-<span class="fc" id="L45">        return title;</span>
+<span class="fc" id="L51">        return title;</span>
     }
 
     public void setTitle(String title) {
-<span class="fc" id="L49">        this.title = title;</span>
-<span class="fc" id="L50">    }</span>
+<span class="fc" id="L55">        this.title = title;</span>
+<span class="fc" id="L56">    }</span>
 
     public String getDescription() {
-<span class="fc" id="L53">        return description;</span>
+<span class="fc" id="L59">        return description;</span>
     }
 
     public void setDescription(String description) {
-<span class="fc" id="L57">        this.description = description;</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L63">        this.description = description;</span>
+<span class="fc" id="L64">    }</span>
 
     public Date getDate() {
-<span class="fc" id="L61">        return date;</span>
+<span class="fc" id="L67">        return date;</span>
     }
 
     public void setDate(Date date) {
-<span class="fc" id="L65">        this.date = date;</span>
-<span class="fc" id="L66">    }</span>
+<span class="fc" id="L71">        this.date = date;</span>
+<span class="fc" id="L72">    }</span>
 
     public String getEventName() {
-<span class="fc" id="L69">        return eventName;</span>
+<span class="fc" id="L75">        return eventName;</span>
     }
 
     public void setEventName(String eventName) {
-<span class="fc" id="L73">        this.eventName = eventName;</span>
-<span class="fc" id="L74">    }</span>
+<span class="fc" id="L79">        this.eventName = eventName;</span>
+<span class="fc" id="L80">    }</span>
 
     public String getOrganizerEmail() {
-<span class="fc" id="L77">        return organizerEmail;</span>
+<span class="fc" id="L83">        return organizerEmail;</span>
     }
 
     public void setOrganizerEmail(String organizerEmail) {
-<span class="fc" id="L81">        this.organizerEmail = organizerEmail;</span>
-<span class="fc" id="L82">    }</span>
+<span class="fc" id="L87">        this.organizerEmail = organizerEmail;</span>
+<span class="fc" id="L88">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -11,9 +11,11 @@ C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\OrganizerHome.
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\serialization\TopicInfo.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\data\Topic.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\data\Organizer.java
+C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\EventListItem.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\data\Post.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\Profile.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\LogInWindow.java
+C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\CreateOrganizerWindow.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\data\GenericUser.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\UserEventsWindow.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\serialization\PostInfo.java
@@ -21,7 +23,10 @@ C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\controller\Controller.
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\serialization\SignupAttempt.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\dao\PostDAO.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\server\data\User.java
+C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\PostCreationWindow.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\CodeVerification.java
+C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\OrganizerEvents.java
+C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\SavedEventsWindow.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\serialization\GenericUserInfo.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\serialization\EventInfo.java
 C:\spq\BSPQ20-E1\BSPQ20-E1\src\main\java\es\deusto\client\windows\EventWindow.java

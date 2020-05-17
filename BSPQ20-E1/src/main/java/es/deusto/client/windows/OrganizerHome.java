@@ -53,7 +53,7 @@ public class OrganizerHome extends JFrame {
         this.mainPanel = new JPanel();
 
         // TOP PANEL
-        JLabel pageTitle = new JLabel(langManager.getString("suggestionsForYou"));
+        JLabel pageTitle = new JLabel(langManager.getString("eventsText"));
         JPanel title_panel = new JPanel();
         title_panel.add(pageTitle);
         pageTitle.setFont(new Font("Arial", Font.BOLD, 30));
@@ -79,7 +79,7 @@ public class OrganizerHome extends JFrame {
         this.mainPanel.setLayout(new BoxLayout(this.mainPanel, BoxLayout.Y_AXIS));
         for (EventInfo e : this.controller.getOrganize().getCreatedEvents()) {
             for (int i = 0; i < 1; i++) {
-                this.mainPanel.add(new EventListItem(controller, e));
+                this.mainPanel.add(new EventListItem(controller, e, this));
             }
         }
         

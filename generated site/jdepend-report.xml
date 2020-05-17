@@ -46,7 +46,7 @@
                 <ConcreteClasses>1</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>3</Ce>
+                <Ce>4</Ce>
                 <A>0</A>
                 <I>1</I>
                 <D>0</D>
@@ -65,6 +65,7 @@
             <DependsUpon>
                 <Package>es.deusto.client.controller</Package>
                 <Package>es.deusto.client.windows</Package>
+                <Package>java.io</Package>
                 <Package>java.lang</Package>
             </DependsUpon>
 
@@ -74,14 +75,14 @@
 
         <Package name="es.deusto.client.windows">
             <Stats>
-                <TotalClasses>47</TotalClasses>
-                <ConcreteClasses>47</ConcreteClasses>
+                <TotalClasses>72</TotalClasses>
+                <ConcreteClasses>72</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>2</Ca>
-                <Ce>11</Ce>
+                <Ce>12</Ce>
                 <A>0</A>
-                <I>0.85</I>
-                <D>0.15</D>
+                <I>0.86</I>
+                <D>0.14</D>
                 <V>1</V>
             </Stats>
 
@@ -94,6 +95,18 @@
                 </Class>
                 <Class sourceFile="ChangePass.java">
                     es.deusto.client.windows.ChangePass$1
+                </Class>
+                <Class sourceFile="ChangePass.java">
+                    es.deusto.client.windows.ChangePass$2
+                </Class>
+                <Class sourceFile="ChangePass.java">
+                    es.deusto.client.windows.ChangePass$3
+                </Class>
+                <Class sourceFile="ChangePass.java">
+                    es.deusto.client.windows.ChangePass$4
+                </Class>
+                <Class sourceFile="ChangePass.java">
+                    es.deusto.client.windows.ChangePass$5
                 </Class>
                 <Class sourceFile="CodeVerification.java">
                     es.deusto.client.windows.CodeVerification
@@ -110,8 +123,23 @@
                 <Class sourceFile="CreateEvent.java">
                     es.deusto.client.windows.CreateEvent$1
                 </Class>
+                <Class sourceFile="CreateOrganizerWindow.java">
+                    es.deusto.client.windows.CreateOrganizerWindow
+                </Class>
                 <Class sourceFile="CreateUserWindow.java">
                     es.deusto.client.windows.CreateUserWindow
+                </Class>
+                <Class sourceFile="EventListItem.java">
+                    es.deusto.client.windows.EventListItem
+                </Class>
+                <Class sourceFile="EventListItem.java">
+                    es.deusto.client.windows.EventListItem$1
+                </Class>
+                <Class sourceFile="EventListItem.java">
+                    es.deusto.client.windows.EventListItem$2
+                </Class>
+                <Class sourceFile="EventListItem.java">
+                    es.deusto.client.windows.EventListItem$3
                 </Class>
                 <Class sourceFile="EventOrganizerWindow.java">
                     es.deusto.client.windows.EventOrganizerWindow
@@ -133,9 +161,6 @@
                 </Class>
                 <Class sourceFile="EventWindow.java">
                     es.deusto.client.windows.EventWindow$3
-                </Class>
-                <Class sourceFile="EventWindow.java">
-                    es.deusto.client.windows.EventWindow$4
                 </Class>
                 <Class sourceFile="EventWindow.java">
                     es.deusto.client.windows.EventWindow$PostPanel
@@ -173,6 +198,33 @@
                 <Class sourceFile="LogInWindow.java">
                     es.deusto.client.windows.LogInWindow$6
                 </Class>
+                <Class sourceFile="LogInWindow.java">
+                    es.deusto.client.windows.LogInWindow$7
+                </Class>
+                <Class sourceFile="OrganizerEvents.java">
+                    es.deusto.client.windows.OrganizerEvents
+                </Class>
+                <Class sourceFile="OrganizerEvents.java">
+                    es.deusto.client.windows.OrganizerEvents$1
+                </Class>
+                <Class sourceFile="OrganizerEvents.java">
+                    es.deusto.client.windows.OrganizerEvents$2
+                </Class>
+                <Class sourceFile="OrganizerEvents.java">
+                    es.deusto.client.windows.OrganizerEvents$3
+                </Class>
+                <Class sourceFile="OrganizerEvents.java">
+                    es.deusto.client.windows.OrganizerEvents$4
+                </Class>
+                <Class sourceFile="OrganizerEvents.java">
+                    es.deusto.client.windows.OrganizerEvents$5
+                </Class>
+                <Class sourceFile="OrganizerEvents.java">
+                    es.deusto.client.windows.OrganizerEvents$EventListItem
+                </Class>
+                <Class sourceFile="OrganizerEvents.java">
+                    es.deusto.client.windows.OrganizerEvents$EventListItem$1
+                </Class>
                 <Class sourceFile="OrganizerHome.java">
                     es.deusto.client.windows.OrganizerHome
                 </Class>
@@ -192,10 +244,16 @@
                     es.deusto.client.windows.OrganizerHome$5
                 </Class>
                 <Class sourceFile="OrganizerHome.java">
-                    es.deusto.client.windows.OrganizerHome$EventListItem
+                    es.deusto.client.windows.OrganizerHome$6
                 </Class>
-                <Class sourceFile="OrganizerHome.java">
-                    es.deusto.client.windows.OrganizerHome$EventListItem$1
+                <Class sourceFile="PostCreationWindow.java">
+                    es.deusto.client.windows.PostCreationWindow
+                </Class>
+                <Class sourceFile="PostCreationWindow.java">
+                    es.deusto.client.windows.PostCreationWindow$1
+                </Class>
+                <Class sourceFile="PostCreationWindow.java">
+                    es.deusto.client.windows.PostCreationWindow$2
                 </Class>
                 <Class sourceFile="Profile.java">
                     es.deusto.client.windows.Profile
@@ -208,6 +266,18 @@
                 </Class>
                 <Class sourceFile="Profile.java">
                     es.deusto.client.windows.Profile$3
+                </Class>
+                <Class sourceFile="Profile.java">
+                    es.deusto.client.windows.Profile$4
+                </Class>
+                <Class sourceFile="Profile.java">
+                    es.deusto.client.windows.Profile$5
+                </Class>
+                <Class sourceFile="SavedEventsWindow.java">
+                    es.deusto.client.windows.SavedEventsWindow
+                </Class>
+                <Class sourceFile="SavedEventsWindow.java">
+                    es.deusto.client.windows.SavedEventsWindow$1
                 </Class>
                 <Class sourceFile="UserEventsWindow.java">
                     es.deusto.client.windows.UserEventsWindow
@@ -225,10 +295,16 @@
                     es.deusto.client.windows.UserEventsWindow$4
                 </Class>
                 <Class sourceFile="UserEventsWindow.java">
-                    es.deusto.client.windows.UserEventsWindow$EventListElement
+                    es.deusto.client.windows.UserEventsWindow$5
                 </Class>
                 <Class sourceFile="UserEventsWindow.java">
-                    es.deusto.client.windows.UserEventsWindow$EventListElement$1
+                    es.deusto.client.windows.UserEventsWindow$6
+                </Class>
+                <Class sourceFile="UserEventsWindow.java">
+                    es.deusto.client.windows.UserEventsWindow$7
+                </Class>
+                <Class sourceFile="UserEventsWindow.java">
+                    es.deusto.client.windows.UserEventsWindow$8
                 </Class>
             </ConcreteClasses>
 
@@ -240,6 +316,7 @@
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.net</Package>
+                <Package>java.text</Package>
                 <Package>java.util</Package>
                 <Package>javax.imageio</Package>
                 <Package>javax.swing</Package>
@@ -474,6 +551,10 @@
         </Package>
 
         <Package name="java.net">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.text">
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
 

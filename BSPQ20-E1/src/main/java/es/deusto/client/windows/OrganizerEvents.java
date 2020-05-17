@@ -287,6 +287,8 @@ public class OrganizerEvents extends JFrame {
             JButton buttonDetails = new JButton(langManager.getString("detailsText"));
             rightPanel.add(buttonDetails);
 
+            
+
             buttonDetails.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

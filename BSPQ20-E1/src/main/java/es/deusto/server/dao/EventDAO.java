@@ -62,7 +62,7 @@ public class EventDAO {
 	/**
 	 * Retrieves List of events from the database that match the user's interests and location.
 	 * this is use to create recomendation lists. 
-	 * @param topic name of the topic
+	 * @param user User
 	 * @return list of events from the database
 	 */
     public ArrayList<Event> getEventsbyUser(User user) {

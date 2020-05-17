@@ -348,7 +348,7 @@ public class AppService {
      * he/she should be interested.
      * 
      * @param signupAttempt {@link SignupAttempt} object containing the interests of the user.
-     * @return {@link ArrayList}<{@link EventInfo}> list of events that coincide with the interests of a user.
+     * @return {@link ArrayList} of {@link EventInfo} list of events that coincide with the interests of a user.
      * @since Sprint 3
      */
     public ArrayList<EventInfo> getRecommendedEvents(SignupAttempt signupAttempt){
@@ -369,8 +369,45 @@ public class AppService {
     }
 
     /**
+     * This method is used for event removal. 
+     * It receives an {@link EventInfo} with the data of the event to be deleted. 
+     * 
+     * @param info EventInfo with the data of the event
+     * @since Sprint 3
+     */
+    public void deleteEvent(EventInfo info) {
+        EventDAO edao = DAOFactory.getInstance().createEventDAO();
+        UserDAO udao = DAOFactory.getInstance().createUserDAO();
+
+        ArrayList<Event> events = edao.getEvents(info.getName());
+        if (events.isEmpty()) {
+            DAOFactory.getInstance().closeDAO(edao);
+            return;    
+        } 
+
+        Event e = events.get(0);        
+
+        
+        for (User u: udao.getAllUsers()) {
+            ArrayList<Event> newEvents = new ArrayList<Event>();
+            for (Event ev: u.getSavedEvents()) {
+                if (!ev.getName().equals(e.getName())) {
+                    newEvents.add(ev);
+                }
+            }
+            u.setSavedEvents(newEvents);
+            udao.updateUser(u);
+        }
+
+        edao.deleteEvent(e);       
+
+        DAOFactory.getInstance().closeDAO(edao);
+        DAOFactory.getInstance().closeDAO(udao);
+    }
+
+    /**
      * This method is used for new password generation. 
-     * It receives a {@ling LoginAttempt} with the email of the user that wants to recover his/her password, 
+     * It receives a {@link LoginAttempt} with the email of the user that wants to recover his/her password, 
      * generates a new password for that user and updates the data in the database. 
      * It also sends an email to the received email with the new password so that the user can log in. 
      * If there is no account in the database with that same email linked to it, the method does nothing.
@@ -385,7 +422,7 @@ public class AppService {
     }
 
     /**
-	 * This method is used for the creation of new {@link Posts} from a given Event.
+	 * This method is used for the creation of new {@link Post} from a given Event.
 	 * It is envoked whenever a POST request is made to the following path: /createEvent.
 	 * @param info {@link PostInfo} object with the data of the event that will be created.
 	 * @return {@link Post} object containing the information of the stored result.
@@ -449,7 +486,7 @@ public class AppService {
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject("Reset Password");
-            message.setText("Your new password is: " + password + "\nWe advise you to change your password as soon as you login into your account.\n\nThe team");
+            message.setText("Your new password is: " + password + "\n\nThanks for using our app!\n\nThe team");
             Transport.send(message);
             changePassword(to, password);
         } catch (MessagingException mex) {
@@ -467,13 +504,20 @@ public class AppService {
     private static void changePassword(String email, String password) {
         UserDAO dao = DAOFactory.getInstance().createUserDAO();
         User user = dao.getUser(email);
-        user.setPassword(password);
-        dao.updateUser(user);
-        DAOFactory.getInstance().closeDAO(dao);
-        
-        // Another way if we use password encryption with encrypted password and salt fields
-        // String salt = "";
-        // users.update((DBObject) JSON.parse("{'email':'"+ email + "'}"), (DBObject) JSON.parse("{'$set':{'password':'" + password + ",'salt':" + salt + "}}"));
+        if (user != null) {
+            user.setPassword(password);
+            dao.updateUser(user);
+            DAOFactory.getInstance().closeDAO(dao);
+            return;
+        }
+
+        OrganizerDAO odao = DAOFactory.getInstance().createOrganizerDAO();
+        Organizer org = odao.getOrganizer(email);
+        if (org != null) {
+            org.setPassword(password);
+            odao.updateOrganizer(org);
+            DAOFactory.getInstance().closeDAO(odao);
+        }
     }
 
 

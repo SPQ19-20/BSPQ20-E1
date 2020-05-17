@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Event.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EventFinder</a> &gt; <a href="index.source.html" class="el_package">es.deusto.server.data</a> &gt; <span class="el_source">Event.java</span></div><h1>Event.java</h1><pre class="source lang-java linenums">package es.deusto.server.data;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
@@ -9,83 +10,148 @@ import javax.jdo.annotations.Persistent;
 
 import es.deusto.serialization.EventInfo;
 import es.deusto.server.dao.DAOFactory;
+import es.deusto.server.dao.OrganizerDAO;
+import es.deusto.server.dao.PostDAO;
+import es.deusto.server.dao.TopicDAO;
 
-@PersistenceCapable(detachable=&quot;true&quot;)
-public class Event{
+@PersistenceCapable(detachable = &quot;true&quot;)
+
+/**
+ * This classes is the one that defines an event and it is 
+ * used to create one.	 
+ */
+
+public class Event {
 
 	private String name;
 	private String description;
-	
-	@Persistent(defaultFetchGroup=&quot;true&quot;)
+	private int interested;
+	private String city, country;
+
+	@Persistent(defaultFetchGroup = &quot;true&quot;)
+	private Date date;
+
+	@Persistent(defaultFetchGroup = &quot;true&quot;)
 	private Topic topic;
-	
-	@Persistent(defaultFetchGroup=&quot;true&quot;)
-	private Organizer organizer; 
+
+	@Persistent(defaultFetchGroup = &quot;true&quot;)
+	private Organizer organizer;
 
 	private ArrayList&lt;Post&gt; posts;
 	// public User(String code, String name) {
-	// 	this.code = code;
-	// 	this.name = name;
+	// this.code = code;
+	// this.name = name;
 	// }
 
-<span class="fc" id="L31">	public Event() {</span>
-<span class="fc" id="L32">		this.posts = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L33">	}</span>
+<span class="fc" id="L46">	public Event() {</span>
+<span class="fc" id="L47">		this.posts = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L48">	}</span>
 
-<span class="fc" id="L35">	public Event(EventInfo info) {</span>
-<span class="fc" id="L36">		this.name = info.getName();</span>
-<span class="fc" id="L37">		this.description = info.getDescription();</span>
-<span class="fc" id="L38">		this.topic = DAOFactory.getInstance().createTopicDAO().getTopic(info.getTopic().getName());</span>
-<span class="pc bpc" id="L39" title="1 of 2 branches missed.">		if (this.topic == null) {</span>
-<span class="fc" id="L40">			this.topic = new Topic(info.getTopic());</span>
+<span class="fc" id="L50">	public Event(EventInfo info) {</span>
+<span class="fc" id="L51">		this.name = info.getName();</span>
+<span class="fc" id="L52">		this.description = info.getDescription();</span>
+<span class="fc" id="L53">		TopicDAO tdao = DAOFactory.getInstance().createTopicDAO();</span>
+<span class="fc" id="L54">		this.topic = tdao.getTopic(info.getTopic().getName());</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		if (this.topic == null) {</span>
+<span class="fc" id="L56">			this.topic = new Topic(info.getTopic());</span>
 		}
-<span class="fc" id="L42">		this.organizer = DAOFactory.getInstance().createOrganizerDAO().getOrganizer(info.getOrganizerEmail());</span>
-<span class="fc" id="L43">	}</span>
+<span class="fc" id="L58">		OrganizerDAO odao = DAOFactory.getInstance().createOrganizerDAO();</span>
+<span class="fc" id="L59">		this.organizer = odao.getOrganizer(info.getOrganizerEmail());</span>
+<span class="fc" id="L60">		this.interested = info.getInterested();</span>
+<span class="fc" id="L61">		this.city = info.getCity();</span>
+<span class="fc" id="L62">		this.country = info.getCountry();</span>
+<span class="fc" id="L63">		this.date = info.getDate();</span>
+
+<span class="fc" id="L65">		DAOFactory.getInstance().closeDAO(tdao);</span>
+<span class="fc" id="L66">        DAOFactory.getInstance().closeDAO(odao);</span>
+<span class="fc" id="L67">	}</span>
 
 	public String getName() {
-<span class="fc" id="L46">		return name;</span>
+<span class="fc" id="L70">		return name;</span>
 	}
 
 	public void setName(String name) {
-<span class="fc" id="L50">		this.name = name;</span>
-<span class="fc" id="L51">	}</span>
+<span class="fc" id="L74">		this.name = name;</span>
+<span class="fc" id="L75">	}</span>
 	
 	public String getDescription() {
-<span class="fc" id="L54">		return description;</span>
+<span class="fc" id="L78">		return description;</span>
 	}
 
 	public void setDescription(String desc) {
-<span class="fc" id="L58">		this.description = desc;</span>
-<span class="fc" id="L59">	}</span>
+<span class="fc" id="L82">		this.description = desc;</span>
+<span class="fc" id="L83">	}</span>
 
 	public Topic getTopic() {
-<span class="fc" id="L62">		return topic;</span>
+<span class="fc" id="L86">		return topic;</span>
 	}
 
 	public void setTopic(Topic topic) {
-<span class="fc" id="L66">		this.topic = topic;</span>
-<span class="fc" id="L67">	}</span>
+<span class="fc" id="L90">		this.topic = topic;</span>
+<span class="fc" id="L91">	}</span>
 	
 	public Organizer getOrganizer() {
-<span class="fc" id="L70">		return organizer;</span>
+<span class="fc" id="L94">		return organizer;</span>
 	}
 
 	public void setOrganizer(Organizer organizer) {
-<span class="fc" id="L74">		this.organizer = organizer;</span>
-<span class="fc" id="L75">	}</span>
-	@Override
-	public String toString() {
-<span class="fc" id="L78">		return &quot;Event [ name=&quot; + name + &quot;, description= &quot;+ description +&quot;, Topic= &quot;+ topic.getName() +&quot;, organizer= &quot;+ organizer + &quot;]&quot;;</span>
+<span class="fc" id="L98">		this.organizer = organizer;</span>
+<span class="fc" id="L99">	}</span>
+
+	public String getCity() {
+<span class="fc" id="L102">		return city;</span>
 	}
 
+	public void setCity(String city) {
+<span class="nc" id="L106">		this.city = city;</span>
+<span class="nc" id="L107">	}</span>
+
+	public String getCountry() {
+<span class="fc" id="L110">		return country;</span>
+	}
+
+	public void setCountry(String country) {
+<span class="nc" id="L114">		this.country = country;</span>
+<span class="nc" id="L115">	}</span>
+
+	public Date getDate() {
+<span class="fc" id="L118">		return date;</span>
+	}
+
+	public void setDate(Date date) {
+<span class="nc" id="L122">		this.date = date;</span>
+<span class="nc" id="L123">	}</span>
+
+	public int getInterested() { 
+<span class="fc" id="L126">		return interested; </span>
+	}
+
+	public void setInterested(int interested) { 
+<span class="nc" id="L130">		this.interested = interested; </span>
+<span class="nc" id="L131">	}</span>
+
+	public void addInterested() { 
+<span class="nc" id="L134">		interested++; </span>
+<span class="nc" id="L135">	}</span>
+
+	public void reduceInterested() { 
+<span class="nc" id="L138">		interested--; </span>
+<span class="nc" id="L139">	}</span>
+
 	public ArrayList&lt;Post&gt; getPosts() {
-<span class="fc" id="L82">		posts = DAOFactory.getInstance().createPostDAO().getPostsByEvent(this);</span>
-<span class="fc" id="L83">		return posts;</span>
+<span class="fc" id="L142">		PostDAO pdao = DAOFactory.getInstance().createPostDAO();</span>
+<span class="fc" id="L143">		posts = pdao.getPostsByEvent(this);</span>
+<span class="fc" id="L144">		DAOFactory.getInstance().closeDAO(pdao);</span>
+<span class="fc" id="L145">		return posts;</span>
 	}
 
 	public void setPosts(ArrayList&lt;Post&gt; posts) {
-<span class="nc" id="L87">		this.posts = posts;</span>
-<span class="nc" id="L88">	}</span>
+<span class="nc" id="L149">		this.posts = posts;</span>
+<span class="nc" id="L150">	}</span>
 	
+	@Override
+	public String toString() {
+<span class="nc" id="L154">		return &quot;Event [ name=&quot; + name + &quot;, description= &quot;+ description +&quot;, Topic= &quot;+ topic.getName() +&quot;, organizer= &quot;+ organizer + &quot;, interested= &quot;+ interested +&quot; ]&quot;;</span>
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -131,6 +131,15 @@ public class ControllerTest extends JerseyTest {
     }
 
     @Test
+    @Required(max = 2000)
+    @PerfTest(invocations = 20)
+    public void testCreateDeleteEvent() {
+        LOGGER.log(Level.INFO, "Launching testCreateDeleteEvent test...");
+        assertTrue(controller.createEvent(eventInfo));
+        assertTrue(controller.attemptEventDelete(eventInfo));
+    }
+
+    @Test
     @Required(throughput = 4)
     @PerfTest(invocations = 100)
     public void testNormalLogin() {
@@ -140,23 +149,9 @@ public class ControllerTest extends JerseyTest {
         assertTrue(success);
     }
 
-    
-    // @Test
-    // public void testEventCreation() {
-    //     boolean success = controller.createEvent(eventInfo);
-    //     assertTrue(success);
-    // }
-
-    // @Test
-    // public void testPostCreation() {
-    //     controller.createEvent(eventInfo);
-    //     boolean success = controller.createPost(eventInfo, postInfo);
-    //     assertTrue(success);
-    // }
-
     @Test
     @PerfTest(duration = 10000, threads = 10) // test for at least 10 seconds with 10 threads
-    @Required(average = 2000) // average <= 100ms/exec
+    @Required(average = 2000)
     public void testOrganizerLogin() {
         LOGGER.log(Level.INFO, "Launching testOrganizerLogin test...");
 
@@ -227,28 +222,6 @@ public class ControllerTest extends JerseyTest {
         controller.attemptUserDelete();
     }
     
-/* //doesn't work
-    @Test
-   // @PerfTest(duration = 10000)
-   // @Required(median = 2000)
-    public void testEventRecomendation(){
-        controller.createEvent(eventInfo); //submit the event onto the DB
-
-        //create the topic that will be recomended
-        ArrayList<TopicInfo>interests = new ArrayList<>();
-        interests.add(topicInfo);
-
-        //set the interests and update the user in the DB
-        controller.getUser().setInterests(interests);
-        controller.attemptNormalUpdate();
-
-        //submit the recomendations, the returned list can't be empty
-        ArrayList<EventInfo> recomendations = controller.getRecommendations();
-        System.out.println(recomendations.size());
-        assertTrue(!recomendations.isEmpty());//Error here
-
-    }
-*/
     @After
     public void tearDownChild() {
         // delete user

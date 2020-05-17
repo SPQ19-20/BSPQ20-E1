@@ -5,59 +5,66 @@ import java.util.ArrayList;
 import es.deusto.server.data.Event;
 import es.deusto.server.data.Organizer;
 
+/**
+ * DTO equivalent class of the {@link Organizer} class from the server.
+ * This class is used to transport all the relevant information of an
+ * organizer through the network.
+ * 
+ * @since Sprint 1
+ */
 public class OrganizerInfo extends GenericUserInfo{
 
     private String name, email;
     private String organization;
     private ArrayList&lt;EventInfo&gt; createdEvents;
 
-<span class="fc" id="L14">    public OrganizerInfo() {</span>
+<span class="fc" id="L21">    public OrganizerInfo() {</span>
         
-<span class="fc" id="L16">    }</span>
+<span class="fc" id="L23">    }</span>
 
-<span class="fc" id="L18">    public OrganizerInfo(Organizer organizer) {</span>
-<span class="fc" id="L19">        this.name = organizer.getName();</span>
-<span class="fc" id="L20">        this.email = organizer.getEmail();</span>
-<span class="fc" id="L21">        this.organization = organizer.getOrganization();</span>
-<span class="fc" id="L22">        ArrayList&lt;Event&gt; events = organizer.getCreatedEvents();</span>
-<span class="fc" id="L23">        this.createdEvents = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L24" title="1 of 2 branches missed.">        if (events.isEmpty()) return;</span>
-<span class="nc bnc" id="L25" title="All 2 branches missed.">        for (Event e: events) {</span>
-<span class="nc" id="L26">            this.createdEvents.add(new EventInfo(e));</span>
-<span class="nc" id="L27">        }</span>
-<span class="nc" id="L28">    }</span>
+<span class="fc" id="L25">    public OrganizerInfo(Organizer organizer) {</span>
+<span class="fc" id="L26">        this.name = organizer.getName();</span>
+<span class="fc" id="L27">        this.email = organizer.getEmail();</span>
+<span class="fc" id="L28">        this.organization = organizer.getOrganization();</span>
+<span class="fc" id="L29">        ArrayList&lt;Event&gt; events = organizer.getCreatedEvents();</span>
+<span class="fc" id="L30">        this.createdEvents = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (events.isEmpty()) return;</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        for (Event e: events) {</span>
+<span class="nc" id="L33">            this.createdEvents.add(new EventInfo(e));</span>
+<span class="nc" id="L34">        }</span>
+<span class="nc" id="L35">    }</span>
 
     public String getName() {
-<span class="fc" id="L31">        return this.name;</span>
+<span class="fc" id="L38">        return this.name;</span>
     }    
 
     public void setName(String name) {
-<span class="fc" id="L35">        this.name = name;</span>
-<span class="fc" id="L36">    }</span>
+<span class="fc" id="L42">        this.name = name;</span>
+<span class="fc" id="L43">    }</span>
 
     public String getEmail() {
-<span class="fc" id="L39">        return this.email;</span>
+<span class="fc" id="L46">        return this.email;</span>
     }
 
     public void setEmail(String email) {
-<span class="fc" id="L43">        this.email = email;</span>
-<span class="fc" id="L44">    }</span>
+<span class="fc" id="L50">        this.email = email;</span>
+<span class="fc" id="L51">    }</span>
 
     public String getOrganization() {
-<span class="fc" id="L47">        return this.organization;</span>
+<span class="fc" id="L54">        return this.organization;</span>
     }
 
     public void setOrganization(String organization) {
-<span class="fc" id="L51">        this.organization = organization;</span>
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L58">        this.organization = organization;</span>
+<span class="fc" id="L59">    }</span>
 
     public ArrayList&lt;EventInfo&gt; getCreatedEvents() {
-<span class="fc" id="L55">        return createdEvents;</span>
+<span class="fc" id="L62">        return createdEvents;</span>
     }
 
     public void setCreatedEvents(ArrayList&lt;EventInfo&gt; createdEvents) {
-<span class="fc" id="L59">        this.createdEvents = createdEvents;</span>
-<span class="fc" id="L60">    }</span>
+<span class="fc" id="L66">        this.createdEvents = createdEvents;</span>
+<span class="fc" id="L67">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

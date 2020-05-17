@@ -133,9 +133,10 @@ public class PostCreationWindow extends JFrame {
                 post.setEventName(event.getName());
                 post.setOrganizerEmail(controller.getOrganize().getEmail());
                 controller.createPost(event, post);
-                event.getPosts().add(post);
+                //event.getPosts().add(post);
 
                 dispose();
+                new OrganizerHome(controller);
             }
         });
 

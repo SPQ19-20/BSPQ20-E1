@@ -8,58 +8,71 @@ import javax.jdo.annotations.Element;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.Join;
 import java.util.ArrayList;
-// import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable(detachable=&quot;true&quot;)
-@Inheritance(strategy=InheritanceStrategy.COMPLETE_TABLE)
-<span class="fc" id="L15">public class User extends GenericUser {</span>
+@PersistenceCapable(detachable = &quot;true&quot;)
+@Inheritance(strategy = InheritanceStrategy.COMPLETE_TABLE)
+
+/**
+ * This classes is the one that defines a normal user and it is 
+ * used to create one.	 
+ */
+
+<span class="fc" id="L20">public class User extends GenericUser {</span>
 	// atributes
-	private String city;
-	
-<span class="fc" id="L19">	@Join</span>
-    @Element(dependent = &quot;false&quot;)
-    @Persistent(defaultFetchGroup=&quot;true&quot;)
-	private ArrayList&lt;Event&gt; savedEvents= new ArrayList&lt;Event&gt;();
-		
+	private String city, country;
+
 <span class="fc" id="L24">	@Join</span>
-    @Element(dependent = &quot;false&quot;)
-    @Persistent(defaultFetchGroup=&quot;true&quot;)
+	@Element(dependent = &quot;true&quot;)
+	@Persistent(defaultFetchGroup = &quot;true&quot;)
+	private ArrayList&lt;Event&gt; savedEvents = new ArrayList&lt;Event&gt;();
+
+<span class="fc" id="L29">	@Join</span>
+	@Element(dependent = &quot;false&quot;)
+	@Persistent(defaultFetchGroup = &quot;true&quot;)
 	private ArrayList&lt;Topic&gt; interests = new ArrayList&lt;&gt;();
-	
+
 	public String getCity() {
-<span class="fc" id="L30">		return city;</span>
+<span class="fc" id="L35">		return city;</span>
 	}
-	
+
+	public String getCountry() {
+<span class="fc" id="L39">		return country;</span>
+	}
+
+	public void setCountry(String country) {
+<span class="fc" id="L43">		this.country = country;</span>
+<span class="fc" id="L44">	}</span>
+
 	public void setCity(String city) {
-<span class="fc" id="L34">		this.city = city;</span>
-<span class="fc" id="L35">	}</span>
+<span class="fc" id="L47">		this.city = city;</span>
+<span class="fc" id="L48">	}</span>
 
 	public ArrayList&lt;Event&gt; getSavedEvents() {
-<span class="fc" id="L38">		return savedEvents;</span>
+<span class="fc" id="L51">		return savedEvents;</span>
 	}
 
 	public void setSavedEvents(ArrayList&lt;Event&gt; savedEvents) {
-<span class="fc" id="L42">		this.savedEvents = savedEvents;</span>
-<span class="fc" id="L43">	}</span>
+<span class="fc" id="L55">		this.savedEvents = savedEvents;</span>
+<span class="fc" id="L56">	}</span>
 
 	public void addEvent(Event event) {
-<span class="nc" id="L46">		this.savedEvents.add(event);</span>
-<span class="nc" id="L47">	}</span>
+<span class="nc" id="L59">		this.savedEvents.add(event);</span>
+<span class="nc" id="L60">	}</span>
 	public ArrayList&lt;Topic&gt; getInterests() { 
-<span class="fc" id="L49">		return interests; </span>
+<span class="fc" id="L62">		return interests; </span>
 	}
 
 	public void setInterests(ArrayList&lt;Topic&gt; topics) {
-<span class="fc" id="L53">		 this.interests = topics; </span>
-<span class="fc" id="L54">	}</span>
+<span class="fc" id="L66">		 this.interests = topics; </span>
+<span class="fc" id="L67">	}</span>
 
 	public void addInterest(Topic topic) {
-<span class="nc" id="L57">		this.interests.add(topic); </span>
-<span class="nc" id="L58">   }  </span>
+<span class="nc" id="L70">		this.interests.add(topic); </span>
+<span class="nc" id="L71">   }  </span>
 
 	@Override
 	public String toString() {
-<span class="fc" id="L62">		return &quot;User [name= &quot; + getName() +&quot; city=&quot; + city +&quot;, Saved Events= &quot; +savedEvents.toString() + &quot; interests= &quot; + interests.toString()+ &quot;]&quot;;</span>
+<span class="fc" id="L75">		return &quot;User [name= &quot; + getName() +&quot; city=&quot; + city +&quot;, Saved Events= &quot; +savedEvents.toString() + &quot; interests= &quot; + interests.toString()+ &quot;]&quot;;</span>
 	}
 	
 }
