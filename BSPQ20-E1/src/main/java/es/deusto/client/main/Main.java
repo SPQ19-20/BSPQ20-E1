@@ -33,7 +33,6 @@ public class Main {
 		String host, port;
 		host = args[0];
 		port = args[1];
-		System.err.println(host);
 		Controller c = new Controller(host, port); 
 
 		new LogInWindow(c);
