@@ -66,7 +66,7 @@ public class UserEventsWindow extends JFrame {
 
         JPanel welcomePanel = new JPanel(new BorderLayout());
         welcomePanel.setBorder(new EmptyBorder(10,10,0,10));
-        JLabel welcomeLabel = new JLabel("Welcome back, "+controller.getUser().getName());
+        JLabel welcomeLabel = new JLabel(langManager.getString("welcome") +", "+controller.getUser().getName());
         welcomeLabel.setFont(new Font("Arial", Font.ITALIC, 25));
 
         welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
@@ -109,13 +109,13 @@ public class UserEventsWindow extends JFrame {
     private void setMenuBar() {
         JMenuBar bar = new JMenuBar();
         setJMenuBar(bar);
-        JMenu accountMenu = new JMenu("Account");
-        JMenu eventsMenu = new JMenu("Events");
-        JMenu settingsMenu = new JMenu("Settings");
+        JMenu accountMenu = new JMenu(langManager.getString("Account"));
+        JMenu eventsMenu = new JMenu(langManager.getString("Events"));
+        JMenu settingsMenu = new JMenu(langManager.getString("Settings"));
 
         // account menu
-        JMenuItem logoutItem = new JMenuItem("Logout");
-        JMenuItem customItem = new JMenuItem("Profile customization");
+        JMenuItem logoutItem = new JMenuItem(langManager.getString("Logout"));
+        JMenuItem customItem = new JMenuItem(langManager.getString("customizeText"));
 
         logoutItem.addActionListener(new ActionListener() {
             @Override
@@ -137,8 +137,8 @@ public class UserEventsWindow extends JFrame {
         accountMenu.add(logoutItem);
         
         // events menu
-        JMenuItem yourEventsItem = new JMenuItem("Your events");
-        JMenuItem refreshItem = new JMenuItem("Refresh recommendations");
+        JMenuItem yourEventsItem = new JMenuItem(langManager.getString("eventsText"));
+        JMenuItem refreshItem = new JMenuItem(langManager.getString("refreshRecc"));
 
         yourEventsItem.addActionListener(new ActionListener() {
             @Override
@@ -160,7 +160,7 @@ public class UserEventsWindow extends JFrame {
         eventsMenu.add(yourEventsItem);
 
         // settingsMenu
-        JMenu languageMenu = new JMenu("Language");
+        JMenu languageMenu = new JMenu(langManager.getString("Language"));
         JMenuItem english = new JMenuItem("EN");
         JMenuItem spanish = new JMenuItem("ES");
         JMenuItem greek = new JMenuItem("EL");

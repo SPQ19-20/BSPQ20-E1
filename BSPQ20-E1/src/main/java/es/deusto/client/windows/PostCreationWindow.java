@@ -73,6 +73,14 @@ public class PostCreationWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                new OrganizerHome(controller);
+            }
+        });
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                new OrganizerHome(controller);
             }
         });
         

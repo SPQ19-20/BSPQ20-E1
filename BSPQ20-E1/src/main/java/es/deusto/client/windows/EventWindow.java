@@ -45,6 +45,15 @@ public class EventWindow extends JFrame {
 		setSize(new Dimension(1000, 650));
 		setResizable(false);
 		// this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if (controller.getOrganize() != null) {
+					new OrganizerHome(controller);
+				}
+			}
+		});
 	}
 
 	private void initComponents() {
@@ -92,11 +101,11 @@ public class EventWindow extends JFrame {
 			deleteEvent.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					int conf = JOptionPane.showConfirmDialog(null, "Are you sure?", "", JOptionPane.YES_NO_OPTION);
+					int conf = JOptionPane.showConfirmDialog(null, langManager.getString("areUSure"), "", JOptionPane.YES_NO_OPTION);
 					if (conf == JOptionPane.YES_OPTION) {
 						boolean res = controller.attemptEventDelete(event);
 						if (res) {
-							JOptionPane.showMessageDialog(null, "Event deleted successfully");
+							JOptionPane.showMessageDialog(null, langManager.getString("deletedEvent"));
 							dispose();
 							new OrganizerHome(controller);
 						}

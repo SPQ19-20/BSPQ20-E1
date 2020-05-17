@@ -188,7 +188,7 @@ public class ChangePass extends JFrame {
 					if(txtpass.getText().equals(txtagain.getText())) {
 						//Save password with corresponding mail(parameter already exists)
 					}else {
-						JOptionPane.showMessageDialog(null, "Fields do not match");
+						JOptionPane.showMessageDialog(null, langManager.getString("noMatchFields"));
 					}
 				}
 			});

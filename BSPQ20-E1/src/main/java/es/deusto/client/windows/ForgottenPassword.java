@@ -80,7 +80,7 @@ public class ForgottenPassword extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controller.attemptPasswordRecovery(txtxmail.getText());
-				JOptionPane.showMessageDialog(null, "We have changed your password. Check your email.");
+				JOptionPane.showMessageDialog(null, langManager.getString("passRecoveryDone"));
 			}
 		});
 		
