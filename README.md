@@ -1,11 +1,11 @@
 # BSPQ20-E1
-This is an application that helps people find events that match their interests and take place near their area. Not only can users browse over their recommended events, but also they can mark them as interesting, so that event organizers can find out how appealing their proposals are before they take place. Besides, organizers will be able to post updates on their events so that people interested in them can be up to date.
-
 [![Build Status](https://travis-ci.org/SPQ19-20/BSPQ20-E1.svg?branch=master)](https://travis-ci.org/SPQ19-20/BSPQ20-E1)
+
+This is an application that helps people find events that match their interests and take place near their area. Not only can users browse over their recommended events, but also they can mark them as interesting, so that event organizers can find out how appealing their proposals are before they take place. Besides, organizers will be able to post updates on their events so that people interested in them can be up to date.
 
 ## Getting Started
 ### Prerequisites
-* Java
+* Java (compatibility with JDK 8 is guaranteed, JDK 12 gave some issues; we have not tried with JDK 11)
 * MongoDB server
 * Maven
 
@@ -19,7 +19,7 @@ mongod
 2. Create an empty database called **bsqp20e1** (you can do it directly from the command line or you can use a visual MongoDB client such as Robo 3T or Compass)
 
 ##### 1.1. Create the schema
-1.  Open a new CMD window, go to the directory where the *pom.xml* file is inside the project and run the following command:
+1.  Open a new CMD window, go to the directory where the *pom.xml* file is inside the project and run the following command (in case you get an error message saying that the command line is too short, try using a previous JDK version such as JDK 8, which is the one we have been using during the development process):
 ```
 mvn datanucleus:schema-create
 ```
@@ -43,7 +43,7 @@ mvn jetty:run
 ```
 mvn exec:java -Pclient
 ```
-## Execute the tests
+## Running the tests
 These are the commands that need to be introduced in order to run the project tests on Windows:
 ###  Tests without performance:
 1. Open a new CMD window and run the following command:
@@ -55,18 +55,6 @@ mvn clean test –DargLine=”-Dcontiperf.active=false”
 1. Open a new CMD window and run the following command:
 ```
 mvn clean test
-```
-
-###  Run the client
-1. Open a new CMD window and run the following command:
-```
-mvn [clean compile] exec:java -Pclient
-```
-
-### Run the server
-1. Open a new CMD window and run the following command:
-```
-mvn [clean compile] jetty:run
 ```
 
 ## Authors
