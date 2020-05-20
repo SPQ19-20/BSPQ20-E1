@@ -5,7 +5,7 @@ This is an application that helps people find events that match their interests 
 
 ## Getting Started
 ### Prerequisites
-* Java (compatibility with JDK 8 is guaranteed, JDK 12 gave some issues; we have not tried with JDK 11)
+* Java (compatibility with JDK 8 is guaranteed, JDK 12 gave some issues; JDK 11 has not been tested with the application yet)
 * MongoDB server
 * Maven
 
@@ -56,6 +56,16 @@ mvn clean test –DargLine=”-Dcontiperf.active=false”
 ```
 mvn clean test
 ```
+
+## Things to take into account while trying the application
+
+* In order to create a new Organizer, make sure that you have checked the *I am organizer* checkbox before clicking on the *Create Account* button. 
+
+* Use the following date format in order to enter any dates: *yyyy-MM-dd* (any other format will result in an unexpected behavior by the application).
+
+* In order for an event to appear as a suggestion to a particular user, the location (city and country) of the event must be exactly the same as the user's. Besides, the topic of the event must be included in the user's interest list. Finally, the event must take place in the future (avoid using dates that are very close to the present in order to avoid possible confusion). Take into account that both the city and the country are case-sensitive.
+
+* After changing a user's profile (e.g. it's country or interests), make sure to click on the *Refresh recommendations* option under *Events* in the top menu bar so that the suggestions are updated according to the new preferences of the user.
 
 ## Authors
 
